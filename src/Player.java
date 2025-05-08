@@ -1,4 +1,13 @@
+import javax.lang.model.element.Name;
+
 public class Player {
+    private int idName;
+    private String name;
+    private int idLastName;
+    private String lastName;
+
+    private int idTeam;
+
     public Player(String fn, String ln, int idTeam)
     {
         setName(fn);
@@ -33,12 +42,8 @@ public class Player {
     {
         return idTeam;
     }
-
-
-    private int idName;
-    private String name;
-    private int idLastName;
-    private String lastName;
-
-    private int idTeam;
+    public void printPlayer()
+    {
+        System.out.printf("%s %s, I am on team %d\n",name,lastName,idTeam);
+    }
 }
