@@ -8,6 +8,12 @@ public class Player {
 
     private int idTeam;
 
+    /**
+     * Constructeur de la classe
+     * @param fn Prénom
+     * @param ln Nom
+     * @param idTeam id de l'équipe dans la db
+     */
     public Player(String fn, String ln, int idTeam)
     {
         setName(fn);
@@ -15,10 +21,15 @@ public class Player {
         setIdTeam(idTeam);
     }
 
+    /**
+     * Get le nom du joueur
+     * @return nom
+     */
     public String getName()
     {
         return name;
     }
+
     public String getLastName()
     {
         return lastName;
@@ -42,6 +53,10 @@ public class Player {
     {
         return idTeam;
     }
+
+    /**
+     * Print dans la console le joueur pour les tests
+     */
     public void printPlayer()
     {
         System.out.printf("%s %s, I am on team %d\n",name,lastName,idTeam);
