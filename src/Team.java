@@ -3,7 +3,7 @@ public class Team
 {
     private int id;
     private String name;
-    private League league;
+    private int idLeague;
     private ListPlayer listPlayer;
 
 
@@ -14,7 +14,7 @@ public class Team
     {
         this.id = -1;
         this.name = "";
-        this.league = null;
+        this.idLeague = -1;
         this.listPlayer = new ListPlayer(200);
     }
 
@@ -24,12 +24,12 @@ public class Team
      * @param name Nom de l'équipe
      * @param listPlayer Liste de joueur de l'équipe
      */
-    public Team(int id, String name, League league, ListPlayer listPlayer)
+    public Team(int id, String name, int idLeague, ListPlayer listPlayer)
     {
         this.id = id;
         this.name = "";
-        this.league = league;
-        this.listPlayer = listPlayer;
+        this.idLeague = idLeague;
+        this.listPlayer = new ListPlayer();
     }
 
     /**
@@ -38,11 +38,11 @@ public class Team
      * @param name Nom de l'équipe
      * @param maxPlayers Nombre maximum de joueurs possible
      */
-    public Team(int id, String name, League league, int maxPlayers)
+    public Team(int id, String name, int idLeague, int maxPlayers)
     {
         this.id = id;
         this.name = name;
-        this.league = league;
+        this.idLeague = idLeague;
         this.listPlayer = new ListPlayer(maxPlayers);
     }
 
@@ -56,8 +56,8 @@ public class Team
     {
         this.id = id;
         this.name = "";
-        this.league = null;
-        this.listPlayer = listPlayer;
+        this.idLeague = -1;
+        this.listPlayer = new ListPlayer();
     }
 
     /**
@@ -70,7 +70,7 @@ public class Team
     {
         this.id = id;
         this.name = name;
-        this.league = null;
+        this.idLeague = -1;
         this.listPlayer = new ListPlayer(maxPlayers);
     }
 
@@ -92,17 +92,25 @@ public class Team
     {
         return this.listPlayer;
     }
-    public void addPlayer(Player newPlayer)
+    public boolean addPlayer(Player newPlayer)
     {
-        this.listPlayer.addPlayer(newPlayer);
+        return this.listPlayer.addPlayer(newPlayer);
     }
-    public void removePlayer(Player player)
+    public boolean removePlayer(Player player)
     {
-        //this.listPlayer.removePlayer(player);
+        return this.listPlayer.removePlayer(player);
     }
 
-    public void removePlayer(int index)
+    public boolean removePlayer(int index)
     {
-        this.listPlayer.removePlayer(index);
+        return this.listPlayer.removePlayer(index);
+    }
+
+    public boolean newPlayer(String fn, String ln)
+    {
+        if (fn.isEmpty() || ln.isEmpty()) return false;
+        Player player = new Player(fn,ln,getId());
+        this.addPlayer(player);
+        return true;
     }
 }

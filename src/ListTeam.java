@@ -2,15 +2,38 @@ import java.util.Vector;
 
 public class ListTeam
 {
-    private Vector<Team> list = new Vector<Team>();
+    private Vector<Team> list;
+    private int maxTeam;
+
+    /**
+     * Constructeur de base
+     */
+    public ListTeam()
+    {
+        maxTeam = 100;
+        list = new Vector<Team>();
+    }
+
+    /**
+     * Constructeur paramétré avec la quantité d'équipe maximum
+     * @param max quantité d'équipe maximum
+     */
+    public ListTeam(int max)
+    {
+        maxTeam = max;
+        list = new Vector<Team>();
+    }
+
 
     /**
      * Ajouter une équipe au vecteur
      * @param team L'équipe à ajouter
      */
-    public void addTeam(Team team)
+    public boolean addTeam(Team team)
     {
+        if (team == null) return false;
         this.list.addElement(team);
+        return true;
     }
 
     /**
@@ -18,7 +41,7 @@ public class ListTeam
      * @param team Équipe à retirer
      * @return true si une équipe a été retirée, sinon false
      */
-    public Boolean removeTeam(Team team)
+    public boolean removeTeam(Team team)
     {
         return this.list.removeElement(team);
     }
@@ -28,8 +51,10 @@ public class ListTeam
      * @param index L'index de l'équipe à retirer
      * @return L'équipe qui a été retirée
      */
-    public Team removeTeam(int index)
+    public boolean removeTeam(int index)
     {
-        return this.list.remove(index);
+        if (index >= this.list.size()) return false;
+        this.list.remove(index);
+        return true;
     }
 }
