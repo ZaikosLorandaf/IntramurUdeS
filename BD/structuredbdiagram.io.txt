@@ -34,7 +34,7 @@ Table player{
 
 Table generalStat{
   id integer [primary key, increment]
-  enonce string
+  statement string
   created_at timestamp
 }
 
@@ -50,11 +50,11 @@ Table playerStat{
 
 Table teamStat{
   id integer [primary key, increment]
-  valeurStat string
+  value string
   generalStat_id integer [not null]
   team_id integer [not null]
   match_id integer [note: "Si est présent: stat liée à un match, sinon stat globale du joueur"]
-  saison_id integer
+  season_id integer
   created_at timestamp
 }
 
@@ -71,8 +71,8 @@ Table match{
   id integer [primary key, increment]
   team1_id integer
   team2_id integer
-  jour day
-  heure time
+  matchDay day
+  matchHour time
   created_at timestamp
 }
 
@@ -92,12 +92,12 @@ Table role{
   created_at timestamp 
 }
 
-Table saison{
+Table season{
   id integer [primary key, increment]
-  annee year [not null]
-  periode string [not null]
+  seasonYear year [not null]
+  timePrecision string [not null]
   Indexes {
-    (annee, periode) [unique]
+    (seasonYear, timePrecision) [unique]
   }
   created_at timestamp
 }
@@ -116,8 +116,8 @@ Ref : teamStat.match_id > match.id
 Ref : match."team1_id" - team.id
 Ref : match."team2_id" - team.id
 Ref : user.role_id > role.id
-Ref : teamStat.saison_id > saison.id
-Ref : playerStat.saison_id > saison.id
+Ref : teamStat.season_id > season.id
+Ref : playerStat.saison_id > season.id
 
 
 
