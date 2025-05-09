@@ -58,6 +58,11 @@ public class ListTeam {
         return true;
     }
 
+    /**
+     * GetTeam
+     * @param index index de l'équipe
+     * @return Objet de type Team si l'index est valide sinon retourne null
+     */
     public Team getTeam(int index)
     {
         try{
@@ -69,7 +74,9 @@ public class ListTeam {
         }
     }
 
-
+    /**
+     * Fonction test de la classe Team
+     */
     public void printListTeam()
     {
         if(list.size() <= 0)
@@ -86,8 +93,9 @@ public class ListTeam {
     }
 
 
-
-
+    /**
+     * Enleve toutes les équipes dans la liste
+     */
     public void wipeList(){
         this.list.removeAllElements();
     }

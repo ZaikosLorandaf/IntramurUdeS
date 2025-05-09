@@ -75,6 +75,11 @@ public class Team
         this.listPlayer = new ListPlayer(maxPlayers);
     }
 
+    /**
+     * Constructeur paramétré créant une équipe avec une liste et un id de base
+     * @param name Nom de l'équipe
+     * @param idLeague l'id de la ligue
+     */
     public Team(String name, int idLeague)
     {
         this.id = -1;
@@ -101,20 +106,43 @@ public class Team
     {
         return this.listPlayer;
     }
+
+    /**
+     * Ajouter un objet de type joueur dans la liste
+     * @param newPlayer Objet de type joueur
+     * @return vrai si l'objet est non-null
+     */
     public boolean addPlayer(Player newPlayer)
     {
         return this.listPlayer.addPlayer(newPlayer);
     }
+
+    /**
+     * Retirer un joueur de l'équipe à partir de l'objet
+     * @param player Objet de type Joueur
+     * @return vrai si le joueur est retiré
+     */
     public boolean removePlayer(Player player)
     {
         return this.listPlayer.removePlayer(player);
     }
 
+    /**
+     * Retirer un joueur de l'équipe à partir de l'objet
+     * @param index index du joueur à retirer
+     * @return vrai si un joueur est retiré adéquatement
+     */
     public boolean removePlayer(int index)
     {
         return this.listPlayer.removePlayer(index);
     }
 
+    /**
+     * Crée un nouveau joueur et l'insère dans la liste
+     * @param fn Prénom
+     * @param ln Nom de famille
+     * @return Faux si le nom est invalide sinon vrai
+     */
     public boolean newPlayer(String fn, String ln)
     {
         if (fn.isEmpty() || ln.isEmpty()) return false;
@@ -123,6 +151,9 @@ public class Team
         return true;
     }
 
+    /**
+     * Fontion de tests de la classe Team
+     */
     public void printTeam()
     {
         System.out.printf("base.Team : %s\nid = %d\nidLeague = %d\nList base.Player: \n",getName(),getId(),getIdLeague());
