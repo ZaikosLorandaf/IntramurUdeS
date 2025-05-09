@@ -12,8 +12,7 @@ public class DAO {
         }
         catch ( Exception e )
         {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);
+            LoggerUtil.error(e.getClass().getName() + ": " + e.getMessage());
         }
 
         System.out.println("Opened database successfully");
@@ -27,6 +26,7 @@ public class DAO {
     {
         try
         {
+            LoggerUtil.warning("Réinitialisation de la base de donnée!");
             Connection c = null;
             c = DAO.getConnection();
             if ( c != null )
@@ -197,7 +197,7 @@ public class DAO {
             }
         }
         catch (SQLException e) {
-            throw new RuntimeException(e);
+            LoggerUtil.error(e.getClass().getName() + ": " + e.getMessage());
         }
         System.out.println("Database recreated successfully");
     }
