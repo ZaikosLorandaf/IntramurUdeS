@@ -74,6 +74,14 @@ public class Team
         this.listPlayer = new ListPlayer(maxPlayers);
     }
 
+    public Team(String name, int idLeague)
+    {
+        this.id = -1;
+        this.name = name;
+        this.idLeague = idLeague;
+        this.listPlayer = new ListPlayer();
+    }
+
     public int getId()
     {
         return this.id;
@@ -114,11 +122,32 @@ public class Team
         return true;
     }
 
-    public League getLeague(){
-        return this.league;
+    public void printTeam()
+    {
+        System.out.printf("Team : %s\nid = %d\nidLeague = %d\nList Player: \n",getName(),getId(),getIdLeague());
+        for(int i = 0; i < getListPlayer().getSize();i++)
+        {
+            getListPlayer().getPlayer(i).printPlayer();
+        }
     }
 
-    public void setLeague(League newLeague){
-        this.league = newLeague;
+    public boolean setId(int id)
+    {
+        if(id <= 0) return false;
+        for(int i = 0; i<getListPlayer().getSize();i++)
+        {
+            getListPlayer().getPlayer(i).setIdTeam(id);
+        }
+        this.id = id;
+        return true;
+    }
+
+    public int getIdLeague() {
+        return idLeague;
+    }
+
+    public void setIdLeague(int idLeague)
+    {
+        this.idLeague = idLeague;
     }
 }

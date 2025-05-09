@@ -63,16 +63,14 @@ public class ListPlayer {
      */
     public Player getPlayer(int index)
     {
-        Player player;
         try
         {
-            player = list.get(index);
+            return list.get(index);
         }
         catch (Exception e)
         {
-            player = null;
+            return null;
         }
-        return player;
     }
 
     /**
