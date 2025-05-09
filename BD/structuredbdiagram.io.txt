@@ -1,0 +1,130 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table sport {
+  id integer [primary key, increment]
+  name string
+  created_at timestamp
+}
+
+Table league {
+  id integer [primary key, increment]
+  name string
+  day string
+  timeStart time
+  timeEnd time
+  sport_id integer [not null]
+  created_at timestamp
+}
+
+Table team {
+  id integer [primary key, increment]
+  name string
+  league_id integer [not null]
+  created_at timestamp
+}
+
+Table player{
+  id integer [primary key, increment]
+  name string
+  lastName string
+  team_id integer [not null]
+  created_at timestamp
+}
+
+Table generalStat{
+  id integer [primary key, increment]
+  statement string
+  created_at timestamp
+}
+
+Table playerStat{
+  id integer [primary key, increment]
+  value string
+  generalStat_id integer [not null]
+  player_id integer [not null]
+  match_id integer [note: "Si est présent: stat liée à un match, sinon stat globale du joueur"]
+  saison_id integer
+  created_at timestamp
+}
+
+Table teamStat{
+  id integer [primary key, increment]
+  value string
+  generalStat_id integer [not null]
+  team_id integer [not null]
+  match_id integer [note: "Si est présent: stat liée à un match, sinon stat globale du joueur"]
+  season_id integer
+  created_at timestamp
+}
+
+Table statSport{
+  sport_id integer [not null]
+  generalStat_id integer [not null]
+  created_at timestamp
+  indexes {
+    (sport_id, generalStat_id) [pk]
+  }
+}
+
+Table match{
+  id integer [primary key, increment]
+  team1_id integer
+  team2_id integer
+  matchDay day
+  matchHour time
+  created_at timestamp
+}
+
+
+
+Table user{
+  id integer [primary key, increment]
+  username string
+  password string
+  role_id int
+  created_at timestamp
+}
+
+Table role{
+  id integer [primary key]
+  roleName string [not null]
+  created_at timestamp 
+}
+
+Table season{
+  id integer [primary key, increment]
+  seasonYear year [not null]
+  timePrecision string [not null]
+  Indexes {
+    (seasonYear, timePrecision) [unique]
+  }
+  created_at timestamp
+}
+
+Ref : league.sport_id > sport.id
+Ref : team.league_id > league.id
+Ref : player.team_id > team.id
+Ref : statSport.sport_id > sport.id
+Ref : statSport.generalStat_id > generalStat.id
+Ref : playerStat.generalStat_id > generalStat.id
+Ref : playerStat.player_id > player.id
+Ref : playerStat.match_id > match.id
+Ref : teamStat.generalStat_id > generalStat.id
+Ref : teamStat.team_id > team.id
+Ref : teamStat.match_id > match.id
+Ref : match."team1_id" - team.id
+Ref : match."team2_id" - team.id
+Ref : user.role_id > role.id
+Ref : teamStat.season_id > season.id
+Ref : playerStat.saison_id > season.id
+
+
+
+
+
+
+
+
+
+

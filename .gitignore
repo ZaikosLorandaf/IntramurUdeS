@@ -29,3 +29,5 @@ bin/
 .DS_Store
 
 .idea/inspectionProfiles
+IntraMurUdeS.db
+logs/*
