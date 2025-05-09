@@ -17,10 +17,15 @@ public class League {
     leagueID = id;
   }
 
+  /**
+   * @param id         Team ID
+   * @param name       Team name
+   * @param listPlayer List of the players in the team
+   * @return Boolean
+   */
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
-    this.addTeam(newTeam);
-    return true;
+    return this.addTeam(newTeam);
   }
 
   public boolean addTeam(Team team) {
