@@ -1,3 +1,5 @@
+package base;
+
 import java.util.Vector;
 
 public class ListTeam {
@@ -75,7 +77,7 @@ public class ListTeam {
             System.out.println("Pas d'équipe");
             return;
         }
-        System.out.println("-----ListTeam-----");
+        System.out.println("-----base.ListTeam-----");
         for(int i = 0; i < list.size(); i++)
         {
             getTeam(i).printTeam();

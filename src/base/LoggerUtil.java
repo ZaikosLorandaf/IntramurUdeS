@@ -1,3 +1,5 @@
+package base;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,9 +10,9 @@ import java.time.format.DateTimeFormatter;
  * Classe qui permet de logger toutes les erreurs possibles du programmes
  * Objectif: Répertoriez les erreurs invisibles dans un fichier
  * Exemples d'utilisation
- *         LoggerUtil.info("Application démarrée");
- *         LoggerUtil.warning("Attention, action risquée !");
- *         LoggerUtil.error("Une erreur est survenue");
+ *         base.LoggerUtil.info("Application démarrée");
+ *         base.LoggerUtil.warning("Attention, action risquée !");
+ *         base.LoggerUtil.error("Une erreur est survenue");
  */
 public class LoggerUtil {
 

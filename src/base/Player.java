@@ -1,4 +1,4 @@
-import javax.lang.model.element.Name;
+package base;
 
 public class Player {
     private int idName;

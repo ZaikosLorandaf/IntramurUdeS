@@ -1,3 +1,7 @@
+package DAO;
+
+import base.LoggerUtil;
+
 import java.sql.*;
 
 public class DAO {

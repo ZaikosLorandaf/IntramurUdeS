@@ -1,3 +1,4 @@
+package base;
 
 public class Team
 {
@@ -124,7 +125,7 @@ public class Team
 
     public void printTeam()
     {
-        System.out.printf("Team : %s\nid = %d\nidLeague = %d\nList Player: \n",getName(),getId(),getIdLeague());
+        System.out.printf("base.Team : %s\nid = %d\nidLeague = %d\nList base.Player: \n",getName(),getId(),getIdLeague());
         for(int i = 0; i < getListPlayer().getSize();i++)
         {
             getListPlayer().getPlayer(i).printPlayer();

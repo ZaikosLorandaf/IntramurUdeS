@@ -1,3 +1,5 @@
+package base;
+
 public class League {
   private ListTeam listTeam;
   private String leagueName;
@@ -5,7 +7,7 @@ public class League {
 
   public League() {
     listTeam = new ListTeam();
-    leagueName = "Generic League";
+    leagueName = "Generic base.League";
     leagueID = -1;
   }
 
