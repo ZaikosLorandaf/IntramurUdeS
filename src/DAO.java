@@ -20,6 +20,9 @@ public class DAO {
         return c;
     }
 
+    /**
+     * Permet de recréer la data base, Admin seulement
+     */
     public static void recreateDataBase()
     {
         try
@@ -48,4 +51,35 @@ public class DAO {
         System.out.println("Database recreated successfully");
     }
 
+    /** fixme: Not tested
+     * Permet de récupérer le rôle d'un utilisateur
+     * @param username Nom d'utilisateur
+     * @param password Mot de passe
+     * @return Le nom du rôle ou null si non trouvé
+     */
+    public static String getUser(String username, String password) {
+        String role = null;
+        String query = """
+            SELECT  r.role_name 
+            FROM    user u 
+            JOIN    role r ON u.role_id = r.id 
+            WHERE   u.username = ? AND u.password = ?
+        """;
+
+        try (Connection c = DAO.getConnection();
+             PreparedStatement stmt = c.prepareStatement(query)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    role = rs.getString("role_name");
+                }
+            }
+        } catch (SQLException e) {
+            LoggerUtil.error("Erreur lors de la récupération du rôle de l'utilisateur.");
+        }
+        return role;
+    }
 }
