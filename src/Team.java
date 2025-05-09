@@ -113,4 +113,12 @@ public class Team
         this.addPlayer(player);
         return true;
     }
+
+    public League getLeague(){
+        return this.league;
+    }
+
+    public void setLeague(League newLeague){
+        this.league = newLeague;
+    }
 }

@@ -57,4 +57,9 @@ public class ListTeam
         this.list.remove(index);
         return true;
     }
+
+
+    public void wipeList(){
+        this.list.removeAllElements();
+    }
 }
