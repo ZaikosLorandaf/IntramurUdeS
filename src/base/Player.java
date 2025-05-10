@@ -19,6 +19,7 @@ public class Player {
         setName(fn);
         setLastName(ln);
         setIdTeam(idTeam);
+        LoggerUtil.info("Création du joueur");
     }
 
     /**
@@ -39,15 +40,18 @@ public class Player {
         name = n;
 
         //METTRE LE LIEN AVEC L'ID
+        LoggerUtil.info("Changement du prenom du joueur");
     }
     public void setLastName(String n)
     {
         lastName = n;
         //METTRE LE LIEN AVEC L'ID
+        LoggerUtil.info("Changement du nom de famille du joueur");
     }
     public void setIdTeam(int id)
     {
         idTeam = id;
+        LoggerUtil.info("Changement de l'id d'équipe du joueur");
     }
     public int getIdTeam()
     {

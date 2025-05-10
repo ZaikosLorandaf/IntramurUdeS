@@ -12,6 +12,7 @@ public class League {
     listTeam = new ListTeam();
     leagueName = "Generic base.League";
     leagueID = -1;
+    LoggerUtil.info("Création d'une ligue");
   }
 
   /**
@@ -25,6 +26,7 @@ public class League {
     listTeam = teams;
     leagueName = name;
     leagueID = id;
+    LoggerUtil.info("Création d'une ligue");
   }
 
   /**
@@ -37,6 +39,7 @@ public class League {
    */
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
+    LoggerUtil.info("Tentative de création d'équipe");
     return this.addTeam(newTeam);
   }
 
@@ -56,17 +59,21 @@ public class League {
    * @param team Team: Team item to be removed
    * @return Boolean
    */
-  public boolean removeTeam(Team team) {
+  public boolean removeTeam(Team team)
+  {
+    LoggerUtil.info("Tentative de retrait d'équipe");
     return listTeam.removeTeam(team);
   }
 
   /**
    * Remove a team from the league using the Team ID
    *
-   * @param team int: ID of the team to delete
+   * @param index index de l'équipe à retirer
    * @return Boolean
    */
-  public boolean removeTeam(int index) {
+  public boolean removeTeam(int index)
+  {
+    LoggerUtil.info("Tentative de retrait d'équipe");
     return listTeam.removeTeam(index);
   }
 
@@ -97,4 +104,27 @@ public class League {
     return leagueID;
   }
 
+
+  public boolean setLeagueID(int idLeague)
+  {
+    if (idLeague < 0)
+    {
+      LoggerUtil.error("Impossible de changer l'id de la ligue");
+      return false;
+    }
+    LoggerUtil.info("Changement de l'id de la ligue");
+    this.leagueID = idLeague;
+    return true;
+  }
+
+  public boolean setName(String leagueName)
+  {
+    if(leagueName != null)
+    {
+      LoggerUtil.error("Impossible de changer le nom de la ligue");
+      return false;
+    }
+    LoggerUtil.info("Changement du nom de la ligue");
+    return true;
+  }
 }

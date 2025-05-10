@@ -13,6 +13,7 @@ public class ListPlayer {
     public ListPlayer(int max) {
         maxPlayer = max;
         list = new Vector<Player>();
+        LoggerUtil.info("Création du vecteur de joueur");
     }
 
     /**
@@ -21,6 +22,7 @@ public class ListPlayer {
     public ListPlayer() {
         maxPlayer = 100;
         list = new Vector<Player>();
+        LoggerUtil.info("Création du vecteur de joueur");
     }
 
     /**
@@ -30,8 +32,12 @@ public class ListPlayer {
      */
     public boolean addPlayer(Player obj)
     {
-        if (list.size() >= maxPlayer) return false;
+        if (list.size() >= maxPlayer) {
+            LoggerUtil.error("Erreur lors de l'ajout du joueur dans le vecteur");
+            return false;
+        }
         list.addElement(obj);
+        LoggerUtil.info("L'ajout du joueur dans le vecteur fut un succès!");
         return true;
     }
 
@@ -42,7 +48,12 @@ public class ListPlayer {
      */
     public boolean removePlayer(int index)
     {
-        if (list.isEmpty() || list.size() <= index) return false;
+        if (list.isEmpty() || list.size() <= index)
+        {
+            LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
+            return false;
+        }
+        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
         list.remove(index);
         return true;
     }
@@ -54,7 +65,12 @@ public class ListPlayer {
      */
     public boolean removePlayer(Player player)
     {
-        if (list.isEmpty()) return false;
+        if (list.isEmpty())
+        {
+            LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
+            return false;
+        }
+        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
         return list.remove(player);
     }
 
@@ -71,6 +87,7 @@ public class ListPlayer {
         }
         catch (Exception e)
         {
+            LoggerUtil.error("Erreur lors du getPlayer");
             return null;
         }
     }
@@ -80,7 +97,7 @@ public class ListPlayer {
      * @param player Joueur ou l'on veut l'index
      * @return l'index du joueur ou -1 si pas trouvé
      */
-    public int getIndex(Player player) //return -1 if it's not find
+    public int getIndex(Player player)
     {
         return list.indexOf(player);
     }
@@ -117,8 +134,10 @@ public class ListPlayer {
         if(max >= getSize())
         {
             maxPlayer = max;
+            LoggerUtil.info("Changement du nombre maximum de joueur dans le vecteur");
             return true;
         }
+        LoggerUtil.error("Erreur dans le changeent du nombre maximum de joueur dans le vecteur");
         return false;
     }
 

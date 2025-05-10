@@ -17,6 +17,7 @@ public class Team
         this.name = "";
         this.idLeague = -1;
         this.listPlayer = new ListPlayer(200);
+        LoggerUtil.info("Création d'une équipe");
     }
 
     /**
@@ -31,6 +32,7 @@ public class Team
         this.name = "";
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        LoggerUtil.info("Création d'une équipe");
     }
 
     /**
@@ -45,6 +47,7 @@ public class Team
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer(maxPlayers);
+        LoggerUtil.info("Création d'une équipe");
     }
 
     /**
@@ -59,6 +62,7 @@ public class Team
         this.name = "";
         this.idLeague = -1;
         this.listPlayer = new ListPlayer();
+        LoggerUtil.info("Création d'une équipe");
     }
 
     /**
@@ -73,6 +77,7 @@ public class Team
         this.name = name;
         this.idLeague = -1;
         this.listPlayer = new ListPlayer(maxPlayers);
+        LoggerUtil.info("Création d'une équipe");
     }
 
     /**
@@ -86,6 +91,7 @@ public class Team
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        LoggerUtil.info("Création d'une équipe");
     }
 
     public int getId()
@@ -100,6 +106,7 @@ public class Team
     public void setName(String newName)
     {
         this.name = newName;
+        LoggerUtil.info("Changement du nom de l'équipe");
     }
 
     public ListPlayer getListPlayer()
@@ -114,6 +121,7 @@ public class Team
      */
     public boolean addPlayer(Player newPlayer)
     {
+        LoggerUtil.info("Tentative d'insertion de joueur dans une équipe");
         return this.listPlayer.addPlayer(newPlayer);
     }
 
@@ -124,6 +132,7 @@ public class Team
      */
     public boolean removePlayer(Player player)
     {
+        LoggerUtil.warning("Tentative de retrait de joueur de l'équipe");
         return this.listPlayer.removePlayer(player);
     }
 
@@ -134,6 +143,7 @@ public class Team
      */
     public boolean removePlayer(int index)
     {
+        LoggerUtil.warning("Tentative de retrait de joueur de l'équipe");
         return this.listPlayer.removePlayer(index);
     }
 
@@ -145,9 +155,14 @@ public class Team
      */
     public boolean newPlayer(String fn, String ln)
     {
-        if (fn.isEmpty() || ln.isEmpty()) return false;
+        if (fn.isEmpty() || ln.isEmpty())
+        {
+            LoggerUtil.error("Impossible de créer le joueur pour l'ajouter dans l'équipe");
+            return false;
+        }
         Player player = new Player(fn,ln,getId());
         this.addPlayer(player);
+        LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
         return true;
     }
 
@@ -165,12 +180,17 @@ public class Team
 
     public boolean setId(int id)
     {
-        if(id <= 0) return false;
+        if(id <= 0)
+        {
+            LoggerUtil.error("Impossible de changer l'id de l'équipe");
+            return false;
+        }
         for(int i = 0; i<getListPlayer().getSize();i++)
         {
             getListPlayer().getPlayer(i).setIdTeam(id);
         }
         this.id = id;
+        LoggerUtil.info("Le changement de l'id d'équipe fut un succès");
         return true;
     }
 
@@ -178,8 +198,15 @@ public class Team
         return idLeague;
     }
 
-    public void setIdLeague(int idLeague)
+    public boolean setIdLeague(int idLeague)
     {
+        if (idLeague < 0)
+        {
+            LoggerUtil.error("Impossible de changer l'id de la ligue");
+            return false;
+        }
         this.idLeague = idLeague;
+        LoggerUtil.info("Changement de l'id de la ligue avec succès");
+        return true;
     }
 }
