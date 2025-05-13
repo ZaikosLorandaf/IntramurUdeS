@@ -4,7 +4,7 @@ public class League {
   private ListTeam listTeam;
   private String leagueName;
   private int leagueID;
-
+  private boolean done = false;
   /**
    * Base Constructor, creates an empty league
    */
@@ -42,6 +42,15 @@ public class League {
     LoggerUtil.info("Tentative de création d'équipe");
     return this.addTeam(newTeam);
   }
+
+
+  public boolean newTeam(int id, String name) {
+    ListPlayer listPlayer = new ListPlayer();
+    Team newTeam = new Team(id, name, listPlayer);
+    LoggerUtil.info("Tentative de création d'équipe");
+    return this.addTeam(newTeam);
+  }
+
 
   /**
    * Adds a new team in the league
@@ -112,19 +121,48 @@ public class League {
       LoggerUtil.error("Impossible de changer l'id de la ligue");
       return false;
     }
-    LoggerUtil.info("Changement de l'id de la ligue");
+
     this.leagueID = idLeague;
+    for (int i = 0; i < getTeams().getSize(); i++)
+    {
+      this.getTeams().getTeam(i).setIdLeague(idLeague);
+    }
+    LoggerUtil.info("Changement de l'id de la ligue");
     return true;
   }
 
   public boolean setName(String leagueName)
   {
-    if(leagueName != null)
+    if(leagueName == null)
     {
       LoggerUtil.error("Impossible de changer le nom de la ligue");
       return false;
     }
+    this.leagueName = leagueName;
     LoggerUtil.info("Changement du nom de la ligue");
     return true;
+  }
+
+  public void printLeague()
+  {
+    System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n",leagueName,leagueID,done);
+
+    if (listTeam.getSize() > 0)
+    {
+      listTeam.printListTeam();
+      return;
+    }
+    System.out.println("Pas d'équipe");
+    return;
+  }
+
+  public boolean getDone()
+  {
+    return done;
+  }
+
+  public void setDone(boolean bool)
+  {
+    this.done = bool;
   }
 }

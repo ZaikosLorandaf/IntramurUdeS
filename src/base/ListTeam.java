@@ -113,4 +113,9 @@ public class ListTeam {
     public void wipeList(){
         this.list.removeAllElements();
     }
+
+    public int getSize()
+    {
+        return list.size();
+    }
 }
