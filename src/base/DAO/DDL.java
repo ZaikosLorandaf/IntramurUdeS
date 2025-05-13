@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SchemaDAO extends BaseDAO {
+public class DDL extends BaseDAO {
 
     public static void recreateDataBase() {
         try {

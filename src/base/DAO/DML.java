@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AppDAO extends BaseDAO {
+public class DML extends BaseDAO {
 
     /**
      * Permet de récupérer le rôle d'un utilisateur
