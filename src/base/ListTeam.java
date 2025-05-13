@@ -12,6 +12,7 @@ public class ListTeam {
     public ListTeam() {
         maxTeam = 100;
         list = new Vector<Team>();
+        LoggerUtil.info("Création du vecteur d'équipe");
     }
 
     /**
@@ -22,6 +23,7 @@ public class ListTeam {
     public ListTeam(int max) {
         maxTeam = max;
         list = new Vector<Team>();
+        LoggerUtil.info("Création du vecteur d'équipe");
     }
 
 
@@ -31,7 +33,12 @@ public class ListTeam {
      * @param team L'équipe à ajouter
      */
     public boolean addTeam(Team team) {
-        if (team == null) return false;
+        if (team == null)
+        {
+            LoggerUtil.error("Impossible de rajouter l'équipe au vecteur");
+            return false;
+        }
+        LoggerUtil.info("Succès de l'ajout de l'équipe au vecteur");
         this.list.addElement(team);
         return true;
     }
@@ -43,6 +50,7 @@ public class ListTeam {
      * @return true si une équipe a été retirée, sinon false
      */
     public boolean removeTeam(Team team) {
+        LoggerUtil.warning("Tentative de retrait d'une équipe");
         return this.list.removeElement(team);
     }
 
@@ -53,11 +61,21 @@ public class ListTeam {
      * @return L'équipe qui a été retirée
      */
     public boolean removeTeam(int index) {
-        if (index >= this.list.size()) return false;
+        if (index >= this.list.size())
+        {
+            LoggerUtil.error("Impossible de retirer l'équipe du vecteur");
+            return false;
+        }
         this.list.remove(index);
+        LoggerUtil.info("Retrait de l'équipe du vecteur avec succès");
         return true;
     }
 
+    /**
+     * GetTeam
+     * @param index index de l'équipe
+     * @return Objet de type Team si l'index est valide sinon retourne null
+     */
     public Team getTeam(int index)
     {
         try{
@@ -65,11 +83,14 @@ public class ListTeam {
         }
         catch (Exception e)
         {
+            LoggerUtil.error("Impossible de getTeam");
             return null;
         }
     }
 
-
+    /**
+     * Fonction test de la classe Team
+     */
     public void printListTeam()
     {
         if(list.size() <= 0)
@@ -86,9 +107,15 @@ public class ListTeam {
     }
 
 
-
-
+    /**
+     * Enleve toutes les équipes dans la liste
+     */
     public void wipeList(){
         this.list.removeAllElements();
+    }
+
+    public int getSize()
+    {
+        return list.size();
     }
 }
