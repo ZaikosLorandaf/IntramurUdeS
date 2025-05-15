@@ -12,7 +12,7 @@ public class DDL extends BaseDAO {
             if (c != null) {
                 Statement stmt = c.createStatement();
 
-                // TODO: Ajouter le shema de la base de donnée
+                // TODO: Ajouter le schema de la base de donnée
 
                 stmt.close();
                 c.close();
