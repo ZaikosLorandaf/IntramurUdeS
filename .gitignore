@@ -32,5 +32,5 @@ bin/
 IntraMurUdeS.db
 logs/*
 
-build
-.gradle
+build/
+.gradle/
