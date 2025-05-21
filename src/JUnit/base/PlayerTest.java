@@ -20,16 +20,22 @@ class PlayerTest {
     @Test
     void getLastName() {
         Player player = new Player("John", "Doe", -1);
-        assertEquals("John", player.getName());
-        assertNotEquals("john", player.getName());
-        assertNotEquals(1343, player.getName());
-        Player player2 = new Player("1234", "Doe", -1);
-        assertNotEquals(1343, player2.getName());
-        assertEquals("1234", player2.getName());
+        assertEquals("Doe", player.getLastName());
+        assertNotEquals("doe", player.getLastName());
+        assertNotEquals(1343, player.getLastName());
+        Player player2 = new Player("John", "1234", -1);
+        assertNotEquals(1343, player2.getLastName());
+        assertEquals("1234", player2.getLastName());
     }
 
     @Test
     void setName() {
+        Player player = new Player("John", "Doe", -1);
+        player.setName("bob");
+        assertEquals("bob", player.getName());
+        assertEquals("Doe", player.getLastName());
+        player.setName("");
+        assertNotEquals("", player.getName());
     }
 
     @Test

@@ -1,5 +1,7 @@
 package base;
 
+import java.util.Objects;
+
 public class Player {
     private int idName;
     private String name;
@@ -35,12 +37,18 @@ public class Player {
     {
         return lastName;
     }
-    public void setName(String n)
-    {
+    public boolean setName(String n) {
+        if (Objects.equals(n, "")){
+            LoggerUtil.warning("Tentative de mettre un nom vide.");
+            return false;
+        }
+
         name = n;
 
         //METTRE LE LIEN AVEC L'ID
         LoggerUtil.info("Changement du prenom du joueur");
+        return true;
+
     }
     public void setLastName(String n)
     {
