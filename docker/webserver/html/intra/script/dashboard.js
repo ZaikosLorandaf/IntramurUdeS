@@ -2,13 +2,10 @@ function getDataEquipe() {
     const div = document.getElementById('equipe-info');
     const span = div.firstElementChild;
 
-    axios.get("http://localhost:8888/api/getDataEquipe", {
-        headers: {
-            'Authorization': 'Bearer ' + keycloak.token
-        }
+    axios.get("http://localhost:8888/api/data_equipe", {
     })
         .then(function (response) {
-
+            console.log(response);
             span.innerHTML += '<div>' + response.data + '</div>';
         })
         .catch(function (error) {
