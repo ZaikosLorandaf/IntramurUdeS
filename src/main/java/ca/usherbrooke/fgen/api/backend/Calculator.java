@@ -8,17 +8,17 @@ import java.util.stream.DoubleStream;
  */
 public class Calculator {
 
-    double add(double... operands) {
+    public double add(double... operands) {
         return DoubleStream.of(operands)
                 .sum();
     }
 
-    double multiply(double... operands) {
+    public double multiply(double... operands) {
         return DoubleStream.of(operands)
                 .reduce(1, (a, b) -> a * b);
     }
 
-    double divide(double a, double b) {
+    public double divide(double a, double b) {
         if (b == 0) throw new ArithmeticException("Division by zero");
         return a / b;
     }

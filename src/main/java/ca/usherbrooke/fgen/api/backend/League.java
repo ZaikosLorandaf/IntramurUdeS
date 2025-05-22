@@ -1,4 +1,4 @@
-package ca.usherbrooke.fgen.api.backend.base;
+package ca.usherbrooke.fgen.api.backend;
 
 public class League {
   private ListTeam listTeam;

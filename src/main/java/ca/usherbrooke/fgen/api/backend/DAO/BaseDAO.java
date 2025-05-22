@@ -1,8 +1,7 @@
-package ca.usherbrooke.fgen.api.backend.base.DAO;
+package ca.usherbrooke.fgen.api.backend.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class BaseDAO {
     private static Connection connection;

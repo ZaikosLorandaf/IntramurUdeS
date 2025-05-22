@@ -1,4 +1,4 @@
-package ca.usherbrooke.fgen.api.backend.base;
+package ca.usherbrooke.fgen.api.backend;
 
 import java.io.FileWriter;
 import java.io.IOException;

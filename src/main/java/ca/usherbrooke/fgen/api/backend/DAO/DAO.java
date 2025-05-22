@@ -1,6 +1,6 @@
-package ca.usherbrooke.fgen.api.backend.base.DAO;
+package ca.usherbrooke.fgen.api.backend.DAO;
 
-import ca.usherbrooke.fgen.api.backend.base.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 import java.sql.*;
 
