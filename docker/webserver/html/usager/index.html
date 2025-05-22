@@ -87,6 +87,24 @@
             })
                 .then(function (response) {
 
+                    span.innerHTML = '<div>' + response.data + '</div>';
+                })
+                .catch(function (error) {
+                    span.innerHTML = '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function myAPIJojojo() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            axios.get("http://localhost:8888/api/monendpointJojojo", {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+
                     // span.innerHTML = '<div>' + response.data + '</div>';
                 })
                 .catch(function (error) {
@@ -137,6 +155,8 @@
 <button onclick="requestTeacher()">Enseignant?</button>
 <button onclick="requestMessage()">Message app2?</button>
 <button onclick="myAPI()" style="color: red;">Coucou mon ami</button>
+<button onclick="myAPIJojojo()" style="color: red;">Jojojo</button>
+
 <div id="title">
     <span></span>
 </div>
