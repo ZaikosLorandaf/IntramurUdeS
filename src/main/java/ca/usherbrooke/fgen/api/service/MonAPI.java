@@ -32,10 +32,15 @@ public class MonAPI {
         return " ";
     }
 
+    /*
+    * Retourne les informations sur une équipe
+     */
     @GET
     @Path("data_equipe")
     public String getDataEquipe() {
-        return "";
+
+        return "coucouille";
+
     }
 
     @GET
@@ -48,6 +53,7 @@ public class MonAPI {
     @GET
     @Path("liste_match_pour_date")
     public String getListeMatchPourDate() {
-        return "";
+
+        return "coucouille";
     }
 }

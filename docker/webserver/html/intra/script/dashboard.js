@@ -1,3 +1,21 @@
+function getDataEquipe() {
+    const div = document.getElementById('equipe-info');
+    const span = div.firstElementChild;
+
+    axios.get("http://localhost:8888/api/getDataEquipe", {
+        headers: {
+            'Authorization': 'Bearer ' + keycloak.token
+        }
+    })
+        .then(function (response) {
+
+            span.innerHTML += '<div>' + response.data + '</div>';
+        })
+        .catch(function (error) {
+            span.innerHTML = '<div>Erreur : ' + error + '</div>';
+        });
+}
+
 function showInfo(team) {
     const data = {
         A: { joueurs: "Alice, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
@@ -11,8 +29,8 @@ function showInfo(team) {
           <p><strong>Joueurs :</strong> ${info.joueurs}</p>
           <p><strong>Matchs :</strong> ${info.matchs}</p>
         `;
+    getDataEquipe();
 }
-
 
 const matchData = {
     "2025-05-21": [
