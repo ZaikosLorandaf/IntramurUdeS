@@ -11,6 +11,11 @@ public class ListPlayer {
      * @param max Quantité max de joueur dans la liste
      */
     public ListPlayer(int max) {
+        if (max < 1)
+        {
+            LoggerUtil.error("Impossible de créer le vecteur de joueur");
+            return;
+        }
         maxPlayer = max;
         list = new Vector<Player>();
         LoggerUtil.info("Création du vecteur de joueur");

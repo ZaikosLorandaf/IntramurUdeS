@@ -28,6 +28,12 @@ public class League {
     leagueID = id;
     LoggerUtil.info("Création d'une ligue");
   }
+  public League(String name) {
+    listTeam = new ListTeam();
+    leagueName = name;
+    leagueID = -1;
+    LoggerUtil.info("Création d'une ligue");
+  }
 
   /**
    * Creates and add a new team in the league

@@ -3,7 +3,7 @@ package ca.usherbrooke.fgen.api.service;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import ca.usherbrooke.fgen.api.backend.MaClasseOG;
+import ca.usherbrooke.fgen.api.backend.OGClass;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -11,7 +11,7 @@ import ca.usherbrooke.fgen.api.backend.MaClasseOG;
 public class MonAPI {
 
     @Inject
-    MaClasseOG monService;
+    OGClass monService;
 
     @GET
     @Path("monendpoint")
@@ -55,5 +55,18 @@ public class MonAPI {
     public String getListeMatchPourDate() {
 
         return "coucouille";
+    }
+
+
+    @GET
+    @Path("addLigue/{nom}")
+    public String addLeague(@PathParam("nom") String nom) {
+        return monService.newLeague(nom);
+    }
+
+    @GET
+    @Path("listLigue")
+    public String getLeague() {
+        return monService.getLeague();
     }
 }
