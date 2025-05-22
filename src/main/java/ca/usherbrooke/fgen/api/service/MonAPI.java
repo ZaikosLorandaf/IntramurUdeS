@@ -38,7 +38,7 @@ public class MonAPI {
     @GET
     @Path("data_equipe")
     public String getDataEquipe() {
-
+        //Passer en parametre L'equipe
         return "coucouille";
 
     }
