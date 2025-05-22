@@ -18,4 +18,30 @@ public class MonAPI {
     public String getMonMessage() {
         return monService.getMessage();
     }
+
+
+    @GET
+    @Path("liste_equipe")
+    public String getListeEquipe() {
+        return " ";
+    }
+
+    @GET
+    @Path("data_equipe")
+    public String getDataEquipe() {
+        return "";
+    }
+
+    @GET
+    @Path("liste_date_match")
+    public String getListeDateMatch() {
+        return "";
+    }
+
+
+    @GET
+    @Path("liste_match_pour_date")
+    public String getListeMatchPourDate() {
+        return "";
+    }
 }
