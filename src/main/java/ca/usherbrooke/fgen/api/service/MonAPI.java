@@ -19,6 +19,12 @@ public class MonAPI {
         return monService.getMessage();
     }
 
+    @GET
+    @Path("monendpointJojojo")
+    public String getMonMessageJojojo() {
+        return "<div>Coucou</div>";
+    }
+
 
     @GET
     @Path("liste_equipe")
