@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>IntraMurUDS - Vue mobile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://localhost:8180/js/keycloak.js"></script>
+    <link rel="stylesheet" href="style/global.css">
+    <link rel="stylesheet" href="style/dashboard.css">
+    <link rel="stylesheet" href="style/header.css">
+    <link rel="stylesheet" href="style/footer.css">
+
+</head>
+
+<!-- HEADER -->
+<div id="header-container"></div>
+
+<div class="container mt-4 mb-5">
+    <!-- Onglets -->
+    <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="equipes-tab" data-bs-toggle="tab" data-bs-target="#equipes" type="button" role="tab">Équipes</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="matchs-tab" data-bs-toggle="tab" data-bs-target="#matchs" type="button" role="tab">Matchs</button>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- Équipes -->
+        <div class="tab-pane fade show active" id="equipes" role="tabpanel">
+            <div class="row">
+                <!-- Liste des équipes à gauche -->
+                <div class="col-md-4">
+                    <div class="card-custom" onclick="showInfo('A')">Équipe A</div>
+                    <div class="card-custom" onclick="showInfo('B')">Équipe B</div>
+                    <div class="card-custom" onclick="showInfo('C')">Équipe C</div>
+                    <div class="card-custom" onclick="showInfo('D')">Équipe D</div>
+                </div>
+
+                <!-- Zone d'infos à droite -->
+                <div class="col-md-8">
+                    <div id="equipe-info" class="info-card">
+                        <h4>Choisissez une équipe</h4>
+                        <p>Les statistiques apparaîtront ici.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Matchs -->
+        <div class="tab-pane fade" id="matchs" role="tabpanel">
+            <div class="row">
+                <!-- Liste des journées -->
+                <div class="col-md-4 mb-3">
+                    <h6 class="mb-3">Journées</h6>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-action" onclick="showMatchDay('2025-05-21')">21 mai 2025</li>
+                        <li class="list-group-item list-group-item-action" onclick="showMatchDay('2025-05-25')">25 mai 2025</li>
+                        <li class="list-group-item list-group-item-action" onclick="showMatchDay('2025-05-28')">28 mai 2025</li>
+                    </ul>
+                </div>
+
+                <!-- Détails des matchs -->
+                <div class="col-md-8">
+                    <h6 id="selected-day" class="mb-3">Sélectionnez une journée</h6>
+                    <div id="match-details" class="d-flex flex-column gap-3">
+                        <!-- Matchs s'affichent ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<!-- Footer -->
+<div id="footer-container"></div>
+
+<script src="script/global.js"></script>
+<script src="script/dashboard.js"></script>
+<script src="script/keyCloak.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+body {
+    background-color: white;
+    color: black;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Animation de 0.3 secondes pour l ouverture de certaines choses*/
+.collapse {
+    transition: all 0.3s ease;
+}

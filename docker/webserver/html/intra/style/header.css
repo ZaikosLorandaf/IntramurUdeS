@@ -1,0 +1,46 @@
+/*
+        HEADER
+*/
+.header {
+    background-color: #007C41;
+    color: white;
+    padding: 1rem;
+}
+
+.header .search-box {
+    width: 200px;
+    transition: width 0.4s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.header .search-input {
+    padding-left: 2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.header .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+}
+
+.header .search-box:focus-within {
+    width: 300px;
+}
+
+.header .search-input::placeholder {
+    transition: opacity 0.3s ease;
+}
+
+.header .search-box:focus-within .search-input::placeholder {
+    opacity: 0.5;
+}
+
+.search-box:focus-within .search-input::placeholder {
+    opacity: 0.5;
+}

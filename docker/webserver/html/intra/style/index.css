@@ -1,0 +1,29 @@
+.main-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+.sport-btn {
+    background-color: #007C41;
+    color: white;
+    border: none;
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+.sport-btn:hover {
+    background-color: #005c2f;
+}
+.season-btn {
+    background-color: white;
+    color: #007C41;
+    border: 1px solid #007C41;
+    width: 100%;
+    margin: 0.3rem 0;
+    transition: background-color 0.3s;
+}
+.season-btn:hover {
+    background-color: #e6fff2;
+}
