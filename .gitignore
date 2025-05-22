@@ -41,3 +41,6 @@ logs/*
 
 build/
 .gradle/
+docker/keycloak/data/setdata.sh
+
+docker/keycloak/startup-scripts/init.sh
