@@ -1,5 +1,5 @@
 function getSportsData() {
-    axios.get("http://localhost:8888/api/get_sport_ligue", { })
+    axios.get("http://localhost:8888/api/index/get_sport_ligue", { })
         .then(function (response) {
             const sports = response.data;
             console.log(sports);

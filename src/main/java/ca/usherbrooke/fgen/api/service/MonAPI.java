@@ -60,7 +60,6 @@ public class MonAPI {
         return "coucouille";
     }
 
-
     @GET
     @Path("addLigue/{nom}")
     public String addLeague(@PathParam("nom") String nom) {
@@ -71,13 +70,6 @@ public class MonAPI {
     @Path("listLigue")
     public String getLeague() {
         return monService.getLeague();
-    }
-
-
-    @GET
-    @Path("get_sport_ligue")
-    public String getSportLeague() {
-        return monService.getSportLeague();
     }
 
     @GET
