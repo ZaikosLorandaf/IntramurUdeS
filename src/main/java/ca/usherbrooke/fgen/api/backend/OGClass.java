@@ -44,7 +44,7 @@ public class OGClass {
 
     public String addTeam(String nomLigue)
     {
-        boolean resultAdd = listLeague.getLeague(0);
+        boolean resultAdd = true;//listLeague.getLeague(0);
         String result;
         if (!resultAdd) {
             result = "<div>erreur</div>";
