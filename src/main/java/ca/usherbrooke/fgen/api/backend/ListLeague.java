@@ -138,7 +138,13 @@ public class ListLeague {
     }
 
     public League getLeague(String name) {
-        int index = dict.get(name);
+        int index;
+        if (dict.containsKey(name)) {
+            index = dict.get(name);
+        }
+        else{
+            return null;
+        }
         return list.elementAt(index);
     }
 }

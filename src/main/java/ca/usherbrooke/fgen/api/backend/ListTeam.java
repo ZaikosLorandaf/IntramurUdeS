@@ -137,7 +137,13 @@ public class ListTeam {
 
     public Team getTeam(String name)
     {
-        int index = this.dict.get(name);
-        return this.list.get(index);
+        int index;
+        if (dict.containsKey(name)) {
+            index = dict.get(name);
+        }
+        else{
+            return null;
+        }
+        return list.elementAt(index);
     }
 }

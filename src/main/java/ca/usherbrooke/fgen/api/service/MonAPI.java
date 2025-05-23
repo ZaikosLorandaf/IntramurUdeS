@@ -61,16 +61,24 @@ public class MonAPI {
     }
 
     @GET
+    @Path("listLigue")
+    public String getListeLigue() {
+        return monService.listLeague();
+    }
+
+
+    @GET
     @Path("addLigue/{nom}")
     public String addLeague(@PathParam("nom") String nom) {
         return monService.newLeague(nom);
     }
 
     @GET
-    @Path("listLigue")
-    public String getLeague() {
-        return monService.getLeague();
+    @Path("getLigue/{nom}")
+    public String getLeague(@PathParam("nom") String nom) {
+        return monService.getLeague(nom);
     }
+
 
     @GET
     @Path("getLigue/{nom_ligue}/addTeam")

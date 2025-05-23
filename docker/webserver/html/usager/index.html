@@ -112,12 +112,30 @@
                 });
         }
 
+        function listLeague()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            axios.get("http://localhost:8888/api/listLigue/", {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        response.data;
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+
         function addLeague()
         {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
 
-            axios.get("http://localhost:8888/api/addLigue/oui", {
+            axios.get("http://localhost:8888/api/addLigue/"+document.getElementById("nomLigue").value, {
 
             })
                 .then(function (response) {
@@ -129,12 +147,30 @@
                 });
         }
 
+
         function getLeague()
         {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
 
-            axios.get("http://localhost:8888/api/listLigue", {
+            axios.get("http://localhost:8888/api/getLigue/"+document.getElementById("nomLigue").value, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data;
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+
+        function removeLeague()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            axios.get("http://localhost:8888/api/removeLigue/"+document.getElementById("nomLigue").value, {
 
             })
                 .then(function (response) {
@@ -189,8 +225,27 @@
 <button onclick="requestMessage()">Message app2?</button>
 <button onclick="myAPI()" style="color: red;">Coucou mon ami</button>
 <button onclick="myAPIJojojo()" style="color: red;">Jojojo</button>
-<button onclick="addLeague()" style="color: red;">Add Ligue</button>
-<button onclick="getLeague()" style="color: blue;">getLigue</button>
+<div>
+    <button onclick="listLeague()" style="color: red;">Lister Ligue</button>
+    <button onclick="addLeague()" style="color: red;">Add Ligue</button>
+    <button onclick="getLeague()" style="color: blue;">getLigue</button>
+    <button onclick="removeLeague()" style="color: blue;">removeLigue</button>
+    <input
+        type="text"
+        id="nomLigue"
+        size="20">
+</div>
+
+<!--<div>-->
+<!--    <button onclick="addTeam()" style="color: red;">Add Team</button>-->
+<!--    <button onclick="getTeam()" style="color: blue;">getTeam</button>-->
+<!--    <button onclick="removeTeam()" style="color: blue;">removeTeam</button>-->
+<!--    <input-->
+<!--        type="text"-->
+<!--        id="nomTeam"-->
+<!--        size="20">-->
+<!--</div>-->
+
 <div id="title">
     <span></span>
 </div>

@@ -189,8 +189,14 @@ public class ListPlayer {
 
     public Player getPLayer(String name)
     {
-        int index = this.dict.get(name);
-        return getPlayer(index);
+        int index;
+        if (dict.containsKey(name)) {
+            index = dict.get(name);
+        }
+        else{
+            return null;
+        }
+        return list.elementAt(index);
     }
 }
 

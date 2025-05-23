@@ -78,13 +78,39 @@ public class OGClass {
 //        return "<div> coco</div>";
     }
 
-    public String getLeague() {
-        String result = Integer.toString(listLeague.getSize());
-        System.out.println("League: " + result);
+    public String getLeague(String nom) {
+        League league = listLeague.getLeague(nom);
+        String result = "";
+        if(league != null) {
+            result = league.getName();
+            System.out.println("League: " + result);
+        }
+        else
+        {
+            result = "Pas de ligue appelé " + nom;
+        }
         //result = "<div>" + result +  "</div>";
         //String result = "<div> aaaaa </div>";
         return result;
     }
+
+    public String removeLeague(String nom) {
+        League league = listLeague.getLeague(nom);
+        String result = "";
+        if(league != null) {
+            result = "Ligue retirée :" + league.getName();
+            listLeague.removeLeague(league);
+            System.out.println("Ligue retirée: " + result);
+        }
+        else
+        {
+            result = "Pas de ligue appelé " + nom;
+        }
+        //result = "<div>" + result +  "</div>";
+        //String result = "<div> aaaaa </div>";
+        return result;
+    }
+
 
     public String getMessage() {
         return mv.message;
@@ -102,6 +128,19 @@ public class OGClass {
             result += listLeague.getLeague(listLeague.getSize()-1).getName();
 
         }
+        return result;
+    }
+
+
+    public String listLeague() {
+        String result = "";
+        if(listLeague.getSize() <= 0) {
+            return "<div>Pas de ligue</div>";
+        }
+        for (int i = 0; i < listLeague.getSize(); i++) {
+            result += listLeague.getLeague(i).getName() + "</br>";
+        }
+
         return result;
     }
 
