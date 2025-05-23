@@ -41,11 +41,11 @@ public class ListPlayer {
     public boolean addPlayer(Player obj)
     {
 
-        if (list.size() >= maxPlayer || dict.containsKey(obj.getName())) {
+        if (list.size() >= maxPlayer || dict.containsKey(obj.getName() + ";" + obj.getName())) {
             LoggerUtil.error("Erreur lors de l'ajout du joueur dans le vecteur");
             return false;
         }
-        dict.put(obj.getName(), list.size());
+        dict.put(obj.getName() + ";" + obj.getName(), list.size());
         list.addElement(obj);
         LoggerUtil.info("L'ajout du joueur dans le vecteur fut un succès!");
         return true;
@@ -58,21 +58,21 @@ public class ListPlayer {
      */
     public boolean removePlayer(int index)
     {
-        if (list.isEmpty() || list.size() <= index || !dict.containsKey(list.get(index).getName()))
+        if (list.isEmpty() || list.size() <= index || !dict.containsKey(list.get(index).getName() + ";" + list.get(index).getLastName()))
         {
             LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
             return false;
         }
         Map <String, Integer> tempDict = new HashMap<>();
-        dict.remove(list.get(index).getName());
+        dict.remove(list.get(index).getName() + ";" + list.get(index).getLastName());
         list.remove(index);
         for (int i = 0; i < list.size(); i++) {
             if (i < index)
             {
-                tempDict.put(list.get(i).getName(), i);
+                tempDict.put(list.get(i).getName() + ";" + list.get(index).getLastName(), i);
             }
             else{
-                tempDict.put(list.get(i).getName(), i - 1);
+                tempDict.put(list.get(i).getName() + ";" + list.get(index).getLastName(), i - 1);
             }
         }
         dict = tempDict;
@@ -185,6 +185,12 @@ public class ListPlayer {
     public int getSize()
     {
         return list.size();
+    }
+
+    public Player getPLayer(String name)
+    {
+        int index = this.dict.get(name);
+        return getPlayer(index);
     }
 }
 
