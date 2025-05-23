@@ -2,7 +2,6 @@ const params = new URLSearchParams(window.location.search);
 const sport = params.get('sport');
 const season = params.get('ligue');
 
-console.log("hello");
 console.log(sport);
 console.log(season);
 
