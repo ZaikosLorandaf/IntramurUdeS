@@ -49,7 +49,7 @@ INSERT INTO team (name, id_league) VALUES
         ('Thrill', 6);
 
 
-
+--Ultimate
 
 -- SFB
 INSERT INTO player (name, last_name, id_team) VALUES
@@ -93,12 +93,15 @@ INSERT INTO player (name, last_name, id_team) VALUES
         ('Jacques', 'Nissen', 7),
         ('Andrew', 'Roy', 7);
 
+--Flyers
 INSERT INTO player (name, last_name, id_team) VALUES
         ('Henry', 'Fisher', 8),
         ('Matt', 'Gouchoe-Hanas', 8),
         ('Sol', 'Yanuck', 8);
 
 
+
+--Basketball
 
 -- Aces
 INSERT INTO player (name, last_name, id_team) VALUES
@@ -150,6 +153,7 @@ INSERT INTO player (name, last_name, id_team) VALUES
 
 
 
+--Volleyball
 
 -- Vibe
 INSERT INTO player (name, last_name, id_team) VALUES

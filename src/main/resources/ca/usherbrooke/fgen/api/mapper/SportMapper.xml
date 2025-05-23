@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.SportMapper">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Sport">
+        select id,
+               name
+        from intramurudes.sport
+
+    </select>
+
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.business.Sport">
+        select id,
+               name
+        from intramurudes.sport
+        where id = #{id}
+    </select>
+
+
+    <delete id="deleteOne">
+        delete
+        from intramurudes.sport
+        where id = #{id}
+    </delete>
+
+    <select id="getNewId" resultType="Integer">
+        select nextval('intramurudes.sport_id_seq)'::regclass)
+    </select>
+
+    <insert id="insertSport">
+        insert into intramurudes.sport(name)
+        values (#{sport.name})
+    </insert>
+
+</mapper>
