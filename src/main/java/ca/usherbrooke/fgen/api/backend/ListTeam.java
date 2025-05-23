@@ -1,10 +1,13 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class ListTeam {
     private Vector<Team> list;
     private int maxTeam;
+    private Map<String,Integer> dict = new HashMap<String,Integer>();
 
     /**
      * Constructeur de base
@@ -33,13 +36,14 @@ public class ListTeam {
      * @param team L'équipe à ajouter
      */
     public boolean addTeam(Team team) {
-        if (team == null)
+        if (team == null || dict.containsKey(team.getName()))
         {
             LoggerUtil.error("Impossible de rajouter l'équipe au vecteur");
             return false;
         }
-        LoggerUtil.info("Succès de l'ajout de l'équipe au vecteur");
+        this.dict.put(team.getName(), list.size());
         this.list.addElement(team);
+        LoggerUtil.info("Succès de l'ajout de l'équipe au vecteur");
         return true;
     }
 
@@ -61,12 +65,24 @@ public class ListTeam {
      * @return L'équipe qui a été retirée
      */
     public boolean removeTeam(int index) {
-        if (index >= this.list.size())
+        if (index >= this.list.size() || index < 0 || index >= this.maxTeam || !this.dict.containsKey(list.get(index).getName()))
         {
             LoggerUtil.error("Impossible de retirer l'équipe du vecteur");
             return false;
         }
+        Map<String, Integer> tempDict = new HashMap<>();
+        dict.remove(list.get(index).getName());
         this.list.remove(index);
+        for (int i = 0; i < list.size(); i++) {
+            if (i < index)
+            {
+                tempDict.put(list.get(i).getName() , i);
+            }
+            else{
+                tempDict.put(list.get(i).getName() , i - 1);
+            }
+        }
+        dict = tempDict;
         LoggerUtil.info("Retrait de l'équipe du vecteur avec succès");
         return true;
     }
@@ -117,5 +133,11 @@ public class ListTeam {
     public int getSize()
     {
         return list.size();
+    }
+
+    public Team getTeam(String name)
+    {
+        int index = this.dict.get(name);
+        return this.list.get(index);
     }
 }
