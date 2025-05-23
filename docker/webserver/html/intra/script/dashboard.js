@@ -1,3 +1,11 @@
+const params = new URLSearchParams(window.location.search);
+const sport = params.get('sport');
+const season = params.get('ligue');
+
+console.log("hello");
+console.log(sport);
+console.log(season);
+
 function getDataEquipe() {
     const div = document.getElementById('equipe-info');
     const span = div.firstElementChild;
