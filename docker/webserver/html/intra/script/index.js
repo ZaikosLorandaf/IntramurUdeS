@@ -36,6 +36,13 @@ function renderSports(sports) {
             const seasonBtn = document.createElement('button');
             seasonBtn.className = 'btn season-btn';
             seasonBtn.textContent = season;
+
+            // 🔗 Ajout du comportement de redirection
+            seasonBtn.addEventListener('click', () => {
+                const url = `dashboard.html?ligue=${encodeURIComponent(season)}&sport=${encodeURIComponent(sport.name)}`;
+                window.location.href = url;
+            });
+
             collapseDiv.appendChild(seasonBtn);
         });
 
