@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.TeamMapper">
+
+    <select id="selectTeams" resultType="ca.usherbrooke.fgen.api.backend.Team">
+        select id,
+               name,
+               id_league
+        from intramurudes.team
+    </select>
+
+    <select id="selectOneTeam" resultType="ca.usherbrooke.fgen.api.backend.Team">
+        select id,
+               name,
+               id_league
+        from intramurudes.team
+        where id = #{id}
+    </select>
+
+    <delete id="deleteOneTeam">
+        delete
+        from intramurudes.team
+        where id = #{id}
+    </delete>
+
+    <insert id="insertTeam">
+        insert into intramurudes.team(id,
+                                      name,
+                                      create_at,
+                                      id_league)
+        values (#{sport.name},
+                #{sport.id_league})
+    </insert>
+
+</mapper>
