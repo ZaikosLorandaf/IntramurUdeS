@@ -10,7 +10,7 @@
 
     </select>
 
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.business.Sport">
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Sport">
         select id,
                name
         from intramurudes.sport
