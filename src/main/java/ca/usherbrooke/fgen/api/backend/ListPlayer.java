@@ -40,10 +40,12 @@ public class ListPlayer {
      */
     public boolean addPlayer(Player obj)
     {
-        if (list.size() >= maxPlayer) {
+
+        if (list.size() >= maxPlayer || dict.containsKey(obj.getName())) {
             LoggerUtil.error("Erreur lors de l'ajout du joueur dans le vecteur");
             return false;
         }
+        dict.put(obj.getName(), list.size());
         list.addElement(obj);
         LoggerUtil.info("L'ajout du joueur dans le vecteur fut un succès!");
         return true;
@@ -56,13 +58,26 @@ public class ListPlayer {
      */
     public boolean removePlayer(int index)
     {
-        if (list.isEmpty() || list.size() <= index)
+        if (list.isEmpty() || list.size() <= index || !dict.containsKey(list.get(index).getName()))
         {
             LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
             return false;
         }
-        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
+        Map <String, Integer> tempDict = new HashMap<>();
+        dict.remove(list.get(index).getName());
         list.remove(index);
+        for (int i = 0; i < list.size(); i++) {
+            if (i < index)
+            {
+                tempDict.put(list.get(i).getName(), i);
+            }
+            else{
+                tempDict.put(list.get(i).getName(), i - 1);
+            }
+        }
+        dict = tempDict;
+        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
+
         return true;
     }
 
@@ -73,13 +88,27 @@ public class ListPlayer {
      */
     public boolean removePlayer(Player player)
     {
-        if (list.isEmpty())
+        if (list.isEmpty() || list.size() <= 0 || !dict.containsKey(player.getName()))
         {
             LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
             return false;
         }
+        Map <String, Integer> tempDict = new HashMap<>();
+        int index = list.indexOf(player);
+        dict.remove(player.getName());
+        list.remove(player);
+        for (int i = 0; i < list.size(); i++) {
+            if (i < index)
+            {
+                tempDict.put(list.get(i).getName(), i);
+            }
+            else{
+                tempDict.put(list.get(i).getName(), i - 1);
+            }
+        }
+        dict = tempDict;
         LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
-        return list.remove(player);
+        return true;
     }
 
     /**
