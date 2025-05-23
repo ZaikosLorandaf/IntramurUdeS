@@ -77,27 +77,7 @@ public class MonAPI {
     @GET
     @Path("get_sport_ligue")
     public String getSportLeague() {
-        JSONArray sports = new JSONArray();
-
-        sports.put(new JSONObject()
-                .put("name", "Volleyball")
-                .put("id", "volleyball")
-                .put("seasons", new JSONArray(List.of("Été 2025", "Hiver 2025", "Saison précédente")))
-        );
-
-        sports.put(new JSONObject()
-                .put("name", "Soccer")
-                .put("id", "soccer")
-                .put("seasons", new JSONArray(List.of("Été 2025", "Hiver 2025", "Saison précédente")))
-        );
-
-        sports.put(new JSONObject()
-                .put("name", "Basketball")
-                .put("id", "basket")
-                .put("seasons", new JSONArray(List.of("Été 2025", "Hiver 2025", "Saison précédente")))
-        );
-
-        return sports.toString();
+        return monService.getSportLeague();
     }
 
     @GET
