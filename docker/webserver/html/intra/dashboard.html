@@ -18,6 +18,30 @@
 
 <div class="container mt-4 mb-5">
     <!-- Onglets -->
+    <button id= "btn-retour-ligue" class="card-custom retour-btn"  onclick="window.location.href='index.html'">
+        ← Retour
+    </button>
+
+    <style>
+        /*LE SEUL ENDROIT LEGIT*/
+        .retour-btn {
+            display: inline-block;
+            background-color: #fff;
+            border: 1px solid #007C41;
+            color: #007C41;
+            font-weight: bold;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.75rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .retour-btn:hover {
+            background-color: #e0f3ea;
+            color: #004f2a;
+            border-color: #004f2a;
+        }
+    </style>
+
+
     <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="equipes-tab" data-bs-toggle="tab" data-bs-target="#equipes" type="button" role="tab">Équipes</button>

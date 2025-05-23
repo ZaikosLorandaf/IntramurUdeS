@@ -1,9 +1,17 @@
-const params = new URLSearchParams(window.location.search);
-const sport = params.get('sport');
-const season = params.get('ligue');
 
-console.log(sport);
-console.log(season);
+window.onload = function() {
+    const params = new URLSearchParams(window.location.search);
+    const sport = params.get('sport');
+    const season = params.get('ligue');
+
+    console.log(sport);
+    console.log(season);
+
+    const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
+    monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
+};
+
+
 
 function getDataEquipe() {
     const div = document.getElementById('equipe-info');
@@ -22,18 +30,65 @@ function getDataEquipe() {
 
 function showInfo(team) {
     const data = {
-        A: { joueurs: "Alice, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
+        A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
         B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus" },
         C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus" },
         D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu" },
     };
+
+    const joueursStats = {
+        Remi: "1 but, 3 passes",
+        Axel: "2 buts, 1 carton jaune",
+        Ana: "Gardienne - 2 arrêts",
+        Bruno: "1 but",
+        Béatrice: "Capitaine, 2 passes décisives",
+        Basile: "1 blessure, 1 but",
+        Carla: "1 but",
+        Charles: "1 carton rouge",
+        Chloé: "2 passes",
+        David: "Meilleur joueur - 3 buts",
+        Daphnée: "1 but, 1 passe",
+        Damien: "2 buts, 1 carton jaune",
+    };
+
     const info = data[team];
+
+    const joueursList = info.joueurs
+        .split(',')
+        .map(nom => nom.trim())
+        .map(nom => `<button class="player-btn" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
+        .join('');
+
     document.getElementById("equipe-info").innerHTML = `
-          <h4>Équipe ${team}</h4>
-          <p><strong>Joueurs :</strong> ${info.joueurs}</p>
-          <p><strong>Matchs :</strong> ${info.matchs}</p>
-        `;
+        <h4>Équipe ${team}</h4>
+        <div class="equipe-container" id="equipe-content">
+            <div class="joueurs-col">${joueursList}</div>
+            <div class="stats-col">
+                <p><strong>Matchs :</strong><br>${info.matchs}</p>
+            </div>
+        </div>
+        <div id="player-info" style="display: none;"></div>
+    `;
+
     getDataEquipe();
+
+    // Fonction pour afficher les stats du joueur
+    window.showPlayer = function(nom, team) {
+        const stat = joueursStats[nom] || "Aucune statistique disponible.";
+
+        document.getElementById("equipe-content").style.display = "none";
+        document.getElementById("player-info").style.display = "block";
+        document.getElementById("player-info").innerHTML = `
+            <h4>${nom}</h4>
+            <p><strong>Statistiques :</strong><br>${stat}</p>
+            <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
+        `;
+    };
+
+    // Fonction de retour
+    window.retourEquipe = function(team) {
+        showInfo(team); // Recharge l'affichage original de l'équipe
+    };
 }
 
 const matchData = {
