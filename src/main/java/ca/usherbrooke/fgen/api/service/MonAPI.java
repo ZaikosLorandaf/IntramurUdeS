@@ -69,4 +69,10 @@ public class MonAPI {
     public String getLeague() {
         return monService.getLeague();
     }
+
+    @GET
+    @Path("getLigue/{nom_ligue}/addTeam")
+    public String getAddTeam(@PathParam("nom_ligue") String nom_ligue) {
+        return monService.addTeam(nom_ligue);
+    }
 }

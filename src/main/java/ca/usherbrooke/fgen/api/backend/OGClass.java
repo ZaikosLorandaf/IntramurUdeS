@@ -31,7 +31,7 @@ public class OGClass {
     }
 
     public String getLeague() {
-        String result = listLeague.getLeague(0).getName();
+        String result = Integer.toString(listLeague.getSize());
         System.out.println("League: " + result);
         //result = "<div>" + result +  "</div>";
         //String result = "<div> aaaaa </div>";
@@ -41,5 +41,21 @@ public class OGClass {
     public String getMessage() {
         return mv.message;
     }
+
+    public String addTeam(String nomLigue)
+    {
+        boolean resultAdd = listLeague.getLeague(0);
+        String result;
+        if (!resultAdd) {
+            result = "<div>erreur</div>";
+        }
+        else {
+            result = "<div>";
+            result += listLeague.getLeague(listLeague.getSize()-1).getName();
+
+        }
+        return result;
+    }
+
     private MonVecteur mv;
 }

@@ -1,10 +1,13 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class ListPlayer {
     private int maxPlayer;
     private Vector<Player> list;
+    private Map<String, Integer> dict = new HashMap<>();
 
     /**
      * Constructeur avec un max
