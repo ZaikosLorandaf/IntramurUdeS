@@ -1,3 +1,4 @@
+export const roleNumber = 2; // 0 user, 1, chef, 2 admin
 
 window.onload = function() {
     const params = new URLSearchParams(window.location.search);

@@ -41,7 +41,7 @@ function renderSports(sports) {
         if (roleNumber === 2){
             const addLeagueBtn = document.createElement('button');
             addLeagueBtn.className = 'btn btn-secondary mb-2';
-            addLeagueBtn.textContent = '➕ Ajouter une ligue';
+            addLeagueBtn.textContent = '➕ Modifier les ligues';
             addLeagueBtn.addEventListener('click', () => {
                 alert(`Ajouter une ligue pour ${sport.name}`);
             });
@@ -68,7 +68,7 @@ function renderSports(sports) {
     if (roleNumber === 2){
         const addSportBtn = document.createElement('button');
         addSportBtn.className = 'btn btn-secondary mb-2';
-        addSportBtn.textContent = '➕ Ajouter un sport';
+        addSportBtn.textContent = '➕ Modifier les sports';
         addSportBtn.addEventListener('click', () => {
             alert('Fonction pour ajouter un sport');
         });
