@@ -1,5 +1,4 @@
 let keycloak;
-let isConnected = false;
 
 function initKeycloak() {
     keycloak = new Keycloak({

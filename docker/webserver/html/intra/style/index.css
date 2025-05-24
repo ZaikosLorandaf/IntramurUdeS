@@ -25,5 +25,5 @@
     transition: background-color 0.3s;
 }
 .season-btn:hover {
-    background-color: #e6fff2;
+    color: #007C41;
 }
