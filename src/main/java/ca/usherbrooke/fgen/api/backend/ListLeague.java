@@ -1,17 +1,14 @@
 package ca.usherbrooke.fgen.api.backend;
 
-import io.quarkus.logging.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
-import java.util.logging.Logger;
 
 public class ListLeague {
     private int maxSize;
     private Vector<League> list;
-    private Map<String, Integer> dict = new HashMap<String, Integer>();
-
+    private Map<String, Integer> dictName = new HashMap<String, Integer>();
+    private Map<Integer, Integer> dictId = new HashMap<Integer, Integer>();
     /**
      * Constructeur paramétré avec la taille maximale
      *
@@ -44,12 +41,13 @@ public class ListLeague {
      * taille est plus petite que le max sinon faux
      */
     public boolean addLeague(League obj) {
-        if (list.size() >= maxSize || obj == null || dict.containsKey(obj.getName())) {
+        if (list.size() >= maxSize || obj == null || dictName.containsKey(obj.getName())) {
             LoggerUtil.error("Erreur d'ajout de Ligue dans le vecteur");
             return false;
         }
         int index = list.size();
-        dict.put(obj.getName(),index);
+        dictName.put(obj.getName(),index);
+        dictId.put(obj.getID(), index);
         list.addElement(obj);
         LoggerUtil.info("Ajout de Ligue dans le vecteur");
         return true;
@@ -63,53 +61,73 @@ public class ListLeague {
      */
     public boolean removeLeague(int index) {
 
-        if (index < 0 || index >= list.size() || !dict.containsKey(list.elementAt(index).getName())) {
+        if (index < 0 || index >= list.size() ||
+                !dictName.containsKey(list.elementAt(index).getName()) ||
+                !dictId.containsKey(list.elementAt(index).getID())) {
             LoggerUtil.error("Impossible de retirer la ligue à cet index");
             return false;
         }
-        Map<String, Integer> tempDict = new HashMap<>();
-        dict.remove(list.get(index).getName());
+        Map<String, Integer> tempDictName = new HashMap<>();
+        Map<Integer, Integer> tempDictId = new HashMap<>();
+        dictName.remove(list.get(index).getName());
+        dictId.remove(list.get(index).getID());
         this.list.remove(index);
         for (int i = 0; i < list.size(); i++) {
             if (i < index)
             {
-                tempDict.put(list.get(i).getName() , i);
+                tempDictName.put(list.get(i).getName() , i);
+                tempDictId.put(list.get(i).getID() , i);
             }
             else{
-                tempDict.put(list.get(i).getName() , i - 1);
+                tempDictName.put(list.get(i).getName() , i - 1);
+                tempDictId.put(list.get(i).getID() , i - 1);
             }
         }
-        dict = tempDict;
+        dictName = tempDictName;
+        dictId = tempDictId;
         LoggerUtil.info("Retrait de Ligue dans le vecteur");
         return true;
     }
 
     public boolean removeLeague(League league) {
-        if (league == null || !dict.containsKey(league.getName())) {
+        if (league == null ||
+                !dictName.containsKey(league.getName()) ||
+                !dictId.containsKey(league.getID())) {
             LoggerUtil.error("Impossible de retirer la ligue à cet index");
             return false;
         }
         int index = list.indexOf(league);
 
-        Map<String, Integer> tempDict = new HashMap<>();
-        dict.remove(league.getName());
+        Map<String, Integer> tempDictName = new HashMap<>();
+        Map<Integer, Integer> tempDictId = new HashMap<>();
+
+        dictName.remove(league.getName());
+        dictId.remove(league.getID());
         this.list.remove(league);
         for (int i = 0; i < list.size(); i++) {
             if (i<index)
             {
-                tempDict.put(list.get(i).getName() , i);
+                tempDictName.put(list.get(i).getName() , i);
+                tempDictId.put(list.get(i).getID() , i);
             }
             else
             {
-                tempDict.put(list.get(i).getName() , i - 1);
+                tempDictName.put(list.get(i).getName() , i - 1);
+                tempDictId.put(list.get(i).getID() , i - 1);
             }
         }
-        dict = tempDict;
+        dictName = tempDictName;
+        dictId = tempDictId;
         LoggerUtil.info("Retrait de Ligue dans le vecteur");
         return true;
     }
 
-    public League getLeague(int index) {
+    /**
+     * Méthode pour aller chercher une league selon son index dans le vecteur
+     * @param index Index de la league
+     * @return La league trouvée
+     */
+    public League getLeagueByIndex(int index) {
         if (index < 0 || index >= list.size())
             return null;
         return list.elementAt(index);
@@ -137,10 +155,31 @@ public class ListLeague {
         return list.size();
     }
 
+    /**
+     * Méthode pour aller chercher une league selon son nom
+     * @param name
+     * @return
+     */
     public League getLeague(String name) {
         int index;
-        if (dict.containsKey(name)) {
-            index = dict.get(name);
+        if (dictName.containsKey(name)) {
+            index = dictName.get(name);
+        }
+        else{
+            return null;
+        }
+        return list.elementAt(index);
+    }
+
+    /**
+     * Méthode pour aller chercher une league selon son Id
+     * @param id Id de la ligue à trouver
+     * @return La league trouvée
+     */
+    public League getLeague(int id) {
+        int index;
+        if (dictId.containsKey(id)) {
+            index = dictId.get(id);
         }
         else{
             return null;

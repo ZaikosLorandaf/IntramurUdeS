@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.LeagueMapper">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.League">
+        select id,
+               name,
+               week_day,
+               time_start,
+               time_end,
+               id_sport
+        from intramurudes.league
+
+    </select>
+
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.League">
+        select id,
+               name,
+               week_day,
+               time_start,
+               time_end,
+               id_sport
+        from intramurudes.league
+        where id = #{id}
+    </select>
+
+    <select id="selectFromSport" resultType="ca.usherbrooke.fgen.api.backend.League">
+        select id,
+               name,
+               week_day,
+               time_start,
+               time_end,
+               id_sport
+        from intramurudes.league
+        where id_sport = #{id_sport}
+    </select>
+
+
+    <delete id="deleteOne">
+        delete
+        from intramurudes.league
+        where id = #{id}
+    </delete>
+
+    <select id="getNewId" resultType="Integer">
+        select nextval('intramurudes.league_id_seq)'::regclass)
+    </select>
+
+    <insert id="insertLeague">
+        insert into intramurudes.league(name,
+                                        week_day,
+                                        time_start,
+                                        time_end,
+                                        id_sport)
+        values (#{league.name},
+                #{league.week_day},
+                #{league.time_start},
+                #{league.time_end},
+                #{league.id_sport});
+    </insert>
+
+</mapper>

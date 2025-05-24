@@ -31,7 +31,7 @@ public class OGClass {
             ListLeague leagues = sport.getListLeague();
             List<String> leagueNames = new ArrayList<>();
             for (int j = 0; j < leagues.getSize(); j++) {
-                leagueNames.add(leagues.getLeague(j).getName());
+                leagueNames.add(leagues.getLeagueByIndex(j).getName());
             }
 
             // Ajoute le sport et ses ligues dans le JSON
@@ -71,7 +71,7 @@ public class OGClass {
         }
         else {
             result = "<div>";
-            result += listLeague.getLeague(listLeague.getSize()-1).getName();
+            result += listLeague.getLeagueByIndex(listLeague.getSize()-1).getName();
 
         }
         return result;
@@ -125,7 +125,7 @@ public class OGClass {
         }
         else {
             result = "<div>";
-            result += listLeague.getLeague(listLeague.getSize()-1).getName();
+            result += listLeague.getLeagueByIndex(listLeague.getSize()-1).getName();
 
         }
         return result;
@@ -138,7 +138,7 @@ public class OGClass {
             return "<div>Pas de ligue</div>";
         }
         for (int i = 0; i < listLeague.getSize(); i++) {
-            result += listLeague.getLeague(i).getName() + "</br>";
+            result += listLeague.getLeagueByIndex(i).getName() + "</br>";
         }
 
         return result;

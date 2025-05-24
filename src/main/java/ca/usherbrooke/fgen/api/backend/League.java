@@ -1,17 +1,23 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.sql.Time;
+
 public class League {
+  private int id;
   private ListTeam listTeam;
-  private String leagueName;
-  private int leagueID;
+  private String name;
+  private String weekDay;
+  private Time timeStart;
+  private Time timeEnd;
+  private int idSport;
   private boolean done = false;
   /**
    * Base Constructor, creates an empty league
    */
   public League() {
     listTeam = new ListTeam();
-    leagueName = "Generic base.League";
-    leagueID = -1;
+    name = "Generic base.League";
+    id = -1;
     LoggerUtil.info("Création d'une ligue");
   }
 
@@ -24,15 +30,35 @@ public class League {
    */
   public League(ListTeam teams, String name, int id) {
     listTeam = teams;
-    leagueName = name;
-    leagueID = id;
+    this.name = name;
+    this.id = id;
     LoggerUtil.info("Création d'une ligue");
   }
   public League(String name) {
     listTeam = new ListTeam();
-    leagueName = name;
-    leagueID = -1;
-    LoggerUtil.info("Création d'une ligue");
+    this.name = name;
+    id = -1;
+    LoggerUtil.info("Création de la ligue " + name);
+  }
+
+  /**
+   * Constructor for a league
+   * @param id Id of the league
+   * @param name Name of the league
+   * @param weekDay The day of the week where the league takes place
+   * @param timeStart The time where the league starts
+   * @param timeEnd The time where the league ends
+   * @param idSport The id of the sport of the league
+   */
+  public League(int id, String name, String weekDay, Time timeStart, Time timeEnd, int idSport) {
+    this.id = id;
+    this.name = name;
+    this.weekDay = weekDay;
+    this.timeStart = timeStart;
+    this.timeEnd = timeEnd;
+    this.idSport = idSport;
+    this.done = false;
+    this.listTeam = new ListTeam();
   }
 
   /**
@@ -45,7 +71,7 @@ public class League {
    */
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
-    LoggerUtil.info("Tentative de création d'équipe");
+    LoggerUtil.info("Tentative de création d'équipe " + name);
     return this.addTeam(newTeam);
   }
 
@@ -53,7 +79,7 @@ public class League {
   public boolean newTeam(int id, String name) {
     ListPlayer listPlayer = new ListPlayer();
     Team newTeam = new Team(id, name, listPlayer);
-    LoggerUtil.info("Tentative de création d'équipe");
+    LoggerUtil.info("Tentative de création de l'équipe " + name);
     return this.addTeam(newTeam);
   }
 
@@ -76,7 +102,7 @@ public class League {
    */
   public boolean removeTeam(Team team)
   {
-    LoggerUtil.info("Tentative de retrait d'équipe");
+    LoggerUtil.info("Tentative de retrait de l'équipe: " + team.getName());
     return listTeam.removeTeam(team);
   }
 
@@ -107,7 +133,7 @@ public class League {
    * @return String: League name
    */
   public String getName() {
-    return leagueName;
+    return name;
   }
 
   /**
@@ -116,7 +142,7 @@ public class League {
    * @return int: League's ID
    */
   public int getID() {
-    return leagueID;
+    return id;
   }
 
 
@@ -128,7 +154,7 @@ public class League {
       return false;
     }
 
-    this.leagueID = idLeague;
+    this.id = idLeague;
     for (int i = 0; i < getTeams().getSize(); i++)
     {
       this.getTeams().getTeam(i).setIdLeague(idLeague);
@@ -144,14 +170,46 @@ public class League {
       LoggerUtil.error("Impossible de changer le nom de la ligue");
       return false;
     }
-    this.leagueName = leagueName;
-    LoggerUtil.info("Changement du nom de la ligue");
+    LoggerUtil.info("Changement du nom de la ligue: " + this.name + " -> " + leagueName);
+    this.name = leagueName;
     return true;
+  }
+
+  public String getWeekDay() {
+    return weekDay;
+  }
+
+  public void setWeekDay(String weekDay) {
+    this.weekDay = weekDay;
+  }
+
+  public Time getTimeStart() {
+    return timeStart;
+  }
+
+  public void setTimeStart(Time timeStart) {
+    this.timeStart = timeStart;
+  }
+
+  public Time getTimeEnd() {
+    return timeEnd;
+  }
+
+  public void setTimeEnd(Time timeEnd) {
+    this.timeEnd = timeEnd;
+  }
+
+  public int getIdSport() {
+    return idSport;
+  }
+
+  public void setIdSport(int idSport) {
+    this.idSport = idSport;
   }
 
   public void printLeague()
   {
-    System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n",leagueName,leagueID,done);
+    System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);
 
     if (listTeam.getSize() > 0)
     {
