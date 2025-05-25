@@ -1,4 +1,27 @@
-export const roleNumber = 2; // 0 user, 1, chef, 2 admin
+// Permission pour l'affichage
+const roleNumber = 2; // 0 user, 1, chef, 2 admin
+
+const equipeData = {
+    A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
+    B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus" },
+    C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus" },
+    D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu" },
+};
+
+const matchData = {
+    "2025-05-21": [
+        { heure: "10:00", equipes: "Équipe A vs Équipe B", lieu: "Gymnase 1" },
+        { heure: "14:30", equipes: "Équipe C vs Équipe D", lieu: "Gymnase 2" }
+    ],
+    "2025-05-25": [
+        { heure: "09:00", equipes: "Équipe A vs Équipe D", lieu: "Gymnase 1" },
+        { heure: "11:00", equipes: "Équipe B vs Équipe C", lieu: "Gymnase 3" },
+        { heure: "16:00", equipes: "Équipe A vs Équipe C", lieu: "Extérieur" }
+    ],
+    "2025-05-28": [
+        { heure: "13:00", equipes: "Équipe D vs Équipe B", lieu: "Gymnase 2" }
+    ]
+};
 
 window.onload = function() {
     const params = new URLSearchParams(window.location.search);
@@ -10,9 +33,9 @@ window.onload = function() {
 
     const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
     monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
+
+    renderEquipeList(); // <-- Ajout ici
 };
-
-
 
 function getDataEquipe() {
     const div = document.getElementById('equipe-info');
@@ -29,14 +52,25 @@ function getDataEquipe() {
         });
 }
 
-function showInfo(team) {
-    const data = {
-        A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
-        B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus" },
-        C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus" },
-        D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu" },
-    };
+function renderEquipeList() {
+    const container = document.getElementById("liste-equipes");
+    container.innerHTML = "";
 
+    Object.keys(equipeData).forEach(team => {
+        const div = document.createElement("div");
+        div.className = "card-custom";
+        div.textContent = `Équipe ${team}`;
+        div.onclick = () => showInfo(team);
+        container.appendChild(div);
+    });
+    const div = document.createElement("div");
+    div.className = "card-custom";
+    div.textContent = `Modifier`;
+    // div.onclick = () => ;
+    container.appendChild(div);
+}
+
+function showInfo(team) {
     const joueursStats = {
         Remi: "1 but, 3 passes",
         Axel: "2 buts, 1 carton jaune",
@@ -52,7 +86,7 @@ function showInfo(team) {
         Damien: "2 buts, 1 carton jaune",
     };
 
-    const info = data[team];
+    const info = equipeData[team];
 
     const joueursList = info.joueurs
         .split(',')
@@ -66,6 +100,7 @@ function showInfo(team) {
             <div class="joueurs-col">${joueursList}</div>
             <div class="stats-col">
                 <p><strong>Matchs :</strong><br>${info.matchs}</p>
+                <button className="player-btn" onClick="()">Modifier Stats</button>
             </div>
         </div>
         <div id="player-info" style="display: none;"></div>
@@ -74,7 +109,7 @@ function showInfo(team) {
     getDataEquipe();
 
     // Fonction pour afficher les stats du joueur
-    window.showPlayer = function(nom, team) {
+    window.showPlayer = function (nom, team) {
         const stat = joueursStats[nom] || "Aucune statistique disponible.";
 
         document.getElementById("equipe-content").style.display = "none";
@@ -82,30 +117,16 @@ function showInfo(team) {
         document.getElementById("player-info").innerHTML = `
             <h4>${nom}</h4>
             <p><strong>Statistiques :</strong><br>${stat}</p>
+            <button className="player-btn" onClick="()">Modifier Joueur</button>
             <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
         `;
     };
 
     // Fonction de retour
-    window.retourEquipe = function(team) {
+    window.retourEquipe = function (team) {
         showInfo(team); // Recharge l'affichage original de l'équipe
     };
 }
-
-const matchData = {
-    "2025-05-21": [
-        { heure: "10:00", equipes: "Équipe A vs Équipe B", lieu: "Gymnase 1" },
-        { heure: "14:30", equipes: "Équipe C vs Équipe D", lieu: "Gymnase 2" }
-    ],
-    "2025-05-25": [
-        { heure: "09:00", equipes: "Équipe A vs Équipe D", lieu: "Gymnase 1" },
-        { heure: "11:00", equipes: "Équipe B vs Équipe C", lieu: "Gymnase 3" },
-        { heure: "16:00", equipes: "Équipe A vs Équipe C", lieu: "Extérieur" }
-    ],
-    "2025-05-28": [
-        { heure: "13:00", equipes: "Équipe D vs Équipe B", lieu: "Gymnase 2" }
-    ]
-};
 
 function showMatchDay(date) {
     const container = document.getElementById("match-details");
