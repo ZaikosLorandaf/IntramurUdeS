@@ -41,12 +41,13 @@ public class ListPlayer {
     public boolean addPlayer(Player obj)
     {
 
-        if (list.size() >= maxPlayer || dict.containsKey(obj.getName() + ";" + obj.getName())) {
+        if (list.size() >= maxPlayer || dict.containsKey(obj.getName() + ";" + obj.getLastName())) {
             LoggerUtil.error("Erreur lors de l'ajout du joueur dans le vecteur");
             return false;
         }
-        dict.put(obj.getName() + ";" + obj.getName(), list.size());
+        dict.put(obj.getName() + ";" + obj.getLastName(), list.size());
         list.addElement(obj);
+        System.out.println(dict);
         LoggerUtil.info("L'ajout du joueur dans le vecteur fut un succès!");
         return true;
     }
@@ -76,6 +77,7 @@ public class ListPlayer {
             }
         }
         dict = tempDict;
+        System.out.println(dict);
         LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
 
         return true;
@@ -88,7 +90,7 @@ public class ListPlayer {
      */
     public boolean removePlayer(Player player)
     {
-        if (list.isEmpty() || list.size() <= 0 || !dict.containsKey(player.getName()))
+        if (list.isEmpty() || !dict.containsKey(player.getName() + ";" + player.getLastName()))
         {
             LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
             return false;
@@ -98,15 +100,13 @@ public class ListPlayer {
         dict.remove(player.getName());
         list.remove(player);
         for (int i = 0; i < list.size(); i++) {
-            if (i < index)
-            {
-                tempDict.put(list.get(i).getName(), i);
-            }
-            else{
-                tempDict.put(list.get(i).getName(), i - 1);
-            }
+            tempDict.put(list.get(i).getName()+";"+list.get(i).getLastName(), i);
         }
+//        System.out.println("Changement de ca à ca");
+//        System.out.println(dict);
+//        System.out.println(tempDict);
         dict = tempDict;
+        System.out.println(dict);
         LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
         return true;
     }
@@ -127,6 +127,15 @@ public class ListPlayer {
             LoggerUtil.error("Erreur lors du getPlayer");
             return null;
         }
+    }
+
+    public Player getPlayer(String firstName, String lastName)
+    {
+        if(dict.containsKey(firstName + ";" + lastName))
+        {
+            return list.get(dict.get(firstName + ";" + lastName));
+        }
+        return null;
     }
 
     /**

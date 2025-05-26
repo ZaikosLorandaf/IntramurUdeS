@@ -1,4 +1,5 @@
 package ca.usherbrooke.fgen.api.backend;
+import io.quarkus.resteasy.runtime.QuarkusRestPathTemplateInterceptor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -116,17 +117,46 @@ public class OGClass {
         return mv.message;
     }
 
-    public String addTeam(String nomLigue)
+    public String addTeam(String nomLigue, String nomEquipe)
     {
-        boolean resultAdd = true;//listLeague.getLeague(0);
-        String result;
-        if (!resultAdd) {
-            result = "<div>erreur</div>";
-        }
-        else {
-            result = "<div>";
-            result += listLeague.getLeagueByIndex(listLeague.getSize()-1).getName();
 
+        String result;
+        League league = listLeague.getLeague(nomLigue);
+        if(league == null) {
+            result = "Ligue introuvable";
+        }
+        else{
+            if (league.newTeam(nomEquipe))
+            {
+                result = "Équipe ajoutée";
+            }else
+            {
+                result = "Impossible d'ajouter l'équipe";
+            }
+        }
+
+        return result;
+    }
+
+    public String listTeam(String nomLigue)
+    {
+        String result = "";
+        League league = listLeague.getLeague(nomLigue);
+        if(league == null) {
+            result = "Ligue introuvable";
+        }
+        else{
+            if (league.getTeams().getSize() <= 0)
+            {
+                result = "Pas d'équipe";
+            }
+            else
+            {
+                for(int i = 0; i<league.getTeams().getSize(); i++)
+                {
+                    result += league.getTeams().getTeam(i).getName() + "</br>";
+                }
+            }
         }
         return result;
     }
@@ -142,6 +172,96 @@ public class OGClass {
         }
 
         return result;
+    }
+
+
+
+    public String removeTeam(String nomLigue, String nomEquipe) {
+        if(listLeague.getSize() <= 0) {
+            return "<div>Pas de ligue</div>";
+        }
+        Team team = listLeague.getLeague(nomLigue).getTeams().getTeam(nomEquipe);
+        if (team == null)
+        {
+            return "<div>Pas d'équipe</div>";
+        }
+        if (listLeague.getLeague(nomLigue).removeTeam(team))
+        {
+            return "<div>Équipe retirée</div>";
+        }
+        return "<div>Erreur lors du retrait d'équipe</div>";
+    }
+
+    public String addPlayer(String nomLigue, String nomEquipe,String prenomJoueur, String nomJoueur) {
+        League league = listLeague.getLeague(nomLigue);
+        if(league == null) {
+            return "<div>Pas de ligue</div>";
+        }
+        Team team = league.getTeams().getTeam(nomEquipe);
+        if (team == null)
+        {
+            return "<div>Pas d'équipe</div>";
+        }
+        if (team.newPlayer(prenomJoueur, nomJoueur))
+        {
+            return "<div> Joueur : " + prenomJoueur + " " + nomJoueur + " ajouté</div>";
+        }
+        return "<div>Erreur nom</div>";
+    }
+
+    public String listPlayer(String nomLigue, String nomEquipe) {
+        String result = "";
+        League league = listLeague.getLeague(nomLigue);
+        if(league == null) {
+            result = "Ligue introuvable";
+        }
+        else{
+            Team team = league.getTeams().getTeam(nomEquipe);
+            if (team == null)
+            {
+                result = "Equipe introuvable";
+            }
+            else
+            {
+                if (team.getListPlayer().getSize() <= 0)
+                {
+                    result = "Pas de joueur";
+                }
+                for(int i = 0; i<team.getListPlayer().getSize(); i++)
+                {
+                    Player player = team.getListPlayer().getPlayer(i);
+                    result += player.getName() +" "+ player.getLastName()+ "</br>";
+                }
+            }
+        }
+        return result;
+    }
+
+
+    public String removePlayer(String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
+        League league = listLeague.getLeague(nomLigue);
+        if(league == null)
+        {
+            return "<div>Ligue non-trouvée</div>";
+        }
+        Team team = league.getTeams().getTeam(nomEquipe);
+        if (team == null)
+        {
+            return "<div>Équipe non-trouvée</div>";
+        }
+        Player player = team.getListPlayer().getPlayer(prenomJoueur,nomJoueur);
+        if(player == null)
+        {
+            return "<div>Joueur non-trouvé</div>";
+        }
+
+        if (team.removePlayer(player))
+        {
+            return "<div>Joueur retiré</div>";
+        }
+
+        return "<div>Erreur lors du retrait du joueur</div>";
+
     }
 
     private MonVecteur mv;

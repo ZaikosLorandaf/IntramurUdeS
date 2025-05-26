@@ -59,7 +59,7 @@ public class Team
     public Team(int id, String name, ListPlayer listPlayer)
     {
         this.id = id;
-        this.name = "";
+        this.name = name;
         this.idLeague = -1;
         this.listPlayer = new ListPlayer();
         LoggerUtil.info("Création d'une équipe");
@@ -161,9 +161,13 @@ public class Team
             return false;
         }
         Player player = new Player(fn,ln,getId());
-        this.addPlayer(player);
-        LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
-        return true;
+        if (this.addPlayer(player)) {
+            LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
+            return true;
+        }
+        LoggerUtil.error("L'ajout du joueur dans l'équipe ne fut complété");
+
+        return false;
     }
 
     /**

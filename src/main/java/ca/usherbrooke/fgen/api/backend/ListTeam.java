@@ -36,6 +36,7 @@ public class ListTeam {
      * @param team L'équipe à ajouter
      */
     public boolean addTeam(Team team) {
+        System.out.println(dict);
         if (team == null || dict.containsKey(team.getName()))
         {
             LoggerUtil.error("Impossible de rajouter l'équipe au vecteur");
@@ -74,14 +75,11 @@ public class ListTeam {
         dict.remove(list.get(index).getName());
         this.list.remove(index);
         for (int i = 0; i < list.size(); i++) {
-            if (i < index)
-            {
-                tempDict.put(list.get(i).getName() , i);
-            }
-            else{
-                tempDict.put(list.get(i).getName() , i - 1);
-            }
+            tempDict.put(list.get(i).getName(), i);
         }
+        System.out.println("Changement de ca à ca");
+        System.out.println(dict);
+        System.out.println(tempDict);
         dict = tempDict;
         LoggerUtil.info("Retrait de l'équipe du vecteur avec succès");
         return true;

@@ -134,8 +134,8 @@
         {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
-            axios.get("http://localhost:8888/api/addLigue/"+document.getElementById("nomLigue").value, {
+            const nomLigue =document.getElementById("nomLigue").value;
+            axios.get("http://localhost:8888/api/addLigue/"+nomLigue, {
 
             })
                 .then(function (response) {
@@ -153,7 +153,8 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
 
-            axios.get("http://localhost:8888/api/getLigue/"+document.getElementById("nomLigue").value, {
+            const nomLigue =document.getElementById("nomLigue").value;
+            axios.get("http://localhost:8888/api/getLigue/"+nomLigue, {
 
             })
                 .then(function (response) {
@@ -170,7 +171,8 @@
         {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-            axios.get("http://localhost:8888/api/removeLigue/"+document.getElementById("nomLigue").value, {
+            const nomLigue =document.getElementById("nomLigue").value;
+            axios.get("http://localhost:8888/api/removeLigue/"+nomLigue, {
 
             })
                 .then(function (response) {
@@ -181,6 +183,63 @@
                     span.innerHTML += '<div>Erreur : ' + error + '</div>';
                 });
         }
+
+        function listTeam()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            const nomLigue =document.getElementById("nomLigue").value;
+            axios.get("http://localhost:8888/api/listTeam/" + nomLigue, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        response.data;
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + "Impossible" + '</div>';
+                });
+        }
+
+        function addTeam()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            const nomLigue =document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            axios.get("http://localhost:8888/api/addTeam/"+nomLigue+"/"+nomTeam, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+
+        function removeTeam()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            const nomLigue = document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            axios.get("http://localhost:8888/api/removeTeam/"+ nomLigue +"/"+nomTeam, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
 
         function requestMessage() {
             const div = document.getElementById('title');
@@ -211,6 +270,67 @@
             span.innerHTML = '<br> <strong>' + "Aucun message" + '</strong> </br>'
         }
 
+        function addPlayer()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            const nomTeam =document.getElementById("nomTeam").value;
+            const nomLigue =document.getElementById("nomLigue").value;
+            const prenomPlayer =document.getElementById("prenomPlayer").value;
+            const nomPlayer =document.getElementById("nomPlayer").value;
+            axios.get("http://localhost:8888/api/addPlayer/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function listPlayer()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            const nomLigue =document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            axios.get("http://localhost:8888/api/listPlayer/" + nomLigue + "/" + nomTeam, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        response.data;
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + "Impossible" + '</div>';
+                });
+        }
+
+        function removePlayer()
+        {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+
+            const nomLigue = document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            const prenomPlayer = document.getElementById("prenomPlayer").value;
+            const nomPlayer = document.getElementById("nomPlayer").value;
+            axios.get("http://localhost:8888/api/removePlayer/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {
+
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
         function logout() {
          //   let logoutURL = "http://localhost:8080//realms/usager/protocol/openid-connect/logout"
          //   window.location.href = logoutURL;
@@ -236,15 +356,30 @@
         size="20">
 </div>
 
-<!--<div>-->
-<!--    <button onclick="addTeam()" style="color: red;">Add Team</button>-->
-<!--    <button onclick="getTeam()" style="color: blue;">getTeam</button>-->
-<!--    <button onclick="removeTeam()" style="color: blue;">removeTeam</button>-->
-<!--    <input-->
-<!--        type="text"-->
-<!--        id="nomTeam"-->
-<!--        size="20">-->
-<!--</div>-->
+<div>
+    <button onclick="listTeam()" style="color: blue;">List Team</button>
+    <button onclick="addTeam()" style="color: red;">Add Team</button>
+    <button onclick="removeTeam()" style="color: blue;">removeTeam</button>
+    <input
+        type="text"
+        id="nomTeam"
+        size="20">
+</div>
+
+
+<div>
+    <button onclick="listPlayer()" style="color: blue;">List Player</button>
+    <button onclick="addPlayer()" style="color: red;">Add Player</button>
+    <button onclick="removePlayer()" style="color: blue;">removePlayer</button>
+    <input
+            type="text"
+            id="prenomPlayer"
+            size="20">
+    <input
+            type="text"
+            id="nomPlayer"
+            size="20">
+</div>
 
 <div id="title">
     <span></span>

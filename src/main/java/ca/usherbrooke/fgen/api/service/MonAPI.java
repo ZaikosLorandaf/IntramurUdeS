@@ -79,10 +79,66 @@ public class MonAPI {
         return monService.getLeague(nom);
     }
 
+    @GET
+    @Path("removeLigue/{nom}")
+    public String removeLeague(@PathParam("nom") String nom) {
+        return monService.removeLeague(nom);
+    }
+
 
     @GET
-    @Path("getLigue/{nom_ligue}/addTeam")
-    public String getAddTeam(@PathParam("nom_ligue") String nom_ligue) {
-        return monService.addTeam(nom_ligue);
+    @Path("addTeam/{nom_ligue}/{nom_equipe}")
+    public String getAddTeam(
+            @PathParam("nom_ligue") String nom_ligue,
+            @PathParam("nom_equipe") String nom_equipe) {
+        return monService.addTeam(nom_ligue,nom_equipe);
+    }
+
+    @GET
+    @Path("listTeam/{nom_ligue}")
+    public String listTeam(@PathParam("nom_ligue") String nom_ligue) {
+        return monService.listTeam(nom_ligue);
+    }
+
+    @GET
+    @Path("removeTeam/{nom_ligue}/{nom_equipe}")
+    public String removeTeam(
+            @PathParam("nom_ligue") String nom_ligue,
+            @PathParam("nom_equipe") String nom_equipe)
+    {
+        return monService.removeTeam(nom_ligue,nom_equipe);
+    }
+
+
+    @GET
+    @Path("addPlayer/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
+    public String addPlayer(
+            @PathParam("nom_ligue") String nomLigue,
+            @PathParam("nom_equipe") String nomEquipe,
+            @PathParam("nom_joueur") String nomJoueur,
+            @PathParam("prenom_joueur") String prenomJoueur
+    )
+    {
+        return monService.addPlayer(nomLigue,nomEquipe,prenomJoueur, nomJoueur);
+    }
+
+    @GET
+    @Path("listPlayer/{nom_ligue}/{nom_equipe}")
+    public String listPlayer(
+            @PathParam("nom_ligue") String nomLigue,
+            @PathParam("nom_equipe") String nomEquipe)
+    {
+        return monService.listPlayer(nomLigue,nomEquipe);
+    }
+
+    @GET
+    @Path("removePlayer/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
+    public String removePlayer(
+            @PathParam("nom_ligue") String nomLigue,
+            @PathParam("nom_equipe") String nomEquipe,
+            @PathParam("nom_joueur") String nomJoueur,
+            @PathParam("prenom_joueur") String prenomJoueur)
+    {
+        return monService.removePlayer(nomLigue,nomEquipe,prenomJoueur,nomJoueur);
     }
 }

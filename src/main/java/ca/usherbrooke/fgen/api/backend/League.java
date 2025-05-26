@@ -84,6 +84,14 @@ public class League {
   }
 
 
+  public boolean newTeam(String name) {
+    ListPlayer listPlayer = new ListPlayer();
+    Team newTeam = new Team(-1, name, listPlayer);
+    LoggerUtil.info("Tentative de création d'équipe");
+    return this.addTeam(newTeam);
+  }
+
+
   /**
    * Adds a new team in the league
    *
