@@ -21,7 +21,9 @@ public class GetDashboard {
 
     @GET
     @Path("equipes")
-    public String getEquipesData(@QueryParam("ligue") String nomLigue) {
-        return monService.getEquipesData(nomLigue);
+    public String getEquipesData(
+            @QueryParam("sport") String nomSport,
+             @QueryParam("ligue") String nomLigue) {
+        return monService.getEquipesData(nomSport, nomLigue);
     }
 }
