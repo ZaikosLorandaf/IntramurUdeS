@@ -4,12 +4,14 @@ import java.util.*;
 
 public class ListLeague {
     private Map<Integer, League> mapId;
+    private Map<String, Integer> mapNomId;
     /**
      * Constructeur paramétré avec la taille maximale
      *
      */
     public ListLeague() {
         this.mapId = new HashMap<>();
+        this.mapNomId = new HashMap<>();
         LoggerUtil.info("Création de la liste de league");
     }
 
@@ -25,6 +27,7 @@ public class ListLeague {
 
         if (!mapId.containsKey(league.getId())) {
             mapId.put(league.getId(), league);
+            mapNomId.put(league.getName(), league.getId());
             LoggerUtil.info("Ajout de la ligue " + league.getName());
             return true;
         }
@@ -51,7 +54,9 @@ public class ListLeague {
 
         if(mapId.containsKey(id)) {
             LoggerUtil.warning("Retrait de la ligue " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapNomId.remove(mapId.get(id).getName());
             mapId.remove(id);
+
             return true;
         }
         else {

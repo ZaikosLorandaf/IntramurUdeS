@@ -229,7 +229,7 @@ public class OGClass
 
         return "<div>Erreur lors du retrait d'équipe</div>";
         }
-    }
+
 
     public String addPlayer(String nomSport, String nomLigue, String nomEquipe,String prenomJoueur, String nomJoueur) {
         if (listeSport.getSport(nomSport) != null) {
