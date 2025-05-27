@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.backend;
 
 public class Player {
-    private int idName;
+    private int id;
     private String name;
     private int idLastName;
     private String lastName;
@@ -20,6 +20,11 @@ public class Player {
         setLastName(ln);
         setIdTeam(idTeam);
         LoggerUtil.info("Création du joueur");
+    }
+
+    public int getId()
+    {
+        return this.id;
     }
 
     /**

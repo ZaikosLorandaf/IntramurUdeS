@@ -1,112 +1,77 @@
 package ca.usherbrooke.fgen.api.backend;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Vector;
+import java.util.*;
 
 public class ListSport {
-    private int maxSize;
-    private Vector<Sport> list;
-    private Map<String, Integer> dict = new HashMap<>();
-
-    public ListSport(int maxSize) {
-        if (maxSize < 1) {
-            LoggerUtil.error("Impossible de créer le vecteur de sport");
-            return;
-        }
-        this.maxSize = maxSize;
-        list = new Vector<Sport>();
-        LoggerUtil.info("Création du vecteur de sport");
-    }
+    private Map<Integer, Sport> mapId;
 
     public ListSport() {
-        this.maxSize = 100;
-        list = new Vector<Sport>();
+        mapId = new HashMap<>();
         LoggerUtil.info("Création du vecteur de sport");
     }
 
     public boolean addSport(Sport sport) {
-        if (list.size() >= maxSize || sport == null || dict.containsKey(sport.getName())) {
-            LoggerUtil.error("Erreur d'ajout de Sport dans le vecteur");
-            return false;
-        }
-        dict.put(sport.getName(), list.size());
-        list.addElement(sport);
-        LoggerUtil.info("Ajout de Sport dans le vecteur");
-        return true;
-    }
 
-    public boolean removeSport(int index) {
-        if (index < 0 || index >= list.size()) {
-            LoggerUtil.error("Impossible de retirer le sport à cet index");
-            return false;
-        }
-        Map<String, Integer> tempDict = new HashMap<>();
-        list.removeElementAt(index);
-        for (int i = 0; i < list.size(); i++) {
-            tempDict.put(list.get(i).getName(), i);
-        }
-        dict = tempDict;
-        LoggerUtil.info("Retrait de Sport dans le vecteur");
-        return true;
-    }
-
-    public boolean removeSport(Sport sport) {
-        if (!list.contains(sport)) {
-            LoggerUtil.error("Impossible de retirer le sport à cet index");
-            return false;
-        }
-        Map<String, Integer> tempDict = new HashMap<>();
-        list.removeElement(sport);
-        for (int i = 0; i < list.size(); i++) {
-            tempDict.put(list.get(i).getName(), i);
-        }
-        dict = tempDict;
-        LoggerUtil.info("Retrait de Sport dans le vecteur");
-        return true;
-    }
-
-    public Sport getSport(int index) {
-        if (index < 0 || index >= list.size())
-            return null;
-        return list.elementAt(index);
-    }
-
-    public int getIndex(Sport sport) {
-        return list.indexOf(sport);
-    }
-
-    public Sport getSport(String name){
-        if (dict.containsKey(name))
-        {
-            int index = dict.get(name);
-            return this.getSport(index);
-        }
-        else{
-            return null;
-        }
-    }
-
-    public int getMaxSport() {
-        return maxSize;
-    }
-
-    public boolean setMaxSport(int max) {
-        if (max >= getSize()) {
-            maxSize = max;
-            LoggerUtil.info("Changement du nombre maximum de Sport dans le vecteur");
+        if (!mapId.containsKey(sport.getId())) {
+            mapId.put(sport.getId(), sport);
+            LoggerUtil.info("Ajout du sport " + sport.getName());
             return true;
         }
-        LoggerUtil.error("Erreur dans le changement du nombre maximum de Sport dans le vecteur");
-        return false;
+        else {
+            LoggerUtil.warning("Le id du sport " + sport.getName() + " (" + sport.getId() + ") est déjà dans présent.");
+            return false;
+        }
     }
+
+
+    public boolean addSports(List<Sport> sports) {
+        for (Sport sport : sports) {
+            addSport(sport);
+        }
+        return true;
+    }
+
+
+
+    public boolean removeSport(int id) {
+        if(mapId.containsKey(id)) {
+            LoggerUtil.warning("Retrait du sport " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapId.remove(id);
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Échec du retrait du sport " + mapId.get(id).getName() + "(id: " + id + ").");
+            return false;
+        }
+    }
+
+    /**
+     * Méthode pour retirer un sport
+     * @param sport Sport à retirer
+     * @return Vrai si le joueur est retiré, sinon false
+     */
+    public boolean removeSport(Sport sport) {
+        return removeSport(sport.getId());
+    }
+
+
+    /**
+     * Méthode pour aller chercher un sport dans la liste selon son id
+     * @param id Id du sport à aller chercher
+     * @return Le sport s'il a été trouvé, sinon false
+     */
+    public Sport getSport(int id) {
+        return mapId.getOrDefault(id, null);
+    }
+
+
 
     public int getSize() {
-        return list.size();
+        return mapId.size();
     }
 
-    public Vector<Sport> getAllSports() {
-        return list;
+    public Map<Integer, Sport> getMapSports() {
+        return mapId;
     }
 
     public boolean getSport(Sport sport) {

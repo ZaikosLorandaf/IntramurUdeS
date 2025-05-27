@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 
+import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import org.jsoup.parser.Parser;
@@ -12,15 +13,19 @@ import javax.ws.rs.PathParam;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Path("/api/sport")
 public class SportService {
     @Inject
     SportMapper sportMapper;
+    @Inject
+    OGClass ogClass;
 
 
     @GET
     public List<Sport> getSports() {
         List<Sport> sports = sportMapper.selectAll();
+        ogClass.getListeSport().addSports(sports);
         return unescapeEntities(sports);
     }
 
@@ -30,6 +35,7 @@ public class SportService {
             @PathParam("id") Integer id
     ) {
         Sport sport = sportMapper.selectOne(id);
+        ogClass.getListeSport().addSport(sport);
         return unescapeEntities(sport);
     }
 
