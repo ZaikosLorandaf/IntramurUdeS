@@ -10,7 +10,6 @@ import javax.inject.Inject;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GetDashboard {
-
     @Inject
     OGClass monService;
 
@@ -18,5 +17,11 @@ public class GetDashboard {
     @Path("nothing")
     public String nothing() {
         return "---";
+    }
+
+    @GET
+    @Path("equipes")
+    public String getEquipesData(@QueryParam("ligue") String nomLigue) {
+        return monService.getEquipesData(nomLigue);
     }
 }

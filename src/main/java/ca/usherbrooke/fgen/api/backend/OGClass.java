@@ -22,6 +22,39 @@ public class OGClass {
         trashData();
     }
 
+    public String getEquipesData(String nomLigue) {
+        JSONObject response = new JSONObject();
+
+        League league = listLeague.getLeague(nomLigue);
+        if (league == null) {
+            return new JSONObject().put("error", "Ligue introuvable").toString();
+        }
+
+        ListTeam listTeam = league.getTeams();
+
+        for (int i = 0; i < listTeam.getSize(); i++) {
+            Team team = listTeam.getTeam(i);
+
+            List<String> joueurs = new ArrayList<>();
+            for (int j = 0; j < team.getListPlayer().getSize(); j++) {
+                Player p = team.getListPlayer().getPlayer(j);
+                joueurs.add(p.getName());
+            }
+
+            String joueursStr = String.join(", ", joueurs);
+            String matchsStr = "Statistiques fictives";
+
+            JSONObject infoEquipe = new JSONObject()
+                    .put("joueurs", joueursStr)
+                    .put("matchs", matchsStr);
+
+            response.put(team.getName(), infoEquipe);
+        }
+
+        return response.toString();
+    }
+
+
     public String getSportLeague() {
         JSONArray sports = new JSONArray();
 
