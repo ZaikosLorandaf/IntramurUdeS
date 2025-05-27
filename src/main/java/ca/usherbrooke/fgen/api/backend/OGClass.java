@@ -20,10 +20,10 @@ public class OGClass {
         trashData();
     }
 
-    public String getEquipesData(String nomLigue) {
+    public String getEquipesData(String nomSport, String nomLigue) {
         JSONObject response = new JSONObject();
 
-        League league = listLeague.getLeague(nomLigue);
+        League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if (league == null) {
             return new JSONObject().put("error", "Ligue introuvable").toString();
         }
@@ -157,7 +157,7 @@ public class OGClass {
         return mv.message;
     }
 
-    public String addTeam(String nomLigue, String nomEquipe)
+    public String addTeam(String nomSport, String nomLigue, String nomEquipe)
     {
 
         String result;
@@ -209,8 +209,8 @@ public class OGClass {
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
-        for (int i = 0; i < listLeague.getSize(); i++) {
-            result += listLeague.getLeagueByIndex(i).getName() + "</br>";
+        for (int i = 0; i < listeSport.getSport(nomSport).getListLeague().getSize(); i++) {
+            result += listeSport.getSport(nomSport).getListLeague().getLeagueByIndex(i).getName() + "</br>";
         }
 
         return result;
@@ -225,12 +225,12 @@ public class OGClass {
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
-        Team team = listLeague.getLeague(nomLigue).getTeams().getTeam(nomEquipe);
+        Team team = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue).getTeams().getTeam(nomEquipe);
         if (team == null)
         {
             return "<div>Pas d'équipe</div>";
         }
-        if (listLeague.getLeague(nomLigue).removeTeam(team))
+        if (listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue).removeTeam(team))
         {
             return "<div>Équipe retirée</div>";
         }
@@ -284,8 +284,8 @@ public class OGClass {
     }
 
 
-    public String removePlayer(String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
-        League league = listLeague.getLeague(nomLigue);
+    public String removePlayer(String nomSport, String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
+        League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null)
         {
             return "<div>Ligue non-trouvée</div>";
