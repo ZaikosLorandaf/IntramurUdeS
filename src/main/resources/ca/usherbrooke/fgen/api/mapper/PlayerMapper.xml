@@ -34,7 +34,7 @@
                                         create_at,
                                         id_league)
         values (#{player.name},
-                #{player,last_name},
+                #{player.last_name},
                 #{player.id_team})
     </insert>
 
