@@ -1,10 +1,13 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Vector;
 
 public class ListSport {
     private int maxSize;
     private Vector<Sport> list;
+    private Map<String, Integer> dict = new HashMap<>();
 
     public ListSport(int maxSize) {
         if (maxSize < 1) {
@@ -23,33 +26,42 @@ public class ListSport {
     }
 
     public boolean addSport(Sport sport) {
-        if (list.size() >= maxSize || sport == null) {
+        if (list.size() >= maxSize || sport == null || dict.containsKey(sport.getName())) {
             LoggerUtil.error("Erreur d'ajout de Sport dans le vecteur");
             return false;
         }
+        dict.put(sport.getName(), list.size());
         list.addElement(sport);
         LoggerUtil.info("Ajout de Sport dans le vecteur");
         return true;
     }
 
     public boolean removeSport(int index) {
-        try {
-            list.removeElementAt(index);
-        } catch (Exception e) {
+        if (index < 0 || index >= list.size()) {
             LoggerUtil.error("Impossible de retirer le sport à cet index");
             return false;
         }
+        Map<String, Integer> tempDict = new HashMap<>();
+        list.removeElementAt(index);
+        for (int i = 0; i < list.size(); i++) {
+            tempDict.put(list.get(i).getName(), i);
+        }
+        dict = tempDict;
         LoggerUtil.info("Retrait de Sport dans le vecteur");
         return true;
     }
 
     public boolean removeSport(Sport sport) {
-        try {
-            list.removeElement(sport);
-        } catch (Exception e) {
+        if (!list.contains(sport)) {
             LoggerUtil.error("Impossible de retirer le sport à cet index");
             return false;
         }
+        Map<String, Integer> tempDict = new HashMap<>();
+        list.removeElement(sport);
+        for (int i = 0; i < list.size(); i++) {
+            tempDict.put(list.get(i).getName(), i);
+        }
+        dict = tempDict;
         LoggerUtil.info("Retrait de Sport dans le vecteur");
         return true;
     }
@@ -62,6 +74,17 @@ public class ListSport {
 
     public int getIndex(Sport sport) {
         return list.indexOf(sport);
+    }
+
+    public Sport getSport(String name){
+        if (dict.containsKey(name))
+        {
+            int index = dict.get(name);
+            return this.getSport(index);
+        }
+        else{
+            return null;
+        }
     }
 
     public int getMaxSport() {
@@ -84,5 +107,9 @@ public class ListSport {
 
     public Vector<Sport> getAllSports() {
         return list;
+    }
+
+    public boolean getSport(Sport sport) {
+        return list.contains(sport);
     }
 }
