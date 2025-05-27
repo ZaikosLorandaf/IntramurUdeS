@@ -30,8 +30,8 @@
                                       name,
                                       create_at,
                                       id_league)
-        values (#{sport.name},
-                #{sport.id_league})
+        values (#{team.name},
+                #{team.id_league})
     </insert>
 
 </mapper>
