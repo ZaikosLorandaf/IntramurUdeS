@@ -61,8 +61,7 @@ public class OGClass {
 
     }
 
-    public String newLeague(String nom)
-    {
+    public String newLeague(String nom) {
 
         League newLeague = new League(nom);
         boolean resultAdd = listLeague.addLeague(newLeague);
@@ -86,8 +85,7 @@ public class OGClass {
             result = league.getName();
             System.out.println("League: " + result);
         }
-        else
-        {
+        else {
             result = "Pas de ligue appelé " + nom;
         }
         //result = "<div>" + result +  "</div>";
@@ -117,20 +115,16 @@ public class OGClass {
         return mv.message;
     }
 
-    public String addTeam(String nomLigue, String nomEquipe)
-    {
-
+    public String addTeam(String nomLigue, String nomEquipe) {
         String result;
         League league = listLeague.getLeague(nomLigue);
         if(league == null) {
             result = "Ligue introuvable";
-        }
-        else{
-            if (league.newTeam(nomEquipe))
-            {
+        } else {
+            if (league.newTeam(nomEquipe)) {
                 result = "Équipe ajoutée";
-            }else
-            {
+            }
+            else {
                 result = "Impossible d'ajouter l'équipe";
             }
         }
@@ -146,14 +140,11 @@ public class OGClass {
             result = "Ligue introuvable";
         }
         else{
-            if (league.getTeams().getSize() <= 0)
-            {
+            if (league.getTeams().getSize() <= 0) {
                 result = "Pas d'équipe";
             }
-            else
-            {
-                for(int i = 0; i<league.getTeams().getSize(); i++)
-                {
+            else {
+                for(int i = 0; i<league.getTeams().getSize(); i++) {
                     result += league.getTeams().getTeam(i).getName() + "</br>";
                 }
             }
@@ -167,6 +158,7 @@ public class OGClass {
         if(listLeague.getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
+
         for (int i = 0; i < listLeague.getSize(); i++) {
             result += listLeague.getLeagueByIndex(i).getName() + "</br>";
         }
@@ -180,15 +172,16 @@ public class OGClass {
         if(listLeague.getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
+
         Team team = listLeague.getLeague(nomLigue).getTeams().getTeam(nomEquipe);
-        if (team == null)
-        {
+        if (team == null) {
             return "<div>Pas d'équipe</div>";
         }
-        if (listLeague.getLeague(nomLigue).removeTeam(team))
-        {
+
+        if (listLeague.getLeague(nomLigue).removeTeam(team)) {
             return "<div>Équipe retirée</div>";
         }
+
         return "<div>Erreur lors du retrait d'équipe</div>";
     }
 
@@ -198,12 +191,10 @@ public class OGClass {
             return "<div>Pas de ligue</div>";
         }
         Team team = league.getTeams().getTeam(nomEquipe);
-        if (team == null)
-        {
+        if (team == null) {
             return "<div>Pas d'équipe</div>";
         }
-        if (team.newPlayer(prenomJoueur, nomJoueur))
-        {
+        if (team.newPlayer(prenomJoueur, nomJoueur)) {
             return "<div> Joueur : " + prenomJoueur + " " + nomJoueur + " ajouté</div>";
         }
         return "<div>Erreur nom</div>";
@@ -217,18 +208,14 @@ public class OGClass {
         }
         else{
             Team team = league.getTeams().getTeam(nomEquipe);
-            if (team == null)
-            {
+            if (team == null) {
                 result = "Equipe introuvable";
             }
-            else
-            {
-                if (team.getListPlayer().getSize() <= 0)
-                {
+            else {
+                if (team.getListPlayer().getSize() <= 0) {
                     result = "Pas de joueur";
                 }
-                for(int i = 0; i<team.getListPlayer().getSize(); i++)
-                {
+                for(int i = 0; i<team.getListPlayer().getSize(); i++) {
                     Player player = team.getListPlayer().getPlayer(i);
                     result += player.getName() +" "+ player.getLastName()+ "</br>";
                 }
@@ -237,32 +224,27 @@ public class OGClass {
         return result;
     }
 
-
     public String removePlayer(String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
         League league = listLeague.getLeague(nomLigue);
-        if(league == null)
-        {
+        if(league == null) {
             return "<div>Ligue non-trouvée</div>";
         }
+
         Team team = league.getTeams().getTeam(nomEquipe);
-        if (team == null)
-        {
+        if (team == null) {
             return "<div>Équipe non-trouvée</div>";
         }
+
         Player player = team.getListPlayer().getPlayer(prenomJoueur,nomJoueur);
-        if(player == null)
-        {
+        if(player == null) {
             return "<div>Joueur non-trouvé</div>";
         }
 
-        if (team.removePlayer(player))
-        {
+        if (team.removePlayer(player)) {
             return "<div>Joueur retiré</div>";
         }
 
         return "<div>Erreur lors du retrait du joueur</div>";
-
     }
-
     private MonVecteur mv;
 }
