@@ -1,4 +1,5 @@
 package ca.usherbrooke.fgen.api.backend;
+import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 
 public class Team
 {
@@ -7,17 +8,37 @@ public class Team
     private int idLeague;
     private ListPlayer listPlayer;
 
+    /**
+     * Fonction d'initialisation des parametres de la classe avec List déjà fait
+     **/
+
+    public void initTeam(int id, String name, int idLeague, ListPlayer listPlayer)
+    {
+        this.id = id;
+        this.name = name;
+        this.idLeague = idLeague;
+        this.listPlayer = listPlayer;
+        LoggerUtil.info("Création d'une équipe");
+    }
+
+    /**
+     * Fonction d'initialisation des parametres de la classe avec creation List
+     **/
+    public void  initTeam(int id, String name, int idLeague, int maxPlayers)
+    {
+        this.id = id;
+        this.name = name;
+        this.idLeague = idLeague;
+        this.listPlayer = new ListPlayer(maxPlayers);
+        LoggerUtil.info("Création d'une équipe");
+    }
 
     /**
      * Constructeur par défaut
      */
     public Team()
     {
-        this.id = -1;
-        this.name = "";
-        this.idLeague = -1;
-        this.listPlayer = new ListPlayer(200);
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(-1, "", -1, 200);
     }
 
     /**
@@ -28,11 +49,7 @@ public class Team
      */
     public Team(int id, String name, int idLeague, ListPlayer listPlayer)
     {
-        this.id = id;
-        this.name = "";
-        this.idLeague = idLeague;
-        this.listPlayer = new ListPlayer();
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(id, name, idLeague, listPlayer);
     }
 
     /**
@@ -43,11 +60,7 @@ public class Team
      */
     public Team(int id, String name, int idLeague, int maxPlayers)
     {
-        this.id = id;
-        this.name = name;
-        this.idLeague = idLeague;
-        this.listPlayer = new ListPlayer(maxPlayers);
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(id, name, idLeague, maxPlayers);
     }
 
     /**
@@ -58,11 +71,7 @@ public class Team
      */
     public Team(int id, String name, ListPlayer listPlayer)
     {
-        this.id = id;
-        this.name = name;
-        this.idLeague = -1;
-        this.listPlayer = new ListPlayer();
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(id, name, -1, listPlayer);
     }
 
     /**
@@ -73,11 +82,7 @@ public class Team
      */
     public Team(int id, String name, int maxPlayers)
     {
-        this.id = id;
-        this.name = name;
-        this.idLeague = -1;
-        this.listPlayer = new ListPlayer(maxPlayers);
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(id, name, -1, maxPlayers);
     }
 
     /**
@@ -85,13 +90,9 @@ public class Team
      * @param name Nom de l'équipe
      * @param idLeague l'id de la ligue
      */
-    public Team(String name, int idLeague)
+    public Team(String name, int idLeague, ListPlayer listPlayer)
     {
-        this.id = -1;
-        this.name = name;
-        this.idLeague = idLeague;
-        this.listPlayer = new ListPlayer();
-        LoggerUtil.info("Création d'une équipe");
+        initTeam(-1, name, idLeague, listPlayer);
     }
 
     public int getId()
