@@ -1,4 +1,5 @@
 package ca.usherbrooke.fgen.api.backend;
+import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 
 public class Team
 {
@@ -7,9 +8,9 @@ public class Team
     private int idLeague;
     private ListPlayer listPlayer;
 
-    /*
+    /**
      * Fonction d'initialisation des parametres de la classe avec List déjà fait
-     */
+     **/
 
     public void initTeam(int id, String name, int idLeague, ListPlayer listPlayer)
     {
@@ -20,9 +21,9 @@ public class Team
         LoggerUtil.info("Création d'une équipe");
     }
 
-    /*
+    /**
      * Fonction d'initialisation des parametres de la classe avec creation List
-     */
+     **/
     public void  initTeam(int id, String name, int idLeague, int maxPlayers)
     {
         this.id = id;

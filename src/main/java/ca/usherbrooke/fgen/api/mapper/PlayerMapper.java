@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface PlayerMapper {
-    List<Player> selectPLayers();
+    List<Player> selectPlayers();
     Player selectOnePlayer(@Param("id") int id);
     void deleteOnePlayer(@Param("id") int id);
     void insertPlayer(Player player);
