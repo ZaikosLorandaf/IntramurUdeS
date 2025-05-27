@@ -45,7 +45,7 @@ build/
 
 docker/keycloak/data/setdata.sh
 
-docker/keycloak/data/startup-scripts/init.sh
+docker/keycloak/startup-scripts/init.sh
 
 docker/keycloak/startup-scripts/init.sh
 

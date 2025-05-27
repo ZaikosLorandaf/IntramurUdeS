@@ -33,7 +33,7 @@ function initKeycloak() {
 
 function logout(){
     keycloak.logout();
-    window.location.href = 'index.html';
+    // window.location.href = 'index-league.html';
 }
 
 initKeycloak()
@@ -114,10 +114,11 @@ function renderSports(sports) {
         if (roleNumber === 2){
             const addLeagueBtn = document.createElement('button');
             addLeagueBtn.className = 'btn btn-secondary mb-2';
-            addLeagueBtn.textContent = '➕ Modifier les ligues';
+            addLeagueBtn.textContent = 'Gérer les ligues';
             addLeagueBtn.addEventListener('click', () => {
-                alert(`Ajouter une ligue pour ${sport.name}`);
+                window.open(`./modals/index-league.html?sport=${sport.name}`, 'popupWindow', 'width=500,height=400');
             });
+
             collapseDiv.appendChild(addLeagueBtn);
         }
         // 🔁 Saisons
@@ -141,9 +142,9 @@ function renderSports(sports) {
     if (roleNumber === 2){
         const addSportBtn = document.createElement('button');
         addSportBtn.className = 'btn btn-secondary mb-2';
-        addSportBtn.textContent = '➕ Modifier les sports';
+        addSportBtn.textContent = 'Gérer les sports';
         addSportBtn.addEventListener('click', () => {
-            alert('Fonction pour ajouter un sport');
+            window.open(`./modals/index-sport.html`, 'popupWindow', 'width=500,height=400');
         });
         container.appendChild(addSportBtn);
     }
