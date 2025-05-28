@@ -38,7 +38,7 @@ public class League {
   public League(String name) {
     listTeam = new ListTeam();
     this.name = name;
-    id = rand.nextInt(1,32);
+    id = rand.nextInt(1,1000);
     LoggerUtil.info("Création de la ligue " + name);
   }
 
