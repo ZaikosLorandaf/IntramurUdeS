@@ -155,13 +155,13 @@
                 });
         }
 
-
         <!-- LEAGUES -->
         function listLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-            const sport = document.getElementById("nomSport");
+            const sport = document.getElementById("nomSport").value;
             axios.get("http://localhost:8888/api/listLigue/" + sport, {
+
 
             })
                 .then(function (response) {
@@ -171,23 +171,19 @@
                 .catch(function (error) {
                     span.innerHTML += '<div>Erreur : ' + error + '</div>';
                 });
-        }
-
+    }
 
         function addLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
-<<<<<<< HEAD
-            axios.get("http://localhost:8888/api/addLigue/"+nomLigue, {})
-=======
-            const nomSport = document.getElementById("nomSport");
+            const nomSport = document.getElementById("nomSport").value;
             axios.get("http://localhost:8888/api/addLigue/"+nomSport+"/"+nomLigue, {
 
             })
->>>>>>> ccbf013ab11682e9720e647f082d17d84f5328bc
+
                 .then(function (response) {
-                    span.innerHTML =
+                    span.innerHTML +=
                         '<br> nom : ' +  response.data;
                 })
                 .catch(function (error) {

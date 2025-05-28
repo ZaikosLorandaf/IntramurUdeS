@@ -14,12 +14,15 @@ public class OGClass
 {
     private MonVecteur mv;
     ListSport listeSport;
+    private MonVecteur mv;
 
     public OGClass() {
         mv = new MonVecteur();
         mv.message += "password = " + mv.password;
         listeSport = new ListSport();
         trashData();
+        Sport sport = new Sport("bb");
+        listeSport.addSport(sport);
     }
 
     /**
@@ -104,12 +107,13 @@ public class OGClass
 
     public String newLeague(String sport, String nom)
     {
-        if(!listeSport.getAllSports().contains(listeSport.getSport(nom)))
+
+        if(!listeSport.getAllSports().contains(listeSport.getSport(sport)))
         {
             return "Sport Error";
         }
         League newLeague = new League(nom);
-        boolean resultAdd = listeSport.getSport(nom).addLeague(newLeague);
+        boolean resultAdd = listeSport.getSport(sport).addLeague(newLeague);
         String result;
         if (!resultAdd) {
             result = "<div>erreur</div>";
@@ -123,6 +127,21 @@ public class OGClass
 //        return "<div> coco</div>";
     }
 
+    public String getLeague(String sport, String nom) {
+        if(!listeSport.getAllSports().contains(listeSport.getSport(sport))) return  "Sport Error";
+        League league = listeSport.getSport(sport).getListLeague().getLeague(nom);
+        String result;
+        if(league != null) {
+            result = league.getName();
+            System.out.println("League: " + result);
+        }
+        else {
+            result = "Pas de ligue appelé " + nom;
+        }
+        //result = "<div>" + result +  "</div>";
+        //String result = "<div> aaaaa </div>";
+        return result;
+    }
 
 //    public String removeLeague(String nom) {
 //        League league = listLeague.getLeague(nom);
@@ -141,6 +160,24 @@ public class OGClass
 //        return result;
 //    }
 
+    public String removeLeague(String sport, String nom) {
+        Sport getsport = listeSport.getSport(sport);
+        if ( sport == null) return  "Sport Error";
+        League league = getsport.getListLeague().getLeague(nom);
+        String result = "";
+        if(league != null) {
+            result = "Ligue retirée :" + league.getName();
+            listeSport.getSport(sport).getListLeague().removeLeague(league);
+            System.out.println("Ligue retirée: " + result);
+        }
+        else
+        {
+            result = "Pas de ligue appelé " + nom;
+        }
+        //result = "<div>" + result +  "</div>";
+        //String result = "<div> aaaaa </div>";
+        return result;
+    }
 
     public String getMessage() {
         return mv.message;

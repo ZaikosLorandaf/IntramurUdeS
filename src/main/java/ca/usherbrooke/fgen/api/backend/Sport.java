@@ -11,9 +11,18 @@ public class Sport {
         listLeague = new ListLeague();
     }
 
+
+    public  Sport(String name)
+    {
+        this.name = name;
+        listLeague = new ListLeague();
+        this.id = -1;
+    }
+
     public Sport() {
         this.id = -1;
         this.name = "";
+        listLeague = new ListLeague();
     }
 
     public int getId() {
