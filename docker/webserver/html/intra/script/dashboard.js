@@ -156,7 +156,7 @@ function showInfo(team) {
 
     let buttonHTML = "";
     if (roleNumber === 2) {
-        buttonHTML = `<button class="player-btn" onclick="modifierStats()">Modifier Stats</button>`;
+        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?equipe=${team}', 'popupWindow', 'width=500,height=400')">Modifier Stats</button>`;
     }
 
     document.getElementById("equipe-info").innerHTML = `
