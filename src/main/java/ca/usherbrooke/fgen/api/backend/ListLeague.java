@@ -84,6 +84,10 @@ public class ListLeague {
         return mapId.getOrDefault(id, null);
     }
 
+    public League getLeague(String name) {
+        return getLeague(mapNomId.getOrDefault(name, null));
+    }
+
     public List<Integer> getLeagueIds() {
         return new ArrayList<>(mapId.keySet());
     }

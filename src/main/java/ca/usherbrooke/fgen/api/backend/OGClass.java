@@ -200,8 +200,8 @@ public class OGClass
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
-        for (int i = 0; i < listeSport.getSport(nomSport).getListLeague().getSize(); i++) {
-            result += listeSport.getSport(nomSport).getListLeague().getLeagueByIndex(i).getName() + "</br>";
+        for (int i : listeSport.getSport(nomSport).getListLeague().getLeagueIds()) {
+            result += listeSport.getSport(nomSport).getListLeague().getLeague(i).getName() + "</br>";
         }
 
         return result;

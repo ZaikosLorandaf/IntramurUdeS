@@ -5,6 +5,7 @@ public class Player {
     private String name;
     private int idLastName;
     private String lastName;
+    private int number;
 
     private int idTeam;
 
