@@ -29,7 +29,7 @@ public class LeagueService {
     public List<League> getLeagues() {
         List<League> leagues = leagueMapper.selectAll();
         for (League league : leagues) {
-            ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+            ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
         }
         return unescapeEntities(leagues);
     }
@@ -41,7 +41,7 @@ public class LeagueService {
             @PathParam("id") Integer id
     ) {
         League league = leagueMapper.selectOne(id);
-        ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+        ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
         return unescapeEntities(league);
     }
 
@@ -52,7 +52,7 @@ public class LeagueService {
     ) {
         List<League> leagues = leagueMapper.selectFromSport(sportId);
         for (League league : leagues) {
-            ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+            ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
         }
         return unescapeEntities(leagues);
     }
@@ -64,7 +64,7 @@ public class LeagueService {
         leagueMapper.insertLeague(league);
 
         // Ajouter l'équipe à la ligue correspondante
-        ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+        ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
     }
 
     public static League unescapeEntities(League league) {

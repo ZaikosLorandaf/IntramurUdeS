@@ -1,6 +1,5 @@
 package ca.usherbrooke.fgen.api.backend;
 
-
 public class Sport {
     private int id;
     private String name;
@@ -13,9 +12,7 @@ public class Sport {
         listLeague = new ListLeague();
     }
 
-
-    public  Sport(String name)
-    {
+    public Sport(String name) {
         this.name = name;
         listLeague = new ListLeague();
         this.id = rand.nextInt(1,32);
@@ -26,12 +23,6 @@ public class Sport {
         this.name = "";
         listLeague = new ListLeague();
     }
-
-    public Sport(String name) {
-        this.id = -1;
-        this.name = name;
-    }
-
 
     public int getId() {
         return id;

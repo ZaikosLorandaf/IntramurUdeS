@@ -63,27 +63,27 @@ public class MonAPI {
     @GET
     @Path("listSport/{nom_sport}")
     public String getListSport(@PathParam("nom_sport") String nom_sport) {
-        return monService.listSport(nom_sport);
+        return ogClass.listSport(nom_sport);
     }
 
     @GET
     @Path("addLigue/{nom_sport}")
     public String addSport( @PathParam("nom_sport") String sport) {
-		return monService.newSport(sport);
+		return ogClass.newSport(sport);
     }
 
     @GET
     @Path("getSport/{nom_sport}")
     public String getSport(
             @PathParam("nom_sport") String nom_sport) {
-        return monService.getSport(nom_sport);
+        return ogClass.getSport(nom_sport);
     }
 
     @GET
     @Path("removeSport/{nom_sport}")
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {
-        return monService.removeSport(nomSport);
+        return ogClass.removeSport(nomSport);
     }
 
     // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
@@ -134,7 +134,7 @@ public class MonAPI {
     public String getTeams(
             @PathParam("nom_sport") String nom_sport,
             @PathParam("ligue") String ligue) {
-        return monService.getTeams(nom_sport,ligue);
+        return ogClass.getTeams(nom_sport,ligue);
     }
 
     @GET

@@ -21,14 +21,12 @@ public class ListSport {
      * @return Le nombre de sports ajoutés
      */
     public int addSport(Sport sport) {
-
         if (!this.mapId.containsKey(sport.getId()) && !this.mapNomId.containsKey(sport.getName())) {
             this.mapId.put(sport.getId(), sport);
             this.mapNomId.put(sport.getName(), sport.getId());
             LoggerUtil.info("Ajout du sport " + sport.getName());
             return 1;
-        }
-        else {
+        } else {
             LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");
             return 0;
         }
@@ -42,10 +40,9 @@ public class ListSport {
      */
     public int addSports(List<Sport> sports) {
         int counter = 0;
-        for (Sport sport : sports) {
+        for (Sport sport : sports)
             counter += this.addSport(sport);
 
-        }
         return counter;
     }
 
@@ -104,8 +101,6 @@ public class ListSport {
     public Sport getSport(int id) {
         return this.mapId.getOrDefault(id, null);
     }
-
-
 
     public Sport getSport(String nom) {
         return this.mapId.getOrDefault(this.mapNomId.get(nom), null);

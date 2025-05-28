@@ -30,7 +30,7 @@ public class ListLeague {
         if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());
-            ogClass.getListeSport().addLeagueMap(league);
+            ogClass.getSportList().addLeagueMap(league);
             LoggerUtil.info("Ajout de la ligue " + league.getName());
             return 1;
         }
