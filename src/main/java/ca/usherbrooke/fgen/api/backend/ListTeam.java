@@ -1,33 +1,25 @@
 package ca.usherbrooke.fgen.api.backend;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 public class ListTeam {
-    private Vector<Team> list;
-    private int maxTeam;
-    private Map<String,Integer> dict = new HashMap<String,Integer>();
+
+    private Map<Integer, Team> mapId;
+    private Map<String, Integer> mapNomId;
 
     /**
      * Constructeur de base
      */
     public ListTeam() {
-        maxTeam = 100;
-        list = new Vector<Team>();
-        LoggerUtil.info("Création du vecteur d'équipe");
+        this.mapId = new HashMap<>();
+        this.mapNomId = new HashMap<>();
+        LoggerUtil.info("Création de la liste d'équipe");
     }
 
-    /**
-     * Constructeur paramétré avec la quantité d'équipe maximum
-     *
-     * @param max quantité d'équipe maximum
-     */
-    public ListTeam(int max) {
-        maxTeam = max;
-        list = new Vector<Team>();
-        LoggerUtil.info("Création du vecteur d'équipe");
-    }
+
 
 
     /**
@@ -36,70 +28,74 @@ public class ListTeam {
      * @param team L'équipe à ajouter
      */
     public boolean addTeam(Team team) {
-        System.out.println(dict);
-        if (team == null || dict.containsKey(team.getName()))
-        {
-            LoggerUtil.error("Impossible de rajouter l'équipe au vecteur");
+        if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
+            this.mapId.put(team.getId(), team);
+            LoggerUtil.info("Ajout de l'équipe " + team.getName());
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
             return false;
         }
-        this.dict.put(team.getName(), list.size());
-        this.list.addElement(team);
-        LoggerUtil.info("Succès de l'ajout de l'équipe au vecteur");
-        return true;
     }
 
     /**
-     * Retirer une équipe au vecteur en fonction de l'équipe
+     * Ajouter une liste équipe à la liste
+     * @param teams Liste des équipes à ajouter
+     * @return
+     */
+    public int addTeam(List<Team> teams) {
+        int counter = 0;
+        for (Team team : teams) {
+            if (addTeam(team))
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+
+
+    public boolean removeTeam(int id) {
+        if(mapId.containsKey(id) && mapNomId.containsKey(mapId.get(id).getName())) {
+            LoggerUtil.warning("Retrait de l'équipe " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapNomId.remove(mapId.get(id).getName());
+            mapId.remove(id);
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Échec du retrait de l'équipe " + mapId.get(id).getName() + "(id: " + id + ").");
+            return false;
+        }
+    }
+
+
+    /**
+     * Retirer une équipe de la liste en fonction de l'équipe
      *
      * @param team Équipe à retirer
      * @return true si une équipe a été retirée, sinon false
      */
     public boolean removeTeam(Team team) {
-        LoggerUtil.warning("Tentative de retrait d'une équipe");
-        return this.list.removeElement(team);
+        return removeTeam(team.getId());
     }
 
-    /**
-     * Retirer une équipe au vecteur selon son index
-     *
-     * @param index L'index de l'équipe à retirer
-     * @return L'équipe qui a été retirée
-     */
-    public boolean removeTeam(int index) {
-        if (index >= this.list.size() || index < 0 || index >= this.maxTeam || !this.dict.containsKey(list.get(index).getName()))
-        {
-            LoggerUtil.error("Impossible de retirer l'équipe du vecteur");
-            return false;
-        }
-        Map<String, Integer> tempDict = new HashMap<>();
-        dict.remove(list.get(index).getName());
-        this.list.remove(index);
-        for (int i = 0; i < list.size(); i++) {
-            tempDict.put(list.get(i).getName(), i);
-        }
-        System.out.println("Changement de ca à ca");
-        System.out.println(dict);
-        System.out.println(tempDict);
-        dict = tempDict;
-        LoggerUtil.info("Retrait de l'équipe du vecteur avec succès");
-        return true;
-    }
+
 
     /**
      * GetTeam
-     * @param index index de l'équipe
+     * @param id id de l'équipe
      * @return Objet de type Team si l'index est valide sinon retourne null
      */
-    public Team getTeam(int index)
+    public Team getTeam(int id)
     {
-        try{
-            return list.get(index);
-        }
-        catch (Exception e)
-        {
-            LoggerUtil.error("Impossible de getTeam");
-            return null;
-        }
+        return mapId.getOrDefault(id, null);
+    }
+
+    public Team getTeam(String name)
+    {
+        return this.getTeam(this.mapNomId.getOrDefault(name, null));
     }
 
     /**
@@ -107,13 +103,13 @@ public class ListTeam {
      */
     public void printListTeam()
     {
-        if(list.size() <= 0)
+        if(mapId.size() <= 0)
         {
             System.out.println("Pas d'équipe");
             return;
         }
         System.out.println("-----base.ListTeam-----");
-        for(int i = 0; i < list.size(); i++)
+        for(int i : mapId.keySet())
         {
             getTeam(i).printTeam();
         }
@@ -124,24 +120,12 @@ public class ListTeam {
     /**
      * Enleve toutes les équipes dans la liste
      */
-    public void wipeList(){
-        this.list.removeAllElements();
+    public void clearList(){
+        this.mapId.clear();
     }
 
     public int getSize()
     {
-        return list.size();
-    }
-
-    public Team getTeam(String name)
-    {
-        int index;
-        if (dict.containsKey(name)) {
-            index = dict.get(name);
-        }
-        else{
-            return null;
-        }
-        return list.elementAt(index);
+        return mapId.size();
     }
 }

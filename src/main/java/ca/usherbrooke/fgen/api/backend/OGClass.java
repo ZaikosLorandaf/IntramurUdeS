@@ -11,6 +11,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class OGClass {
+    private MonVecteur mv;
     ListSport listeSport;
 
     public OGClass() {
@@ -18,6 +19,16 @@ public class OGClass {
         mv.message += "password = " + mv.password;
         listeSport = new ListSport();
         trashData();
+        Sport sport = new Sport("bb");
+        listeSport.addSport(sport);
+    }
+
+    /**
+     * Getter pour la listeSport
+     * @return L'objet ListeSport
+     */
+    public ListSport getListeSport() {
+        return listeSport;
     }
 
     public String getEquipesData(String nomSport, String nomLigue) {
@@ -56,14 +67,15 @@ public class OGClass {
     public String getSportLeague() {
         JSONArray sports = new JSONArray();
 
-        for (int i = 0; i < listeSport.getSize(); i++) {
+        for (int i: listeSport.getMapSports().keySet()) {
             Sport sport = listeSport.getSport(i);
-
+            if (sport==null)
+                return "error sport dans la liste";
             // Récupère les noms des ligues de ce sport
             ListLeague leagues = sport.getListLeague();
             List<String> leagueNames = new ArrayList<>();
-            for (int j = 0; j < leagues.getSize(); j++) {
-                leagueNames.add(leagues.getLeagueByIndex(j).getName());
+            for (int j : leagues.getLeagueIds()) {
+                leagueNames.add(leagues.getLeague(j).getName());
             }
 
             // Ajoute le sport et ses ligues dans le JSON
@@ -80,12 +92,12 @@ public class OGClass {
 
 
     public void trashData(){
-        Sport bb = new Sport("Basket Ball", -1);
+        Sport bb = new Sport("Basket Ball");
         bb.addLeague(new League("Tintin au congo"));
         bb.addLeague(new League("Les pythoniste"));
         listeSport.addSport(bb);
 
-        Sport vb = new Sport("Volley Ball", -2);
+        Sport vb = new Sport("Volley Ball");
         vb.addLeague(new League("Les coucouille de Gerard"));
         vb.addLeague(new League("Les c++ teams"));
         listeSport.addSport(vb);
@@ -170,9 +182,9 @@ public class OGClass {
         }
 
         League newLeague = new League(nom);
-        boolean resultAdd = listeSport.getSport(nom).addLeague(newLeague);
+        int resultAdd = listeSport.getSport(sport).addLeague(newLeague);
         String result;
-        if (!resultAdd) {
+        if (resultAdd == 0) {
             result = "<div>erreur</div>";
         } else {
             result = "<div>";
@@ -183,8 +195,8 @@ public class OGClass {
     }
 
     public String getLeague(String sport, String nom) {
-        if(!listeSport.getAllSports().contains(listeSport.getSport(nom))) return  "Sport Error";
-        League league = listeSport.getSport(nom).getListLeague().getLeague(nom);
+        if(!listeSport.getAllSports().contains(listeSport.getSport(sport))) return  "Sport Error";
+        League league = listeSport.getSport(sport).getListLeague().getLeague(nom);
         String result;
         if(league != null) {
             result = league.getName();
@@ -198,8 +210,25 @@ public class OGClass {
         return result;
     }
 
+//    public String removeLeague(String nom) {
+//        League league = listLeague.getLeague(nom);
+//        String result = "";
+//        if(league != null) {
+//            result = "Ligue retirée :" + league.getName();
+//            listLeague.removeLeague(league);
+//            System.out.println("Ligue retirée: " + result);
+//        }
+//        else
+//        {
+//            result = "Pas de ligue appelé " + nom;
+//        }
+//        //result = "<div>" + result +  "</div>";
+//        //String result = "<div> aaaaa </div>";
+//        return result;
+//    }
+
     public String removeLeague(String sport, String nom) {
-        Sport getsport = listeSport.getSport(nom);
+        Sport getsport = listeSport.getSport(sport);
         if ( sport == null) return  "Sport Error";
         League league = getsport.getListLeague().getLeague(nom);
         String result = "";
@@ -213,7 +242,6 @@ public class OGClass {
         return result;
     }
 
-
     public String getMessage() {
         return mv.message;
     }
@@ -225,7 +253,7 @@ public class OGClass {
 
     public String addTeam(String nomSport, String nomLigue, String nomEquipe) {
         String result;
-        League league = listeSport.getSport(nomLigue).getListLeague().getLeague(nomLigue);
+        League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null) {
             result = "Ligue introuvable";
         } else {
@@ -241,7 +269,7 @@ public class OGClass {
     }
 
     public String listTeam(String nomSport, String nomLigue) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         String result = "";
@@ -261,9 +289,20 @@ public class OGClass {
         return result;
     }
 
+//    public String listLeague() {
+//        String result = "";
+//        if(listLeague.getSize() <= 0) {
+//            return "<div>Pas de ligue</div>";
+//        }
+//        for (int i = 0; i < listLeague.getSize(); i++) {
+//            result += listLeague.getLeagueByIndex(i).getName() + "</br>";
+//        }
+//
+//        return result;
+//    }
 
     public String listLeague(String nomSport) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
 
@@ -271,16 +310,15 @@ public class OGClass {
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
             return "<div>Pas de ligue</div>";
         }
-        for (int i = 0; i < listeSport.getSport(nomSport).getListLeague().getSize(); i++) {
-            result += listeSport.getSport(nomSport).getListLeague().
-                getLeagueByIndex(i).getName() + "</br>";
+        for (int i : listeSport.getSport(nomSport).getListLeague().getLeagueIds()) {
+            result += listeSport.getSport(nomSport).getListLeague().getLeague(i).getName() + "</br>";
         }
 
         return result;
     }
 
     public String removeTeam(String nomSport, String nomLigue, String nomEquipe) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
@@ -294,10 +332,10 @@ public class OGClass {
             return "<div>Équipe retirée</div>";
         }
         return "<div>Erreur lors du retrait d'équipe</div>";
-    }
+        }
 
     public String addPlayer(String nomSport, String nomLigue, String nomEquipe,String prenomJoueur, String nomJoueur) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
@@ -315,7 +353,7 @@ public class OGClass {
     }
 
     public String listPlayer(String nomSport, String nomLigue, String nomEquipe) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         String result = "";
@@ -339,7 +377,10 @@ public class OGClass {
     }
 
 
-    public String removePlayer(String nomSport, String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
+    public String removePlayer(String nomSport, String nomLigue, String nomEquipe, int numberPlayer) {
+        if (listeSport.getSport(nomSport) == null) {
+            return "Erreur Sport";
+        }
         League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null)
             return "<div>Ligue non-trouvée</div>";
@@ -348,7 +389,7 @@ public class OGClass {
         if (team == null)
             return "<div>Équipe non-trouvée</div>";
 
-        Player player = team.getListPlayer().getPlayer(prenomJoueur,nomJoueur);
+        Player player = team.getListPlayer().getPlayer(numberPlayer);
         if(player == null)
             return "<div>Joueur non-trouvé</div>";
 
@@ -357,5 +398,5 @@ public class OGClass {
 
         return "<div>Erreur lors du retrait du joueur</div>";
     }
-    private MonVecteur mv;
+
 }

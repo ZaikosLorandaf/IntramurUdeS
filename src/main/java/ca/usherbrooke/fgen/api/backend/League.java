@@ -11,6 +11,7 @@ public class League {
   private Time timeEnd;
   private int idSport;
   private boolean done = false;
+  private java.util.Random rand = new java.util.Random();
   /**
    * Base Constructor, creates an empty league
    */
@@ -37,7 +38,7 @@ public class League {
   public League(String name) {
     listTeam = new ListTeam();
     this.name = name;
-    id = -1;
+    id = rand.nextInt(1,1000);
     LoggerUtil.info("Création de la ligue " + name);
   }
 
@@ -62,6 +63,29 @@ public class League {
   }
 
   /**
+   * Constructor for a league and add it to the league list of the sport
+   * @param id Id of the league
+   * @param name Name of the league
+   * @param weekDay The day of the week where the league takes place
+   * @param timeStart The time where the league starts
+   * @param timeEnd The time where the league ends
+   * @param idSport The id of the sport of the league
+   * @param nameSport Name of the sport of the league
+   */
+  public League(int id, String name, String weekDay, Time timeStart, Time timeEnd, int idSport, String nameSport) {
+    this.id = id;
+    this.name = name;
+    this.weekDay = weekDay;
+    this.timeStart = timeStart;
+    this.timeEnd = timeEnd;
+    this.idSport = idSport;
+    this.done = false;
+    this.listTeam = new ListTeam();
+  }
+
+
+
+  /**
    * Creates and add a new team in the league
    *
    * @param id         int: Team ID
@@ -72,7 +96,7 @@ public class League {
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
     LoggerUtil.info("Tentative de création d'équipe " + name);
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -80,7 +104,7 @@ public class League {
     ListPlayer listPlayer = new ListPlayer();
     Team newTeam = new Team(id, name, listPlayer);
     LoggerUtil.info("Tentative de création de l'équipe " + name);
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -88,7 +112,7 @@ public class League {
     ListPlayer listPlayer = new ListPlayer();
     Team newTeam = new Team(-1, name, listPlayer);
     LoggerUtil.info("Tentative de création d'équipe");
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -97,7 +121,7 @@ public class League {
    *
    * @param team Team: A Team item to be added to the league
    * @return Boolean
-   */
+//   */
   public boolean addTeam(Team team) {
     return listTeam.addTeam(team);
   }
@@ -149,7 +173,7 @@ public class League {
    *
    * @return int: League's ID
    */
-  public int getID() {
+  public int getId() {
     return id;
   }
 

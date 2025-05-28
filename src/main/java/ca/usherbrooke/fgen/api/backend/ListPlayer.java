@@ -1,86 +1,76 @@
 package ca.usherbrooke.fgen.api.backend;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class ListPlayer {
-    private int maxPlayer;
-    private Vector<Player> list;
-    private Map<String, Integer> dict = new HashMap<>();
+    private Map<Integer, Player> mapId;
+    private Map<Integer, Integer> mapNumberId;
 
-    /**
-     * Constructeur avec un max
-     * @param max Quantité max de joueur dans la liste
-     */
-    public ListPlayer(int max) {
-        if (max < 1)
-        {
-            LoggerUtil.error("Impossible de créer le vecteur de joueur");
-            return;
-        }
-        maxPlayer = max;
-        list = new Vector<Player>();
-        LoggerUtil.info("Création du vecteur de joueur");
-    }
+
 
     /**
      * Constructeur par défaut
      */
     public ListPlayer() {
-        maxPlayer = 100;
-        list = new Vector<Player>();
-        LoggerUtil.info("Création du vecteur de joueur");
+        mapId = new HashMap<Integer, Player>();
+        mapNumberId = new HashMap<>();
+        LoggerUtil.info("Création de la liste de joueur");
     }
 
     /**
      * Ajout d'un joueur dans le veteur
-     * @param obj Objet de classe Joueur à ajouter
+     * @param player Objet de classe Joueur à ajouter
      * @return false if list over max size
      */
-    public boolean addPlayer(Player obj)
+    public boolean addPlayer(Player player)
     {
+        if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
+            mapId.put(player.getId(), player);
+            mapNumberId.put(player.getNumber(), player.getId());
 
-        if (list.size() >= maxPlayer || dict.containsKey(obj.getName() + ";" + obj.getLastName())) {
-            LoggerUtil.error("Erreur lors de l'ajout du joueur dans le vecteur");
-            return false;
+
+
+            LoggerUtil.info("Ajout du joueur " + player.getName());
+            return true;
         }
-        dict.put(obj.getName() + ";" + obj.getLastName(), list.size());
-        list.addElement(obj);
-        System.out.println(dict);
-        LoggerUtil.info("L'ajout du joueur dans le vecteur fut un succès!");
-        return true;
+        else {
+            LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
+            return false ;
+        }
     }
+
+
+    public int addPlayer(List<Player> players) {
+        int counter = 0;
+        for (Player player : players) {
+            if (addPlayer(player))
+            {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
 
     /**
      * Retire un joueur du vecteur à partir de l'index
-     * @param index Index du joueur à retirer
+     * @param id Id du joueur à retirer
      * @return faux si index out of bound sinon vrai
      */
-    public boolean removePlayer(int index)
+    public boolean removePlayer(int id)
     {
-        if (list.isEmpty() || list.size() <= index || !dict.containsKey(list.get(index).getName() + ";" + list.get(index).getLastName()))
-        {
-            LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
+        if(mapId.containsKey(id) && mapNumberId.containsKey(mapId.get(id).getNumber())) {
+            LoggerUtil.warning("Retrait du joueur " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapNumberId.remove(mapId.get(id).getNumber());
+            mapId.remove(id);
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Échec du retrait du sport " + mapId.get(id).getName() + "(id: " + id + ").");
             return false;
         }
-        Map <String, Integer> tempDict = new HashMap<>();
-        dict.remove(list.get(index).getName() + ";" + list.get(index).getLastName());
-        list.remove(index);
-        for (int i = 0; i < list.size(); i++) {
-            if (i < index)
-            {
-                tempDict.put(list.get(i).getName() + ";" + list.get(index).getLastName(), i);
-            }
-            else{
-                tempDict.put(list.get(i).getName() + ";" + list.get(index).getLastName(), i - 1);
-            }
-        }
-        dict = tempDict;
-        System.out.println(dict);
-        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
-
-        return true;
     }
 
     /**
@@ -90,102 +80,46 @@ public class ListPlayer {
      */
     public boolean removePlayer(Player player)
     {
-        if (list.isEmpty() || !dict.containsKey(player.getName() + ";" + player.getLastName()))
-        {
-            LoggerUtil.error("Erreur lors du retrait du joueur dans le vecteur");
-            return false;
-        }
-        Map <String, Integer> tempDict = new HashMap<>();
-        int index = list.indexOf(player);
-        dict.remove(player.getName());
-        list.remove(player);
-        for (int i = 0; i < list.size(); i++) {
-            tempDict.put(list.get(i).getName()+";"+list.get(i).getLastName(), i);
-        }
-//        System.out.println("Changement de ca à ca");
-//        System.out.println(dict);
-//        System.out.println(tempDict);
-        dict = tempDict;
-        System.out.println(dict);
-        LoggerUtil.info("Le retrait du joueur dans le vecteur fut un succès");
-        return true;
+        return removePlayer(player.getId());
+    }
+
+    public boolean removePlayerByNumber(int number)
+    {
+        return this.removePlayer(mapNumberId.getOrDefault(number, null));
     }
 
     /**
-     * Get le joueur dans le vecteur
-     * @param index index du vecteur
-     * @return retourne le joueur ou null si index out of bounds
+     * Get le joueur dans la liste
+     * @param id id du joueur
+     * @return Retourne le joueur s'il existe, sinon null
      */
-    public Player getPlayer(int index)
+    public Player getPlayer(int id)
     {
-        try
-        {
-            return list.get(index);
-        }
-        catch (Exception e)
-        {
-            LoggerUtil.error("Erreur lors du getPlayer");
-            return null;
-        }
+        return mapId.getOrDefault(id, null);
     }
 
-    public Player getPlayer(String firstName, String lastName)
+    public Player getPlayerByNumber(int number)
     {
-        if(dict.containsKey(firstName + ";" + lastName))
-        {
-            return list.get(dict.get(firstName + ";" + lastName));
-        }
-        return null;
+        return this.getPlayer(mapNumberId.getOrDefault(number, null));
     }
 
-    /**
-     * Get l'index du Joueur dans le vecteur
-     * @param player Joueur ou l'on veut l'index
-     * @return l'index du joueur ou -1 si pas trouvé
-     */
-    public int getIndex(Player player)
-    {
-        return list.indexOf(player);
-    }
+
 
     /**
      * Affiche ce que contient la liste pour tester
      */
     public void printList() {
-        if (list.size() <= 0) System.out.println("Liste vide");
+        if (this.getSize() <= 0) System.out.println("Liste vide");
         else {
             System.out.println("------LISTE------");
-            System.out.printf("Size = %d\nMax = %d\n",getSize(),getMaxPlayer());
-            for (int i = 0; i < list.size(); i++) {
+            System.out.printf("Size = %d\n",getSize());
+            for (int i : this.mapId.keySet()) {
                 getPlayer(i).printPlayer();
             }
             System.out.println("------FIN------");
         }
     }
 
-    /**
-     *  Get la quantité max de joueur possible dans le vecteur
-     * @return quantité max de joueur possible dans le vecteur
-     */
-    public int getMaxPlayer() {
-        return maxPlayer;
-    }
-
-    /**
-     * Donne une nouvelle taille de joueur maximum dans le vecteur
-     * @param max quantité de joueur maximum
-     * @return faux si max est plus petit que la taille du vecteur sinon vrai
-     */
-    public boolean setMaxPlayer(int max) {
-        if(max >= getSize())
-        {
-            maxPlayer = max;
-            LoggerUtil.info("Changement du nombre maximum de joueur dans le vecteur");
-            return true;
-        }
-        LoggerUtil.error("Erreur dans le changeent du nombre maximum de joueur dans le vecteur");
-        return false;
-    }
 
     /**
      * Get la quantité de Joueur dans le vecteur
@@ -193,19 +127,7 @@ public class ListPlayer {
      */
     public int getSize()
     {
-        return list.size();
-    }
-
-    public Player getPLayer(String name)
-    {
-        int index;
-        if (dict.containsKey(name)) {
-            index = dict.get(name);
-        }
-        else{
-            return null;
-        }
-        return list.elementAt(index);
+        return mapId.size();
     }
 }
 

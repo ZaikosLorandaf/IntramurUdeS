@@ -12,11 +12,11 @@ import javax.inject.Inject;
 public class GetIndex {
 
     @Inject
-    OGClass monService;
+    OGClass ogClass;
 
     @GET
     @Path("get_sport_ligue")
     public String getSportLeague() {
-        return monService.getSportLeague();
+        return ogClass.getSportLeague();
     }
 }

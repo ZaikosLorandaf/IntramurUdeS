@@ -1,9 +1,11 @@
 package ca.usherbrooke.fgen.api.backend;
 
+
 public class Sport {
     private int id;
     private String name;
     private ListLeague listLeague;
+    java.util.Random rand = new java.util.Random();
 
     public Sport(String name, int id) {
         this.id = id;
@@ -11,9 +13,18 @@ public class Sport {
         listLeague = new ListLeague();
     }
 
+
+    public  Sport(String name)
+    {
+        this.name = name;
+        listLeague = new ListLeague();
+        this.id = rand.nextInt(1,32);
+    }
+
     public Sport() {
         this.id = -1;
         this.name = "";
+        listLeague = new ListLeague();
     }
 
     public Sport(String name) {
@@ -42,7 +53,7 @@ public class Sport {
         return listLeague;
     }
 
-    public boolean addLeague(League league) {
+    public int addLeague(League league) {
         return listLeague.addLeague(league);
     }
 }

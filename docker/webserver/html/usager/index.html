@@ -15,12 +15,10 @@
             });
             keycloak.init({onLoad: 'login-required'}).then(function (authenticated) {
                 alert(authenticated ? 'authenticated' : 'not authenticated');
-
             }).catch(function () {
                 alert('failed to initialize');
             });
         }
-
 
         function requestStudent() {
             const div = document.getElementById('title');
@@ -79,7 +77,6 @@
         function myAPI() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             axios.get("http://localhost:8888/api/monendpoint", {
                 headers: {
                     'Authorization': 'Bearer ' + keycloak.token
@@ -98,21 +95,17 @@
         function myAPIJojojo() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             axios.get("http://localhost:8888/api/monendpointJojojo", {
                 headers: {
                     'Authorization': 'Bearer ' + keycloak.token
                 }
             })
                 .then(function (response) {
-
-                    // span.innerHTML = '<div>' + response.data + '</div>';
                 })
                 .catch(function (error) {
                     span.innerHTML = '<div>Erreur : ' + error + '</div>';
                 });
         }
-
 
         <!-- SPORTS -->
         function listSport() {
@@ -160,7 +153,7 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removeSport/"+nomSport, { })
+            axios.get("http://localhost:8888/api/removeSport/"+nomSport, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;
@@ -170,16 +163,12 @@
                 });
         }
 
-
-
         <!-- LEAGUES -->
         function listLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
-            axios.get("http://localhost:8888/api/listLigue/", {
-
-            })
+            const sport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listLigue/" + sport, {})
                 .then(function (response) {
                     span.innerHTML +=
                         response.data;
@@ -187,14 +176,14 @@
                 .catch(function (error) {
                     span.innerHTML += '<div>Erreur : ' + error + '</div>';
                 });
-        }
-
+    }
 
         function addLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
-            axios.get("http://localhost:8888/api/addLigue/"+nomLigue, {})
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/addLigue/"+nomSport+"/"+nomLigue, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;
@@ -204,11 +193,9 @@
                 });
         }
 
-
         function getLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomLigue =document.getElementById("nomLigue").value;
             axios.get("http://localhost:8888/api/getLigue/"+nomLigue, {})
                 .then(function (response) {
@@ -220,12 +207,12 @@
                 });
         }
 
-
         function removeLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
-            axios.get("http://localhost:8888/api/removeLigue/"+nomLigue, {})
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removeLigue/"+nomSport+"/"+nomLigue, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;
@@ -239,11 +226,9 @@
         function listTeam() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomLigue =document.getElementById("nomLigue").value;
-            axios.get("http://localhost:8888/api/listTeam/" + nomLigue, {
-
-            })
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listTeam/" +nomSport+"/"+ nomLigue, {})
                 .then(function (response) {
                     span.innerHTML +=
                         response.data;
@@ -258,9 +243,8 @@
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/addTeam/"+nomLigue+"/"+nomTeam, {
-
-            })
+            const nomSport =document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/addTeam/"+nomSport+"/"+nomLigue+"/"+nomTeam, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -274,12 +258,10 @@
         function removeTeam() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/removeTeam/"+ nomLigue +"/"+nomTeam, {
-
-            })
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removeTeam/"+nomSport+"/"+ nomLigue +"/"+nomTeam, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -288,7 +270,6 @@
                     span.innerHTML += '<div>Erreur : ' + error + '</div>';
                 });
         }
-
 
         function requestMessage() {
             const div = document.getElementById('title');
@@ -322,14 +303,12 @@
         function addPlayer() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomTeam =document.getElementById("nomTeam").value;
+            const nomSport = document.getElementById("nomSport").value;
             const nomLigue =document.getElementById("nomLigue").value;
             const prenomPlayer =document.getElementById("prenomPlayer").value;
             const nomPlayer =document.getElementById("nomPlayer").value;
-            axios.get("http://localhost:8888/api/addPlayer/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {
-
-            })
+            axios.get("http://localhost:8888/api/addPlayer/"+nomSport+"/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -342,12 +321,10 @@
         function listPlayer() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomLigue =document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/listPlayer/" + nomLigue + "/" + nomTeam, {
-
-            })
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listPlayer/" +nomSport+"/"+ nomLigue + "/" + nomTeam, {})
                 .then(function (response) {
                     span.innerHTML +=
                         response.data;
@@ -360,14 +337,12 @@
         function removePlayer() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
             const prenomPlayer = document.getElementById("prenomPlayer").value;
             const nomPlayer = document.getElementById("nomPlayer").value;
-            axios.get("http://localhost:8888/api/removePlayer/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {
-
-            })
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removePlayer/"+nomSport+"/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';

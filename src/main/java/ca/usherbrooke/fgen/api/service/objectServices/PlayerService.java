@@ -1,14 +1,13 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 
+import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Player;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +15,16 @@ import java.util.stream.Collectors;
 public class PlayerService {
     @Inject
     PlayerMapper playerMapper;
+    @Inject
+    OGClass ogClass;
 
     @GET
     public List<Player> getPlayers() {
         List<Player> players = playerMapper.selectPlayers();
+        for (Player player : players) {
+            ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
+        }
+
         return unescapeEntities(players);
     }
 
@@ -29,7 +34,18 @@ public class PlayerService {
             @PathParam("id") Integer id
     ) {
         Player player = playerMapper.selectOnePlayer(id);
+        ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
         return unescapeEntities(player);
+    }
+
+    @POST
+    @Consumes("application/json")
+    public void addPlayer(Player player) {
+        // Ajouter l'équipe à la base de données via le mapper
+        playerMapper.insertPlayer(player);
+
+        // Ajouter l'équipe à la ligue correspondante
+        ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
     }
 
     public static Player unescapeEntities(Player player) {
