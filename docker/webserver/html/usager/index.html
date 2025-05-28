@@ -212,7 +212,8 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
-            axios.get("http://localhost:8888/api/removeLigue/"+nomLigue, {
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removeLigue/"+nomSport+"/"+nomLigue, {
 
             })
                 .then(function (response) {
@@ -230,7 +231,8 @@
             const span = div.firstElementChild;
 
             const nomLigue =document.getElementById("nomLigue").value;
-            axios.get("http://localhost:8888/api/listTeam/" + nomLigue, {
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listTeam/" +nomSport+"/"+ nomLigue, {
 
             })
                 .then(function (response) {
@@ -247,7 +249,8 @@
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/addTeam/"+nomLigue+"/"+nomTeam, {
+            const nomSport =document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/addTeam/"+nomSport+"/"+nomLigue+"/"+nomTeam, {
 
             })
                 .then(function (response) {
@@ -266,7 +269,8 @@
 
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/removeTeam/"+ nomLigue +"/"+nomTeam, {
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removeTeam/"+nomSport+"/"+ nomLigue +"/"+nomTeam, {
 
             })
                 .then(function (response) {
@@ -312,11 +316,12 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
 
+            const nomSport = document.getElementById("nomSport").value;
             const nomTeam =document.getElementById("nomTeam").value;
             const nomLigue =document.getElementById("nomLigue").value;
             const prenomPlayer =document.getElementById("prenomPlayer").value;
             const nomPlayer =document.getElementById("nomPlayer").value;
-            axios.get("http://localhost:8888/api/addPlayer/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {
+            axios.get("http://localhost:8888/api/addPlayer/"+nomSport+"/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {
 
             })
                 .then(function (response) {
@@ -334,7 +339,8 @@
 
             const nomLigue =document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            axios.get("http://localhost:8888/api/listPlayer/" + nomLigue + "/" + nomTeam, {
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listPlayer/" +nomSport+"/"+ nomLigue + "/" + nomTeam, {
 
             })
                 .then(function (response) {
@@ -354,7 +360,8 @@
             const nomTeam =document.getElementById("nomTeam").value;
             const prenomPlayer = document.getElementById("prenomPlayer").value;
             const nomPlayer = document.getElementById("nomPlayer").value;
-            axios.get("http://localhost:8888/api/removePlayer/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removePlayer/"+nomSport+"/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {
 
             })
                 .then(function (response) {

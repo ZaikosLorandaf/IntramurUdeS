@@ -165,7 +165,7 @@ public class OGClass {
     {
 
         String result;
-        League league = listeSport.getSport(nomLigue).getListLeague().getLeague(nomLigue);
+        League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null) {
             result = "Ligue introuvable";
         } else {
@@ -182,7 +182,7 @@ public class OGClass {
 
     public String listTeam(String nomSport, String nomLigue)
     {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         String result = "";
@@ -205,7 +205,7 @@ public class OGClass {
 
 
     public String listLeague(String nomSport) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
 
@@ -223,7 +223,7 @@ public class OGClass {
 
 
     public String removeTeam(String nomSport, String nomLigue, String nomEquipe) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         if(listeSport.getSport(nomSport).getListLeague().getSize() <= 0) {
@@ -243,7 +243,7 @@ public class OGClass {
     }
 
     public String addPlayer(String nomSport, String nomLigue, String nomEquipe,String prenomJoueur, String nomJoueur) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
@@ -261,7 +261,7 @@ public class OGClass {
     }
 
     public String listPlayer(String nomSport, String nomLigue, String nomEquipe) {
-        if (listeSport.getSport(nomSport) != null) {
+        if (listeSport.getSport(nomSport) == null) {
             return "Erreur Sport";
         }
         String result = "";
@@ -289,6 +289,9 @@ public class OGClass {
 
 
     public String removePlayer(String nomSport, String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
+        if (listeSport.getSport(nomSport) == null) {
+            return "Erreur Sport";
+        }
         League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null)
         {
