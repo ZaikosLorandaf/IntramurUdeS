@@ -50,3 +50,5 @@ docker/keycloak/startup-scripts/init.sh
 docker/keycloak/startup-scripts/init.sh
 
 .idea/dataSources.xml
+
+docker/keycloak/data/startup-scripts/init.sh

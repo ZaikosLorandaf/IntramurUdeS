@@ -144,15 +144,14 @@ public class MonAPI {
     }
 
     @GET
-    @Path("removePlayer/{nom_sport}/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
+    @Path("removePlayer/{nom_sport}/{nom_ligue}/{nom_equipe}/{number_player}")
     public String removePlayer(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
-            @PathParam("nom_joueur") String nomJoueur,
-            @PathParam("prenom_joueur") String prenomJoueur)
+            @PathParam("number_player") int numberPlayer)
     {
-        return monService.removePlayer(nomSport,nomLigue,nomEquipe,prenomJoueur,nomJoueur);
+        return monService.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
 
