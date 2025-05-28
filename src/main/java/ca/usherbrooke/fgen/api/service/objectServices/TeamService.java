@@ -7,9 +7,7 @@ import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +36,17 @@ public class TeamService {
         ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
         return unescapeEntities(team);
     }
+
+    @POST
+    @Consumes("application/json")
+    public void addTeam(Team team) {
+        // Ajouter l'équipe à la base de données via le mapper
+        teamMapper.insertTeam(team);
+
+        // Ajouter l'équipe à la ligue correspondante
+        ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
+    }
+
 
     public static Team unescapeEntities(Team team) {
         team.setName(Parser.unescapeEntities(team.getName(), true));

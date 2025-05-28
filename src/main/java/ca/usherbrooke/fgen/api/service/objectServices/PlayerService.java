@@ -7,9 +7,7 @@ import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +36,16 @@ public class PlayerService {
         Player player = playerMapper.selectOnePlayer(id);
         ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
         return unescapeEntities(player);
+    }
+
+    @POST
+    @Consumes("application/json")
+    public void addPlayer(Player player) {
+        // Ajouter l'équipe à la base de données via le mapper
+        playerMapper.insertPlayer(player);
+
+        // Ajouter l'équipe à la ligue correspondante
+        ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
     }
 
     public static Player unescapeEntities(Player player) {
