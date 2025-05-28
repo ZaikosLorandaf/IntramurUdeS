@@ -29,6 +29,9 @@ public class ListPlayer {
         if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
             mapId.put(player.getId(), player);
             mapNumberId.put(player.getNumber(), player.getId());
+
+
+
             LoggerUtil.info("Ajout du joueur " + player.getName());
             return true;
         }

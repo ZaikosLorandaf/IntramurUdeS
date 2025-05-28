@@ -106,10 +106,8 @@ public class OGClass
 
     public String newLeague(String sport, String nom)
     {
-
-        if(!listeSport.getAllSports().contains(listeSport.getSport(sport)))
-        {
-            return "Sport Error";
+        if (listeSport.getSport(sport) == null) {
+            return "Erreur sport";
         }
         League newLeague = new League(nom);
         int resultAdd = listeSport.getSport(sport).addLeague(newLeague);
