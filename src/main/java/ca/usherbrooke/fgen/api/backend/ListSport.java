@@ -5,10 +5,13 @@ import java.util.*;
 public class ListSport {
     private Map<Integer, Sport> mapId;
     private Map<String, Integer> mapNomId;
+    private static Map<Integer, Team> mapTeamLeague; // Convertion de id_Team -> id_League
+    private static Map<Integer, League> mapLeagueSport; // Convertion de id_League -> id_Sport
 
     public ListSport() {
         this.mapId = new HashMap<>();
         this.mapNomId = new HashMap<>();
+        this.mapTeamLeague = new HashMap<>();
         LoggerUtil.info("Création du vecteur de sport");
     }
 
@@ -46,7 +49,29 @@ public class ListSport {
         return counter;
     }
 
+    public boolean addLeagueMap(League league) {
+        if (!mapLeagueSport.containsKey(league.getId())) {
+            mapLeagueSport.put(league.getId(), league);
+            LoggerUtil.info("Ajout du league " + league.getName());
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Le id du league " + league.getName() + " (" + league.getId() + ") est déjà dans présent.");
+            return false;
+        }
+    }
 
+    public boolean addTeamMap(Team team) {
+        if (!mapTeamLeague.containsKey(team.getId())) {
+            mapTeamLeague.put(team.getId(), team);
+            LoggerUtil.info("Ajout de la ligue " + team.getName());
+            return true;
+        }
+        else {
+            LoggerUtil.warning("Le id de la ligue " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
+            return false;
+        }
+    }
 
     public boolean removeSport(int id) {
         if(this.mapId.containsKey(id) && this.mapNomId.containsKey(this.mapId.get(id).getName())) {
@@ -102,5 +127,13 @@ public class ListSport {
 
     public boolean checkExistSport(Sport sport) {
         return this.mapId.containsKey(sport.getId());
+    }
+
+    public League getLeague(int id) {
+        return mapLeagueSport.getOrDefault(id, null);
+    }
+
+    public Team getTeam(int id) {
+        return mapTeamLeague.getOrDefault(id, null);
     }
 }

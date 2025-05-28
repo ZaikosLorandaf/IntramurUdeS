@@ -121,9 +121,9 @@ public class League {
    * @param team Team: A Team item to be added to the league
    * @return Boolean
 //   */
-//  public boolean addTeam(Team team) {
-//    return listTeam.addTeam(team);
-//  }
+  public boolean addTeam(Team team) {
+    return listTeam.addTeam(team);
+  }
 
   /**
    * Remove a team from the league using the Team item
