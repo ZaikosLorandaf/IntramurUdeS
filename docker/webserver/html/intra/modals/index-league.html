@@ -76,8 +76,11 @@
 
         })
             .then(function (response) {
-                console.log("Response: ", response.status);
                 console.log("reponse : " + response.data);
+                if (window.opener) {
+                    window.opener.location.reload();
+                    window.close();
+                }
             })
             .catch(function (error) {
                 console.log('refreshing');
@@ -85,7 +88,21 @@
     });
 
     document.getElementById('deleteBtn').addEventListener('click', () => {
-        const name = document.getElementById('deleteName').value;
+        const ligueName = document.getElementById('deleteName').value;
+        const params = new URLSearchParams(window.location.search);
+        const sport = params.get('sport');
+
+        axios.get("http://localhost:8888/api/removeLigue/"+sport+"/"+ligueName, {
+        }).then(function (response) {
+            console.log(response.data);
+            if (window.opener) {
+                window.opener.location.reload();
+                window.close();
+            }
+            })
+            .catch(function (error) {
+                span.innerHTML += '<div>Erreur : ' + error + '</div>';
+            });
         console.log('🔴 Suppression ligue :', { name });
     });
 </script>
