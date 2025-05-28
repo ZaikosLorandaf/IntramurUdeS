@@ -15,6 +15,7 @@ public class MonAPI {
 
     @Inject
     OGClass monService;
+	private String sport;
 
     @GET
     @Path("monendpoint")
@@ -60,6 +61,34 @@ public class MonAPI {
         return "coucouille";
     }
 
+    // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
+    @GET
+    @Path("listSport/{nom_sport}")
+    public String getListSport(@PathParam("nom_sport") String nom_sport) {
+        return monService.listSport(nom_sport);
+    }
+
+    @GET
+    @Path("addLigue/{nom_sport}")
+    public String addSport( @PathParam("nom_sport") String sport) {
+		return monService.newSport(sport);
+    }
+
+    @GET
+    @Path("getSport/{nom_sport}")
+    public String getSport(
+            @PathParam("nom_sport") String nom_sport) {
+        return monService.getSport(nom_sport);
+    }
+
+    @GET
+    @Path("removeSport/{nom_sport}")
+    public String removeLeague(
+            @PathParam("nom_sport") String nomSport) {
+        return monService.removeSport(nomSport);
+    }
+
+    // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
@@ -92,6 +121,7 @@ public class MonAPI {
     }
 
 
+    // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
     @GET
     @Path("addTeam/{nom_sport}/{nom_ligue}/{nom_equipe}")
     public String getAddTeam(
@@ -99,6 +129,14 @@ public class MonAPI {
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
         return monService.addTeam(nom_sport, nom_ligue,nom_equipe);
+    }
+
+    @GET
+    @Path("getTeams/{nom_sport}/{ligue}")
+    public String getTeams(
+            @PathParam("nom_sport") String nom_sport,
+            @PathParam("ligue") String ligue) {
+        return monService.getTeams(nom_sport,ligue);
     }
 
     @GET
@@ -114,12 +152,12 @@ public class MonAPI {
     public String removeTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue,
-            @PathParam("nom_equipe") String nom_equipe)
-    {
+            @PathParam("nom_equipe") String nom_equipe) {
         return monService.removeTeam(nomSport, nom_ligue,nom_equipe);
     }
 
 
+    // ~~~~~~~~~~~ Players ~~~~~~~~~~ //
     @GET
     @Path("addPlayer/{nom_sport}/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
     public String addPlayer(
@@ -127,10 +165,10 @@ public class MonAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("nom_joueur") String nomJoueur,
-            @PathParam("prenom_joueur") String prenomJoueur
-    )
-    {
-        return monService.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
+            @PathParam("prenom_joueur") String prenomJoueur) {
+        return monService.addPlayer(
+            nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur
+            );
     }
 
     @GET
@@ -138,8 +176,7 @@ public class MonAPI {
     public String listPlayer(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
-            @PathParam("nom_equipe") String nomEquipe)
-    {
+            @PathParam("nom_equipe") String nomEquipe) {
         return monService.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
@@ -150,18 +187,11 @@ public class MonAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("nom_joueur") String nomJoueur,
-            @PathParam("prenom_joueur") String prenomJoueur)
-    {
-        return monService.removePlayer(nomSport,nomLigue,nomEquipe,prenomJoueur,nomJoueur);
+            @PathParam("prenom_joueur") String prenomJoueur) {
+        return monService.removePlayer(
+            nomSport,nomLigue,nomEquipe,prenomJoueur,nomJoueur
+            );
     }
 
 
-    @GET
-    @Path("getTeams/{nom_sport}/{ligue}")
-    public String getTeams(
-            @PathParam("nom_sport") String nom_sport,
-            @PathParam("ligue") String ligue)
-    {
-        return monService.getTeams(nom_sport,ligue);
-    }
 }

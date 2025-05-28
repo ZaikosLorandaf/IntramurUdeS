@@ -56,6 +56,7 @@ public class ListSport {
             LoggerUtil.error("Impossible de retirer le sport à cet index");
             return false;
         }
+
         Map<String, Integer> tempDict = new HashMap<>();
         list.removeElement(sport);
         for (int i = 0; i < list.size(); i++) {
@@ -72,19 +73,28 @@ public class ListSport {
         return list.elementAt(index);
     }
 
-    public int getIndex(Sport sport) {
-        return list.indexOf(sport);
-    }
-
     public Sport getSport(String name){
-        if (dict.containsKey(name))
-        {
+        if (dict.containsKey(name)) {
             int index = dict.get(name);
             return this.getSport(index);
-        }
-        else{
+        } else{
             return null;
         }
+    }
+
+    public boolean getSport(Sport sport) {
+        return list.contains(sport);
+    }
+
+    public boolean getSport() {
+        if (list.isEmpty())
+            return false;
+        else
+            return true;
+    }
+
+    public int getIndex(Sport sport) {
+        return list.indexOf(sport);
     }
 
     public int getMaxSport() {
@@ -109,7 +119,4 @@ public class ListSport {
         return list;
     }
 
-    public boolean getSport(Sport sport) {
-        return list.contains(sport);
-    }
 }

@@ -16,6 +16,12 @@ public class Sport {
         this.name = "";
     }
 
+    public Sport(String name) {
+        this.id = -1;
+        this.name = name;
+    }
+
+
     public int getId() {
         return id;
     }
