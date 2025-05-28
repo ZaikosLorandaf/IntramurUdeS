@@ -1,5 +1,8 @@
 let roleNumber = 0; // 0 user, 1, chef, 2 admin
 
+let sport;
+let season;
+
 // ********************************
 // ********** KEYCLOAK ************
 // ********************************
@@ -47,8 +50,8 @@ initKeycloak()
         }
 
         const params = new URLSearchParams(window.location.search);
-        const sport = params.get('sport');
-        const season = params.get('ligue');
+        let sport = params.get('sport');
+        let season = params.get('ligue');
 
         console.log(sport);
         console.log(season);
@@ -56,8 +59,20 @@ initKeycloak()
         const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
         monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
 
-        renderEquipeList();
-
+        axios.get("http://localhost:8888/api/dashboard/equipes", {
+            params: {
+                sport: sport,
+                ligue: season
+            }
+        }).then(function (response) {
+                equipeData = response.data;
+                console.log(equipeData);
+                renderEquipeList();
+            })
+            .catch(function (error) {
+                const container = document.querySelector('.main-container');
+                container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
+            });
     })
     .catch(() => {
         console.error("Erreur lors de l'initialisation de Keycloak");
@@ -84,7 +99,7 @@ function getToken() {
 // ******* FIN KEYCLOAK ***********
 // ********************************
 
-const equipeData = {
+let equipeData = {
     A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
     B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus" },
     C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus" },
