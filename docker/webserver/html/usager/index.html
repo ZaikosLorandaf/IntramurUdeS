@@ -160,8 +160,8 @@
         function listLeague() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-
-            axios.get("http://localhost:8888/api/listLigue/", {
+            const sport = document.getElementById("nomSport");
+            axios.get("http://localhost:8888/api/listLigue/" + sport, {
 
             })
                 .then(function (response) {
@@ -178,9 +178,16 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
+<<<<<<< HEAD
             axios.get("http://localhost:8888/api/addLigue/"+nomLigue, {})
+=======
+            const nomSport = document.getElementById("nomSport");
+            axios.get("http://localhost:8888/api/addLigue/"+nomSport+"/"+nomLigue, {
+
+            })
+>>>>>>> ccbf013ab11682e9720e647f082d17d84f5328bc
                 .then(function (response) {
-                    span.innerHTML +=
+                    span.innerHTML =
                         '<br> nom : ' +  response.data;
                 })
                 .catch(function (error) {

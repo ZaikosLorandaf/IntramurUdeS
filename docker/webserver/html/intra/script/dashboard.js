@@ -1,5 +1,88 @@
-// Permission pour l'affichage
-const roleNumber = 2; // 0 user, 1, chef, 2 admin
+let roleNumber = 0; // 0 user, 1, chef, 2 admin
+
+// ********************************
+// ********** KEYCLOAK ************
+// ********************************
+// On crée et initialise Keycloak ici
+const keycloak = new Keycloak({
+    realm: "usager",
+    "auth-server-url": "http://localhost:8180/",
+    "ssl-required": "external",
+    clientId: "frontend",
+    "public-client": true,
+    "confidential-port": 0
+});
+
+function getRoleNumber() {
+    if (!keycloak.tokenParsed || !keycloak.tokenParsed.realm_access) return 0;
+
+    const roles = keycloak.tokenParsed.realm_access.roles;
+    if (roles.includes("student")) return 2;
+    if (roles.includes("teacher")) return 1;
+    return 0;
+}
+
+
+function initKeycloak() {
+    // Init avec check-sso, ça ne force pas la connexion mais vérifie la session
+    return keycloak.init({
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html"
+    });
+}
+
+initKeycloak()
+    .then(() => {
+        const div = document.getElementById("btn-login");
+        if (isAuthenticated()) {
+            console.log("Utilisateur connecté !");
+            roleNumber = getRoleNumber();
+            console.log("Rôle détecté:", roleNumber);
+            div.textContent = "Déconnexion";
+            div.onclick = () => logout();
+        } else {
+            console.log("Utilisateur non connecté.");
+            div.textContent = "Connexion";
+            div.onclick = () => keycloak.login();
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const sport = params.get('sport');
+        const season = params.get('ligue');
+
+        console.log(sport);
+        console.log(season);
+
+        const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
+        monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
+
+        renderEquipeList();
+
+    })
+    .catch(() => {
+        console.error("Erreur lors de l'initialisation de Keycloak");
+    });
+
+
+function logout(){
+    keycloak.logout();
+    // window.location.href = 'index-league.html';
+}
+
+// Pour savoir si connecté
+function isAuthenticated() {
+    return keycloak.authenticated;
+}
+
+// Pour récupérer le token (utile si besoin)
+function getToken() {
+    return keycloak.token;
+}
+
+
+// ********************************
+// ******* FIN KEYCLOAK ***********
+// ********************************
 
 const equipeData = {
     A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
@@ -21,20 +104,6 @@ const matchData = {
     "2025-05-28": [
         { heure: "13:00", equipes: "Équipe D vs Équipe B", lieu: "Gymnase 2" }
     ]
-};
-
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const sport = params.get('sport');
-    const season = params.get('ligue');
-
-    console.log(sport);
-    console.log(season);
-
-    const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
-    monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
-
-    renderEquipeList(); // <-- Ajout ici
 };
 
 function getDataEquipe() {
@@ -63,11 +132,17 @@ function renderEquipeList() {
         div.onclick = () => showInfo(team);
         container.appendChild(div);
     });
-    const div = document.createElement("div");
-    div.className = "card-custom";
-    div.textContent = `Modifier`;
-    // div.onclick = () => ;
-    container.appendChild(div);
+
+    if (roleNumber === 2) {
+        const div = document.createElement("div");
+        div.className = "card-custom";
+        div.textContent = `Gérer équipe`;
+        div.addEventListener('click', () => {
+            window.open('./modals/dashboard-equipe.html', 'popupWindow', 'width=500,height=500');
+        });
+        // div.onclick = () => ;
+        container.appendChild(div);
+    }
 }
 
 function showInfo(team) {
@@ -94,17 +169,23 @@ function showInfo(team) {
         .map(nom => `<button class="player-btn" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
         .join('');
 
+    let buttonHTML = "";
+    if (roleNumber === 2) {
+        buttonHTML = `<button class="player-btn" onclick="modifierStats()">Modifier Stats</button>`;
+    }
+
     document.getElementById("equipe-info").innerHTML = `
-        <h4>Équipe ${team}</h4>
-        <div class="equipe-container" id="equipe-content">
-            <div class="joueurs-col">${joueursList}</div>
-            <div class="stats-col">
-                <p><strong>Matchs :</strong><br>${info.matchs}</p>
-                <button className="player-btn" onClick="()">Modifier Stats</button>
-            </div>
+    <h4>Équipe ${team}</h4>
+    <div class="equipe-container" id="equipe-content">
+        <div class="joueurs-col">${joueursList}</div>
+        <div class="stats-col">
+            <p><strong>Matchs :</strong><br>${info.matchs}</p>
+            ${buttonHTML}
         </div>
-        <div id="player-info" style="display: none;"></div>
-    `;
+    </div>
+    <div id="player-info" style="display: none;"></div>
+`;
+
 
     getDataEquipe();
 
@@ -114,10 +195,15 @@ function showInfo(team) {
 
         document.getElementById("equipe-content").style.display = "none";
         document.getElementById("player-info").style.display = "block";
+        let modifierJoueurBtn = "";
+        if (roleNumber === 2) {
+            modifierJoueurBtn = `<button class="player-btn" onclick="modifierJoueur('${nom}')">Modifier Joueur</button>`;
+        }
+
         document.getElementById("player-info").innerHTML = `
             <h4>${nom}</h4>
             <p><strong>Statistiques :</strong><br>${stat}</p>
-            <button className="player-btn" onClick="()">Modifier Joueur</button>
+            ${modifierJoueurBtn}
             <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
         `;
     };
