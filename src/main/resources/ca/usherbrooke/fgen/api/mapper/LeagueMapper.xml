@@ -4,14 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.LeagueMapper">
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.League">
-        select id,
-               name,
-               week_day,
-               time_start,
-               time_end,
-               id_sport
-        from intramurudes.league
-
+        select l.id as id,
+               l.name as name,
+               l.week_day as week_day,
+               l.time_start as time_start,
+               l.time_end as time_end,
+               l.id_sport
+        from intramurudes.league l
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.League">
