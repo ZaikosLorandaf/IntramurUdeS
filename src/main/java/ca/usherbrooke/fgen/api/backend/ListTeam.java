@@ -27,15 +27,15 @@ public class ListTeam {
      *
      * @param team L'équipe à ajouter
      */
-    public int addTeam(Team team) {
+    public boolean addTeam(Team team) {
         if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
             this.mapId.put(team.getId(), team);
             LoggerUtil.info("Ajout de l'équipe " + team.getName());
-            return 1;
+            return true;
         }
         else {
             LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
-            return 0;
+            return false;
         }
     }
 
@@ -47,8 +47,10 @@ public class ListTeam {
     public int addTeam(List<Team> teams) {
         int counter = 0;
         for (Team team : teams) {
-            counter += addTeam(team);
-
+            if (addTeam(team))
+            {
+                counter++;
+            }
         }
         return counter;
     }

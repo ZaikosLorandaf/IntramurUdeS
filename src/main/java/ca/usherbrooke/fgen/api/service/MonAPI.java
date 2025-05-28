@@ -14,12 +14,12 @@ import ca.usherbrooke.fgen.api.backend.OGClass;
 public class MonAPI {
 
     @Inject
-    OGClass monService;
+    OGClass ogClass;
 
     @GET
     @Path("monendpoint")
     public String getMonMessage() {
-        return monService.getMessage();
+        return ogClass.getMessage();
     }
 
     @GET
@@ -63,7 +63,7 @@ public class MonAPI {
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
-        return monService.listLeague(nom_sport);
+        return ogClass.listLeague(nom_sport);
     }
 
 
@@ -72,7 +72,7 @@ public class MonAPI {
     public String addLeague(
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
-        return monService.newLeague(sport, nom);
+        return ogClass.newLeague(sport, nom);
     }
 
     @GET
@@ -80,7 +80,7 @@ public class MonAPI {
     public String getLeague(
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
-        return monService.getLeague(sport, nom);
+        return ogClass.getLeague(sport, nom);
     }
 
     @GET
@@ -88,7 +88,7 @@ public class MonAPI {
     public String removeLeague(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue) {
-        return monService.removeLeague(nomSport, nomLigue);
+        return ogClass.removeLeague(nomSport, nomLigue);
     }
 
 
@@ -98,7 +98,7 @@ public class MonAPI {
             @PathParam("nom_sport") String sport,
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
-        return monService.addTeam(sport, nom_ligue,nom_equipe);
+        return ogClass.addTeam(sport, nom_ligue,nom_equipe);
     }
 
     @GET
@@ -106,7 +106,7 @@ public class MonAPI {
     public String listTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue) {
-        return monService.listTeam(nomSport,nom_ligue);
+        return ogClass.listTeam(nomSport,nom_ligue);
     }
 
     @GET
@@ -116,7 +116,7 @@ public class MonAPI {
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe)
     {
-        return monService.removeTeam(nomSport, nom_ligue,nom_equipe);
+        return ogClass.removeTeam(nomSport, nom_ligue,nom_equipe);
     }
 
 
@@ -130,7 +130,7 @@ public class MonAPI {
             @PathParam("prenom_joueur") String prenomJoueur
     )
     {
-        return monService.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
+        return ogClass.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
     }
 
     @GET
@@ -140,7 +140,7 @@ public class MonAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe)
     {
-        return monService.listPlayer(nomSport,nomLigue,nomEquipe);
+        return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
     @GET
@@ -151,16 +151,8 @@ public class MonAPI {
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("number_player") int numberPlayer)
     {
-        return monService.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
+        return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
 
-    @GET
-    @Path("getTeams/{sport}/{ligue}")
-    public String getTeams(
-            @PathParam("sport") String sport,
-            @PathParam("ligue") String ligue)
-    {
-        return monService.getTeams(sport,ligue);
-    }
 }

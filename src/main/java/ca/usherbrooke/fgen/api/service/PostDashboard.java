@@ -12,7 +12,7 @@ import javax.inject.Inject;
 public class PostDashboard {
 
     @Inject
-    OGClass monService;
+    OGClass ogClass;
 
     @GET
     @Path("nothing")

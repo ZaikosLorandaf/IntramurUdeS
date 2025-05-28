@@ -24,17 +24,17 @@ public class ListPlayer {
      * @param player Objet de classe Joueur à ajouter
      * @return false if list over max size
      */
-    public int addPlayer(Player player)
+    public boolean addPlayer(Player player)
     {
         if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
             mapId.put(player.getId(), player);
             mapNumberId.put(player.getNumber(), player.getId());
             LoggerUtil.info("Ajout du joueur " + player.getName());
-            return 1;
+            return true;
         }
         else {
             LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
-            return 0;
+            return false ;
         }
     }
 
@@ -42,7 +42,10 @@ public class ListPlayer {
     public int addPlayer(List<Player> players) {
         int counter = 0;
         for (Player player : players) {
-            counter += addPlayer(player);
+            if (addPlayer(player))
+            {
+                counter++;
+            }
         }
         return counter;
     }

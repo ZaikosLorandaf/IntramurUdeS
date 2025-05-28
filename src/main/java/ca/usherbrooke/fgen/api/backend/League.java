@@ -95,7 +95,7 @@ public class League {
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
     LoggerUtil.info("Tentative de création d'équipe " + name);
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -103,7 +103,7 @@ public class League {
     ListPlayer listPlayer = new ListPlayer();
     Team newTeam = new Team(id, name, listPlayer);
     LoggerUtil.info("Tentative de création de l'équipe " + name);
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -111,7 +111,7 @@ public class League {
     ListPlayer listPlayer = new ListPlayer();
     Team newTeam = new Team(-1, name, listPlayer);
     LoggerUtil.info("Tentative de création d'équipe");
-    return this.addTeam(newTeam);
+    return listTeam.addTeam(newTeam);
   }
 
 
@@ -120,10 +120,10 @@ public class League {
    *
    * @param team Team: A Team item to be added to the league
    * @return Boolean
-   */
-  public boolean addTeam(Team team) {
-    return listTeam.addTeam(team);
-  }
+//   */
+//  public boolean addTeam(Team team) {
+//    return listTeam.addTeam(team);
+//  }
 
   /**
    * Remove a team from the league using the Team item

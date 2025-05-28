@@ -29,7 +29,7 @@ public class Team
         this.id = id;
         this.name = name;
         this.idLeague = idLeague;
-        this.listPlayer = new ListPlayer(maxPlayers);
+        this.listPlayer = new ListPlayer();
         LoggerUtil.info("Création d'une équipe");
     }
 
