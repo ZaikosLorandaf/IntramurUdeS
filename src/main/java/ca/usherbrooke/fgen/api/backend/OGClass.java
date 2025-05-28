@@ -12,6 +12,7 @@ import java.util.List;
 @ApplicationScoped
 public class OGClass {
     ListSport listeSport;
+    private MonVecteur mv;
 
     public OGClass() {
         mv = new MonVecteur();
@@ -307,5 +308,4 @@ public class OGClass {
 
         return "<div>Erreur lors du retrait du joueur</div>";
     }
-    private MonVecteur mv;
 }
