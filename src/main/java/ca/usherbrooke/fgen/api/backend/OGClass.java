@@ -14,7 +14,6 @@ public class OGClass
 {
     private MonVecteur mv;
     ListSport listeSport;
-    private MonVecteur mv;
 
     public OGClass() {
         mv = new MonVecteur();
@@ -113,9 +112,9 @@ public class OGClass
             return "Sport Error";
         }
         League newLeague = new League(nom);
-        boolean resultAdd = listeSport.getSport(sport).addLeague(newLeague);
+        int resultAdd = listeSport.getSport(sport).addLeague(newLeague);
         String result;
-        if (!resultAdd) {
+        if (resultAdd == 0) {
             result = "<div>erreur</div>";
         }
         else {

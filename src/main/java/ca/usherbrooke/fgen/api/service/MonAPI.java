@@ -149,7 +149,7 @@ public class MonAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
-            @PathParam("number_player") int numberPlayer,
+            @PathParam("number_player") int numberPlayer)
     {
         return monService.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
