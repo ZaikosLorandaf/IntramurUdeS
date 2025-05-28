@@ -20,30 +20,30 @@
                 <input type="text" class="form-control" id="leagueName" placeholder="Ex: Ligue du mardi">
             </div>
 
-            <div class="mb-3">
-                <label for="daySelect" class="form-label">Jour de la semaine</label>
-                <select class="form-select" id="daySelect">
-                    <option value="" selected disabled>Choisir un jour</option>
-                    <option value="Lundi">Lundi</option>
-                    <option value="Mardi">Mardi</option>
-                    <option value="Mercredi">Mercredi</option>
-                    <option value="Jeudi">Jeudi</option>
-                    <option value="Vendredi">Vendredi</option>
-                    <option value="Samedi">Samedi</option>
-                    <option value="Dimanche">Dimanche</option>
-                </select>
-            </div>
+<!--            <div class="mb-3">-->
+<!--                <label for="daySelect" class="form-label">Jour de la semaine</label>-->
+<!--                <select class="form-select" id="daySelect">-->
+<!--                    <option value="" selected disabled>Choisir un jour</option>-->
+<!--                    <option value="Lundi">Lundi</option>-->
+<!--                    <option value="Mardi">Mardi</option>-->
+<!--                    <option value="Mercredi">Mercredi</option>-->
+<!--                    <option value="Jeudi">Jeudi</option>-->
+<!--                    <option value="Vendredi">Vendredi</option>-->
+<!--                    <option value="Samedi">Samedi</option>-->
+<!--                    <option value="Dimanche">Dimanche</option>-->
+<!--                </select>-->
+<!--            </div>-->
 
-            <div class="row mb-3">
-                <div class="col">
-                    <label for="startTime" class="form-label">Heure de début</label>
-                    <input type="time" class="form-control" id="startTime">
-                </div>
-                <div class="col">
-                    <label for="endTime" class="form-label">Heure de fin</label>
-                    <input type="time" class="form-control" id="endTime">
-                </div>
-            </div>
+<!--            <div class="row mb-3">-->
+<!--                <div class="col">-->
+<!--                    <label for="startTime" class="form-label">Heure de début</label>-->
+<!--                    <input type="time" class="form-control" id="startTime">-->
+<!--                </div>-->
+<!--                <div class="col">-->
+<!--                    <label for="endTime" class="form-label">Heure de fin</label>-->
+<!--                    <input type="time" class="form-control" id="endTime">-->
+<!--                </div>-->
+<!--            </div>-->
 
             <button id="submitBtn" class="btn btn-primary">Soumettre</button>
         </div>
@@ -65,9 +65,9 @@
 <script>
     document.getElementById('submitBtn').addEventListener('click', () => {
         const name = document.getElementById('leagueName').value;
-        const day = document.getElementById('daySelect').value;
-        const start = document.getElementById('startTime').value;
-        const end = document.getElementById('endTime').value;
+        // const day = document.getElementById('daySelect').value;
+        // const start = document.getElementById('startTime').value;
+        // const end = document.getElementById('endTime').value;
 
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
