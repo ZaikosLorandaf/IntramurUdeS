@@ -11,6 +11,7 @@ public class League {
   private Time timeEnd;
   private int idSport;
   private boolean done = false;
+  private java.util.Random rand = new java.util.Random();
   /**
    * Base Constructor, creates an empty league
    */
@@ -37,7 +38,7 @@ public class League {
   public League(String name) {
     listTeam = new ListTeam();
     this.name = name;
-    id = -1;
+    id = rand.nextInt(1,32);
     LoggerUtil.info("Création de la ligue " + name);
   }
 

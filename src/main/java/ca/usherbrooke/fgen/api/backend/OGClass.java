@@ -68,9 +68,10 @@ public class OGClass
     public String getSportLeague() {
         JSONArray sports = new JSONArray();
 
-        for (int i = 0; i < listeSport.getSize(); i++) {
+        for (int i: listeSport.getMapSports().keySet()) {
             Sport sport = listeSport.getSport(i);
-
+            if (sport==null)
+                return "error sport dans la liste";
             // Récupère les noms des ligues de ce sport
             ListLeague leagues = sport.getListLeague();
             List<String> leagueNames = new ArrayList<>();
@@ -92,12 +93,12 @@ public class OGClass
 
 
     public void trashData(){
-        Sport bb = new Sport("Basket Ball", -1);
+        Sport bb = new Sport("Basket Ball");
         bb.addLeague(new League("Tintin au congo"));
         bb.addLeague(new League("Les pythoniste"));
         listeSport.addSport(bb);
 
-        Sport vb = new Sport("Volley Ball", -2);
+        Sport vb = new Sport("Volley Ball");
         vb.addLeague(new League("Les coucouille de Gerard"));
         vb.addLeague(new League("Les c++ teams"));
         listeSport.addSport(vb);
