@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 
+import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import org.jsoup.parser.Parser;
@@ -16,10 +17,15 @@ import java.util.stream.Collectors;
 public class TeamService {
     @Inject
     TeamMapper teamMapper;
+    @Inject
+    OGClass ogClass;
 
     @GET
     public List<Team> getTeams() {
         List<Team> teams = teamMapper.selectTeams();
+        for (Team team : teams) {
+            ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
+        }
         return unescapeEntities(teams);
     }
 
@@ -29,6 +35,7 @@ public class TeamService {
             @PathParam("id") Integer id
     ) {
         Team team = teamMapper.selectOneTeam(id);
+        ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
         return unescapeEntities(team);
     }
 

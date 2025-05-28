@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import javax.inject.Inject;
 import java.util.*;
 
 public class ListLeague {
@@ -22,11 +23,14 @@ public class ListLeague {
      * @param league Ligue à ajouter de type Ligue
      * @return Le nombre de ligues ajoutées
      */
+    @Inject
+    OGClass ogClass;
     public int addLeague(League league) {
 
         if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());
+            ogClass.getListeSport().addLeagueMap(league);
             LoggerUtil.info("Ajout de la ligue " + league.getName());
             return 1;
         }
