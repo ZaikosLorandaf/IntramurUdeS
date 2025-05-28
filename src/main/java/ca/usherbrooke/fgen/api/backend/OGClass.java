@@ -90,6 +90,8 @@ public class OGClass {
         vb.addLeague(new League("Les c++ teams"));
         listeSport.addSport(vb);
 
+        System.out.println(listeSport);
+
     }
 
     public String newLeague(String sport, String nom)
