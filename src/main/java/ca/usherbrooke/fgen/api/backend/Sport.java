@@ -45,7 +45,7 @@ public class Sport {
         return listLeague;
     }
 
-    public boolean addLeague(League league) {
+    public int addLeague(League league) {
         return listLeague.addLeague(league);
     }
 }

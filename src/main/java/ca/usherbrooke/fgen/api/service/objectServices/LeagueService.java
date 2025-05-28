@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 
 import ca.usherbrooke.fgen.api.backend.League;
+import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
@@ -11,7 +12,10 @@ import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/api/league")
@@ -19,14 +23,18 @@ public class LeagueService {
     @Inject
     LeagueMapper leagueMapper;
     @Inject
-    SportService sportService;
+    OGClass ogClass;
 
 
     @GET
     public List<League> getLeagues() {
         List<League> leagues = leagueMapper.selectAll();
+        for (League league : leagues) {
+            ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+        }
         return unescapeEntities(leagues);
     }
+
 
     @GET
     @Path("{id}")
@@ -34,6 +42,7 @@ public class LeagueService {
             @PathParam("id") Integer id
     ) {
         League league = leagueMapper.selectOne(id);
+        ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
         return unescapeEntities(league);
     }
 
@@ -43,6 +52,9 @@ public class LeagueService {
             @PathParam("sportid") Integer sportId
     ) {
         List<League> leagues = leagueMapper.selectFromSport(sportId);
+        for (League league : leagues) {
+            ogClass.getListeSport().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+        }
         return unescapeEntities(leagues);
     }
 
