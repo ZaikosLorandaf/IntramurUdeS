@@ -19,6 +19,8 @@ public class OGClass {
         mv.message += "password = " + mv.password;
         listeSport = new ListSport();
         trashData();
+        Sport sport = new Sport("bb");
+        listeSport.addSport(sport);
     }
 
     public String getEquipesData(String nomSport, String nomLigue) {
