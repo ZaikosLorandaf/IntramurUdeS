@@ -3,10 +3,10 @@ package ca.usherbrooke.fgen.api.backend;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 public class ListPlayer {
-    private Map<Integer, Player> mapId = new HashMap<>();
+    private Map<Integer, Player> mapId;
+    private Map<Integer, Integer> mapNumberId;
 
 
 
@@ -15,6 +15,7 @@ public class ListPlayer {
      */
     public ListPlayer() {
         mapId = new HashMap<Integer, Player>();
+        mapNumberId = new HashMap<>();
         LoggerUtil.info("Création de la liste de joueur");
     }
 
@@ -23,25 +24,27 @@ public class ListPlayer {
      * @param player Objet de classe Joueur à ajouter
      * @return false if list over max size
      */
-    public boolean addPlayer(Player player)
+    public int addPlayer(Player player)
     {
-        if (!mapId.containsKey(player.getId())) {
+        if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
             mapId.put(player.getId(), player);
+            mapNumberId.put(player.getNumber(), player.getId());
             LoggerUtil.info("Ajout du joueur " + player.getName());
-            return true;
+            return 1;
         }
         else {
             LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
-            return false;
+            return 0;
         }
     }
 
 
-    public boolean addPlayer(List<Player> players) {
+    public int addPlayer(List<Player> players) {
+        int counter = 0;
         for (Player player : players) {
-            addPlayer(player);
+            counter += addPlayer(player);
         }
-        return true;
+        return counter;
     }
 
 
@@ -52,8 +55,9 @@ public class ListPlayer {
      */
     public boolean removePlayer(int id)
     {
-        if(mapId.containsKey(id)) {
+        if(mapId.containsKey(id) && mapNumberId.containsKey(mapId.get(id).getNumber())) {
             LoggerUtil.warning("Retrait du joueur " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapNumberId.remove(mapId.get(id).getNumber());
             mapId.remove(id);
             return true;
         }
@@ -73,6 +77,11 @@ public class ListPlayer {
         return removePlayer(player.getId());
     }
 
+    public boolean removePlayerByNumber(int number)
+    {
+        return this.removePlayer(mapNumberId.getOrDefault(number, null));
+    }
+
     /**
      * Get le joueur dans la liste
      * @param id id du joueur
@@ -81,6 +90,11 @@ public class ListPlayer {
     public Player getPlayer(int id)
     {
         return mapId.getOrDefault(id, null);
+    }
+
+    public Player getPlayerByNumber(int number)
+    {
+        return this.getPlayer(mapNumberId.getOrDefault(number, null));
     }
 
 

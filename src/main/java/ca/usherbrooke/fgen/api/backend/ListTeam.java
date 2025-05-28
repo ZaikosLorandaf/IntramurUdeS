@@ -8,12 +8,14 @@ import java.util.Vector;
 public class ListTeam {
 
     private Map<Integer, Team> mapId;
+    private Map<String, Integer> mapNomId;
 
     /**
      * Constructeur de base
      */
     public ListTeam() {
         this.mapId = new HashMap<>();
+        this.mapNomId = new HashMap<>();
         LoggerUtil.info("Création de la liste d'équipe");
     }
 
@@ -25,15 +27,15 @@ public class ListTeam {
      *
      * @param team L'équipe à ajouter
      */
-    public boolean addTeam(Team team) {
-        if (!mapId.containsKey(team.getId())) {
-            mapId.put(team.getId(), team);
+    public int addTeam(Team team) {
+        if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
+            this.mapId.put(team.getId(), team);
             LoggerUtil.info("Ajout de l'équipe " + team.getName());
-            return true;
+            return 1;
         }
         else {
             LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
-            return false;
+            return 0;
         }
     }
 
@@ -42,18 +44,21 @@ public class ListTeam {
      * @param teams Liste des équipes à ajouter
      * @return
      */
-    public boolean addTeam(List<Team> teams) {
+    public int addTeam(List<Team> teams) {
+        int counter = 0;
         for (Team team : teams) {
-            addTeam(team);
+            counter += addTeam(team);
+
         }
-        return true;
+        return counter;
     }
 
 
 
     public boolean removeTeam(int id) {
-        if(mapId.containsKey(id)) {
+        if(mapId.containsKey(id) && mapNomId.containsKey(mapId.get(id).getName())) {
             LoggerUtil.warning("Retrait de l'équipe " + mapId.get(id).getName() + "(id: " + id + ").");
+            mapNomId.remove(mapId.get(id).getName());
             mapId.remove(id);
             return true;
         }
@@ -84,6 +89,11 @@ public class ListTeam {
     public Team getTeam(int id)
     {
         return mapId.getOrDefault(id, null);
+    }
+
+    public Team getTeam(String name)
+    {
+        return this.getTeam(this.mapNomId.getOrDefault(name, null));
     }
 
     /**

@@ -20,28 +20,29 @@ public class ListLeague {
      * Ajouter une ligue dans la liste
      *
      * @param league Ligue à ajouter de type Ligue
-     * @return vrai si l'objet est non null et que la
-     * taille est plus petite que le max sinon faux
+     * @return Le nombre de ligues ajoutées
      */
-    public boolean addLeague(League league) {
+    public int addLeague(League league) {
 
-        if (!mapId.containsKey(league.getId())) {
+        if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());
             LoggerUtil.info("Ajout de la ligue " + league.getName());
-            return true;
+            return 1;
         }
         else {
-            LoggerUtil.warning("Le id de la ligue " + league.getName() + " (" + league.getId() + ") est déjà dans présent.");
-            return false;
+            LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
+                    " (" + league.getId() + ") existe déjà.");
+            return 0;
         }
     }
 
-    public boolean addLeague(List<League> leagues) {
+    public int addLeague(List<League> leagues) {
+        int counter = 0;
         for (League league : leagues) {
-            addLeague(league);
+            counter += addLeague(league);
         }
-        return true;
+        return counter;
     }
 
     /**
@@ -52,7 +53,7 @@ public class ListLeague {
      */
     public boolean removeLeague(int id) {
 
-        if(mapId.containsKey(id)) {
+        if(mapId.containsKey(id) && mapNomId.containsKey(mapId.get(id).getName())) {
             LoggerUtil.warning("Retrait de la ligue " + mapId.get(id).getName() + "(id: " + id + ").");
             mapNomId.remove(mapId.get(id).getName());
             mapId.remove(id);

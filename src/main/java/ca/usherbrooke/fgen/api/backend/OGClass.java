@@ -12,6 +12,7 @@ import java.util.List;
 @ApplicationScoped
 public class OGClass
 {
+    private MonVecteur mv;
     ListSport listeSport;
 
     public OGClass() {
@@ -19,6 +20,14 @@ public class OGClass
         mv.message += "password = " + mv.password;
         listeSport = new ListSport();
         trashData();
+    }
+
+    /**
+     * Getter pour la listeSport
+     * @return L'objet ListeSport
+     */
+    public ListSport getListeSport() {
+        return listeSport;
     }
 
     public String getEquipesData(String nomSport, String nomLigue) {
@@ -115,22 +124,22 @@ public class OGClass
     }
 
 
-    public String removeLeague(String nom) {
-        League league = listLeague.getLeague(nom);
-        String result = "";
-        if(league != null) {
-            result = "Ligue retirée :" + league.getName();
-            listLeague.removeLeague(league);
-            System.out.println("Ligue retirée: " + result);
-        }
-        else
-        {
-            result = "Pas de ligue appelé " + nom;
-        }
-        //result = "<div>" + result +  "</div>";
-        //String result = "<div> aaaaa </div>";
-        return result;
-    }
+//    public String removeLeague(String nom) {
+//        League league = listLeague.getLeague(nom);
+//        String result = "";
+//        if(league != null) {
+//            result = "Ligue retirée :" + league.getName();
+//            listLeague.removeLeague(league);
+//            System.out.println("Ligue retirée: " + result);
+//        }
+//        else
+//        {
+//            result = "Pas de ligue appelé " + nom;
+//        }
+//        //result = "<div>" + result +  "</div>";
+//        //String result = "<div> aaaaa </div>";
+//        return result;
+//    }
 
 
     public String getMessage() {
@@ -277,7 +286,7 @@ public class OGClass
     }
 
 
-    public String removePlayer(String nomSport, String nomLigue, String nomEquipe, String prenomJoueur, String nomJoueur) {
+    public String removePlayer(String nomSport, String nomLigue, String nomEquipe, int numberPlayer) {
         League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if(league == null)
         {
@@ -289,7 +298,7 @@ public class OGClass
             return "<div>Équipe non-trouvée</div>";
         }
 
-        Player player = team.getListPlayer().getPlayer(prenomJoueur,nomJoueur);
+        Player player = team.getListPlayer().getPlayer(numberPlayer);
         if(player == null) {
             return "<div>Joueur non-trouvé</div>";
         }
@@ -300,6 +309,5 @@ public class OGClass
 
         return "<div>Erreur lors du retrait du joueur</div>";
     }
-        if (listeSport.getSport(nomSport) != null) {
-    private MonVecteur mv;
+
 }

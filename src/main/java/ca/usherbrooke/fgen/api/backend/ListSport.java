@@ -7,44 +7,56 @@ public class ListSport {
     private Map<String, Integer> mapNomId;
 
     public ListSport() {
-        mapId = new HashMap<>();
-        mapNomId = new HashMap<>();
+        this.mapId = new HashMap<>();
+        this.mapNomId = new HashMap<>();
         LoggerUtil.info("Création du vecteur de sport");
     }
 
-    public boolean addSport(Sport sport) {
+    /**
+     * Méthode pour ajouter un sport à la liste
+     * @param sport Le sport à ajouter
+     * @return Le nombre de sports ajoutés
+     */
+    public int addSport(Sport sport) {
 
-        if (!mapId.containsKey(sport.getId())) {
-            mapId.put(sport.getId(), sport);
-            mapNomId.put(sport.getName(), sport.getId());
+        if (!this.mapId.containsKey(sport.getId()) && !this.mapNomId.containsKey(sport.getName())) {
+            this.mapId.put(sport.getId(), sport);
+            this.mapNomId.put(sport.getName(), sport.getId());
             LoggerUtil.info("Ajout du sport " + sport.getName());
-            return true;
+            return 1;
         }
         else {
-            LoggerUtil.warning("Le id du sport " + sport.getName() + " (" + sport.getId() + ") est déjà dans présent.");
-            return false;
+            LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");
+            return 0;
         }
     }
 
 
-    public boolean addSports(List<Sport> sports) {
+    /**
+     * Ajouter une liste de sports à la liste
+     * @param sports La liste des sports à ajouter
+     * @return Le nombre de sports réelement ajoutés
+     */
+    public int addSports(List<Sport> sports) {
+        int counter = 0;
         for (Sport sport : sports) {
-            addSport(sport);
+            counter += this.addSport(sport);
+
         }
-        return true;
+        return counter;
     }
 
 
 
     public boolean removeSport(int id) {
-        if(mapId.containsKey(id)) {
-            LoggerUtil.warning("Retrait du sport " + mapId.get(id).getName() + "(id: " + id + ").");
-            mapNomId.remove(mapId.get(id).getName());
-            mapId.remove(id);
+        if(this.mapId.containsKey(id) && this.mapNomId.containsKey(this.mapId.get(id).getName())) {
+            LoggerUtil.warning("Retrait du sport " + this.mapId.get(id).getName() + "(id: " + id + ").");
+            this.mapNomId.remove(this.mapId.get(id).getName());
+            this.mapId.remove(id);
             return true;
         }
         else {
-            LoggerUtil.warning("Échec du retrait du sport " + mapId.get(id).getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Échec du retrait du sport " + this.mapId.get(id).getName() + "(id: " + id + ").");
             return false;
         }
     }
@@ -55,7 +67,7 @@ public class ListSport {
      * @return Vrai si le joueur est retiré, sinon false
      */
     public boolean removeSport(Sport sport) {
-        return removeSport(sport.getId());
+        return this.removeSport(sport.getId());
     }
 
 
@@ -65,26 +77,30 @@ public class ListSport {
      * @return Le sport s'il a été trouvé, sinon null
      */
     public Sport getSport(int id) {
-        return mapId.getOrDefault(id, null);
+        return this.mapId.getOrDefault(id, null);
     }
 
 
 
     public Sport getSport(String nom) {
-        return mapId.getOrDefault(mapNomId.get(nom), null);
+        return this.mapId.getOrDefault(this.mapNomId.get(nom), null);
+    }
+
+    public List<Sport> getAllSports() {
+        return new ArrayList<>(this.mapId.values());
     }
 
 
 
     public int getSize() {
-        return mapId.size();
+        return this.mapId.size();
     }
 
     public Map<Integer, Sport> getMapSports() {
-        return mapId;
+        return this.mapId;
     }
 
     public boolean checkExistSport(Sport sport) {
-        return mapId.containsKey(sport.getId());
+        return this.mapId.containsKey(sport.getId());
     }
 }

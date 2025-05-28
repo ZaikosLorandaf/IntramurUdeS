@@ -3,10 +3,8 @@ package ca.usherbrooke.fgen.api.backend;
 public class Player {
     private int id;
     private String name;
-    private int idLastName;
     private String lastName;
     private int number;
-
     private int idTeam;
 
     /**
@@ -70,5 +68,10 @@ public class Player {
     public void printPlayer()
     {
         System.out.printf("%s %s, I am on team %d\n",name,lastName,idTeam);
+    }
+
+    public int getNumber()
+    {
+        return this.number;
     }
 }
