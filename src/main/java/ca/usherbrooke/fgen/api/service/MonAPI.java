@@ -68,19 +68,19 @@ public class MonAPI {
 
 
     @GET
-    @Path("addLigue/{sport}/{nom}")
+    @Path("addLigue/{nom_sport}/{nom}")
     public String addLeague(
-            @PathParam("sport") String sport,
+            @PathParam("nom_sport") String sport,
             @PathParam("nom") String nom) {
         return monService.newLeague(sport, nom);
     }
 
     @GET
-    @Path("getLigue/{sport}/{nom}")
+    @Path("getLigue/{nom_sport}/{nom}")
     public String getLeague(
-            @PathParam("sport") String sport,
+            @PathParam("nom_sport") String nom_sport,
             @PathParam("nom") String nom) {
-        return monService.getLeague(sport, nom);
+        return monService.getLeague(nom_sport, nom);
     }
 
     @GET
@@ -95,10 +95,10 @@ public class MonAPI {
     @GET
     @Path("addTeam/{nom_sport}/{nom_ligue}/{nom_equipe}")
     public String getAddTeam(
-            @PathParam("nom_sport") String sport,
+            @PathParam("nom_sport") String nom_sport,
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
-        return monService.addTeam(sport, nom_ligue,nom_equipe);
+        return monService.addTeam(nom_sport, nom_ligue,nom_equipe);
     }
 
     @GET
@@ -157,11 +157,11 @@ public class MonAPI {
 
 
     @GET
-    @Path("getTeams/{sport}/{ligue}")
+    @Path("getTeams/{nom_sport}/{ligue}")
     public String getTeams(
-            @PathParam("sport") String sport,
+            @PathParam("nom_sport") String nom_sport,
             @PathParam("ligue") String ligue)
     {
-        return monService.getTeams(sport,ligue);
+        return monService.getTeams(nom_sport,ligue);
     }
 }
