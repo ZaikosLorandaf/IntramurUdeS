@@ -2,7 +2,6 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import org.jsoup.parser.Parser;
 
