@@ -11,9 +11,9 @@ public class Sport {
     /**
      * Fonction d'initialisation de la classe Sport
      *
-     * @param id         Id du sport
-     * @param name       Nom du sport
-     * @param nbTeamMatch nombre de partie de l'equipe
+     * @param id          Id du sport [integer]
+     * @param name        Nom du sport [string]
+     * @param nbTeamMatch nombre de partie de l'equipe [integer]
      */
     private void initSport(int id, String name, int nbTeamMatch){
         this.id = id;
@@ -26,33 +26,40 @@ public class Sport {
     /**
      * Constructeur avec id et nom du sport
      *
-     * @param id         Id du sport
-     * @param name       Nom du sport
+     * @param id         Id du sport [integer]
+     * @param name       Nom du sport [string]
      */
-    public Sport(String name, int id) {
-        initSport(id, name, 2);
-    }
+    public Sport(String name, int id) { initSport(id, name, 2); }
 
     /**
      * Constructeur avec id et nom du sport et nombre de partie de l'equipe
      *
-     * @param id         Id du sport
-     * @param name       Nom du sport
-     * @param nbTeamMatch nombre de partie de l'equipe
+     * @param id          Id du sport [integer]
+     * @param name        Nom du sport [string]
+     * @param nbTeamMatch nombre de partie de l'equipe [integer]
      */
-    public Sport(int id, String name, int nbTeamMatch) {
-        initSport(id, name, nbTeamMatch);
-    }
+    public Sport(int id, String name, int nbTeamMatch) { initSport(id, name, nbTeamMatch); }
 
-    public Sport(String name) {
-        initSport(rand.nextInt(1, 32), name, 2);
-    }
+    /**
+     * Constructeur avec nom du sport
+     *
+     * @param name      Nom du sport [string]
+     */
+    public Sport(String name) { initSport(rand.nextInt(1, 32), name, 2); }
 
-    public Sport() {
-        initSport(-1, "", 2);
-    }
+    /**
+     * Constructeur vide. Initialise la classe avec des parametres par defaut
+     */
+    public Sport() { initSport(-1, "", 2); }
 
     // Methodes
+    /**
+     * Ajoute une ligue dans la liste des ligues
+     *
+     * @param league    objet ligue a ajouter [League]
+     *
+     * @return la ligue est ajoutee? [Boolean]
+     */
     public boolean addLeague(League league) {
         return this.listLeague.addLeague(league);
     }
