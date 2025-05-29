@@ -12,14 +12,26 @@ public class League {
   private int idSport;
   private boolean done = false;
   private java.util.Random rand = new java.util.Random();
+
+  // Constructeurs
+  public void initLeague(int id, String name) {
+    this.id = id;
+    this.name = name;
+    this.listTeam = new ListTeam();
+    LoggerUtil.info("Création d'une ligue");
+  }
+  public void initLeague(int id, String name, ListTeam listTeam) {
+    this.id = id;
+    this.name = name;
+    this.listTeam = listTeam;
+    LoggerUtil.info("Création d'une ligue");
+  }
+
   /**
    * Base Constructor, creates an empty league
    */
   public League() {
-    listTeam = new ListTeam();
-    name = "Generic base.League";
-    id = -1;
-    LoggerUtil.info("Création d'une ligue");
+    initLeague(-1, "Generic base.League");
   }
 
   /**
@@ -30,18 +42,11 @@ public class League {
    * @param id    League ID [int]
    */
   public League(ListTeam teams, String name, int id) {
-    listTeam = teams;
-    this.name = name;
-    this.id = id;
-    LoggerUtil.info("Création d'une ligue");
+    initLeague(id, name, teams);
   }
   public League(String name) {
-    listTeam = new ListTeam();
-    this.name = name;
-    id = rand.nextInt(1,1000);
-    LoggerUtil.info("Création de la ligue " + name);
+    initLeague(rand.nextInt(1,1000), name);
   }
-
 
   public League(int id, String name, Date beginDate, Date endDate, boolean done, int idSport) {
     this.id = id;
@@ -135,33 +140,40 @@ public class League {
     return listTeam.removeTeam(index);
   }
 
-  /**
-   * Get the list of teams in the league
-   *
-   * @return ListTeam: Vector containg teams
-   */
-  public ListTeam getTeams() {
-    return listTeam;
+  public void printLeague() {
+    System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);
+    if (listTeam.getSize() > 0) {
+      listTeam.printListTeam();
+      return;
+    }
+    System.out.println("Pas d'équipe");
+    return;
   }
 
-  /**
-   * Get the list of teams in the league
-   *
-   * @return String: League name
-   */
-  public String getName() {
-    return name;
+  // Setter
+  public void setDone(boolean bool)
+  {
+    this.done = bool;
+  }
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+  public void setBeginDate(Date beginDate) {
+    this.beginDate = beginDate;
+  }
+  public void setIdSport(int idSport) {
+    this.idSport = idSport;
   }
 
-  /**
-   * Returns the league's ID
-   *
-   * @return int: League's ID
-   */
-  public int getId() {
-    return id;
+  public boolean setName(String leagueName) {
+    if(leagueName == null) {
+      LoggerUtil.error("Impossible de changer le nom de la ligue");
+      return false;
+    }
+    LoggerUtil.info("Changement du nom de la ligue: " + this.name + " -> " + leagueName);
+    this.name = leagueName;
+    return true;
   }
-
 
   public boolean setLeagueID(int idLeague) {
     if (idLeague < 0) {
@@ -177,59 +189,43 @@ public class League {
     return true;
   }
 
-  public boolean setName(String leagueName) {
-    if(leagueName == null) {
-      LoggerUtil.error("Impossible de changer le nom de la ligue");
-      return false;
-    }
-    LoggerUtil.info("Changement du nom de la ligue: " + this.name + " -> " + leagueName);
-    this.name = leagueName;
-    return true;
-  }
-
-
-  public int getIdSport() {
-    return idSport;
-  }
-
-  public void setIdSport(int idSport) {
-    this.idSport = idSport;
-  }
-
-
-  public Date getBeginDate() {
-    return beginDate;
-  }
-
-  public void setBeginDate(Date beginDate) {
-    this.beginDate = beginDate;
-  }
-
-  public Date getEndDate() {
-    return endDate;
-  }
-
-  public void setEndDate(Date endDate) {
-    this.endDate = endDate;
-  }
-
-  public void printLeague() {
-    System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);
-    if (listTeam.getSize() > 0) {
-      listTeam.printListTeam();
-      return;
-    }
-    System.out.println("Pas d'équipe");
-    return;
-  }
-
+  // Getter
   public boolean getDone()
   {
     return done;
   }
+  public Date getEndDate() {
+    return endDate;
+  }
+  public Date getBeginDate() {
+    return beginDate;
+  }
+  public int getIdSport() {
+    return idSport;
+  }
+  /**
+   * Returns the league's ID
+   *
+   * @return int: League's ID
+   */
+  public int getId() {
+    return id;
+  }
+  /**
+   * Get the list of teams in the league
+   *
+   * @return String: League name
+   */
+  public String getName() {
+    return name;
+  }
 
-  public void setDone(boolean bool)
-  {
-    this.done = bool;
+  /**
+   * Get the list of teams in the league
+   *
+   * @return ListTeam: Vector containg teams
+   */
+  public ListTeam getTeams() {
+    return listTeam;
   }
 }
