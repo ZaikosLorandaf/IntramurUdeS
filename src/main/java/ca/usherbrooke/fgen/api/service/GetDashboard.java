@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @Consumes(MediaType.APPLICATION_JSON)
 public class GetDashboard {
     @Inject
-    OGClass ogclass;
+    OGClass ogClass;
 
     @GET
     @Path("nothing")

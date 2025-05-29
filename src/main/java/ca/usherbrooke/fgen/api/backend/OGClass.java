@@ -14,22 +14,37 @@ public class OGClass {
   private MyVector mv;
   ListSport sportList;
 
-  public OGClass() {
-    mv = new MyVector();
-    mv.message += "password = " + mv.password;
-    sportList = new ListSport();
-    trashData();
-    Sport sport = new Sport("bb");
-    sportList.addSport(sport);
-  }
+    public OGClass() {
 
-  /**
-   * Getter pour la listeSport
-   * @return L'objet ListeSport
-   */
-  public ListSport getSportList() {
-    return sportList;
-  }
+//            mv = new MonVecteur();
+//            mv.message += "password = " + mv.password;
+            sportList = new ListSport();
+//            trashData();
+//            Sport sport = new Sport("bb");
+//            sportList.addSport(sport);
+    }
+
+    /**
+     * Getter pour la listeSport
+     * @return L'objet ListeSport
+     */
+
+    public String init() {
+        return "";
+    }
+
+    public String getSports() {
+        System.out.println(sportList.getMapSports());
+        String result = "";
+        for (int i : sportList.getMapSports().keySet()) {
+            result += sportList.getSport(i).getName() + "</br>";
+        }
+        return result;
+    }
+
+    public ListSport getSportList() {
+        return sportList;
+    }
 
   public String getEquipesData(String sportName, String leagueName) {
     JSONObject response = new JSONObject();

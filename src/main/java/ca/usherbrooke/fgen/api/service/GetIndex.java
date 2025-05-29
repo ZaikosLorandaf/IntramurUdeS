@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ public class GetIndex {
     @GET
     @Path("get_sport_ligue")
     public String getSportLeague() {
+
         return ogClass.getSportLeague();
     }
 }

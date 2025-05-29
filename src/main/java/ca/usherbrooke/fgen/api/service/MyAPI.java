@@ -186,5 +186,16 @@ public class MyAPI {
         return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
+    @GET
+    @Path("init")
+    public String init() {
+        return ogClass.init();
+    }
+
+    @GET
+    @Path("listSport")
+    public String listSport() {
+        return ogClass.getSports();
+    }
 
 }

@@ -27,6 +27,10 @@ public class ListLeague {
     OGClass ogClass;
     public int addLeague(League league) {
 
+        if (league == null)
+        {
+            return 0;
+        }
         if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());
