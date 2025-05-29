@@ -11,7 +11,7 @@ import ca.usherbrooke.fgen.api.backend.OGClass;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class MonAPI {
+public class MyAPI {
 
     @Inject
     OGClass ogClass;
