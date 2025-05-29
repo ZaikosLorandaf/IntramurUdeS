@@ -65,14 +65,29 @@ $$;
 /**
   Fonction pour vérifier chevauchement match
  */
+CREATE OR REPLACE FUNCTION get_match_overlap(id_team_check INT, nouveau_match match_)
+    RETURNS SETOF INT
+    LANGUAGE SQL
+AS $$
+SELECT id FROM match_ m
+  INNER JOIN intramurudes.match_team mt ON m.id = mt.id_match
+    WHERE m.date_match = nouveau_match.date_match
+        AND
+    (m.begin_time, m.end_time) OVERLAPS (nouveau_match.begin_time, nouveau_match.end_time)
+        AND
+    mt.id_team = id_team_check;
+$$;
+
 CREATE OR REPLACE FUNCTION check_match_overlap()
     RETURNS TRIGGER
     LANGUAGE plpgsql
 AS $$
 BEGIN
-    IF (
-
-       )
+    IF NOT EXISTS(SELECT get_match_overlap(new.id_team,
+                                       (SELECT * FROM match_
+                                                        WHERE id = new.id_match)
+                     )
+              )
     THEN
         RETURN TRUE;
     ELSE
@@ -82,8 +97,6 @@ END;
 $$;
 
 
-
-
 CREATE OR REPLACE FUNCTION check_before_insert_match_team()
     RETURNS TRIGGER
     LANGUAGE plpgsql
@@ -91,7 +104,9 @@ AS $$
 BEGIN
     IF (check_place_left_match()
         AND
-       check_team_same_league())
+       check_team_same_league()
+        AND
+       check_match_overlap())
     THEN
         RETURN new;
     END IF;
