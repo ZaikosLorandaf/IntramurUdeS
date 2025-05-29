@@ -103,43 +103,26 @@ public class ListSport {
         return this.removeSport(sport.getId());
     }
 
-
-    /**
-     * Méthode pour aller chercher un sport dans la liste selon son id
-     * @param id Id du sport à aller chercher
-     * @return Le sport s'il a été trouvé, sinon null
-     */
-    public Sport getSport(int id) {
-        Sport sport = this.mapId.getOrDefault(id, null);
-        return sport;
-    }
-
+    // Getter
+    public Sport getSport(int id) { return this.mapId.getOrDefault(id, null); }
     public Sport getSport(String nom) {
         return this.mapId.getOrDefault(this.mapNomId.get(nom), null);
     }
-
     public List<Sport> getAllSports() {
         return new ArrayList<>(this.mapId.values());
     }
-
-
-
     public int getSize() {
         return this.mapId.size();
     }
-
     public Map<Integer, Sport> getMapSports() {
         return this.mapId;
     }
-
     public boolean checkExistSport(Sport sport) {
         return this.mapId.containsKey(sport.getId());
     }
-
     public League getLeague(int id) {
         return mapLeagueSport.getOrDefault(id, null);
     }
-
     public Team getTeam(int id) {
         return mapTeamLeague.getOrDefault(id, null);
     }

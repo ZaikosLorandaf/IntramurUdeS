@@ -23,9 +23,6 @@ public class ListTeam {
         LoggerUtil.info("Création de la liste d'équipe");
     }
 
-
-
-
     /**
      * Ajouter une équipe au vecteur
      *
@@ -86,22 +83,6 @@ public class ListTeam {
     }
 
 
-
-    /**
-     * GetTeam
-     * @param id id de l'équipe
-     * @return Objet de type Team si l'index est valide sinon retourne null
-     */
-    public Team getTeam(int id)
-    {
-        return mapId.getOrDefault(id, null);
-    }
-
-    public Team getTeam(String name)
-    {
-        return this.getTeam(this.mapNomId.getOrDefault(name, null));
-    }
-
     /**
      * Fonction test de la classe Team
      */
@@ -125,6 +106,16 @@ public class ListTeam {
         this.mapId.clear();
     }
 
+
+    // Getter
+    public Team getTeam(int id)
+    {
+        return mapId.getOrDefault(id, null);
+    }
+    public Team getTeam(String name)
+    {
+        return this.getTeam(this.mapNomId.getOrDefault(name, null));
+    }
     public int getSize()
     {
         return mapId.size();

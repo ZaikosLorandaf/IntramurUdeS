@@ -31,8 +31,6 @@ public class ListPlayer {
             mapId.put(player.getId(), player);
             mapNumberId.put(player.getNumber(), player.getId());
 
-
-
             LoggerUtil.info("Ajout du joueur " + player.getName());
             return true;
         }
@@ -88,23 +86,6 @@ public class ListPlayer {
     }
 
     /**
-     * Get le joueur dans la liste
-     * @param id id du joueur
-     * @return Retourne le joueur s'il existe, sinon null
-     */
-    public Player getPlayer(int id)
-    {
-        return mapId.getOrDefault(id, null);
-    }
-
-    public Player getPlayerByNumber(int number)
-    {
-        return this.getPlayer(mapNumberId.getOrDefault(number, null));
-    }
-
-
-
-    /**
      * Affiche ce que contient la liste pour tester
      */
     public void printList() {
@@ -120,13 +101,17 @@ public class ListPlayer {
         }
     }
 
-
-    /**
-     * Get la quantité de Joueur dans le vecteur
-     * @return quantité de joueur dans le vecteur
-     */
+    // Getter
     public int getSize()
     {
         return mapId.size();
+    }
+    public Player getPlayer(int id)
+    {
+        return mapId.getOrDefault(id, null);
+    }
+    public Player getPlayerByNumber(int number)
+    {
+        return this.getPlayer(mapNumberId.getOrDefault(number, null));
     }
 }

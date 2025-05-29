@@ -80,24 +80,16 @@ public class ListLeague {
     }
 
 
-
+    // Getter
     public int getSize() {
         return mapId.size();
     }
-
-    /**
-     * Méthode pour aller chercher une league selon son nom
-     * @param id
-     * @return
-     */
     public League getLeague(int id) {
         return mapId.getOrDefault(id, null);
     }
-
     public League getLeague(String name) {
         return getLeague(mapNomId.getOrDefault(name, null));
     }
-
     public List<Integer> getLeagueIds() {
         return new ArrayList<>(mapId.keySet());
     }
