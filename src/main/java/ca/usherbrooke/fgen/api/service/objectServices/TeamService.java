@@ -22,7 +22,7 @@ public class TeamService {
     public List<Team> getTeams() {
         List<Team> teams = teamMapper.selectTeams();
         for (Team team : teams) {
-            ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
+            ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);
         }
         return unescapeEntities(teams);
     }
@@ -33,7 +33,7 @@ public class TeamService {
             @PathParam("id") Integer id
     ) {
         Team team = teamMapper.selectOneTeam(id);
-        ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
+        ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);
         return unescapeEntities(team);
     }
 
@@ -44,7 +44,7 @@ public class TeamService {
         teamMapper.insertTeam(team);
 
         // Ajouter l'équipe à la ligue correspondante
-        ogClass.getListeSport().getLeague(team.getIdLeague()).addTeam(team);
+        ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);
     }
 
 

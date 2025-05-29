@@ -11,7 +11,7 @@ import ca.usherbrooke.fgen.api.backend.OGClass;
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class MonAPI {
+public class MyAPI {
 
     @Inject
     OGClass ogClass;
@@ -56,10 +56,37 @@ public class MonAPI {
     @GET
     @Path("liste_match_pour_date")
     public String getListeMatchPourDate() {
-
         return "coucouille";
     }
 
+    // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
+    @GET
+    @Path("listSport/{nom_sport}")
+    public String getListSport(@PathParam("nom_sport") String nom_sport) {
+        return ogClass.listSport(nom_sport);
+    }
+
+    @GET
+    @Path("addLigue/{nom_sport}")
+    public String addSport( @PathParam("nom_sport") String sport) {
+		return ogClass.newSport(sport);
+    }
+
+    @GET
+    @Path("getSport/{nom_sport}")
+    public String getSport(
+            @PathParam("nom_sport") String nom_sport) {
+        return ogClass.getSport(nom_sport);
+    }
+
+    @GET
+    @Path("removeSport/{nom_sport}")
+    public String removeLeague(
+            @PathParam("nom_sport") String nomSport) {
+        return ogClass.removeSport(nomSport);
+    }
+
+    // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
@@ -73,7 +100,7 @@ public class MonAPI {
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
         return ogClass.newLeague(sport, nom);
-    }
+   }
 
     @GET
     @Path("getLigue/{sport}/{nom}")
@@ -92,6 +119,7 @@ public class MonAPI {
     }
 
 
+    // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
     @GET
     @Path("addTeam/{nom_sport}/{nom_ligue}/{nom_equipe}")
     public String getAddTeam(
@@ -99,6 +127,14 @@ public class MonAPI {
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
         return ogClass.addTeam(sport, nom_ligue,nom_equipe);
+    }
+
+    @GET
+    @Path("getTeams/{nom_sport}/{ligue}")
+    public String getTeams(
+            @PathParam("nom_sport") String nom_sport,
+            @PathParam("ligue") String ligue) {
+        return ogClass.getTeams(nom_sport,ligue);
     }
 
     @GET
@@ -114,12 +150,12 @@ public class MonAPI {
     public String removeTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue,
-            @PathParam("nom_equipe") String nom_equipe)
-    {
+            @PathParam("nom_equipe") String nom_equipe) {
         return ogClass.removeTeam(nomSport, nom_ligue,nom_equipe);
     }
 
 
+    // ~~~~~~~~~~~ Players ~~~~~~~~~~ //
     @GET
     @Path("addPlayer/{nom_sport}/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
     public String addPlayer(
@@ -127,9 +163,7 @@ public class MonAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("nom_joueur") String nomJoueur,
-            @PathParam("prenom_joueur") String prenomJoueur
-    )
-    {
+            @PathParam("prenom_joueur") String prenomJoueur ) {
         return ogClass.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
     }
 
@@ -138,8 +172,7 @@ public class MonAPI {
     public String listPlayer(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
-            @PathParam("nom_equipe") String nomEquipe)
-    {
+            @PathParam("nom_equipe") String nomEquipe) {
         return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
@@ -149,10 +182,20 @@ public class MonAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
-            @PathParam("number_player") int numberPlayer)
-    {
+            @PathParam("number_player") int numberPlayer) {
         return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
+    @GET
+    @Path("init")
+    public String init() {
+        return ogClass.init();
+    }
+
+    @GET
+    @Path("listSport")
+    public String listSport() {
+        return ogClass.getSports();
+    }
 
 }

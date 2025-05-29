@@ -1,6 +1,5 @@
 package ca.usherbrooke.fgen.api.backend;
 
-
 public class Sport {
     private int id;
     private String name;
@@ -22,9 +21,7 @@ public class Sport {
         listLeague = new ListLeague();
     }
 
-
-    public  Sport(String name)
-    {
+    public Sport(String name) {
         this.name = name;
         this.listLeague = new ListLeague();
         this.nbTeamMatch = 2;

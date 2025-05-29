@@ -23,7 +23,7 @@ public class SportService {
     @GET
     public List<Sport> getSports() {
         List<Sport> sports = sportMapper.selectAll();
-        ogClass.getListeSport().addSports(sports);
+        ogClass.getSportList().addSports(sports);
         return unescapeEntities(sports);
     }
 
@@ -35,7 +35,7 @@ public class SportService {
             @PathParam("id") Integer id
     ) {
         Sport sport = sportMapper.selectOne(id);
-        ogClass.getListeSport().addSport(sport);
+        ogClass.getSportList().addSport(sport);
         return unescapeEntities(sport);
     }
 
@@ -46,7 +46,7 @@ public class SportService {
         sportMapper.insertSport(sport);
 
         // Ajouter l'équipe à la ligue correspondante
-        ogClass.getListeSport().addSport(sport);
+        ogClass.getSportList().addSport(sport);
     }
 
 

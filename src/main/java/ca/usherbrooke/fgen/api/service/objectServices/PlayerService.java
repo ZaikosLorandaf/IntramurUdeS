@@ -22,7 +22,7 @@ public class PlayerService {
     public List<Player> getPlayers() {
         List<Player> players = playerMapper.selectPlayers();
         for (Player player : players) {
-            ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
+            ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(player);
         }
 
         return unescapeEntities(players);
@@ -34,7 +34,7 @@ public class PlayerService {
             @PathParam("id") Integer id
     ) {
         Player player = playerMapper.selectOnePlayer(id);
-        ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
+        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(player);
         return unescapeEntities(player);
     }
 
@@ -45,7 +45,7 @@ public class PlayerService {
         playerMapper.insertPlayer(player);
 
         // Ajouter l'équipe à la ligue correspondante
-        ogClass.getListeSport().getTeam(player.getIdTeam()).addPlayer(player);
+        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(player);
     }
 
     public static Player unescapeEntities(Player player) {
