@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import org.jsoup.parser.Parser;
 
@@ -11,13 +12,14 @@ import java.util.List;
 
 
 @Path("/api/league")
-public class LeagueService extends GeneralService<League> {
+public class LeagueService extends TemplateService<League> {
     @Inject
     LeagueMapper leagueMapper;
     @Inject
     OGClass ogClass;
 
     // Redirection vers les fonctions template
+    @GET
     public List<League> getLeagues(){
         return getItems();
     }
@@ -65,7 +67,6 @@ public class LeagueService extends GeneralService<League> {
 
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));
-        league.setWeekDay(Parser.unescapeEntities(league.getWeekDay(), false));
     }
 }
 

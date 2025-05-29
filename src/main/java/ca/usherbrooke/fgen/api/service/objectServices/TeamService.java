@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Path("/api/team")
-public class TeamService extends GeneralService<Team> {
+public class TeamService extends TemplateService<Team> {
     @Inject
     TeamMapper teamMapper;
     @Inject
@@ -20,13 +20,13 @@ public class TeamService extends GeneralService<Team> {
     // Redirection vers les fonctions template
     @GET
     public List<Team> getTeams() {
-        return getTeams();
+        return getItems();
     }
 
     @GET
     @Path("{id}")
     public Team getTeam(@PathParam("id") Integer id) {
-        return getTeam(id);
+        return getItem(id);
     }
 
     @POST

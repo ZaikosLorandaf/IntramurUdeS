@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Path("/api/player")
-public class PlayerService extends GeneralService<Player> {
+public class PlayerService extends TemplateService<Player> {
     @Inject
     PlayerMapper playerMapper;
     @Inject

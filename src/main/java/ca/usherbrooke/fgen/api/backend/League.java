@@ -204,6 +204,23 @@ public class League {
     this.idSport = idSport;
   }
 
+
+  public Date getBeginDate() {
+    return beginDate;
+  }
+
+  public void setBeginDate(Date beginDate) {
+    this.beginDate = beginDate;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+
   public void printLeague()
   {
     System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);

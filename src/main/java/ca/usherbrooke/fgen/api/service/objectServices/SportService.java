@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Path("/api/sport")
-public class SportService extends GeneralService<Sport> {
+public class SportService extends TemplateService<Sport> {
     @Inject
     SportMapper sportMapper;
     @Inject

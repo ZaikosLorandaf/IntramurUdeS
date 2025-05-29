@@ -4,7 +4,7 @@ import javax.ws.rs.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class GeneralService <ListType> {
+public abstract class TemplateService<ListType> {
     public List<ListType> getItems() {
         List<ListType> items = selectAll();
         for (ListType item : items) {
