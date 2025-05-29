@@ -32,6 +32,7 @@ public class ListLeague {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());
             ListSport.addLeagueMap(league);
+            
             LoggerUtil.info("Ajout de la ligue " + league.getName());
             return true;
         }
