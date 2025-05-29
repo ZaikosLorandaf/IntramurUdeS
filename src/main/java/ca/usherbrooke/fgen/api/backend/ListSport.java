@@ -49,8 +49,8 @@ public class ListSport {
     }
 
     public static boolean addLeagueMap(League league) {
-        if (!mapLeagueSport.containsKey(league.getId())) {
-            mapLeagueSport.put(league.getId(), league);
+        if (!ListSport.mapLeagueSport.containsKey(league.getId())) {
+            ListSport.mapLeagueSport.put(league.getId(), league);
             LoggerUtil.info("Ajout du league " + league.getName());
             return true;
         }
@@ -60,13 +60,14 @@ public class ListSport {
         }
     }
 
-    public static League removeLeagueMap(League league) {
+    public static League removeLeagueMap(League league)
+    {
         return ListSport.mapLeagueSport.remove(league.getId());
     }
 
     public static boolean addTeamMap(Team team) {
-        if (!mapTeamLeague.containsKey(team.getId())) {
-            mapTeamLeague.put(team.getId(), team);
+        if (!ListSport.mapTeamLeague.containsKey(team.getId())) {
+            ListSport.mapTeamLeague.put(team.getId(), team);
             return true;
         }
         else {
@@ -75,7 +76,8 @@ public class ListSport {
         }
     }
 
-    public static Team removeTeamMap(Team team) {
+    public static Team removeTeamMap(Team team)
+    {
          return ListSport.mapTeamLeague.remove(team.getId());
     }
 

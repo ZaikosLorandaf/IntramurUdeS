@@ -16,11 +16,7 @@ public class MyAPI {
     @Inject
     OGClass ogClass;
 
-    @GET
-    @Path("monendpoint")
-    public String getMonMessage() {
-        return ogClass.getMessage();
-    }
+
 
     @GET
     @Path("monendpointJojojo")
@@ -186,11 +182,7 @@ public class MyAPI {
         return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
-    @GET
-    @Path("init")
-    public String init() {
-        return ogClass.init();
-    }
+    
 
     @GET
     @Path("listSport")

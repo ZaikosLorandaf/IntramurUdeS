@@ -25,7 +25,7 @@ public class LeagueService {
         List<League> leagues = leagueMapper.selectAll();
         for (League league : leagues) {
             int leagueId = league.getIdSport();
-            Sport sport = ogClass.getListeSport().getSport(leagueId);
+            Sport sport = ogClass.getSportList().getSport(leagueId);
             sport.addLeague(unescapeEntities(league));
         }
         return unescapeEntities(leagues);
