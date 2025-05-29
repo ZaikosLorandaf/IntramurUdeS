@@ -11,11 +11,11 @@ import java.util.List;
 
 @ApplicationScoped
 public class OGClass {
-  private MonVecteur mv;
+  private MyVector mv;
   ListSport sportList;
 
   public OGClass() {
-    mv = new MonVecteur();
+    mv = new MyVector();
     mv.message += "password = " + mv.password;
     sportList = new ListSport();
     trashData();
@@ -31,10 +31,10 @@ public class OGClass {
     return sportList;
   }
 
-  public String getEquipesData(String nomSport, String nomLigue) {
+  public String getEquipesData(String sportName, String leagueName) {
     JSONObject response = new JSONObject();
 
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
     if (league == null) {
       return new JSONObject().put("error", "Ligue introuvable").toString();
     }
@@ -44,20 +44,20 @@ public class OGClass {
     for (int i = 0; i < listTeam.getSize(); i++) {
       Team team = listTeam.getTeam(i);
 
-      List<String> joueurs = new ArrayList<>();
+      List<String> player = new ArrayList<>();
       for (int j = 0; j < team.getListPlayer().getSize(); j++) {
         Player p = team.getListPlayer().getPlayer(j);
-        joueurs.add(p.getName());
+        player.add(p.getName());
       }
 
-      String joueursStr = String.join(", ", joueurs);
+      String playerStr = String.join(", ", player);
       String matchsStr = "Statistiques fictives";
 
-      JSONObject infoEquipe = new JSONObject()
-        .put("joueurs", joueursStr)
+      JSONObject teamInfo = new JSONObject()
+        .put("joueurs", playerStr)
         .put("matchs", matchsStr);
 
-      response.put(team.getName(), infoEquipe);
+      response.put(team.getName(), teamInfo);
     }
 
     return response.toString();
@@ -249,13 +249,13 @@ public class OGClass {
     return "";
   }
 
-  public String addTeam(String nomSport, String nomLigue, String nomEquipe) {
+  public String addTeam(String sportName, String leagueName, String teamName) {
     String result;
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
     if(league == null) {
       result = "Ligue introuvable";
     } else {
-      if (league.newTeam(nomEquipe)) {
+      if (league.newTeam(teamName)) {
         result = "Équipe ajoutée";
       }
       else {
@@ -266,12 +266,12 @@ public class OGClass {
     return result;
   }
 
-  public String listTeam(String nomSport, String nomLigue) {
-    if (sportList.getSport(nomSport) == null) {
+  public String listTeam(String sportName, String leagueName) {
+    if (sportList.getSport(sportName) == null) {
       return "Erreur Sport";
     }
     String result = "";
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
     if(league == null)
       result = "Ligue introuvable";
     else {
@@ -299,64 +299,66 @@ public class OGClass {
   //        return result;
   //    }
 
-  public String listLeague(String nomSport) {
-    if (sportList.getSport(nomSport) == null)
+  public String listLeague(String sportName) {
+    if (sportList.getSport(sportName) == null)
       return "Erreur Sport";
 
     String result = "";
-    if(sportList.getSport(nomSport).getListLeague().getSize() <= 0)
+    if(sportList.getSport(sportName).getListLeague().getSize() <= 0)
       return "<div>Pas de ligue</div>";
 
-    for (int i : sportList.getSport(nomSport).getListLeague().getLeagueIds())
-      result += sportList.getSport(nomSport).getListLeague().getLeague(i).getName() + "</br>";
+    for (int i : sportList.getSport(sportName).getListLeague().getLeagueIds())
+      result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
 
     return result;
   }
 
-  public String removeTeam(String nomSport, String nomLigue, String nomEquipe) {
-    if (sportList.getSport(nomSport) == null)
+  public String removeTeam(String sportName, String leagueName, String teamName) {
+    if (sportList.getSport(sportName) == null)
       return "Erreur Sport";
 
-    if(sportList.getSport(nomSport).getListLeague().getSize() <= 0)
+    if(sportList.getSport(sportName).getListLeague().getSize() <= 0)
       return "<div>Pas de ligue</div>";
 
-    Team team = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue).getTeams().getTeam(nomEquipe);
+    Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
     if (team == null)
       return "<div>Pas d'équipe</div>";
 
-    if (sportList.getSport(nomSport).getListLeague().getLeague(nomLigue).removeTeam(team))
+    if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
       return "<div>Équipe retirée</div>";
 
     return "<div>Erreur lors du retrait d'équipe</div>";
   }
 
-  public String addPlayer(String nomSport, String nomLigue, String nomEquipe,String prenomJoueur, String nomJoueur) {
-    if (sportList.getSport(nomSport) == null)
+  public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName) {
+    if (sportList.getSport(sportName) == null)
       return "Erreur Sport";
 
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
-    if(league == null)
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+    if (league == null)
       return "<div>Pas de ligue</div>";
 
-    Team team = league.getTeams().getTeam(nomEquipe);
+    Team team = league.getTeams().getTeam(teamName);
     if (team == null)
       return "<div>Pas d'équipe</div>";
 
-    if (team.newPlayer(prenomJoueur, nomJoueur))
-      return "<div> Joueur : " + prenomJoueur + " " + nomJoueur + " ajouté</div>";
+    if (team.newPlayer(playerFirsName, playerLastName))
+      return "<div> Joueur : " + playerFirsName + " " + playerLastName + " ajouté</div>";
+
     return "<div>Erreur nom</div>";
   }
 
-  public String listPlayer(String nomSport, String nomLigue, String nomEquipe) {
-    if (sportList.getSport(nomSport) == null) {
+  public String listPlayer(String sportName, String leagueName, String teamName) {
+    if (sportList.getSport(sportName) == null) {
       return "Erreur Sport";
     }
+
     String result = "";
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
     if(league == null)
       result = "Ligue introuvable";
     else {
-      Team team = league.getTeams().getTeam(nomEquipe);
+      Team team = league.getTeams().getTeam(teamName);
       if (team == null)
         result = "Equipe introuvable";
       else {
@@ -372,19 +374,19 @@ public class OGClass {
   }
 
 
-  public String removePlayer(String nomSport, String nomLigue, String nomEquipe, int numberPlayer) {
-    if (sportList.getSport(nomSport) == null)
+  public String removePlayer(String sportName, String leagueName, String teamName, int playerNumber) {
+    if (sportList.getSport(sportName) == null)
       return "Erreur Sport";
 
-    League league = sportList.getSport(nomSport).getListLeague().getLeague(nomLigue);
+    League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
     if(league == null)
       return "<div>Ligue non-trouvée</div>";
 
-    Team team = league.getTeams().getTeam(nomEquipe);
+    Team team = league.getTeams().getTeam(teamName);
     if (team == null)
       return "<div>Équipe non-trouvée</div>";
 
-    Player player = team.getListPlayer().getPlayer(numberPlayer);
+    Player player = team.getListPlayer().getPlayer(playerNumber);
     if(player == null)
       return "<div>Joueur non-trouvé</div>";
 
