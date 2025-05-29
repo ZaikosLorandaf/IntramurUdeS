@@ -30,8 +30,7 @@ public class MessageService {
 	public List<Message> getMessages(
 			@PathParam("trimester") String trimesterId,
 			@PathParam("profile") String profileId,
-			@PathParam("unit") String unit
-	) {
+			@PathParam("unit") String unit ) {
 		List<Message> messages = messageMapper.select(trimesterId, profileId, unit, null);
 		return unescapeEntities(messages);
 	}
@@ -39,8 +38,7 @@ public class MessageService {
 
 	@GET
 	@Path("getallmessages")
-	public List<Message> getAllMessages(
-	) {
+	public List<Message> getAllMessages() {
 		List<Message> messages = messageMapper.allMessages();
 		return this.unescapeEntities(messages);
 	}
@@ -48,8 +46,7 @@ public class MessageService {
 	@GET
 	@Path("getmessage/{id}")
 	public Message getMessage(
-			@PathParam("id") Integer id
-	) {
+			@PathParam("id") Integer id) {
 		Message message = messageMapper.selectOne(id);
 		return unescapeEntities(message);
 	}
@@ -57,8 +54,7 @@ public class MessageService {
 	@DELETE
 	@Path("deletemessage/{id}")
 	public void deleteMessage(
-			@PathParam("id") Integer id
-	) {
+			@PathParam("id") Integer id) {
 		messageMapper.deleteOne(id);
 		return;
 	}

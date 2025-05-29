@@ -22,7 +22,7 @@ public class Team {
     /**
      * Fonction d'initialisation des parametres de la classe avec creation List
      **/
-    public void  initTeam(int id, String name, int idLeague, int maxPlayers) {
+    public void initTeam(int id, String name, int idLeague, int maxPlayers) {
         this.id = id;
         this.name = name;
         this.idLeague = idLeague;
@@ -39,8 +39,9 @@ public class Team {
 
     /**
      * Constructeur paramétré prenant une liste de joueur déjà montée
-     * @param id Id de l'équipe
-     * @param name Nom de l'équipe
+     *
+     * @param id         Id de l'équipe
+     * @param name       Nom de l'équipe
      * @param listPlayer Liste de joueur de l'équipe
      */
     public Team(int id, String name, int idLeague, ListPlayer listPlayer) {
@@ -49,8 +50,9 @@ public class Team {
 
     /**
      * Constructeur paramétré créant une liste vide de joueurs
-     * @param id Id de l'équipe
-     * @param name Nom de l'équipe
+     *
+     * @param id         Id de l'équipe
+     * @param name       Nom de l'équipe
      * @param maxPlayers Nombre maximum de joueurs possible
      */
     public Team(int id, String name, int idLeague, int maxPlayers) {
@@ -59,8 +61,9 @@ public class Team {
 
     /**
      * Constructeur paramétré prenant une liste de joueurs déjà montée sans ligue
-     * @param id Id de l'équipe
-     * @param name Nom de l'équipe
+     *
+     * @param id         Id de l'équipe
+     * @param name       Nom de l'équipe
      * @param listPlayer Liste de joueurs de l'équipe
      */
     public Team(int id, String name, ListPlayer listPlayer) {
@@ -69,11 +72,11 @@ public class Team {
 
     /**
      * Constructeur paramétré créant une liste vide de joueurs sans ligue
-     * @param id Id de l'équipe
+     *
+     * @param id   Id de l'équipe
      * @param name Nom de l'équipe
      */
-    public Team(int id, String name, int idLeague)
-    {
+    public Team(int id, String name, int idLeague) {
         this.id = id;
         this.name = name;
         this.idLeague = idLeague;
@@ -81,7 +84,8 @@ public class Team {
 
     /**
      * Constructeur paramétré créant une équipe avec une liste et un id de base
-     * @param name Nom de l'équipe
+     *
+     * @param name     Nom de l'équipe
      * @param idLeague l'id de la ligue
      */
     public Team(String name, int idLeague, ListPlayer listPlayer) {
@@ -95,6 +99,7 @@ public class Team {
     public String getName() {
         return this.name;
     }
+
     public void setName(String newName) {
         this.name = newName;
         LoggerUtil.info("Changement du nom de l'équipe");
@@ -106,6 +111,7 @@ public class Team {
 
     /**
      * Ajouter un objet de type joueur dans la liste
+     *
      * @param newPlayer Objet de type joueur
      * @return vrai si l'objet est non-null
      */
@@ -116,6 +122,7 @@ public class Team {
 
     /**
      * Retirer un joueur de l'équipe à partir de l'objet
+     *
      * @param player Objet de type Joueur
      * @return vrai si le joueur est retiré
      */
@@ -126,6 +133,7 @@ public class Team {
 
     /**
      * Retirer un joueur de l'équipe à partir de l'objet
+     *
      * @param index index du joueur à retirer
      * @return vrai si un joueur est retiré adéquatement
      */
@@ -136,6 +144,7 @@ public class Team {
 
     /**
      * Crée un nouveau joueur et l'insère dans la liste
+     *
      * @param fn Prénom
      * @param ln Nom de famille
      * @return Faux si le nom est invalide sinon vrai
@@ -145,7 +154,7 @@ public class Team {
             LoggerUtil.error("Impossible de créer le joueur pour l'ajouter dans l'équipe");
             return false;
         }
-        Player player = new Player(fn,ln,getId());
+        Player player = new Player(fn, ln, getId());
         if (this.addPlayer(player)) {
             LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
             return true;
@@ -159,18 +168,19 @@ public class Team {
      * Fontion de tests de la classe Team
      */
     public void printTeam() {
-        System.out.printf("base.Team : %s\nid = %d\nidLeague = %d\nList base.Player: \n",getName(),getId(),getIdLeague());
-        for(int i = 0; i < getListPlayer().getSize();i++) {
+        System.out.printf("base.Team : %s\nid = %d\nidLeague = %d\nList base.Player: \n", getName(), getId(),
+                getIdLeague());
+        for (int i = 0; i < getListPlayer().getSize(); i++) {
             getListPlayer().getPlayer(i).printPlayer();
         }
     }
 
     public boolean setId(int id) {
-        if(id <= 0) {
+        if (id <= 0) {
             LoggerUtil.error("Impossible de changer l'id de l'équipe");
             return false;
         }
-        for(int i = 0; i<getListPlayer().getSize();i++) {
+        for (int i = 0; i < getListPlayer().getSize(); i++) {
             getListPlayer().getPlayer(i).setIdTeam(id);
         }
         this.id = id;

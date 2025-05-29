@@ -43,8 +43,7 @@ public class League {
   }
 
 
-  public League(int id, String name, Date beginDate, Date endDate, boolean done, int idSport)
-  {
+  public League(int id, String name, Date beginDate, Date endDate, boolean done, int idSport) {
     this.id = id;
     this.name = name;
     this.beginDate = beginDate;
@@ -120,8 +119,7 @@ public class League {
    * @param team Team: Team item to be removed
    * @return Boolean
    */
-  public boolean removeTeam(Team team)
-  {
+  public boolean removeTeam(Team team) {
     LoggerUtil.info("Tentative de retrait de l'équipe: " + team.getName());
     return listTeam.removeTeam(team);
   }
@@ -132,8 +130,7 @@ public class League {
    * @param index index de l'équipe à retirer
    * @return Boolean
    */
-  public boolean removeTeam(int index)
-  {
+  public boolean removeTeam(int index) {
     LoggerUtil.info("Tentative de retrait d'équipe");
     return listTeam.removeTeam(index);
   }
@@ -166,27 +163,22 @@ public class League {
   }
 
 
-  public boolean setLeagueID(int idLeague)
-  {
-    if (idLeague < 0)
-    {
+  public boolean setLeagueID(int idLeague) {
+    if (idLeague < 0) {
       LoggerUtil.error("Impossible de changer l'id de la ligue");
       return false;
     }
 
     this.id = idLeague;
-    for (int i = 0; i < getTeams().getSize(); i++)
-    {
+    for (int i = 0; i < getTeams().getSize(); i++) {
       this.getTeams().getTeam(i).setIdLeague(idLeague);
     }
     LoggerUtil.info("Changement de l'id de la ligue");
     return true;
   }
 
-  public boolean setName(String leagueName)
-  {
-    if(leagueName == null)
-    {
+  public boolean setName(String leagueName) {
+    if(leagueName == null) {
       LoggerUtil.error("Impossible de changer le nom de la ligue");
       return false;
     }
@@ -221,12 +213,9 @@ public class League {
     this.endDate = endDate;
   }
 
-  public void printLeague()
-  {
+  public void printLeague() {
     System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);
-
-    if (listTeam.getSize() > 0)
-    {
+    if (listTeam.getSize() > 0) {
       listTeam.printListTeam();
       return;
     }

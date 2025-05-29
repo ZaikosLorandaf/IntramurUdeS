@@ -9,20 +9,19 @@ public class Player {
 
     /**
      * Constructeur de la classe
-     * @param fn Prénom
-     * @param ln Nom
+     *
+     * @param fn     Prénom
+     * @param ln     Nom
      * @param idTeam id de l'équipe dans la db
      */
-    public Player(String fn, String ln, int idTeam)
-    {
+    public Player(String fn, String ln, int idTeam) {
         setName(fn);
         setLastName(ln);
         setIdTeam(idTeam);
         LoggerUtil.info("Création du joueur");
     }
 
-    public Player(int id, String name, String lastName, int number, int idTeam)
-    {
+    public Player(int id, String name, String lastName, int number, int idTeam) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -30,57 +29,53 @@ public class Player {
         this.idTeam = idTeam;
     }
 
-    public int getId()
-    {
+    public int getId() {
         return this.id;
     }
 
     /**
      * Get le nom du joueur
+     *
      * @return nom
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
-    public void setName(String n)
-    {
+
+    public void setName(String n) {
         name = n;
 
-        //METTRE LE LIEN AVEC L'ID
+        // METTRE LE LIEN AVEC L'ID
         LoggerUtil.info("Changement du prenom du joueur");
     }
-    public void setLastName(String n)
-    {
+
+    public void setLastName(String n) {
         lastName = n;
-        //METTRE LE LIEN AVEC L'ID
+        // METTRE LE LIEN AVEC L'ID
         LoggerUtil.info("Changement du nom de famille du joueur");
     }
-    public void setIdTeam(int id)
-    {
+
+    public void setIdTeam(int id) {
         idTeam = id;
         LoggerUtil.info("Changement de l'id d'équipe du joueur");
     }
-    public int getIdTeam()
-    {
+
+    public int getIdTeam() {
         return idTeam;
     }
 
     /**
      * Print dans la console le joueur pour les tests
      */
-    public void printPlayer()
-    {
-        System.out.printf("%s %s, I am on team %d\n",name,lastName,idTeam);
+    public void printPlayer() {
+        System.out.printf("%s %s, I am on team %d\n", name, lastName, idTeam);
     }
 
-    public int getNumber()
-    {
+    public int getNumber() {
         return this.number;
     }
 }

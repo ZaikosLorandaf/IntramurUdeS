@@ -37,8 +37,7 @@ public class ListTeam {
             ListSport.addTeamMap(team);
             LoggerUtil.info("Ajout de l'équipe " + team.getName());
             return true;
-        }
-        else {
+        } else {
             LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
             return false;
         }
@@ -52,8 +51,7 @@ public class ListTeam {
     public int addTeam(List<Team> teams) {
         int counter = 0;
         for (Team team : teams) {
-            if (addTeam(team))
-            {
+            if (addTeam(team)) {
                 counter++;
             }
         }
@@ -70,8 +68,7 @@ public class ListTeam {
             mapId.remove(id);
 
             return true;
-        }
-        else {
+        } else {
             LoggerUtil.warning("Échec du retrait de l'équipe " + mapId.get(id).getName() + "(id: " + id + ").");
             return false;
         }
@@ -108,16 +105,13 @@ public class ListTeam {
     /**
      * Fonction test de la classe Team
      */
-    public void printListTeam()
-    {
-        if(mapId.size() <= 0)
-        {
+    public void printListTeam() {
+        if(mapId.size() <= 0) {
             System.out.println("Pas d'équipe");
             return;
         }
         System.out.println("-----base.ListTeam-----");
-        for(int i : mapId.keySet())
-        {
+        for(int i : mapId.keySet()) {
             getTeam(i).printTeam();
         }
         System.out.println("-----Fin-----");

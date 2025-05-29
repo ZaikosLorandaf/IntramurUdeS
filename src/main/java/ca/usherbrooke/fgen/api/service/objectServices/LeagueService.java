@@ -24,18 +24,14 @@ public class LeagueService extends TemplateService<League> {
         return getItems();
     }
 
-    public League getLeague(
-            @PathParam("id") Integer id
-    ) {
+    public League getLeague(@PathParam("id") Integer id) {
         return getItem(id);
     }
 
 
     @GET
     @Path("sport/{sportid}")
-    public List<League> getLeaguesBySportId(
-            @PathParam("sportid") Integer sportId
-    ) {
+    public List<League> getLeaguesBySportId( @PathParam("sportid") Integer sportId ) {
         List<League> leagues = leagueMapper.selectFromSport(sportId);
         for (League league : leagues) {
             add(league);

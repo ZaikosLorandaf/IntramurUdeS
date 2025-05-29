@@ -25,7 +25,7 @@ public class Sport {
         this.name = name;
         this.listLeague = new ListLeague();
         this.nbTeamMatch = 2;
-        this.id = rand.nextInt(1,32);
+        this.id = rand.nextInt(1, 32);
     }
 
     public Sport() {

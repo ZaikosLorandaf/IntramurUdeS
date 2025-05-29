@@ -60,8 +60,7 @@ public class ListPlayer {
      * @param id Id du joueur à retirer
      * @return faux si index out of bound sinon vrai
      */
-    public boolean removePlayer(int id)
-    {
+    public boolean removePlayer(int id) {
         if(mapId.containsKey(id) && mapNumberId.containsKey(mapId.get(id).getNumber())) {
             LoggerUtil.warning("Retrait du joueur " + mapId.get(id).getName() + "(id: " + id + ").");
             mapNumberId.remove(mapId.get(id).getNumber());
@@ -84,8 +83,7 @@ public class ListPlayer {
         return removePlayer(player.getId());
     }
 
-    public boolean removePlayerByNumber(int number)
-    {
+    public boolean removePlayerByNumber(int number) {
         return this.removePlayer(mapNumberId.getOrDefault(number, null));
     }
 
@@ -110,7 +108,8 @@ public class ListPlayer {
      * Affiche ce que contient la liste pour tester
      */
     public void printList() {
-        if (this.getSize() <= 0) System.out.println("Liste vide");
+        if (this.getSize() <= 0)
+            System.out.println("Liste vide");
         else {
             System.out.println("------LISTE------");
             System.out.printf("Size = %d\n",getSize());
@@ -131,6 +130,3 @@ public class ListPlayer {
         return mapId.size();
     }
 }
-
-
-

@@ -46,8 +46,7 @@ public class ListLeague {
     public int addLeague(List<League> leagues) {
         int counter = 0;
         for (League league : leagues) {
-            if(addLeague(league))
-            {
+            if(addLeague(league)) {
                 counter++;
             }
         }
