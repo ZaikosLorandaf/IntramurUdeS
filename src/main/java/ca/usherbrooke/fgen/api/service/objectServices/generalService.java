@@ -1,29 +1,45 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Path("/api/general")
-public class generalService {
-
-    @Inject
-    SportService sportService;
-    @Inject
-    LeagueService leagueService;
-    @Inject
-    TeamService teamService;
-    @Inject
-    PlayerService playerService;
-
-
-    @GET
-    public String getAllData() {
-        sportService.getSports();
-        leagueService.getLeagues();
-        teamService.getTeams();
-        playerService.getPlayers();
-        return "All data gathered";
+public abstract class GeneralService <ListType> {
+    public List<ListType> getItems() {
+        List<ListType> items = selectAll();
+        for (ListType item : items) {
+            add(item);
+        }
+        return unescapeEntities(items);
     }
 
+    public ListType getItem(@PathParam("id") Integer id) {
+        ListType item = selectOne(id);
+        add(item);
+        return unescapeEntities(item);
+    }
+
+    public void addItem(ListType item) {
+        // Ajouter l'équipe à la base de données via le mapper
+        insert(item);
+        add(item);
+     }
+
+    public ListType unescapeEntities(ListType item) {
+        setName(item);
+        return item;
+    }
+
+    public List<ListType> unescapeEntities(List<ListType> items) {
+        return items
+                .stream()
+                .map(this::unescapeEntities)
+                .collect(Collectors.toList());
+    }
+
+    protected abstract List<ListType> selectAll();
+    protected abstract ListType selectOne(Integer id);
+    protected abstract void add(ListType item);
+    protected abstract void insert(ListType item);
+    protected abstract void setName(ListType item);
 }
