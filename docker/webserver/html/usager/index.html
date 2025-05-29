@@ -124,8 +124,8 @@
         function addSport() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-            const nomLigue = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/addSport/", {})
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/addSport/"+nomSport, {})
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;
@@ -152,7 +152,7 @@
         function removeSport() {
             const div = document.getElementById('title');
             const span = div.firstElementChild;
-            const nomLigue =document.getElementById("nomSport").value;
+            const nomSport =document.getElementById("nomSport").value;
             axios.get("http://localhost:8888/api/removeSport/"+nomSport, {})
                 .then(function (response) {
                     span.innerHTML +=

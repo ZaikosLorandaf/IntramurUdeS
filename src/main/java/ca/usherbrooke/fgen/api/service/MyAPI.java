@@ -61,13 +61,13 @@ public class MyAPI {
 
     // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
     @GET
-    @Path("listSport/{nom_sport}")
-    public String getListSport(@PathParam("nom_sport") String nom_sport) {
-        return ogClass.listSport(nom_sport);
+    @Path("listSport/")
+    public String getListSport() {
+        return ogClass.listSport();
     }
 
     @GET
-    @Path("addLigue/{nom_sport}")
+    @Path("addSport/{nom_sport}")
     public String addSport( @PathParam("nom_sport") String sport) {
 		return ogClass.newSport(sport);
     }

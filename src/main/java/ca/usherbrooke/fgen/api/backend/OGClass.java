@@ -12,13 +12,13 @@ import java.util.List;
 @ApplicationScoped
 public class OGClass {
   private MyVector mv;
-  ListSport sportList;
+  ListSport sportList = new ListSport();
 
     public OGClass() {
 
 //            mv = new MonVecteur();
 //            mv.message += "password = " + mv.password;
-            sportList = new ListSport();
+//            sportList = new ListSport();
 //            trashData();
 //            Sport sport = new Sport("bb");
 //            sportList.addSport(sport);
@@ -121,7 +121,7 @@ public class OGClass {
 
   // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
   public String newSport(String sportName) {
-    if(!sportList.getAllSports().contains(sportList.getSport(sportName)))
+    if(sportList.getAllSports().contains(sportList.getSport(sportName)))
       return "Sport Error";
 
     Sport newSport = new Sport(sportName);
@@ -136,8 +136,8 @@ public class OGClass {
     return result;
   }
 
-  public String listSport(String sportName) {
-    if (sportList.getAllSports() == null)
+  public String listSport() {
+    if (sportList.getAllSports().size() <= 0)
       return "No Sports";
 
     String result = "";
@@ -189,7 +189,7 @@ public class OGClass {
   // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
 
   public String newLeague(String sport, String nom) {
-    if(!sportList.getAllSports().contains(sportList.getSport(nom))) {
+    if(sportList.getAllSports().contains(sportList.getSport(nom))) {
       return "Sport Error";
     }
 
