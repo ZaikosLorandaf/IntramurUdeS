@@ -4,12 +4,21 @@ package ca.usherbrooke.fgen.api.backend;
 public class Sport {
     private int id;
     private String name;
+    private int nbTeamMatch;
     private ListLeague listLeague;
     java.util.Random rand = new java.util.Random();
 
     public Sport(String name, int id) {
         this.id = id;
         this.name = name;
+        this.nbTeamMatch = 2;
+        listLeague = new ListLeague();
+    }
+
+    public Sport(int id, String name, int nbTeamMatch) {
+        this.id = id;
+        this.name = name;
+        this.nbTeamMatch = nbTeamMatch;
         listLeague = new ListLeague();
     }
 
@@ -17,13 +26,15 @@ public class Sport {
     public  Sport(String name)
     {
         this.name = name;
-        listLeague = new ListLeague();
+        this.listLeague = new ListLeague();
+        this.nbTeamMatch = 2;
         this.id = rand.nextInt(1,32);
     }
 
     public Sport() {
         this.id = -1;
         this.name = "";
+        this.nbTeamMatch = 2;
         listLeague = new ListLeague();
     }
 
@@ -47,7 +58,7 @@ public class Sport {
         return listLeague;
     }
 
-    public int addLeague(League league) {
+    public boolean addLeague(League league) {
         return listLeague.addLeague(league);
     }
 }

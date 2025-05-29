@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,15 +14,17 @@ import java.util.List;
 public class OGClass
 {
     private MonVecteur mv;
+    @Inject
     ListSport listeSport;
 
     public OGClass() {
         mv = new MonVecteur();
         mv.message += "password = " + mv.password;
         listeSport = new ListSport();
-        trashData();
-        Sport sport = new Sport("bb");
-        listeSport.addSport(sport);
+        LoggerUtil.info("Création de OGClass terminée.");
+//        trashData();
+//        Sport sport = new Sport("bb");
+//        listeSport.addSport(sport);
     }
 
     /**
@@ -29,13 +32,13 @@ public class OGClass
      * @return L'objet ListeSport
      */
     public ListSport getListeSport() {
-        return listeSport;
+        return this.listeSport;
     }
 
     public String getEquipesData(String nomSport, String nomLigue) {
         JSONObject response = new JSONObject();
 
-        League league = listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
+        League league = this.listeSport.getSport(nomSport).getListLeague().getLeague(nomLigue);
         if (league == null) {
             return new JSONObject().put("error", "Ligue introuvable").toString();
         }
@@ -111,9 +114,9 @@ public class OGClass
             return "Erreur sport";
         }
         League newLeague = new League(nom);
-        int resultAdd = listeSport.getSport(sport).addLeague(newLeague);
+        boolean resultAdd = listeSport.getSport(sport).addLeague(newLeague);
         String result;
-        if (resultAdd == 0) {
+        if (!resultAdd) {
             result = "<div>erreur</div>";
         }
         else {
@@ -348,3 +351,7 @@ public class OGClass
     }
 
 }
+
+
+
+

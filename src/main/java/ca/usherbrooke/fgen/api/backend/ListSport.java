@@ -1,17 +1,19 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import javax.enterprise.context.ApplicationScoped;
 import java.util.*;
 
+@ApplicationScoped
 public class ListSport {
     private Map<Integer, Sport> mapId;
     private Map<String, Integer> mapNomId;
-    private static Map<Integer, Team> mapTeamLeague; // Convertion de id_Team -> id_League
-    private static Map<Integer, League> mapLeagueSport; // Convertion de id_League -> id_Sport
+    private static Map<Integer, Team> mapTeamLeague = new HashMap<>(); // Convertion de id_Team -> id_League
+    private static Map<Integer, League> mapLeagueSport = new HashMap<>(); // Convertion de id_League -> id_Sport
+
 
     public ListSport() {
         this.mapId = new HashMap<>();
         this.mapNomId = new HashMap<>();
-        this.mapTeamLeague = new HashMap<>();
         LoggerUtil.info("Création du vecteur de sport");
     }
 
@@ -49,7 +51,7 @@ public class ListSport {
         return counter;
     }
 
-    public boolean addLeagueMap(League league) {
+    public static boolean addLeagueMap(League league) {
         if (!mapLeagueSport.containsKey(league.getId())) {
             mapLeagueSport.put(league.getId(), league);
             LoggerUtil.info("Ajout du league " + league.getName());
@@ -61,16 +63,23 @@ public class ListSport {
         }
     }
 
-    public boolean addTeamMap(Team team) {
+    public static League removeLeagueMap(League league) {
+        return ListSport.mapLeagueSport.remove(league.getId());
+    }
+
+    public static boolean addTeamMap(Team team) {
         if (!mapTeamLeague.containsKey(team.getId())) {
             mapTeamLeague.put(team.getId(), team);
-            LoggerUtil.info("Ajout de la ligue " + team.getName());
             return true;
         }
         else {
             LoggerUtil.warning("Le id de la ligue " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
             return false;
         }
+    }
+
+    public static Team removeTeamMap(Team team) {
+         return ListSport.mapTeamLeague.remove(team.getId());
     }
 
     public boolean removeSport(int id) {
@@ -102,7 +111,8 @@ public class ListSport {
      * @return Le sport s'il a été trouvé, sinon null
      */
     public Sport getSport(int id) {
-        return this.mapId.getOrDefault(id, null);
+        Sport sport = this.mapId.getOrDefault(id, null);
+        return sport;
     }
 
 

@@ -2,6 +2,20 @@ SET search_path = intramurudes;
 
 
 
+CREATE OR REPLACE VIEW v_player_team_league_sport
+AS
+    SELECT p.id AS id_player, p.name AS player_name, p.last_name, p.number,
+           t.id AS id_team, t.name AS team_name,
+           l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
+           s.id AS sport_id, s.name AS sport_name, s.nb_team_match
+    FROM intramurudes.player p
+    INNER JOIN intramurudes.team t ON t.id = p.id_team
+    INNER JOIN intramurudes.league l ON l.id = t.id_league
+    INNER JOIN intramurudes.sport s ON l.id_sport = s.id;
+
+
+
+
 /**
   Trigger pour vérifier qu'il n'y a pas trop d'équipe dans match_team
  */
@@ -10,13 +24,21 @@ CREATE OR REPLACE FUNCTION check_place_left_match()
     LANGUAGE plpgsql
 AS $$
 BEGIN
-    IF EXISTS()
-    END IF;
-    IF (SELECT count(mt.id_team)
-        FROM match_team mt
-        WHERE mt.id_match = 1) > 1
+    IF EXISTS(SELECT mt.id_team
+              FROM match_team mt
+              WHERE mt.id_match = new.id_match)
     THEN
+        IF (SELECT count(mt.id_team)
+            FROM match_team mt
+            WHERE mt.id_match = new.match_id) > (
+                SELECT s.nb_team_match
+                FROM sport s
+                WHERE s.id = )
+        THEN
 
+        END IF;
+    ELSE
+        RETURN new;
     END IF;
 END;
 $$;

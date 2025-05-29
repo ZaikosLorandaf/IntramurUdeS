@@ -78,11 +78,12 @@ public class Team
      * Constructeur paramétré créant une liste vide de joueurs sans ligue
      * @param id Id de l'équipe
      * @param name Nom de l'équipe
-     * @param maxPlayers Nombre maximal de joueurs
      */
-    public Team(int id, String name, int maxPlayers)
+    public Team(int id, String name, int idLeague)
     {
-        initTeam(id, name, -1, maxPlayers);
+        this.id = id;
+        this.name = name;
+        this.idLeague = idLeague;
     }
 
     /**
