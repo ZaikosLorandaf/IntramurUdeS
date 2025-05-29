@@ -2,7 +2,6 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Player;
 import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import org.jsoup.parser.Parser;
@@ -28,6 +27,8 @@ public class SportService {
         return unescapeEntities(sports);
     }
 
+
+
     @GET
     @Path("{id}")
     public Sport getSport(
@@ -48,12 +49,18 @@ public class SportService {
         ogClass.getSportList().addSport(sport);
     }
 
+
+
+
+
+
+
     public static Sport unescapeEntities(Sport sport) {
         sport.setName(Parser.unescapeEntities(sport.getName(), true));
         return sport;
     }
 
-    public List<Sport> unescapeEntities(List<Sport> sport) {
+    public static List<Sport> unescapeEntities(List<Sport> sport) {
         return sport
                 .stream()
                 .map(SportService::unescapeEntities)

@@ -28,7 +28,7 @@
     <insert id="insertTeam">
         insert into intramurudes.team(id,
                                       name,
-                                      create_at,
+                                      created_at,
                                       id_league)
         values (#{team.name},
                 #{team.id_league})

@@ -4,17 +4,12 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Sport;
-import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
-import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Path("/api/league")
@@ -29,7 +24,9 @@ public class LeagueService {
     public List<League> getLeagues() {
         List<League> leagues = leagueMapper.selectAll();
         for (League league : leagues) {
-            ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+            int leagueId = league.getIdSport();
+            Sport sport = ogClass.getSportList().getSport(leagueId);
+            sport.addLeague(unescapeEntities(league));
         }
         return unescapeEntities(leagues);
     }
@@ -69,7 +66,6 @@ public class LeagueService {
 
     public static League unescapeEntities(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));
-        league.setWeekDay(Parser.unescapeEntities(league.getWeekDay(), false));
         return league;
     }
 

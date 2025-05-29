@@ -1,11 +1,15 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 public class ListTeam {
+
+    @Inject
+    OGClass ogClass;
 
     private Map<Integer, Team> mapId;
     private Map<String, Integer> mapNomId;
@@ -30,6 +34,7 @@ public class ListTeam {
     public boolean addTeam(Team team) {
         if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
             this.mapId.put(team.getId(), team);
+            ListSport.addTeamMap(team);
             LoggerUtil.info("Ajout de l'équipe " + team.getName());
             return true;
         }
@@ -60,8 +65,10 @@ public class ListTeam {
     public boolean removeTeam(int id) {
         if(mapId.containsKey(id) && mapNomId.containsKey(mapId.get(id).getName())) {
             LoggerUtil.warning("Retrait de l'équipe " + mapId.get(id).getName() + "(id: " + id + ").");
+            ListSport.removeTeamMap(mapId.get(id));
             mapNomId.remove(mapId.get(id).getName());
             mapId.remove(id);
+
             return true;
         }
         else {

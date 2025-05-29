@@ -5,14 +5,16 @@
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.SportMapper">
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Sport">
         select id,
-               name
+               name,
+                nb_team_match
         from intramurudes.sport
 
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Sport">
         select id,
-               name
+               name,
+               nb_team_match
         from intramurudes.sport
         where id = #{id}
     </select>

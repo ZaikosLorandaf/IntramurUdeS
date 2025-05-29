@@ -8,6 +8,7 @@
         select id,
                name,
                last_name,
+               number,
                id_team
         from intramurudes.Player
     </select>
@@ -16,6 +17,7 @@
         select id,
                name,
                last_name,
+               number,
                id_team
         from intramurudes.Player
         where id = #{id}
@@ -31,8 +33,7 @@
         insert into intramurudes.Player(id,
                                         name,
                                         last_name,
-                                        create_at,
-                                        id_league)
+                                        id_team)
         values (#{player.name},
                 #{player.last_name},
                 #{player.id_team})
