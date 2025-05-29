@@ -7,6 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @ApplicationScoped
 public class OGClass {
@@ -131,7 +132,8 @@ public class OGClass {
 
         String result = "";
         int maxSport = sportList.getSize();
-        for (int i = 0; i < maxSport; i++) {
+        Set<Integer> keys = sportList.getMapSports().keySet();
+        for (int i: keys) {
             result += sportList.getSport(i) + "</br>";
         }
 
@@ -276,7 +278,7 @@ public class OGClass {
             if (league.getTeams().getSize() <= 0) {
                 result = "Pas d'équipe";
             } else {
-                for (int i = 0; i < league.getTeams().getSize(); i++) {
+                for (int i : league.getTeams().getMapId().keySet()) {
                     result += league.getTeams().getTeam(i).getName() + "</br>";
                 }
             }
@@ -362,8 +364,8 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i = 0; i < team.getListPlayer().getSize(); i++) {
-                    Player player = team.getListPlayer().getPlayer(i);
+                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
+                    Player player = team.getListPlayer().getPlayerByNumber(i);
                     result += player.getName() + " " + player.getLastName() + "</br>";
                 }
             }

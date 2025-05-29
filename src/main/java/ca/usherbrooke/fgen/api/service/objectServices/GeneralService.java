@@ -1,5 +1,8 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
+import io.quarkus.runtime.StartupEvent;
+
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -18,7 +21,7 @@ public class GeneralService {
 
 
         @GET
-        public String getAllData() {
+        public String getAllData(@Observes StartupEvent event) {
             sportService.getSports();
             leagueService.getLeagues();
             teamService.getTeams();
