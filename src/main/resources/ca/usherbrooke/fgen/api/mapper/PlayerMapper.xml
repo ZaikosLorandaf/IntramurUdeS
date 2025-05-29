@@ -23,6 +23,11 @@
         where id = #{id}
     </select>
 
+
+    <select id="getNewId" resultType="Integer">
+        select nextval('intramurudes.player_id_seq)'::regclass)
+    </select>
+
     <delete id="deleteOnePlayer">
         delete
         from intramurudes.Player
@@ -38,5 +43,8 @@
                 #{player.last_name},
                 #{player.id_team})
     </insert>
+
+
+
 
 </mapper>
