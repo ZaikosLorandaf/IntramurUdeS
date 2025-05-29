@@ -1,24 +1,76 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Sport;
-import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
-import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 @Path("/api/league")
-public class LeagueService {
+public class LeagueService extends TemplateService<League> {
+    @Inject
+    LeagueMapper leagueMapper;
+    @Inject
+    OGClass ogClass;
+
+    // Redirection vers les fonctions template
+    @GET
+    public List<League> getLeagues(){
+        return getItems();
+    }
+
+    public League getLeague(
+            @PathParam("id") Integer id
+    ) {
+        return getItem(id);
+    }
+
+
+    @GET
+    @Path("sport/{sportid}")
+    public List<League> getLeaguesBySportId(
+            @PathParam("sportid") Integer sportId
+    ) {
+        List<League> leagues = leagueMapper.selectFromSport(sportId);
+        for (League league : leagues) {
+            add(league);
+        }
+        return unescapeEntities(leagues);
+    }
+
+    @POST
+    @Consumes("application/json")
+    public void addLeague(League league) {
+        addItem(league);
+    }
+
+
+    // Implementation des fonctions du template
+    protected List<League> selectAll(){
+        return leagueMapper.selectAll();
+    }
+    protected League selectOne(Integer id){
+        return leagueMapper.selectOne(id);
+    }
+
+    protected void insert(League league){
+        leagueMapper.insertLeague(league);
+    }
+    protected void add(League league){
+        ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+    }
+
+    protected void setName(League league) {
+        league.setName(Parser.unescapeEntities(league.getName(), true));
+    }
+}
+
+/*public class LeagueService {
     @Inject
     LeagueMapper leagueMapper;
     @Inject
@@ -29,7 +81,9 @@ public class LeagueService {
     public List<League> getLeagues() {
         List<League> leagues = leagueMapper.selectAll();
         for (League league : leagues) {
-            ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+            int leagueId = league.getIdSport();
+            Sport sport = ogClass.getSportList().getSport(leagueId);
+            sport.addLeague(unescapeEntities(league));
         }
         return unescapeEntities(leagues);
     }
@@ -69,7 +123,6 @@ public class LeagueService {
 
     public static League unescapeEntities(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));
-        league.setWeekDay(Parser.unescapeEntities(league.getWeekDay(), false));
         return league;
     }
 
@@ -79,4 +132,4 @@ public class LeagueService {
                 .map(LeagueService::unescapeEntities)
                 .collect(Collectors.toList());
     }
-}
+}*/

@@ -1,6 +1,5 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
@@ -9,10 +8,55 @@ import org.jsoup.parser.Parser;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Path("/api/team")
-public class TeamService {
+public class TeamService extends TemplateService<Team> {
+    @Inject
+    TeamMapper teamMapper;
+    @Inject
+    OGClass ogClass;
+
+    // Redirection vers les fonctions template
+    @GET
+    public List<Team> getTeams() {
+        return getItems();
+    }
+
+    @GET
+    @Path("{id}")
+    public Team getTeam(@PathParam("id") Integer id) {
+        return getItem(id);
+    }
+
+    @POST
+    @Consumes("application/json")
+    public void addTeam(Team team) {
+        addItem(team);
+    }
+
+
+    // Implementation des fonctions du template
+    protected List<Team> selectAll(){
+        return teamMapper.selectTeams();
+    }
+    protected Team selectOne(Integer id){
+        return teamMapper.selectOneTeam(id);
+    }
+
+    protected void insert(Team team){
+        teamMapper.insertTeam(team);
+    }
+    protected void add(Team team){
+        ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);
+    }
+
+    protected void setName(Team team) {
+        team.setName(Parser.unescapeEntities(team.getName(), true));
+    }
+}
+
+/*public class TeamService {
     @Inject
     TeamMapper teamMapper;
     @Inject
@@ -59,4 +103,4 @@ public class TeamService {
                 .map(TeamService::unescapeEntities)
                 .collect(Collectors.toList());
     }
-}
+}*/

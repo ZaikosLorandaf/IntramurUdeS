@@ -1,8 +1,6 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Player;
 import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import org.jsoup.parser.Parser;
@@ -10,11 +8,55 @@ import org.jsoup.parser.Parser;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Path("/api/sport")
-public class SportService {
+public class SportService extends TemplateService<Sport> {
+    @Inject
+    SportMapper sportMapper;
+    @Inject
+    OGClass ogClass;
+
+    // Redirection vers les fonctions template
+    @GET
+    public List<Sport> getSports() {
+        return getItems();
+    }
+
+    @GET
+    @Path("{id}")
+    public Sport getSport(@PathParam("id") Integer id) {
+        return getItem(id);
+    }
+
+    @POST
+    @Consumes("application/json")
+    public void addSport(Sport sport) {
+        addItem(sport);
+    }
+
+
+    // Implementation des fonctions du template
+    protected List<Sport> selectAll(){
+        return sportMapper.selectAll();
+    }
+    protected Sport selectOne(Integer id){
+        return sportMapper.selectOne(id);
+    }
+
+    protected void insert(Sport sport){
+        sportMapper.insertSport(sport);
+    }
+    protected void add(Sport sport){
+        ogClass.getSportList().addSport(sport);
+    }
+
+    protected void setName(Sport sport) {
+        sport.setName(Parser.unescapeEntities(sport.getName(), true));
+    }
+}
+
+/*public class SportService {
     @Inject
     SportMapper sportMapper;
     @Inject
@@ -27,6 +69,8 @@ public class SportService {
         ogClass.getSportList().addSports(sports);
         return unescapeEntities(sports);
     }
+
+
 
     @GET
     @Path("{id}")
@@ -48,15 +92,21 @@ public class SportService {
         ogClass.getSportList().addSport(sport);
     }
 
+
+
+
+
+
+
     public static Sport unescapeEntities(Sport sport) {
         sport.setName(Parser.unescapeEntities(sport.getName(), true));
         return sport;
     }
 
-    public List<Sport> unescapeEntities(List<Sport> sport) {
+    public static List<Sport> unescapeEntities(List<Sport> sport) {
         return sport
                 .stream()
                 .map(SportService::unescapeEntities)
                 .collect(Collectors.toList());
     }
-}
+}*/

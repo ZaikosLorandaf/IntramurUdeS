@@ -1,36 +1,30 @@
 package ca.usherbrooke.fgen.api.backend;
-import io.quarkus.resteasy.runtime.QuarkusRestPathTemplateInterceptor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @ApplicationScoped
-public class OGClass {
-  private MyVector mv;
-  ListSport sportList = new ListSport();
+public class OGClass
+{
+    @Inject
+    ListSport sportList;
 
     public OGClass() {
 
-//            mv = new MonVecteur();
-//            mv.message += "password = " + mv.password;
-//            sportList = new ListSport();
-//            trashData();
-//            Sport sport = new Sport("bb");
-//            sportList.addSport(sport);
+        sportList = new ListSport();
+        LoggerUtil.info("Création de OGClass terminée.");
     }
 
     /**
      * Getter pour la listeSport
      * @return L'objet ListeSport
      */
-
-    public String init() {
-        return "";
+    public ListSport getSportList() {
+        return this.sportList;
     }
 
     public String getSports() {
@@ -42,9 +36,7 @@ public class OGClass {
         return result;
     }
 
-    public ListSport getSportList() {
-        return sportList;
-    }
+
 
   public String getEquipesData(String sportName, String leagueName) {
     JSONObject response = new JSONObject();
@@ -194,9 +186,9 @@ public class OGClass {
     }
 
     League newLeague = new League(nom);
-    int resultAdd = sportList.getSport(sport).addLeague(newLeague);
+    boolean resultAdd = sportList.getSport(sport).addLeague(newLeague);
     String result;
-    if (resultAdd == 0) {
+    if (!resultAdd) {
       result = "<div>erreur</div>";
     } else {
       result = "<div>";
@@ -255,9 +247,7 @@ public class OGClass {
     return result;
   }
 
-  public String getMessage() {
-    return mv.message;
-  }
+
 
   // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
   public String getTeams(String sport, String league) {
@@ -412,3 +402,7 @@ public class OGClass {
   }
 
 }
+
+
+
+

@@ -15,6 +15,7 @@ CREATE TABLE league(
                        name VARCHAR(127) NOT NULL,
                        begin_date DATE,
                        end_date DATE,
+                       done BOOL DEFAULT false,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_sport INT NOT NULL,
                        PRIMARY KEY(id),
@@ -155,3 +156,11 @@ ALTER TABLE league ADD CONSTRAINT league_name_sport_id_unique UNIQUE  (name, id_
 ALTER TABLE team ADD CONSTRAINT team_name_league_id UNIQUE (name, id_league);
 
 ALTER TABLE player ADD CONSTRAINT player_number_team_id_unique UNIQUE  (number, id_team);
+
+CREATE OR REPLACE VIEW v_player_team_league_sport
+AS
+SELECT p.id AS id_player, t.id AS id_team, l.id AS id_league, s.id AS sport_id
+FROM intramurudes.player p
+         INNER JOIN intramurudes.team t ON t.id = p.id_team
+         INNER JOIN intramurudes.league l ON l.id = t.id_league
+         INNER JOIN intramurudes.sport s ON l.id_sport = s.id;

@@ -1,14 +1,14 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class League {
   private int id;
   private ListTeam listTeam;
   private String name;
-  private String weekDay;
-  private Time timeStart;
-  private Time timeEnd;
+  private Date beginDate;
+  private Date endDate;
   private int idSport;
   private boolean done = false;
   private java.util.Random rand = new java.util.Random();
@@ -42,42 +42,30 @@ public class League {
     LoggerUtil.info("Création de la ligue " + name);
   }
 
+
+  public League(int id, String name, Date beginDate, Date endDate, boolean done, int idSport)
+  {
+    this.id = id;
+    this.name = name;
+    this.beginDate = beginDate;
+    this.endDate = endDate;
+    this.done = done;
+    this.idSport = idSport;
+  }
+
   /**
    * Constructor for a league
    * @param id Id of the league
    * @param name Name of the league
-   * @param weekDay The day of the week where the league takes place
-   * @param timeStart The time where the league starts
-   * @param timeEnd The time where the league ends
+   * @param beginDate Date where the league begins
+   * @param endDate Date where the league ends
    * @param idSport The id of the sport of the league
    */
-  public League(int id, String name, String weekDay, Time timeStart, Time timeEnd, int idSport) {
+  public League(int id, String name, Date beginDate, Date endDate, int idSport) {
     this.id = id;
     this.name = name;
-    this.weekDay = weekDay;
-    this.timeStart = timeStart;
-    this.timeEnd = timeEnd;
-    this.idSport = idSport;
-    this.done = false;
-    this.listTeam = new ListTeam();
-  }
-
-  /**
-   * Constructor for a league and add it to the league list of the sport
-   * @param id Id of the league
-   * @param name Name of the league
-   * @param weekDay The day of the week where the league takes place
-   * @param timeStart The time where the league starts
-   * @param timeEnd The time where the league ends
-   * @param idSport The id of the sport of the league
-   * @param nameSport Name of the sport of the league
-   */
-  public League(int id, String name, String weekDay, Time timeStart, Time timeEnd, int idSport, String nameSport) {
-    this.id = id;
-    this.name = name;
-    this.weekDay = weekDay;
-    this.timeStart = timeStart;
-    this.timeEnd = timeEnd;
+    this.beginDate = beginDate;
+    this.endDate = endDate;
     this.idSport = idSport;
     this.done = false;
     this.listTeam = new ListTeam();
@@ -207,29 +195,6 @@ public class League {
     return true;
   }
 
-  public String getWeekDay() {
-    return weekDay;
-  }
-
-  public void setWeekDay(String weekDay) {
-    this.weekDay = weekDay;
-  }
-
-  public Time getTimeStart() {
-    return timeStart;
-  }
-
-  public void setTimeStart(Time timeStart) {
-    this.timeStart = timeStart;
-  }
-
-  public Time getTimeEnd() {
-    return timeEnd;
-  }
-
-  public void setTimeEnd(Time timeEnd) {
-    this.timeEnd = timeEnd;
-  }
 
   public int getIdSport() {
     return idSport;
@@ -237,6 +202,23 @@ public class League {
 
   public void setIdSport(int idSport) {
     this.idSport = idSport;
+  }
+
+
+  public Date getBeginDate() {
+    return beginDate;
+  }
+
+  public void setBeginDate(Date beginDate) {
+    this.beginDate = beginDate;
+  }
+
+  public Date getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
   }
 
   public void printLeague()
