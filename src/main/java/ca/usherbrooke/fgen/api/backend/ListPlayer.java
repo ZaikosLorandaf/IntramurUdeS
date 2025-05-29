@@ -129,4 +129,14 @@ public class ListPlayer {
     {
         return mapId.size();
     }
+
+    public Map<Integer, Integer> getMapNumberId() {
+        return mapNumberId;
+    }
+
+    public Map<Integer, Player> getMapId() {
+        return mapId;
+    }
+
+
 }

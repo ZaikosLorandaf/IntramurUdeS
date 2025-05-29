@@ -28,6 +28,10 @@ public class ListLeague {
 
     public boolean addLeague(League league) {
 
+        if (league == null) {
+            LoggerUtil.info("Ligue nulle");
+            return false;
+        }
         if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
             mapId.put(league.getId(), league);
             mapNomId.put(league.getName(), league.getId());

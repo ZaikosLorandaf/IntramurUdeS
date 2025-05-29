@@ -54,6 +54,15 @@ public class TeamService extends TemplateService<Team> {
     protected void setName(Team team) {
         team.setName(Parser.unescapeEntities(team.getName(), true));
     }
+
+    /**
+     * Méthode pour aller chercher le prochain id de l'ajout
+     * @return
+     */
+    public int getNewId()
+    {
+        return teamMapper.getNewId();
+    }
 }
 
 /*public class TeamService {

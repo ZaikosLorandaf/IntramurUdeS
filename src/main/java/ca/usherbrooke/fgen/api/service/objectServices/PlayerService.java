@@ -54,6 +54,15 @@ public class PlayerService extends TemplateService<Player> {
     protected void setName(Player player) {
         player.setName(Parser.unescapeEntities(player.getName(), true));
     }
+
+    /**
+     * Méthode pour aller chercher le prochain id de l'ajout
+     * @return
+     */
+    public int getNewId()
+    {
+        return playerMapper.getNewId();
+    }
 }
 
 /*public class PlayerService {

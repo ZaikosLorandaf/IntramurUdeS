@@ -34,6 +34,7 @@ public class ListTeam {
     public boolean addTeam(Team team) {
         if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
             this.mapId.put(team.getId(), team);
+            this.mapNomId.put(team.getName(), team.getId());
             ListSport.addTeamMap(team);
             LoggerUtil.info("Ajout de l'équipe " + team.getName());
             return true;
@@ -128,5 +129,13 @@ public class ListTeam {
     public int getSize()
     {
         return mapId.size();
+    }
+
+    public Map<Integer, Team> getMapId() {
+        return mapId;
+    }
+
+    public Map<String, Integer> getMapNomId() {
+        return mapNomId;
     }
 }
