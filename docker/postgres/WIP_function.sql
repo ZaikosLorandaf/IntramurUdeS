@@ -2,18 +2,6 @@ SET search_path = intramurudes;
 
 
 
-CREATE OR REPLACE VIEW v_player_team_league_sport
-AS
-    SELECT p.id AS id_player, p.name AS player_name, p.last_name, p.number,
-           t.id AS id_team, t.name AS team_name,
-           l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
-           s.id AS sport_id, s.name AS sport_name, s.nb_team_match
-    FROM intramurudes.player p
-    INNER JOIN intramurudes.team t ON t.id = p.id_team
-    INNER JOIN intramurudes.league l ON l.id = t.id_league
-    INNER JOIN intramurudes.sport s ON l.id_sport = s.id;
-
-
 
 
 /**
@@ -28,17 +16,46 @@ BEGIN
               FROM match_team mt
               WHERE mt.id_match = new.id_match)
     THEN
-        IF (SELECT count(mt.id_team)
-            FROM match_team mt
-            WHERE mt.id_match = new.match_id) > (
-                SELECT s.nb_team_match
-                FROM sport s
-                WHERE s.id = )
+        IF (SELECT nb_teams
+            FROM intramurudes.v_match_teams vmt
+            WHERE vmt.id_match = new.id_match) < (
+                SELECT vptls.nb_team_match
+                FROM v_player_team_league_sport vptls
+                WHERE vptls.id_team = new.id_team)
         THEN
-
+            RETURN TRUE;
+        ELSE
+            RAISE EXCEPTION 'The match is full.';
         END IF;
     ELSE
-        RETURN new;
+        RETURN TRUE;
+    END IF;
+END;
+$$;
+
+
+/**
+  Trigger pour s'assurer que toutes les équipes d'un match sont dans la même ligue
+ */
+CREATE OR REPLACE FUNCTION check_team_same_league()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (SELECT vtls.id_league
+        FROM v_team_league_sport vtls
+        WHERE vtls.id_team = new.id_team) = ALL
+        (
+            (SELECT vtls.id_league
+               FROM v_team_league_sport vtls
+               WHERE vtls.id_team IN (SELECT unnest(vmt.list_teams)
+                FROM v_match_teams vmt
+                WHERE vmt.id_match = new.id_match))
+        )
+        THEN
+            RETURN TRUE;
+        ELSE
+            RAISE EXCEPTION 'Other teams are not in the same league';
     END IF;
 END;
 $$;
@@ -46,27 +63,42 @@ $$;
 
 
 /**
-  Trigger pour s'assurer que deux équipes d'un match sont dans la même ligue
+  Fonction pour vérifier chevauchement match
  */
-CREATE OR REPLACE FUNCTION check_team_same_league()
+CREATE OR REPLACE FUNCTION check_match_overlap()
     RETURNS TRIGGER
     LANGUAGE plpgsql
 AS $$
 BEGIN
-    IF (SELECT count(mt.id_team)
-        FROM match_team mt
-        WHERE mt.id_match = 1) > 1
+    IF (
+
+       )
+    THEN
+        RETURN TRUE;
+    ELSE
+        RAISE EXCEPTION 'The match overlaps another match of the team';
+    END IF;
 END;
 $$;
 
 
 
-/**
-  Trigger pour vérifier chevauchement match
- */
-SELECT id_team FROM match_team mt
-    INNER JOIN intramurudes.match_ m ON m.id = mt.id_match;
 
+CREATE OR REPLACE FUNCTION check_before_insert_match_team()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (check_place_left_match()
+        AND
+       check_team_same_league())
+    THEN
+        RETURN new;
+    END IF;
+END;
+$$;
 
-CREATE VIEW v_match_team AS
-    SELECT m.id id_match, m.date_match, m.begin_time, m.end_time FROM match_ m
+CREATE TRIGGER trg_check_insert_match_team
+    BEFORE INSERT ON match_team
+    FOR EACH ROW
+EXECUTE function check_before_insert_match_team();
