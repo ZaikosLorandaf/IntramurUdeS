@@ -12,5 +12,5 @@ public interface SportMapper {
     Sport selectOne(@Param("id") Integer id);
     void deleteOne(@Param("id") Integer id);
     void insertSport(@Param("sport") Sport sport);
-    Integer getNewId();
+    Integer getLastId();
 }

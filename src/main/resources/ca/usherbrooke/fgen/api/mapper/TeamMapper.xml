@@ -26,12 +26,15 @@
     </delete>
 
     <insert id="insertTeam">
-        insert into intramurudes.team(id,
-                                      name,
-                                      created_at,
+        insert into intramurudes.team(name,
                                       id_league)
-        values (#{team.name},
-                #{team.id_league})
+        values (#{name},
+                #{idLeague})
     </insert>
+
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.team_id_seq;
+    </select>
 
 </mapper>

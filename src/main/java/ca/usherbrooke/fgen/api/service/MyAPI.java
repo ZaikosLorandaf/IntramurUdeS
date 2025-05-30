@@ -1,7 +1,19 @@
 package ca.usherbrooke.fgen.api.service;
+import ca.usherbrooke.fgen.api.service.postAdd.addLeague;
+import ca.usherbrooke.fgen.api.service.postAdd.addSport;
+import ca.usherbrooke.fgen.api.service.postAdd.addTeam;
+import io.smallrye.common.constraint.NotNull;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -62,10 +74,10 @@ public class MyAPI {
         return ogClass.listSport();
     }
 
-    @GET
-    @Path("addSport/{nom_sport}")
-    public String addSport( @PathParam("nom_sport") String sport) {
-		return ogClass.newSport(sport);
+    @POST
+    @Path("addSport")
+    public String addSport(@NotNull addSport sport ) {
+		return ogClass.newSport(sport.nom);
     }
 
     @GET
@@ -79,6 +91,7 @@ public class MyAPI {
     @Path("removeSport/{nom_sport}")
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {
+        nomSport = nomSport.replace("%20", " ");
         return ogClass.removeSport(nomSport);
     }
 
@@ -86,16 +99,27 @@ public class MyAPI {
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
+        nom_sport = nom_sport.replace("%20", " ");
         return ogClass.listLeague(nom_sport);
     }
 
 
-    @GET
-    @Path("addLigue/{sport}/{nom}")
-    public String addLeague(
-            @PathParam("sport") String sport,
-            @PathParam("nom") String nom) {
-        return ogClass.newLeague(sport, nom);
+    @POST
+    @Path("addLigue/")
+    public String addLeague(@NotNull addLeague league) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date_debut;
+        Date date_fin;
+        try {
+            java.util.Date date_debutParsed = dateFormat.parse(league.date_debut);
+            java.util.Date date_finParsed = dateFormat.parse(league.date_fin);
+
+            date_debut = new Date(date_debutParsed.getTime());
+            date_fin = new Date(date_finParsed.getTime());
+        } catch (ParseException e) {
+            return "Invalid date format: " + e.getMessage();
+        }
+        return ogClass.newLeague(league.nom_sport, league.nom,date_debut,date_fin);
    }
 
     @GET
@@ -103,6 +127,8 @@ public class MyAPI {
     public String getLeague(
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
+        sport = sport.replace("%20", " ");
+        nom = nom.replace("%20", " ");
         return ogClass.getLeague(sport, nom);
     }
 
@@ -111,18 +137,17 @@ public class MyAPI {
     public String removeLeague(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
         return ogClass.removeLeague(nomSport, nomLigue);
     }
 
 
     // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
-    @GET
-    @Path("addTeam/{nom_sport}/{nom_ligue}/{nom_equipe}")
-    public String getAddTeam(
-            @PathParam("nom_sport") String sport,
-            @PathParam("nom_ligue") String nom_ligue,
-            @PathParam("nom_equipe") String nom_equipe) {
-        return ogClass.addTeam(sport, nom_ligue,nom_equipe);
+    @POST
+    @Path("addTeam")
+    public String getAddTeam(@NotNull addTeam team) {
+        return ogClass.addTeam(team.nomSport, team.nomLigue, team.nomTeam);
     }
 
     @GET
@@ -130,6 +155,8 @@ public class MyAPI {
     public String getTeams(
             @PathParam("nom_sport") String nom_sport,
             @PathParam("ligue") String ligue) {
+        nom_sport = nom_sport.replace("%20", " ");
+        ligue = ligue.replace("%20", " ");
         return ogClass.getTeams(nom_sport,ligue);
     }
 
@@ -138,6 +165,8 @@ public class MyAPI {
     public String listTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue) {
+        nomSport = nomSport.replace("%20", " ");
+        nom_ligue = nom_ligue.replace("%20", " ");
         return ogClass.listTeam(nomSport,nom_ligue);
     }
 
@@ -147,6 +176,9 @@ public class MyAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
+        nomSport = nomSport.replace("%20", " ");
+        nom_ligue = nom_ligue.replace("%20", " ");
+        nom_equipe = nom_equipe.replace("%20", " ");
         return ogClass.removeTeam(nomSport, nom_ligue,nom_equipe);
     }
 
@@ -160,6 +192,11 @@ public class MyAPI {
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("nom_joueur") String nomJoueur,
             @PathParam("prenom_joueur") String prenomJoueur ) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
+        nomJoueur = nomJoueur.replace("%20", " ");
+        prenomJoueur = prenomJoueur.replace("%20", " ");
         return ogClass.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
     }
 
@@ -169,6 +206,9 @@ public class MyAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
         return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
@@ -179,6 +219,9 @@ public class MyAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("number_player") int numberPlayer) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
         return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
