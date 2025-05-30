@@ -21,12 +21,17 @@ public class GeneralService {
 
 
         @GET
-        public String getAllData(@Observes StartupEvent event) {
+        public String getAllData() {
             sportService.getSports();
             leagueService.getLeagues();
             teamService.getTeams();
             playerService.getPlayers();
             return "All data gathered";
+        }
+
+        public String getAllDataStartup(@Observes StartupEvent event)
+        {
+            return this.getAllData();
         }
 
 

@@ -69,9 +69,9 @@ public class LeagueService extends TemplateService<League> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    public int getNewId()
+    public int getLastId()
     {
-        return leagueMapper.getNewId();
+        return leagueMapper.getLastId();
     }
 }
 

@@ -18,5 +18,5 @@ public interface MessageMapper {
     void deleteOne(@Param("id") Integer id);
     List<Message> allMessages();
     void insertMessage(@Param("message") Message message);
-    Integer getNewId();
+    Integer getLastId();
 }

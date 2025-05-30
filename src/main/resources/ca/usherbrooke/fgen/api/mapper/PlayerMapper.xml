@@ -24,8 +24,8 @@
     </select>
 
 
-    <select id="getNewId" resultType="Integer">
-        select nextval('intramurudes.player_id_seq)'::regclass)
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.player_id_seq;
     </select>
 
     <delete id="deleteOnePlayer">
@@ -45,8 +45,6 @@
     </insert>
 
 
-    <select id="getNewId" resultType="Integer">
-        select nextval('intramurudes.player_id_seq')::regclass;
-    </select>
+
 
 </mapper>
