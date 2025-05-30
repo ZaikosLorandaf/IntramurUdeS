@@ -64,6 +64,15 @@ public class LeagueService extends TemplateService<League> {
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));
     }
+
+    /**
+     * Méthode pour aller chercher le prochain id de l'ajout
+     * @return
+     */
+    public int getNewId()
+    {
+        return leagueMapper.getNewId();
+    }
 }
 
 

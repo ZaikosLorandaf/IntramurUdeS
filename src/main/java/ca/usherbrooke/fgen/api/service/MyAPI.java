@@ -79,6 +79,7 @@ public class MyAPI {
     @Path("removeSport/{nom_sport}")
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {
+        nomSport = nomSport.replace("%20", " ");
         return ogClass.removeSport(nomSport);
     }
 
@@ -86,6 +87,7 @@ public class MyAPI {
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
+        nom_sport = nom_sport.replace("%20", " ");
         return ogClass.listLeague(nom_sport);
     }
 
@@ -95,6 +97,8 @@ public class MyAPI {
     public String addLeague(
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
+        sport = sport.replace("%20", " ");
+        nom = nom.replace("%20", " ");
         return ogClass.newLeague(sport, nom);
    }
 
@@ -103,6 +107,8 @@ public class MyAPI {
     public String getLeague(
             @PathParam("sport") String sport,
             @PathParam("nom") String nom) {
+        sport = sport.replace("%20", " ");
+        nom = nom.replace("%20", " ");
         return ogClass.getLeague(sport, nom);
     }
 
@@ -111,6 +117,8 @@ public class MyAPI {
     public String removeLeague(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
         return ogClass.removeLeague(nomSport, nomLigue);
     }
 
@@ -122,6 +130,10 @@ public class MyAPI {
             @PathParam("nom_sport") String sport,
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
+
+        sport = sport.replace("%20", " ");
+        nom_ligue = nom_ligue.replace("%20", " ");
+        nom_equipe = nom_equipe.replace("%20", " ");
         return ogClass.addTeam(sport, nom_ligue,nom_equipe);
     }
 
@@ -130,6 +142,8 @@ public class MyAPI {
     public String getTeams(
             @PathParam("nom_sport") String nom_sport,
             @PathParam("ligue") String ligue) {
+        nom_sport = nom_sport.replace("%20", " ");
+        ligue = ligue.replace("%20", " ");
         return ogClass.getTeams(nom_sport,ligue);
     }
 
@@ -138,6 +152,8 @@ public class MyAPI {
     public String listTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue) {
+        nomSport = nomSport.replace("%20", " ");
+        nom_ligue = nom_ligue.replace("%20", " ");
         return ogClass.listTeam(nomSport,nom_ligue);
     }
 
@@ -147,6 +163,9 @@ public class MyAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue,
             @PathParam("nom_equipe") String nom_equipe) {
+        nomSport = nomSport.replace("%20", " ");
+        nom_ligue = nom_ligue.replace("%20", " ");
+        nom_equipe = nom_equipe.replace("%20", " ");
         return ogClass.removeTeam(nomSport, nom_ligue,nom_equipe);
     }
 
@@ -160,6 +179,11 @@ public class MyAPI {
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("nom_joueur") String nomJoueur,
             @PathParam("prenom_joueur") String prenomJoueur ) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
+        nomJoueur = nomJoueur.replace("%20", " ");
+        prenomJoueur = prenomJoueur.replace("%20", " ");
         return ogClass.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
     }
 
@@ -169,6 +193,9 @@ public class MyAPI {
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
         return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
@@ -179,6 +206,9 @@ public class MyAPI {
             @PathParam("nom_ligue") String nomLigue,
             @PathParam("nom_equipe") String nomEquipe,
             @PathParam("number_player") int numberPlayer) {
+        nomSport = nomSport.replace("%20", " ");
+        nomLigue = nomLigue.replace("%20", " ");
+        nomEquipe = nomEquipe.replace("%20", " ");
         return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
