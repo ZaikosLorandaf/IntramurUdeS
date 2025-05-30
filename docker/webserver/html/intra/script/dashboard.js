@@ -100,10 +100,38 @@ function getToken() {
 // ********************************
 
 let equipeData = {
-    A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu" },
-    B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus" },
-    C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus" },
-    D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu" },
+    A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
+    B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus",stats: {
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
+    C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus",stats: {
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
+    D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu",stats: {
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
 };
 
 function getDataEquipe() {
@@ -174,18 +202,35 @@ function showInfo(team) {
         buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?equipe=${team}', 'popupWindow', 'width=500,height=400')">Modifier Stats</button>`;
     }
 
+    const teamStats = info.stats || {};
+
+    const statsTable = `
+    <table class="stats-table">
+        <thead>
+            <tr><th>Statistiques</th><th>Valeurs</th></tr>
+        </thead>
+        <tbody>
+            ${Object.entries(teamStats).map(([cle, valeur]) => `
+                <tr>
+                    <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                    <td style="padding: 0px 20px;">${valeur}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    </table>
+`;
+
     document.getElementById("equipe-info").innerHTML = `
     <h4>Équipe ${team}</h4>
     <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
-            <p><strong>Matchs :</strong><br>${info.matchs}</p>
+            ${statsTable}
             ${buttonHTML}
         </div>
     </div>
     <div id="player-info" style="display: none;"></div>
 `;
-
 
     getDataEquipe();
 
@@ -203,6 +248,8 @@ function showInfo(team) {
 
             modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Modifier Joueur</button>`;
         }
+
+
 
         document.getElementById("player-info").innerHTML = `
             <h4>${nom}</h4>

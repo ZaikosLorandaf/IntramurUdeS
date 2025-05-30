@@ -118,7 +118,7 @@ public class OGClass {
             return "Sport Error";
 
         Sport newSport = new Sport(sportName);
-        int id = sportService.getNewId();
+        int id = sportService.getLastId() + 1;
         newSport.setId(id);
         int resultAdd = sportList.addSport(newSport);
         String result;
