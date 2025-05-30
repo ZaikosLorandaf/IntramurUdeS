@@ -57,6 +57,17 @@ public class League {
    */
   public League(ListTeam teams, String name, int id) { initLeague(id, name, teams); }
 
+
+  public League(String name, Date beginDate, Date endDate) {
+    listTeam = new ListTeam();
+    this.name = name;
+    id = -1;
+    this.beginDate = beginDate;
+    this.endDate = endDate;
+    LoggerUtil.info("Création de la ligue " + name);
+  }
+
+
   /**
    * Constructeur avec nom de la ligue
    *

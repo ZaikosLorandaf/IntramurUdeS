@@ -323,7 +323,7 @@ public class OGClass {
             if (league.getTeams().getSize() <= 0) {
                 result = "Pas d'équipe";
             } else {
-                for (int i : league.getTeams().getMapId().keySet()) {
+                for (int i : league.getTeams().getTeamIds()) {
                     result += league.getTeams().getTeam(i).getName() + "</br>";
                 }
             }
@@ -409,7 +409,7 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
+                for (int i: team.getListPlayer().getPlayerIds()) {
                     Player player = team.getListPlayer().getPlayerByNumber(i);
                     result += player.getName() + " " + player.getLastName() + "</br>";
                 }
