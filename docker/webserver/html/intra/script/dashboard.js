@@ -137,21 +137,6 @@ let equipeData = {
         } },
 };
 
-function getDataEquipe() {
-    const div = document.getElementById('equipe-info');
-    const span = div.firstElementChild;
-
-    axios.get("http://localhost:8888/api/data_equipe", {
-    })
-        .then(function (response) {
-            console.log(response);
-            span.innerHTML += '<div>' + response.data + '</div>';
-        })
-        .catch(function (error) {
-            span.innerHTML = '<div>Erreur : ' + error + '</div>';
-        });
-}
-
 function renderEquipeList() {
     const container = document.getElementById("liste-equipes");
     container.innerHTML = "";
@@ -217,8 +202,6 @@ function showInfo(team) {
     </div>
     <div id="player-info" style="display: none;"></div>
 `;
-
-    getDataEquipe();
 
     // Fonction pour afficher les stats du joueur
     window.showPlayer = function (nom, team) {
