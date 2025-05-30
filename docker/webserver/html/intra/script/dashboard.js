@@ -280,6 +280,15 @@ function showMatchDay(date) {
                 </div>
             </div>
         `).join("");
+    if (roleNumber === 2) {
+        const myParams = new URLSearchParams(window.location.search);
+        let sports = myParams.get('sport');
+        let seasons = myParams.get('ligue');
+
+        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-matchs-stats.html?sport=${sports}&league=${seasons}&date=${date}', 'popupWindow', 'width=500,height=400')">Gérer match</button>`;
+        container.innerHTML += buttonHTML;
+    }
+
 }
 
 function formatDate(isoDate) {
@@ -298,6 +307,26 @@ function populateMatchDays() {
         li.onclick = () => showMatchDay(date);
         listContainer.appendChild(li);
     });
+
+    // Création du bouton "Gérer Dates"
+    const manageBtn = document.createElement('button');
+    manageBtn.textContent = 'Gérer Dates';
+    manageBtn.className = 'list-group-item list-group-item-action'; // classe Bootstrap, adapte si besoin
+    const myParams = new URLSearchParams(window.location.search);
+    let sport = myParams.get('sport');
+    let season = myParams.get('ligue');
+
+    manageBtn.onclick = () => {
+        // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
+        window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
+    };
+
+// Encapsuler le bouton dans un élément <li> pour garder la structure list-group cohérente
+    const btnLi = document.createElement('li');
+    btnLi.className = 'list-group-item';
+    btnLi.appendChild(manageBtn);
+
+    listContainer.appendChild(btnLi);
 }
 
 function appelMatch(){
