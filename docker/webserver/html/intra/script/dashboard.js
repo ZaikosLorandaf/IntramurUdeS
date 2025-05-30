@@ -191,9 +191,7 @@ function showInfo(team) {
 
     const info = equipeData[team];
 
-    const joueursList = info.joueurs
-        .split(',')
-        .map(nom => nom.trim())
+    const joueursList = Object.keys(info.joueurs)
         .map(nom => `<button class="player-btn" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
         .join('');
 
@@ -236,10 +234,27 @@ function showInfo(team) {
 
     // Fonction pour afficher les stats du joueur
     window.showPlayer = function (nom, team) {
-        const stat = joueursStats[nom] || "Aucune statistique disponible.";
+        const joueurData = equipeData[team].joueurs[nom];
+        const stats = joueurData ? joueurData : {};
 
-        document.getElementById("equipe-content").style.display = "none";
-        document.getElementById("player-info").style.display = "block";
+        // Générer un tableau des stats du joueur
+        const statsJoueurTable = `
+        <table class="stats-table">
+            <thead>
+                <tr><th>Statistiques</th><th>Valeurs</th></tr>
+            </thead>
+            <tbody>
+                ${Object.entries(stats).map(([cle, valeur]) => `
+                    <tr>
+                        <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                        <td style="padding: 0px 20px;">${valeur}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+        // Affichage conditionnel pour rôle admin
         let modifierJoueurBtn = "";
         if (roleNumber === 2) {
             const params = new URLSearchParams(window.location.search);
@@ -249,14 +264,16 @@ function showInfo(team) {
             modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Modifier Joueur</button>`;
         }
 
+        document.getElementById("equipe-content").style.display = "none";
+        document.getElementById("player-info").style.display = "block";
 
-
+        // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
-            <h4>${nom}</h4>
-            <p><strong>Statistiques :</strong><br>${stat}</p>
-            ${modifierJoueurBtn}
-            <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
-        `;
+        <h4>${nom}</h4>
+        ${statsJoueurTable}
+        ${modifierJoueurBtn}
+        <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
+    `;
     };
 
     // Fonction de retour

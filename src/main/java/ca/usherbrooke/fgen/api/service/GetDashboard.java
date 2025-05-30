@@ -31,7 +31,11 @@ public class GetDashboard {
 
         return "{\n" +
                 "  \"A\": {\n" +
-                "    \"joueurs\": \"Olivier, Remi, Ana\",\n" +
+                "    \"joueurs\": {\n" +
+                "      \"Olivier\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 0, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Remi\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 1, \"passes\": 3, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Ana\": {\"role\": \"Gardienne\", \"matchsJoues\": 4, \"buts\": 0, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 2, \"blessures\": 0, \"remarques\": \"\"}\n" +
+                "    },\n" +
                 "    \"matchs\": \"3 gagnés, 1 perdu\",\n" +
                 "    \"stats\": {\n" +
                 "      \"matchsJoues\": 4,\n" +
@@ -43,7 +47,11 @@ public class GetDashboard {
                 "    }\n" +
                 "  },\n" +
                 "  \"B\": {\n" +
-                "    \"joueurs\": \"Bruno, Béatrice, Basile\",\n" +
+                "    \"joueurs\": {\n" +
+                "      \"Bruno\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 1, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Béatrice\": {\"role\": \"Capitaine\", \"matchsJoues\": 4, \"buts\": 0, \"passes\": 2, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"Capitaine\"},\n" +
+                "      \"Basile\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 1, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 1, \"remarques\": \"\"}\n" +
+                "    },\n" +
                 "    \"matchs\": \"2 gagnés, 2 perdus\",\n" +
                 "    \"stats\": {\n" +
                 "      \"matchsJoues\": 4,\n" +
@@ -55,7 +63,11 @@ public class GetDashboard {
                 "    }\n" +
                 "  },\n" +
                 "  \"C\": {\n" +
-                "    \"joueurs\": \"Carla, Charles, Chloé\",\n" +
+                "    \"joueurs\": {\n" +
+                "      \"Carla\": {\"role\": \"Joueuse\", \"matchsJoues\": 4, \"buts\": 1, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Charles\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 0, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 1, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Chloé\": {\"role\": \"Joueuse\", \"matchsJoues\": 4, \"buts\": 0, \"passes\": 2, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"}\n" +
+                "    },\n" +
                 "    \"matchs\": \"1 gagné, 3 perdus\",\n" +
                 "    \"stats\": {\n" +
                 "      \"matchsJoues\": 4,\n" +
@@ -67,13 +79,17 @@ public class GetDashboard {
                 "    }\n" +
                 "  },\n" +
                 "  \"D\": {\n" +
-                "    \"joueurs\": \"David, Daphnée, Damien\",\n" +
+                "    \"joueurs\": {\n" +
+                "      \"David\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 3, \"passes\": 0, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"Meilleur joueur\"},\n" +
+                "      \"Daphnée\": {\"role\": \"Joueuse\", \"matchsJoues\": 4, \"buts\": 1, \"passes\": 1, \"cartonsJaunes\": 0, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"},\n" +
+                "      \"Damien\": {\"role\": \"Joueur\", \"matchsJoues\": 4, \"buts\": 2, \"passes\": 0, \"cartonsJaunes\": 1, \"cartonsRouges\": 0, \"arrets\": 0, \"blessures\": 0, \"remarques\": \"\"}\n" +
+                "    },\n" +
                 "    \"matchs\": \"4 gagnés, 0 perdu\",\n" +
                 "    \"stats\": {\n" +
-                "      \"matchsJoues\": 4,\n" +
-                "      \"victoires\": 3,\n" +
-                "      \"defaites\": 1,\n" +
-                "      \"pointsMarques\": 89,\n" +
+                "      \"matchsJoues\": 1,\n" +
+                "      \"victoires\": 2,\n" +
+                "      \"defaites\": 3,\n" +
+                "      \"pointsMarques\": 4,\n" +
                 "      \"pointsEncaisses\": 65,\n" +
                 "      \"differenceDePoints\": 24\n" +
                 "    }\n" +
