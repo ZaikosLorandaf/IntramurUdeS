@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.backend;
 
 import java.sql.Date;
-import java.sql.Time;
+
 
 public class League {
   private int id;
@@ -26,6 +26,8 @@ public class League {
     this.listTeam = new ListTeam();
     LoggerUtil.info("Création d'une ligue");
   }
+
+
 
   /**
    * Fonction pour initialiser la classe league avec liste deja creee
@@ -54,6 +56,17 @@ public class League {
    * @param id    League ID [int]
    */
   public League(ListTeam teams, String name, int id) { initLeague(id, name, teams); }
+
+
+  public League(String name, Date beginDate, Date endDate) {
+    listTeam = new ListTeam();
+    this.name = name;
+    id = -1;
+    this.beginDate = beginDate;
+    this.endDate = endDate;
+    LoggerUtil.info("Création de la ligue " + name);
+  }
+
 
   /**
    * Constructeur avec nom de la ligue

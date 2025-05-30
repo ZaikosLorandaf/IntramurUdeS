@@ -67,6 +67,18 @@ public class ListSport extends ListTemplate<Sport, String> {
         }
     }
 
+
+    public static int addLeagueMap(List<League> leagues) {
+        int counter = 0;
+        for (League league : leagues) {
+            if(addLeagueMap(league)){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+
     /**
      * retirer une ligue du map qui converti ligue en sport
      *
@@ -96,6 +108,18 @@ public class ListSport extends ListTemplate<Sport, String> {
             return false;
         }
     }
+
+
+
+    public static int addTeamMap(List<Team> teams) {
+        int counter = 0;
+        for (Team team : teams) {
+            addTeamMap(team);
+            counter++;
+        }
+        return counter;
+    }
+
 
     /**
      * retirer une equipe du map qui converti equipe en ligue

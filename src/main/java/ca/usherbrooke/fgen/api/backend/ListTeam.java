@@ -93,6 +93,8 @@ public class ListTeam extends ListTemplate<Team, String>  {
     public Team getTeam(String name) {return getItem(name); }
     public int getSize() {return getMapSize(); }
 
+    public List<Integer> getTeamIds() { return getMapIds(); }
+
     public int getId(Team team) { return team.getId(); }
     public String getName(Team team) { return team.getName(); };
 }

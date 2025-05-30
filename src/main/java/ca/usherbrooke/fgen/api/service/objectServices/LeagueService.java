@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.League;
+import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import org.jsoup.parser.Parser;
@@ -20,11 +21,15 @@ public class LeagueService extends TemplateService<League> {
     // Redirection vers les fonctions template
     @GET
     public List<League> getLeagues(){
-        return getItems();
+        List<League> leagues = getItems();
+        ListSport.addLeagueMap(leagues);
+        return leagues;
     }
 
     public League getLeague(@PathParam("id") Integer id) {
-        return getItem(id);
+        League league = getItem(id);
+        ListSport.addLeagueMap(league);
+        return league;
     }
 
 

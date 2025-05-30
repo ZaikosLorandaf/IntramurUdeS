@@ -86,11 +86,11 @@ public class Team {
      * @param id   Id de l'équipe
      * @param name Nom de l'équipe
      */
-    /*public Team(int id, String name, int idLeague) {
+    public Team(int id, String name, int idLeague) {
         this.id = id;
         this.name = name;
         this.idLeague = idLeague;
-    }*/
+    }
 
     /**
      * Constructeur avec liste de joueur deja creee
