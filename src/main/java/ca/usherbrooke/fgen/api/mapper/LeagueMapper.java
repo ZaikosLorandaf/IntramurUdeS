@@ -15,5 +15,5 @@ public interface LeagueMapper {
     List<League> selectFromSport(@Param("id_sport") Integer id_sport);
     void deleteOne(@Param("id") Integer id);
     void insertLeague(@Param("league") League league);
-    Integer getNewId();
+    Integer getLastId();
 }

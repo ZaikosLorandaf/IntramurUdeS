@@ -215,7 +215,8 @@ INSERT INTO player (name, last_name, id_team, number) VALUES
 INSERT INTO match_ (date_match, begin_time, end_time) VALUES
     ('2025-06-01', '14:00', '15:30'),  -- Match 1
     ('2025-06-02', '16:00', '17:30'),  -- Match 2
-    ('2025-06-03', '18:00', '19:30');  -- Match 3
+    ('2025-06-03', '18:00', '19:30'),  -- Match 3
+    ('2025-06-04', '18:00', '19:30');   -- Match vide sans équipe
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (1, 1), (2, 1),    -- SFB vs Empire

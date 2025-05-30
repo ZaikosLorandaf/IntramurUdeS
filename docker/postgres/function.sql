@@ -2,8 +2,6 @@ SET search_path = intramurudes;
 
 
 
-
-
 /**
   Trigger pour vérifier qu'il n'y a pas trop d'équipe dans match_team
  */
@@ -19,9 +17,9 @@ BEGIN
         IF (SELECT nb_teams
             FROM intramurudes.v_match_teams vmt
             WHERE vmt.id_match = new.id_match) < (
-                SELECT vptls.nb_team_match
-                FROM v_player_team_league_sport vptls
-                WHERE vptls.id_team = new.id_team)
+               SELECT vptls.nb_team_match
+               FROM v_player_team_league_sport vptls
+               WHERE vptls.id_team = new.id_team)
         THEN
             RETURN TRUE;
         ELSE
@@ -45,17 +43,17 @@ BEGIN
     IF (SELECT vtls.id_league
         FROM v_team_league_sport vtls
         WHERE vtls.id_team = new.id_team) = ALL
-        (
-            (SELECT vtls.id_league
-               FROM v_team_league_sport vtls
-               WHERE vtls.id_team IN (SELECT unnest(vmt.list_teams)
-                FROM v_match_teams vmt
-                WHERE vmt.id_match = new.id_match))
-        )
-        THEN
-            RETURN TRUE;
-        ELSE
-            RAISE EXCEPTION 'Other teams are not in the same league';
+       (
+           (SELECT vtls.id_league
+            FROM v_team_league_sport vtls
+            WHERE vtls.id_team IN (SELECT unnest(vmt.list_teams)
+                                   FROM v_match_teams vmt
+                                   WHERE vmt.id_match = new.id_match))
+       )
+    THEN
+        RETURN TRUE;
+    ELSE
+        RAISE EXCEPTION 'Other teams are not in the same league';
     END IF;
 END;
 $$;
@@ -70,11 +68,11 @@ CREATE OR REPLACE FUNCTION get_match_overlap(id_team_check INT, nouveau_match ma
     LANGUAGE SQL
 AS $$
 SELECT id FROM match_ m
-  INNER JOIN intramurudes.match_team mt ON m.id = mt.id_match
-    WHERE m.date_match = nouveau_match.date_match
-        AND
+                   INNER JOIN intramurudes.match_team mt ON m.id = mt.id_match
+WHERE m.date_match = nouveau_match.date_match
+  AND
     (m.begin_time, m.end_time) OVERLAPS (nouveau_match.begin_time, nouveau_match.end_time)
-        AND
+  AND
     mt.id_team = id_team_check;
 $$;
 
@@ -84,10 +82,10 @@ CREATE OR REPLACE FUNCTION check_match_overlap()
 AS $$
 BEGIN
     IF NOT EXISTS(SELECT get_match_overlap(new.id_team,
-                                       (SELECT * FROM match_
-                                                        WHERE id = new.id_match)
-                     )
-              )
+                                           (SELECT * FROM match_
+                                            WHERE id = new.id_match)
+                         )
+    )
     THEN
         RETURN TRUE;
     ELSE
@@ -104,9 +102,9 @@ AS $$
 BEGIN
     IF (check_place_left_match()
         AND
-       check_team_same_league()
+        check_team_same_league()
         AND
-       check_match_overlap())
+        check_match_overlap())
     THEN
         RETURN new;
     END IF;

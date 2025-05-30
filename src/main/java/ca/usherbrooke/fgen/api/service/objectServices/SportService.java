@@ -31,8 +31,10 @@ public class SportService extends TemplateService<Sport> {
 
     @POST
     @Consumes("application/json")
-    public void addSport(Sport sport) {
+    public void addSport(Sport sport)
+    {
         addItem(sport);
+
     }
 
 
@@ -53,6 +55,15 @@ public class SportService extends TemplateService<Sport> {
 
     protected void setName(Sport sport) {
         sport.setName(Parser.unescapeEntities(sport.getName(), true));
+    }
+
+    /**
+     * Méthode pour aller chercher le prochain id de l'ajout
+     * @return
+     */
+    public int getLastId()
+    {
+        return sportMapper.getLastId();
     }
 }
 

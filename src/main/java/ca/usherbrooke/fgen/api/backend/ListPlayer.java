@@ -104,6 +104,16 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
     {
         return getMapSize();
     }
+
+    public Map<Integer, Integer> getMapNumberId() {
+        return mapNumberId;
+    }
+
+    public Map<Integer, Player> getMapId() {
+        return mapId;
+    }
+
+
     public Player getPlayer(int id)
     {
         return getItem(id);

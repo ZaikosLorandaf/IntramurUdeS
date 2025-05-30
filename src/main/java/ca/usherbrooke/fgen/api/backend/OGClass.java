@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -7,11 +8,14 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @ApplicationScoped
 public class OGClass {
     @Inject
     ListSport sportList;
+    @Inject
+    SportService sportService;
 
     public OGClass() {
 
@@ -114,13 +118,22 @@ public class OGClass {
             return "Sport Error";
 
         Sport newSport = new Sport(sportName);
+        int id = sportService.getLastId() + 1;
+        newSport.setId(id);
         int resultAdd = sportList.addSport(newSport);
         String result;
         if (resultAdd == 0)
             result = "<div>erreur</div>";
         else {
-            result = "<div>";
-            result += sportName + "</div>";
+
+            if(ajoutSportDb(newSport))
+            {
+                result = "<div>";
+                result += sportName + "</div>";
+            }
+            else {
+                result = "Impossible d'ajouter dans la base de données "+ "<br>";
+            }
         }
         return result;
     }
@@ -131,7 +144,8 @@ public class OGClass {
 
         String result = "";
         int maxSport = sportList.getSize();
-        for (int i = 0; i < maxSport; i++) {
+        Set<Integer> keys = sportList.getMapSports().keySet();
+        for (int i: keys) {
             result += sportList.getSport(i) + "</br>";
         }
 
@@ -276,7 +290,7 @@ public class OGClass {
             if (league.getTeams().getSize() <= 0) {
                 result = "Pas d'équipe";
             } else {
-                for (int i = 0; i < league.getTeams().getSize(); i++) {
+                for (int i : league.getTeams().getMapId().keySet()) {
                     result += league.getTeams().getTeam(i).getName() + "</br>";
                 }
             }
@@ -362,8 +376,8 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i = 0; i < team.getListPlayer().getSize(); i++) {
-                    Player player = team.getListPlayer().getPlayer(i);
+                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
+                    Player player = team.getListPlayer().getPlayerByNumber(i);
                     result += player.getName() + " " + player.getLastName() + "</br>";
                 }
             }
@@ -392,5 +406,13 @@ public class OGClass {
 
         return "<div>Erreur lors du retrait du joueur</div>";
     }
+
+
+    public boolean ajoutSportDb(Sport sport)
+    {
+        sportService.addSport(sport);
+        return true;
+    }
+
 
 }

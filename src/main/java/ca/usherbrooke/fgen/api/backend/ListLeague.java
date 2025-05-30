@@ -19,17 +19,18 @@ public class ListLeague extends ListTemplate<League, String> {
      * @return Le nombre de ligues ajoutées
      */
     public boolean addLeague(League league) {
-        switch (addItem(league)) {
-            case 0:
-                ListSport.addLeagueMap(league);
-                LoggerUtil.info("Ajout de la ligue " + league.getName());
-                return true;
-            case 1:
-                LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
-                        " (" + league.getId() + ") existe déjà.");
-                return false;
-            default:
-                return false;
+
+        if (league == null) {
+            LoggerUtil.info("Ligue nulle");
+            return false;
+        }
+        if (!mapId.containsKey(league.getId()) && !mapNomId.containsKey(league.getName())) {
+            mapId.put(league.getId(), league);
+            mapNomId.put(league.getName(), league.getId());
+            ListSport.addLeagueMap(league);
+
+            LoggerUtil.info("Ajout de la ligue " + league.getName());
+            return true;
         }
     }
 

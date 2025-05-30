@@ -57,7 +57,7 @@
         where id = #{id}
     </delete>
 
-    <select id="getNewId" resultType="Integer">
+    <select id="getLastId" resultType="Integer">
         select nextval('app.message_seq'::regclass)
     </select>
 

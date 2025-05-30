@@ -68,10 +68,10 @@ public class MessageService {
 	}
 
 	@GET
-	@Path("getnewid")
+	@Path("getLastId")
 	//@RolesAllowed({Roles.TEACHER})
-	public Integer getnewid() {
-		Integer id = messageMapper.getNewId();
+	public Integer getLastId() {
+		Integer id = messageMapper.getLastId();
 		return id;
 	}
 

@@ -18,17 +18,15 @@ public class ListTeam extends ListTemplate<Team, String>  {
      * @return vrai si equipe ajoutee
      */
     public boolean addTeam(Team team) {
-
-        switch (addItem(team)) {
-            case 0:
-                ListSport.addTeamMap(team);
-                LoggerUtil.info("Ajout de l'équipe " + team.getName());
-                return true;
-            case 1:
-                LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
-                return false;
-            default:
-                return false;
+        if (!this.mapId.containsKey(team.getId()) && !this.mapNomId.containsKey(team.getName())) {
+            this.mapId.put(team.getId(), team);
+            this.mapNomId.put(team.getName(), team.getId());
+            ListSport.addTeamMap(team);
+            LoggerUtil.info("Ajout de l'équipe " + team.getName());
+            return true;
+        } else {
+            LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
+            return false;
         }
     }
 
@@ -131,6 +129,14 @@ public boolean addTeam(Team team) {
     } else {
         LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
         return false;
+    }
+
+    public Map<Integer, Team> getMapId() {
+        return mapId;
+    }
+
+    public Map<String, Integer> getMapNomId() {
+        return mapNomId;
     }
 }
 
