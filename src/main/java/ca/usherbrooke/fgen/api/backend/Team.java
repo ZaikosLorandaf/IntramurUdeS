@@ -189,7 +189,7 @@ public class Team {
     }
 
     public int getIdLeague() {
-        return idLeague;
+        return this.idLeague;
     }
 
     public boolean setIdLeague(int idLeague) {
