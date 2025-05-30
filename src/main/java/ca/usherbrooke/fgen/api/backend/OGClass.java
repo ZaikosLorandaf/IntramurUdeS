@@ -1,11 +1,15 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
+import ca.usherbrooke.fgen.api.service.objectServices.SportService;
+import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +17,12 @@ import java.util.Set;
 public class OGClass {
     @Inject
     ListSport sportList;
+    @Inject
+    SportService sportService;
+    @Inject
+    LeagueService leagueService;
+    @Inject
+    TeamService teamService;
 
     public OGClass() {
 
@@ -115,13 +125,22 @@ public class OGClass {
             return "Sport Error";
 
         Sport newSport = new Sport(sportName);
+        int id = sportService.getLastId() + 1;
+        newSport.setId(id);
         int resultAdd = sportList.addSport(newSport);
         String result;
         if (resultAdd == 0)
             result = "<div>erreur</div>";
         else {
-            result = "<div>";
-            result += sportName + "</div>";
+
+            if(ajoutSportDb(newSport))
+            {
+                result = "<div>";
+                result += sportName + "</div>";
+            }
+            else {
+                result = "Impossible d'ajouter dans la base de données "+ "<br>";
+            }
         }
         return result;
     }
@@ -178,20 +197,33 @@ public class OGClass {
 
     // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
 
-    public String newLeague(String sport, String nom) {
-        if (sportList.getAllSports().contains(sportList.getSport(nom))) {
+    public String newLeague(String nom_sport, String nom, Date dateDebut, Date dateFin) {
+        Sport sport = sportList.getSport(nom_sport);
+        if (sport == null) {
             return "Sport Error";
         }
+        if (dateFin == null || dateDebut == null || dateFin.before(dateDebut))
+        {
+            return "Erreur dans les dates";
+        }
+        League newLeague = new League(nom, dateDebut, dateFin);
+        int id = leagueService.getLastId() + 1;
+        newLeague.setLeagueID(id);
+        int sportId = sport.getId();
+        newLeague.setIdSport(sportId);
 
-        League newLeague = new League(nom);
-        boolean resultAdd = sportList.getSport(sport).addLeague(newLeague);
+
         String result;
-        if (!resultAdd) {
-            result = "<div>erreur</div>";
-        } else {
+
+        if(ajoutLigueDb(newLeague))
+        {
             result = "<div>";
             result += nom + "</div>";
         }
+        else {
+            result = "Impossible d'ajouter la ligue dans la base de données "+ "<br>";
+        }
+
 
         return result;
     }
@@ -250,13 +282,26 @@ public class OGClass {
         return "";
     }
 
+
     public String addTeam(String sportName, String leagueName, String teamName) {
+        if (sportName == null || leagueName == null || teamName == null)
+        {
+            return "Erreur noms";
+        }
+        Sport sport = sportList.getSport(sportName);
+        if (sport == null) {
+            return "Sport Error";
+        }
+
         String result;
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        League league = sport.getListLeague().getLeague(leagueName);
         if (league == null) {
             result = "Ligue introuvable";
         } else {
-            if (league.newTeam(teamName)) {
+            int id = teamService.getLastId() + 1;
+            int idLeague = league.getId();
+            Team team = new Team(id, teamName, idLeague);
+            if (ajoutTeamDb(team)) {
                 result = "Équipe ajoutée";
             } else {
                 result = "Impossible d'ajouter l'équipe";
@@ -278,7 +323,7 @@ public class OGClass {
             if (league.getTeams().getSize() <= 0) {
                 result = "Pas d'équipe";
             } else {
-                for (int i : league.getTeams().getMapId().keySet()) {
+                for (int i : league.getTeams().getTeamIds()) {
                     result += league.getTeams().getTeam(i).getName() + "</br>";
                 }
             }
@@ -364,7 +409,7 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
+                for (int i: team.getListPlayer().getPlayerIds()) {
                     Player player = team.getListPlayer().getPlayerByNumber(i);
                     result += player.getName() + " " + player.getLastName() + "</br>";
                 }
@@ -393,6 +438,25 @@ public class OGClass {
             return "<div>Joueur retiré</div>";
 
         return "<div>Erreur lors du retrait du joueur</div>";
+    }
+
+
+    public boolean ajoutSportDb(Sport sport)
+    {
+        sportService.addSport(sport);
+        return true;
+    }
+
+    public boolean ajoutLigueDb(League league)
+    {
+        leagueService.addLeague(league);
+        return true;
+    }
+
+    public boolean ajoutTeamDb(Team team)
+    {
+        teamService.addTeam(team);
+        return true;
     }
 
 }
