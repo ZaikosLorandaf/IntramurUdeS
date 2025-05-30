@@ -59,9 +59,11 @@ public class TeamService extends TemplateService<Team> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    public int getNewId()
+    @GET
+    @Path("temp")
+    public int getLastId()
     {
-        return teamMapper.getNewId();
+        return teamMapper.getLastId();
     }
 }
 

@@ -60,9 +60,9 @@ public class SportService extends TemplateService<Sport> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    public int getNewId()
+    public int getLastId()
     {
-        return sportMapper.getNewId();
+        return sportMapper.getLastId();
     }
 }
 
