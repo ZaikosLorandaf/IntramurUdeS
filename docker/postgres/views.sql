@@ -33,6 +33,13 @@ FROM intramurudes.team t
          INNER JOIN intramurudes.sport s ON s.id = l.id_sport;
 
 
+CREATE OR REPLACE VIEW v_league_sport
+AS
+SELECT l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date, l.done,
+       s.id AS id_sport, s.name AS name_soprt, s.nb_team_match
+FROM league AS l
+INNER JOIN intramurudes.sport s ON l.id_sport = s.id;
+
 
 
 
