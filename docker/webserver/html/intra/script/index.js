@@ -10,7 +10,6 @@ function initialisation()
     //         console.log(error);
     //     });
 
-
     const div = document.getElementById("btn-login");
     axios.get("http://localhost:8888/api/sport", { })
         .then(function (response) {
