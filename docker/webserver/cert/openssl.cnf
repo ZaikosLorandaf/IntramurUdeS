@@ -1,4 +1,4 @@
-openssl req -x509 -out intramurUdeS.crt -keyout intramurUdeS.key -newkey rsa:4096 -sha512 -subj "/CN=localhost" -days 365 -extensions EXT -config openssl.cnf
+openssl req -x509 -out intramurUdeS.crt -keyout intramurUdeS.key -newkey rsa:8192 -sha3-512 -nodes -subj "/CN=localhost" -days 365 -extensions EXT -config openssl.cnf
 [dn]
 CN=localhost
 [req]
