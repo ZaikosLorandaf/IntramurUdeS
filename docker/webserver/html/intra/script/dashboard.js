@@ -170,7 +170,11 @@ function showInfo(team) {
 
     let buttonHTML = "";
     if (roleNumber === 2) {
-        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?equipe=${team}', 'popupWindow', 'width=500,height=400')">Modifier Stats</button>`;
+        const myParams = new URLSearchParams(window.location.search);
+        let sports = myParams.get('sport');
+        let seasons = myParams.get('ligue');
+
+        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&league=${seasons}&equipe=${team}', 'popupWindow', 'width=500,height=400')">Modifier Stats</button>`;
     }
 
     const teamStats = info.stats || {};
