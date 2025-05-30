@@ -43,7 +43,7 @@
     </delete>
 
     <select id="getNewId" resultType="Integer">
-        select nextval('intramurudes.league_id_seq)'::regclass)
+        select nextval('intramurudes.league_id_seq')::regclass;
     </select>
 
     <insert id="insertLeague">

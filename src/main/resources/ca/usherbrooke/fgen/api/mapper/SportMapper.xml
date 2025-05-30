@@ -27,7 +27,7 @@
     </delete>
 
     <select id="getNewId" resultType="Integer">
-        select nextval('intramurudes.sport_id_seq)'::regclass)
+        select nextval('intramurudes.sport_id_seq')::regclass;
     </select>
 
     <insert id="insertSport">

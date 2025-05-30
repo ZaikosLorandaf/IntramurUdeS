@@ -45,6 +45,8 @@
     </insert>
 
 
-
+    <select id="getNewId" resultType="Integer">
+        select nextval('intramurudes.player_id_seq')::regclass;
+    </select>
 
 </mapper>
