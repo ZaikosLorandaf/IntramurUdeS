@@ -2,13 +2,13 @@ let roleNumber = 0; // 0 user, 1, chef, 2 admin
 
 function initialisation()
 {
-    axios.get("http://localhost:8888/api/init", { })
-        .then(function (response) {
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    // axios.get("http://localhost:8888/api/init", { })
+    //     .then(function (response) {
+    //         console.log(response.data);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
 
 
     const div = document.getElementById("btn-login");

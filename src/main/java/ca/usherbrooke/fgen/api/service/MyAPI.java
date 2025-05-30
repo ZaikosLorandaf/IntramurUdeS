@@ -1,4 +1,5 @@
 package ca.usherbrooke.fgen.api.service;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.List;
