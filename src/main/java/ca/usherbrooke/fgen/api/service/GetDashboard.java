@@ -97,4 +97,55 @@ public class GetDashboard {
                 "}";
     }
 
+
+    @GET
+    @Path("matchs")
+    public String getAllMatchs(
+            @QueryParam("sport") String nomSport,
+            @QueryParam("ligue") String nomLigue
+    ) {
+        LoggerUtil.info("Sport reçu : " + nomSport);
+        LoggerUtil.info("Ligue reçue : " + nomLigue);
+        return """
+        {
+          "2026-05-21": [
+            {
+              "heure": "10:00",
+              "equipes": "Équipe A vs Équipe B",
+              "lieu": "Gymnase 1"
+            },
+            {
+              "heure": "14:30",
+              "equipes": "Équipe C vs Équipe D",
+              "lieu": "Gymnase 2"
+            }
+          ],
+          "2025-05-25": [
+            {
+              "heure": "09:00",
+              "equipes": "Équipe A vs Équipe D",
+              "lieu": "Gymnase 1"
+            },
+            {
+              "heure": "11:00",
+              "equipes": "Équipe B vs Équipe C",
+              "lieu": "Gymnase 3"
+            },
+            {
+              "heure": "16:00",
+              "equipes": "Équipe A vs Équipe C",
+              "lieu": "Extérieur"
+            }
+          ],
+          "2025-05-28": [
+            {
+              "heure": "13:00",
+              "equipes": "Équipe D vs Équipe B",
+              "lieu": "Gymnase 2"
+            }
+          ]
+        }
+        """;
+    }
+
 }

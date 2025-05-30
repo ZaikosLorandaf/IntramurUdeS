@@ -25,7 +25,6 @@ function getRoleNumber() {
     return 0;
 }
 
-
 function initKeycloak() {
     // Init avec check-sso, ça ne force pas la connexion mais vérifie la session
     return keycloak.init({
@@ -68,6 +67,7 @@ initKeycloak()
                 equipeData = response.data;
                 console.log(equipeData);
                 renderEquipeList();
+                appelMatch();
             })
             .catch(function (error) {
                 const container = document.querySelector('.main-container');
@@ -77,7 +77,6 @@ initKeycloak()
     .catch(() => {
         console.error("Erreur lors de l'initialisation de Keycloak");
     });
-
 
 function logout(){
     keycloak.logout();
@@ -97,6 +96,10 @@ function getToken() {
 
 // ********************************
 // ******* FIN KEYCLOAK ***********
+// ********************************
+
+// ********************************
+// ****** LOGIQUE EQUIPE **********
 // ********************************
 
 let equipeData = {
@@ -174,21 +177,6 @@ function renderEquipeList() {
 }
 
 function showInfo(team) {
-    const joueursStats = {
-        Remi: "1 but, 3 passes",
-        Axel: "2 buts, 1 carton jaune",
-        Ana: "Gardienne - 2 arrêts",
-        Bruno: "1 but",
-        Béatrice: "Capitaine, 2 passes décisives",
-        Basile: "1 blessure, 1 but",
-        Carla: "1 but",
-        Charles: "1 carton rouge",
-        Chloé: "2 passes",
-        David: "Meilleur joueur - 3 buts",
-        Daphnée: "1 but, 1 passe",
-        Damien: "2 buts, 1 carton jaune",
-    };
-
     const info = equipeData[team];
 
     const joueursList = Object.keys(info.joueurs)
@@ -281,3 +269,64 @@ function showInfo(team) {
         showInfo(team); // Recharge l'affichage original de l'équipe
     };
 }
+
+
+// ********************************
+// ******* LOGIQUE MATCH **********
+// ********************************
+
+let matchDatas;
+
+function showMatchDay(date) {
+    const container = document.getElementById("match-details");
+    const title = document.getElementById("selected-day");
+
+    const matchs = matchDatas[date] || [];
+
+    title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
+
+    container.innerHTML = matchs.map(match => `
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
+                    <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+                </div>
+            </div>
+        `).join("");
+}
+
+function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+function populateMatchDays() {
+    const listContainer = document.getElementById('match-days-list');
+    listContainer.innerHTML = '';
+
+    Object.keys(matchDatas).forEach(date => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item list-group-item-action';
+        li.textContent = formatDate(date);
+        li.onclick = () => showMatchDay(date);
+        listContainer.appendChild(li);
+    });
+}
+
+function appelMatch(){
+
+    axios.get("http://localhost:8888/api/dashboard/matchs", {
+        params: {
+            sport: sport,
+            ligue: season
+        }
+    }).then(function (response) {
+        matchDatas = response.data;
+        console.log(matchDatas);
+        populateMatchDays();
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
