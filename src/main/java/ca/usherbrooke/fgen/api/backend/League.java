@@ -117,9 +117,7 @@ public class League {
    */
   public boolean newTeam(int id, String name) {
     ListPlayer listPlayer = new ListPlayer();
-    Team newTeam = new Team(id, name, listPlayer);
-    LoggerUtil.info("Tentative de création de l'équipe " + name);
-    return listTeam.addTeam(newTeam);
+    return newTeam(id, name, listPlayer);
   }
 
   /**
@@ -131,9 +129,7 @@ public class League {
    */
   public boolean newTeam(String name) {
     ListPlayer listPlayer = new ListPlayer();
-    Team newTeam = new Team(-1, name, listPlayer);
-    LoggerUtil.info("Tentative de création d'équipe");
-    return listTeam.addTeam(newTeam);
+    return newTeam(-1, name, listPlayer);
   }
 
 

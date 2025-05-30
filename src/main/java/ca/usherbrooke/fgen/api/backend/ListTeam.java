@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ListTeam extends ListTemplate<Team, String>  {
     /**
-     * Constructeur de base
+     * Constructeur par defaut vide.
      */
     public ListTeam() {
         LoggerUtil.info("Création de la liste d'équipe");
@@ -14,6 +14,8 @@ public class ListTeam extends ListTemplate<Team, String>  {
      * Ajouter une équipe au vecteur
      *
      * @param team L'équipe à ajouter
+     *
+     * @return vrai si equipe ajoutee
      */
     public boolean addTeam(Team team) {
 
@@ -32,8 +34,10 @@ public class ListTeam extends ListTemplate<Team, String>  {
 
     /**
      * Ajouter une liste équipe à la liste
+     *
      * @param teams Liste des équipes à ajouter
-     * @return
+     *
+     * @return int
      */
     public int addTeam(List<Team> teams) {
         return addItems(teams);
@@ -55,6 +59,7 @@ public class ListTeam extends ListTemplate<Team, String>  {
      * Retirer une équipe de la liste en fonction de l'équipe
      *
      * @param team Équipe à retirer
+     *
      * @return true si une équipe a été retirée, sinon false
      */
     public boolean removeTeam(Team team) {
@@ -63,7 +68,7 @@ public class ListTeam extends ListTemplate<Team, String>  {
 
 
     /**
-     * Fonction test de la classe Team
+     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
      */
     public void printListTeam() {
         if(getMapSize() <= 0) {

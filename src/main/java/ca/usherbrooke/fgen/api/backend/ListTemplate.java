@@ -10,12 +10,23 @@ public abstract class ListTemplate<ObjectType, NameType> {
     private Map<NameType, Integer> mapNameId;  // Converssion nom objet vers id
 
     // Constructeur
+    /**
+     * Constructeur par defaut
+     */
     public ListTemplate(){
         this.mapId = new HashMap<>();
         this.mapNameId = new HashMap<>();
     }
 
     // Methodes
+    /**
+     * Ajouter un element dans le map qui converti l'id en objet
+     * et le map qui converti l'objet en id
+     *
+     * @param item element a ajouter aux maps
+     *
+     * @return 1 reussi, 0 echec
+     */
     protected int addItem(ObjectType item){
         if (!this.mapId.containsKey(getId(item)) && !this.mapNameId.containsKey(getName(item))) {
             this.mapId.put(getId(item), item);
@@ -26,6 +37,13 @@ public abstract class ListTemplate<ObjectType, NameType> {
         }
     }
 
+    /**
+     * ajouter plusieurs element dans les maps a partir d'une liste
+     *
+     * @param items liste d'objet a ajouter aux maps
+     *
+     * @return nombre d'elements ajoutes
+     */
     protected int addItems(List<ObjectType> items){
         int counter = 0;
         for (ObjectType item : items)
@@ -34,6 +52,13 @@ public abstract class ListTemplate<ObjectType, NameType> {
         return counter;
     }
 
+    /**
+     * retirer un element des maps
+     *
+     * @param id id de l'objet a retirer
+     *
+     * @return retrait reussi?
+     */
     protected boolean removeItem(int id){
         if(this.mapId.containsKey(id) && this.mapNameId.containsKey(getName(this.mapId.get(id)))) {
             this.mapNameId.remove(getName(this.mapId.get(id)));
@@ -45,8 +70,12 @@ public abstract class ListTemplate<ObjectType, NameType> {
         }
     }
 
+    /**
+     * Efface le contenu des maps
+     */
     protected void clearMap(){
         this.mapId.clear();
+        this.mapNameId.clear();
     }
 
     // Getter

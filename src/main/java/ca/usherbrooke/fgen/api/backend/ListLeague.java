@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ListLeague extends ListTemplate<League, String> {
     /**
-     * Constructeur paramétré avec la taille maximale
+     * Constructeur par defaut vide.
      *
      */
     public ListLeague() {
@@ -14,10 +14,10 @@ public class ListLeague extends ListTemplate<League, String> {
     /**
      * Ajouter une ligue dans la liste
      *
-     * @param league Ligue à ajouter de type Ligue
+     * @param league Ligue a ajouter de type Ligue
+     *
      * @return Le nombre de ligues ajoutées
      */
-
     public boolean addLeague(League league) {
         switch (addItem(league)) {
             case 0:
@@ -33,6 +33,13 @@ public class ListLeague extends ListTemplate<League, String> {
         }
     }
 
+    /**
+     * Ajouter plusieurs ligues dans la liste à partir d'une liste de ligue
+     *
+     * @param league Ligue a ajouter de type Ligue
+     *
+     * @return Le nombre de ligues ajoutées
+     */
     public int addLeague(List<League> leagues) {
         return addItems(leagues);
     }
@@ -41,6 +48,7 @@ public class ListLeague extends ListTemplate<League, String> {
      * Retirer une ligue du vecteur par son id
      *
      * @param id id de la ligue à retirer
+     *
      * @return faux si le vecteur ne contient pas le
      */
     public boolean removeLeague(int id) {
@@ -55,6 +63,13 @@ public class ListLeague extends ListTemplate<League, String> {
         }
     }
 
+    /**
+     * Retirer une ligue du vecteur par son objet
+     *
+     * @param league objet league a retirer
+     *
+     * @return faux si le vecteur ne contient pas le
+     */
     public boolean removeLeague(League league) {
         return removeLeague(league.getId());
     }

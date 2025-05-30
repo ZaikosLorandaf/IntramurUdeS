@@ -9,13 +9,18 @@ public class ListSport extends ListTemplate<Sport, String> {
     private static Map<Integer, League> mapLeagueSport = new HashMap<>(); // Convertion de id_League -> id_Sport
 
 
+    /**
+     * Constructeur par defaut vide.
+     */
     public ListSport() {
         LoggerUtil.info("Création du vecteur de sport");
     }
 
     /**
      * Méthode pour ajouter un sport à la liste
+     *
      * @param sport Le sport à ajouter
+     *
      * @return Le nombre de sports ajoutés
      */
     public int addSport(Sport sport) {
@@ -32,16 +37,24 @@ public class ListSport extends ListTemplate<Sport, String> {
         return status;
     }
 
-
     /**
      * Ajouter une liste de sports à la liste
+     *
      * @param sports La liste des sports à ajouter
+     *
      * @return Le nombre de sports réelement ajoutés
      */
     public int addSports(List<Sport> sports) {
         return addItems(sports);
     }
 
+    /**
+     * Ajouter une liste de sports à la liste
+     *
+     * @param league Ajouter un ligue dans le map qui converti league en sport
+     *
+     * @return Le nombre de sports reellement ajoutés
+     */
     public static boolean addLeagueMap(League league) {
         if (!ListSport.mapLeagueSport.containsKey(league.getId())) {
             ListSport.mapLeagueSport.put(league.getId(), league);
@@ -54,11 +67,25 @@ public class ListSport extends ListTemplate<Sport, String> {
         }
     }
 
+    /**
+     * retirer une ligue du map qui converti ligue en sport
+     *
+     * @param league objet ligue a retirer
+     *
+     * @return l'objet retire
+     */
     public static League removeLeagueMap(League league)
     {
         return ListSport.mapLeagueSport.remove(league.getId());
     }
 
+    /**
+     * Ajouter une equipe dans le map qui converti equipe en ligue
+     *
+     * @param team objet equipe a ajouter
+     *
+     * @return insertion reussi?
+     */
     public static boolean addTeamMap(Team team) {
         if (!ListSport.mapTeamLeague.containsKey(team.getId())) {
             ListSport.mapTeamLeague.put(team.getId(), team);
@@ -70,11 +97,25 @@ public class ListSport extends ListTemplate<Sport, String> {
         }
     }
 
+    /**
+     * retirer une equipe du map qui converti equipe en ligue
+     *
+     * @param team objet team a retirer
+     *
+     * @return l'objet retire
+     */
     public static Team removeTeamMap(Team team)
     {
         return ListSport.mapTeamLeague.remove(team.getId());
     }
 
+    /**
+     * retirer un sport de la liste
+     *
+     * @param id id du sport a retirer
+     *
+     * @return retrait reussi?
+     */
     public boolean removeSport(int id) {
         if (removeItem(id)) {
             LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
@@ -88,7 +129,9 @@ public class ListSport extends ListTemplate<Sport, String> {
 
     /**
      * Méthode pour retirer un sport
+     *
      * @param sport Sport à retirer
+     *
      * @return Vrai si le joueur est retiré, sinon false
      */
     public boolean removeSport(Sport sport) {

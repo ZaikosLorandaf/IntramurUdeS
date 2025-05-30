@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ListPlayer extends ListTemplate<Player, Integer> {
     /**
-     * Constructeur par défaut
+     * Constructeur vide par defaut. Class herite de ListTemplate
      */
     public ListPlayer() {
         LoggerUtil.info("Création de la liste de joueur");
@@ -12,7 +12,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
 
     /**
      * Ajout d'un joueur dans le veteur
-     * @param player Objet de classe Joueur à ajouter
+     *
+     * @param player Objet de classe Joueur a ajouter
+     *
      * @return false if list over max size
      */
     public boolean addPlayer(Player player)
@@ -30,13 +32,22 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
         }
     }
 
+    /**
+     * Ajout plusieurs joueur dans le veteur a partir d'une liste de joueur
+     *
+     * @param players liste d'Objet de classe Joueur a ajouter
+     *
+     * @return false if list over max size
+     */
     public int addPlayer(List<Player> players) {
         return addItems(players);
     }
 
     /**
      * Retire un joueur du vecteur à partir de l'index
+     *
      * @param id Id du joueur à retirer
+     *
      * @return faux si index out of bound sinon vrai
      */
     public boolean removePlayer(int id) {
@@ -51,7 +62,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
 
     /**
      * Retire un joueur du vecteur à partir de l'index
+     *
      * @param player Joueur à retirer
+     *
      * @return faux si Joueur n'est pas dans le vecteur sinon vrai
      */
     public boolean removePlayer(Player player)
@@ -59,12 +72,19 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
         return removePlayer(player.getId());
     }
 
+    /**
+     * Retire un joueur du vecteur à partir de son numero
+     *
+     * @param number numero du Joueur à retirer
+     *
+     * @return faux si Joueur n'est pas dans le vecteur sinon vrai
+     */
     public boolean removePlayerByNumber(int number) {
         return this.removePlayer(getItem(number));
     }
 
     /**
-     * Affiche ce que contient la liste pour tester
+     * Affiche ce que contient la liste dans la console pour tester
      */
     public void printList() {
         if (this.getSize() <= 0)
