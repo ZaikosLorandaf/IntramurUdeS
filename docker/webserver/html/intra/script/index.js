@@ -4,20 +4,20 @@ function initialisation()
 {
     axios.get("http://localhost:8888/api/init", { })
         .then(function (response) {
-            div.innerHTML = response.data;
+            console.log(response.data);
         })
         .catch(function (error) {
-            div.innerHTML = error;
+            console.log(error);
         });
 
 
     const div = document.getElementById("btn-login");
     axios.get("http://localhost:8888/api/sport", { })
         .then(function (response) {
-            div.innerHTML = response.data;
+            console.log(response.data);
         })
         .catch(function (error) {
-            div.innerHTML = error;
+            console.log(error);
         });
 
 }

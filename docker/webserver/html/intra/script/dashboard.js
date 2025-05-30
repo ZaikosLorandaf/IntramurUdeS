@@ -197,7 +197,11 @@ function showInfo(team) {
         document.getElementById("player-info").style.display = "block";
         let modifierJoueurBtn = "";
         if (roleNumber === 2) {
-            modifierJoueurBtn = `<button class="player-btn" onclick="modifierJoueur('${nom}')">Modifier Joueur</button>`;
+            const params = new URLSearchParams(window.location.search);
+            let sport = params.get('sport');
+            let ligue = params.get('ligue');
+
+            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Modifier Joueur</button>`;
         }
 
         document.getElementById("player-info").innerHTML = `
