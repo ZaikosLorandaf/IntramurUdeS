@@ -36,7 +36,7 @@ public class ListLeague extends ListTemplate<League, String> {
     /**
      * Ajouter plusieurs ligues dans la liste à partir d'une liste de ligue
      *
-     * @param league Ligue a ajouter de type Ligue
+     * @param leagues Ligue a ajouter de type Ligue
      *
      * @return Le nombre de ligues ajoutées
      */
