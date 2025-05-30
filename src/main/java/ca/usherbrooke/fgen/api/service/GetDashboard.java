@@ -30,10 +30,54 @@ public class GetDashboard {
         LoggerUtil.info("Ligue reçue : " + nomLigue);
 
         return "{\n" +
-                "  \"A\": {\"joueurs\": \"Jo, Axel, Ana\", \"matchs\": \"3 gagnés, 1 perdu\"},\n" +
-                "  \"B\": {\"joueurs\": \"Bruno, Béatrice, Basile\", \"matchs\": \"2 gagnés, 2 perdus\"},\n" +
-                "  \"C\": {\"joueurs\": \"Carla, Charles, Chloé\", \"matchs\": \"1 gagné, 3 perdus\"},\n" +
-                "  \"D\": {\"joueurs\": \"David, Daphnée, Damien\", \"matchs\": \"4 gagnés, 0 perdu\"}\n" +
+                "  \"A\": {\n" +
+                "    \"joueurs\": \"Olivier, Remi, Ana\",\n" +
+                "    \"matchs\": \"3 gagnés, 1 perdu\",\n" +
+                "    \"stats\": {\n" +
+                "      \"matchsJoues\": 4,\n" +
+                "      \"victoires\": 3,\n" +
+                "      \"defaites\": 1,\n" +
+                "      \"pointsMarques\": 89,\n" +
+                "      \"pointsEncaisses\": 65,\n" +
+                "      \"differenceDePoints\": 24\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"B\": {\n" +
+                "    \"joueurs\": \"Bruno, Béatrice, Basile\",\n" +
+                "    \"matchs\": \"2 gagnés, 2 perdus\",\n" +
+                "    \"stats\": {\n" +
+                "      \"matchsJoues\": 4,\n" +
+                "      \"victoires\": 3,\n" +
+                "      \"defaites\": 1,\n" +
+                "      \"pointsMarques\": 89,\n" +
+                "      \"pointsEncaisses\": 65,\n" +
+                "      \"differenceDePoints\": 24\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"C\": {\n" +
+                "    \"joueurs\": \"Carla, Charles, Chloé\",\n" +
+                "    \"matchs\": \"1 gagné, 3 perdus\",\n" +
+                "    \"stats\": {\n" +
+                "      \"matchsJoues\": 4,\n" +
+                "      \"victoires\": 3,\n" +
+                "      \"defaites\": 1,\n" +
+                "      \"pointsMarques\": 89,\n" +
+                "      \"pointsEncaisses\": 65,\n" +
+                "      \"differenceDePoints\": 24\n" +
+                "    }\n" +
+                "  },\n" +
+                "  \"D\": {\n" +
+                "    \"joueurs\": \"David, Daphnée, Damien\",\n" +
+                "    \"matchs\": \"4 gagnés, 0 perdu\",\n" +
+                "    \"stats\": {\n" +
+                "      \"matchsJoues\": 4,\n" +
+                "      \"victoires\": 3,\n" +
+                "      \"defaites\": 1,\n" +
+                "      \"pointsMarques\": 89,\n" +
+                "      \"pointsEncaisses\": 65,\n" +
+                "      \"differenceDePoints\": 24\n" +
+                "    }\n" +
+                "  }\n" +
                 "}";
     }
 
