@@ -1,7 +1,18 @@
 package ca.usherbrooke.fgen.api.service;
+import ca.usherbrooke.fgen.api.service.postAdd.addLeague;
+import ca.usherbrooke.fgen.api.service.postAdd.addSport;
+import ca.usherbrooke.fgen.api.service.postAdd.addTeam;
+import io.smallrye.common.constraint.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.sql.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -62,10 +73,10 @@ public class MyAPI {
         return ogClass.listSport();
     }
 
-    @GET
-    @Path("addSport/{nom_sport}")
-    public String addSport( @PathParam("nom_sport") String sport) {
-		return ogClass.newSport(sport);
+    @POST
+    @Path("addSport")
+    public String addSport(@NotNull addSport sport ) {
+		return ogClass.newSport(sport.nom);
     }
 
     @GET
@@ -92,14 +103,22 @@ public class MyAPI {
     }
 
 
-    @GET
-    @Path("addLigue/{sport}/{nom}")
-    public String addLeague(
-            @PathParam("sport") String sport,
-            @PathParam("nom") String nom) {
-        sport = sport.replace("%20", " ");
-        nom = nom.replace("%20", " ");
-        return ogClass.newLeague(sport, nom);
+    @POST
+    @Path("addLigue/")
+    public String addLeague(@NotNull addLeague league) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date_debut;
+        Date date_fin;
+        try {
+            java.util.Date date_debutParsed = dateFormat.parse(league.date_debut);
+            java.util.Date date_finParsed = dateFormat.parse(league.date_fin);
+
+            date_debut = new Date(date_debutParsed.getTime());
+            date_fin = new Date(date_finParsed.getTime());
+        } catch (ParseException e) {
+            return "Invalid date format: " + e.getMessage();
+        }
+        return ogClass.newLeague(league.nom_sport, league.nom,date_debut,date_fin);
    }
 
     @GET
@@ -124,17 +143,10 @@ public class MyAPI {
 
 
     // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
-    @GET
-    @Path("addTeam/{nom_sport}/{nom_ligue}/{nom_equipe}")
-    public String getAddTeam(
-            @PathParam("nom_sport") String sport,
-            @PathParam("nom_ligue") String nom_ligue,
-            @PathParam("nom_equipe") String nom_equipe) {
-
-        sport = sport.replace("%20", " ");
-        nom_ligue = nom_ligue.replace("%20", " ");
-        nom_equipe = nom_equipe.replace("%20", " ");
-        return ogClass.addTeam(sport, nom_ligue,nom_equipe);
+    @POST
+    @Path("addTeam")
+    public String getAddTeam(@NotNull addTeam team) {
+        return ogClass.addTeam(team.nomSport, team.nomLigue, team.nomTeam);
     }
 
     @GET

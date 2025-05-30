@@ -41,6 +41,7 @@ public class ListLeague {
             return true;
         }
         else {
+            int id = league.getId();
             LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
                     " (" + league.getId() + ") existe déjà.");
             return false;

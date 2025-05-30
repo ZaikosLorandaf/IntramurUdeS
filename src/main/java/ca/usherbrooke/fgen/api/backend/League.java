@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.backend;
 
 import java.sql.Date;
-import java.sql.Time;
+
 
 public class League {
   private int id;
@@ -11,7 +11,6 @@ public class League {
   private Date endDate;
   private int idSport;
   private boolean done = false;
-  private java.util.Random rand = new java.util.Random();
   /**
    * Base Constructor, creates an empty league
    */
@@ -21,6 +20,8 @@ public class League {
     id = -1;
     LoggerUtil.info("Création d'une ligue");
   }
+
+
 
   /**
    * Constructor for a League based on a list of teams
@@ -35,10 +36,22 @@ public class League {
     this.id = id;
     LoggerUtil.info("Création d'une ligue");
   }
+
+
+
   public League(String name) {
     listTeam = new ListTeam();
     this.name = name;
-    id = rand.nextInt(1,1000);
+    id = -1;
+    LoggerUtil.info("Création de la ligue " + name);
+  }
+
+  public League(String name, Date beginDate, Date endDate) {
+    listTeam = new ListTeam();
+    this.name = name;
+    id = -1;
+    this.beginDate = beginDate;
+    this.endDate = endDate;
     LoggerUtil.info("Création de la ligue " + name);
   }
 
