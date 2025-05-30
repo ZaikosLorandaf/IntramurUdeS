@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,6 +14,8 @@ import java.util.Set;
 public class OGClass {
     @Inject
     ListSport sportList;
+    @Inject
+    SportService sportService;
 
     public OGClass() {
 
@@ -115,13 +118,22 @@ public class OGClass {
             return "Sport Error";
 
         Sport newSport = new Sport(sportName);
+        int id = sportService.getNewId();
+        newSport.setId(id);
         int resultAdd = sportList.addSport(newSport);
         String result;
         if (resultAdd == 0)
             result = "<div>erreur</div>";
         else {
-            result = "<div>";
-            result += sportName + "</div>";
+
+            if(ajoutSportDb(newSport))
+            {
+                result = "<div>";
+                result += sportName + "</div>";
+            }
+            else {
+                result = "Impossible d'ajouter dans la base de données "+ "<br>";
+            }
         }
         return result;
     }
@@ -394,5 +406,13 @@ public class OGClass {
 
         return "<div>Erreur lors du retrait du joueur</div>";
     }
+
+
+    public boolean ajoutSportDb(Sport sport)
+    {
+        sportService.addSport(sport);
+        return true;
+    }
+
 
 }
