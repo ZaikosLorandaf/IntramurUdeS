@@ -18,6 +18,8 @@ public class GeneralService {
         TeamService teamService;
         @Inject
         PlayerService playerService;
+        @Inject
+        MatchService matchService;
 
 
         @GET
@@ -26,6 +28,7 @@ public class GeneralService {
             leagueService.getLeagues();
             teamService.getTeams();
             playerService.getPlayers();
+            matchService.getMatches();
             return "All data gathered";
         }
 

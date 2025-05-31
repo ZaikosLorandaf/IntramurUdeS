@@ -6,7 +6,7 @@
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Sport">
         select id,
                name,
-                nb_team_match
+               nb_team_match
         from intramurudes.sport
 
     </select>
@@ -30,7 +30,7 @@
         SELECT last_value FROM intramurudes.sport_id_seq;
     </select>
 
-    <insert id="insertSport">
+    <insert id="insert">
         insert into intramurudes.sport(name)
         values (#{sport.name})
     </insert>

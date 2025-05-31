@@ -7,6 +7,7 @@ import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +21,8 @@ public class SportService extends TemplateService<Sport> {
     // Redirection vers les fonctions template
     @GET
     public List<Sport> getSports() {
-        return getItems();
+        List<Sport> sports = getItems();
+        return sports;
     }
 
     @GET
@@ -47,7 +49,7 @@ public class SportService extends TemplateService<Sport> {
     }
 
     protected void insert(Sport sport){
-        sportMapper.insertSport(sport);
+        sportMapper.insert(sport);
     }
     protected void add(Sport sport){
         ogClass.getSportList().addSport(sport);

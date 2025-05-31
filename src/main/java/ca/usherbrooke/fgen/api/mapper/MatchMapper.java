@@ -1,19 +1,17 @@
 package ca.usherbrooke.fgen.api.mapper;
 
 import ca.usherbrooke.fgen.api.backend.League;
+import ca.usherbrooke.fgen.api.backend.Match;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Mapper
-public interface LeagueMapper {
-    List<League> selectAll();
-    League selectOne(@Param("id") Integer id);
-    List<League> selectFromSport(@Param("id_sport") Integer id_sport);
+public interface MatchMapper {
+    List<Match> selectAll();
+    Match selectOne(@Param("id") Integer id);
     void deleteOne(@Param("id") Integer id);
-    void insert(@Param("league") League league);
+    void insert(@Param("match") Match match);
     Integer getLastId();
 }

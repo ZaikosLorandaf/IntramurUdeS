@@ -50,7 +50,7 @@ public class TeamService extends TemplateService<Team> {
     }
 
     protected void insert(Team team){
-        teamMapper.insertTeam(team);
+        teamMapper.insert(team);
     }
     protected void add(Team team){
         ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);

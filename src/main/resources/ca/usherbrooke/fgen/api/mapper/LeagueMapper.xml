@@ -46,17 +46,17 @@
         SELECT last_value FROM intramurudes.league_id_seq;
     </select>
 
-    <insert id="insertLeague">
+    <insert id="insert">
         insert into intramurudes.league(name,
                                         begin_date,
                                         end_date,
                                         done,
                                         id_sport)
-        values (#{league.name},
-                #{league.beginDate},
-                #{league.endDate},
-                #{league.done},
-                #{league.idSport});
+        values (#{name},
+                #{beginDate},
+                #{endDate},
+                #{done},
+                #{idSport});
     </insert>
 
 </mapper>
