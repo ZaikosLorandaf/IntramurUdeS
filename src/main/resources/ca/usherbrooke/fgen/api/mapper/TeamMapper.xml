@@ -32,9 +32,4 @@
                 #{idLeague})
     </insert>
 
-
-    <select id="getLastId" resultType="Integer">
-        SELECT last_value FROM intramurudes.team_id_seq;
-    </select>
-
 </mapper>

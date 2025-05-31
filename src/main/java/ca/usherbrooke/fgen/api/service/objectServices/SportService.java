@@ -36,7 +36,6 @@ public class SportService extends TemplateService<Sport> {
     public void addSport(Sport sport)
     {
         addItem(sport);
-
     }
 
 
@@ -63,9 +62,9 @@ public class SportService extends TemplateService<Sport> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    public int getLastId()
+    public int getNewId()
     {
-        return sportMapper.getLastId();
+        return sportMapper.getNewId();
     }
 }
 

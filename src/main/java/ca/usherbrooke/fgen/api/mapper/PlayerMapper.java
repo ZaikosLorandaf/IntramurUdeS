@@ -11,6 +11,11 @@ public interface PlayerMapper {
     List<Player> selectPlayers();
     Player selectOnePlayer(@Param("id") int id);
     void deleteOnePlayer(@Param("id") int id);
+<<<<<<< Updated upstream
     void insert(Player player);
     int getLastId();
+=======
+    void insertPlayer(Player player);
+    int getNewId();
+>>>>>>> Stashed changes
 }

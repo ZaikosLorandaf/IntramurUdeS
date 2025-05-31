@@ -5,6 +5,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class TemplateService<ListType> {
+    public List<ListType> getItems() {
+        List<ListType> items = selectAll();
+        for (ListType item : items) {
+            add(item);
+        }
+        return unescapeEntities(items);
+    }
+
+    public ListType getItem(@PathParam("id") Integer id) {
+        ListType item = selectOne(id);
+        add(item);
+        return unescapeEntities(item);
+    }
+
     public void addItem(ListType item) {
         // Ajouter l'équipe à la base de données via le mapper
         insert(item);
@@ -23,22 +37,6 @@ public abstract class TemplateService<ListType> {
                 .collect(Collectors.toList());
     }
 
-    // Getter
-    public List<ListType> getItems() {
-        List<ListType> items = selectAll();
-        for (ListType item : items) {
-            add(item);
-        }
-        return unescapeEntities(items);
-    }
-
-    public ListType getItem(@PathParam("id") Integer id) {
-        ListType item = selectOne(id);
-        add(item);
-        return unescapeEntities(item);
-    }
-
-    // Methodes abstraites
     protected abstract List<ListType> selectAll();
     protected abstract ListType selectOne(Integer id);
     protected abstract void add(ListType item);

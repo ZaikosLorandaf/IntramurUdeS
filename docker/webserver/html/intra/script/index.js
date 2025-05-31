@@ -2,21 +2,22 @@ let roleNumber = 0; // 0 user, 1, chef, 2 admin
 
 function initialisation()
 {
-    // axios.get("http://localhost:8888/api/init", { })
-    //     .then(function (response) {
-    //         console.log(response.data);
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
+    axios.get("http://localhost:8888/api/init", { })
+        .then(function (response) {
+            div.innerHTML = response.data;
+        })
+        .catch(function (error) {
+            div.innerHTML = error;
+        });
+
 
     const div = document.getElementById("btn-login");
     axios.get("http://localhost:8888/api/sport", { })
         .then(function (response) {
-            console.log(response.data);
+            div.innerHTML = response.data;
         })
         .catch(function (error) {
-            console.log(error);
+            div.innerHTML = error;
         });
 
 }

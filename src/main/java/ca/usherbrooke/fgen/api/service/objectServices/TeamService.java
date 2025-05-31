@@ -64,9 +64,13 @@ public class TeamService extends TemplateService<Team> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
+<<<<<<< Updated upstream
     public int getLastId()
+=======
+    public int getNewId()
+>>>>>>> Stashed changes
     {
-        return teamMapper.getLastId();
+        return teamMapper.getNewId();
     }
 }
 
