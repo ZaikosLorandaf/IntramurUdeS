@@ -16,4 +16,6 @@ public interface LeagueMapper {
     void deleteOne(@Param("id") Integer id);
     void insert(@Param("league") League league);
     Integer getLastId();
+    void insertLeague(@Param("league") League league);
+    Integer getNewId();
 }

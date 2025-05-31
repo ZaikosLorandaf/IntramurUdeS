@@ -59,9 +59,9 @@ public class PlayerService extends TemplateService<Player> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    public int getLastId()
+    public int getNewId()
     {
-        return playerMapper.getLastId();
+        return playerMapper.getNewId();
     }
 }
 

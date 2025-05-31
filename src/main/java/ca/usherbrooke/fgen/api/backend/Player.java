@@ -7,7 +7,6 @@ public class Player {
     private int number;
     private int idTeam;
 
-    // Constructeurs
     /**
      * Constructeur de la classe
      *
@@ -30,24 +29,23 @@ public class Player {
         this.idTeam = idTeam;
     }
 
-    // Methodes
-    /**
-     * Afficher le nom complet du joueur dans la console
-     */
-    public void printPlayer() {
-        System.out.printf("%s %s, I am on team %d\n", name, lastName, idTeam);
+    public int getId() {
+        return this.id;
     }
 
-    // Setter
-    public void setIdTeam(int id) {
-        idTeam = id;
-        LoggerUtil.info("Changement de l'id d'équipe du joueur");
+    /**
+     * Get le nom du joueur
+     *
+     * @return nom
+     */
+    public String getName() {
+        return name;
     }
-    public void setLastName(String n) {
-        lastName = n;
-        // METTRE LE LIEN AVEC L'ID
-        LoggerUtil.info("Changement du nom de famille du joueur");
+
+    public String getLastName() {
+        return lastName;
     }
+
     public void setName(String n) {
         name = n;
 
@@ -55,20 +53,29 @@ public class Player {
         LoggerUtil.info("Changement du prenom du joueur");
     }
 
-    // Getter
+    public void setLastName(String n) {
+        lastName = n;
+        // METTRE LE LIEN AVEC L'ID
+        LoggerUtil.info("Changement du nom de famille du joueur");
+    }
+
+    public void setIdTeam(int id) {
+        idTeam = id;
+        LoggerUtil.info("Changement de l'id d'équipe du joueur");
+    }
+
+    public int getIdTeam() {
+        return idTeam;
+    }
+
+    /**
+     * Print dans la console le joueur pour les tests
+     */
+    public void printPlayer() {
+        System.out.printf("%s %s, I am on team %d\n", name, lastName, idTeam);
+    }
+
     public int getNumber() {
         return this.number;
-    }
-    public int getIdTeam() {
-        return this.idTeam;
-    }
-    public String getName() {
-        return this.name;
-    }
-    public String getLastName() {
-        return this.lastName;
-    }
-    public int getId() {
-        return this.id;
     }
 }

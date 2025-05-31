@@ -13,4 +13,6 @@ public interface PlayerMapper {
     void deleteOnePlayer(@Param("id") int id);
     void insert(Player player);
     int getLastId();
+    void insertPlayer(Player player);
+    int getNewId();
 }

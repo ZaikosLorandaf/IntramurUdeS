@@ -42,8 +42,8 @@
         where id = #{id}
     </delete>
 
-    <select id="getLastId" resultType="Integer">
-        SELECT last_value FROM intramurudes.league_id_seq;
+    <select id="getNewId" resultType="Integer">
+        select nextval('intramurudes.league_id_seq)'::regclass)
     </select>
 
     <insert id="insert">
