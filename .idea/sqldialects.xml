@@ -2,7 +2,9 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/docker/postgres/WIP_function.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/docker/postgres/function.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/docker/postgres/init.sql" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/docker/postgres/populate_mock_data.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/docker/postgres/views.sql" dialect="PostgreSQL" />
   </component>
 </project>

@@ -108,6 +108,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
     {
         return getItem(id);
     }
+
+    public List<Integer> getPlayerIds() { return getMapIds(); }
+
     public Player getPlayerByNumber(Integer number) { return getItem(number); }
 
     public int getId(Player player) { return player.getId(); }

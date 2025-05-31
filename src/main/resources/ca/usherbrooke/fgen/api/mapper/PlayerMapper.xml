@@ -23,6 +23,11 @@
         where id = #{id}
     </select>
 
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.player_id_seq;
+    </select>
+
     <delete id="deleteOnePlayer">
         delete
         from intramurudes.Player
@@ -38,5 +43,8 @@
                 #{player.last_name},
                 #{player.id_team})
     </insert>
+
+
+
 
 </mapper>

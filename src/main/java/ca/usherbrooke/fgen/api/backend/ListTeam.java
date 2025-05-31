@@ -95,6 +95,8 @@ public class ListTeam extends ListTemplate<Team, String>  {
     public Team getTeam(String name) {return getItem(name); }
     public int getSize() {return getMapSize(); }
 
+    public List<Integer> getTeamIds() { return getMapIds(); }
+
     public int getId(Team team) { return team.getId(); }
     public String getName(Team team) { return team.getName(); };
 }
@@ -131,6 +133,14 @@ public boolean addTeam(Team team) {
     } else {
         LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
         return false;
+    }
+
+    public Map<Integer, Team> getMapId() {
+        return mapId;
+    }
+
+    public Map<String, Integer> getMapNomId() {
+        return mapNomId;
     }
 }
 
