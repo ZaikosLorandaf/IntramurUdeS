@@ -26,6 +26,8 @@ public class LeagueService extends TemplateService<League> {
         return leagues;
     }
 
+    @GET
+    @Path("{id}")
     public League getLeague(@PathParam("id") Integer id) {
         League league = getItem(id);
         ListSport.addLeagueMap(league);
@@ -59,7 +61,7 @@ public class LeagueService extends TemplateService<League> {
     }
 
     protected void insert(League league){
-        leagueMapper.insertLeague(league);
+        leagueMapper.insert(league);
     }
     protected void add(League league){ ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league)); }
 
