@@ -11,11 +11,8 @@ public interface TeamMapper {
     List<Team> selectTeams();
     Team selectOneTeam(@Param("id") int id);
     void deleteOneTeam(@Param("id") int id);
-<<<<<<< Updated upstream
     void insert(Team team);
     int getLastId();
-=======
     void insertTeam(Team team);
     int getNewId();
->>>>>>> Stashed changes
 }

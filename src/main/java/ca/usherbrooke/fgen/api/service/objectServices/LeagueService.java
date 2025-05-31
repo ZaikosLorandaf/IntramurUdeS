@@ -23,7 +23,7 @@ public class LeagueService extends TemplateService<League> {
     @GET
     public List<League> getLeagues(){
         List<League> leagues = getItems();
-        ListSport.addLeagueMap(leagues);
+        //ListSport.addLeagueMap(leagues);
         return leagues;
     }
 

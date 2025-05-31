@@ -11,11 +11,8 @@ public interface SportMapper {
     List<Sport> selectAll();
     Sport selectOne(@Param("id") Integer id);
     void deleteOne(@Param("id") Integer id);
-<<<<<<< Updated upstream
     void insert(@Param("sport") Sport sport);
     Integer getLastId();
-=======
     void insertSport(@Param("sport") Sport sport);
     Integer getNewId();
->>>>>>> Stashed changes
 }

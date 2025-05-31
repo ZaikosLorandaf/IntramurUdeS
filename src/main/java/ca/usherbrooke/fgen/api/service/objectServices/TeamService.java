@@ -22,7 +22,7 @@ public class TeamService extends TemplateService<Team> {
     @GET
     public List<Team> getTeams() {
         List<Team> teams = getItems();
-        ListSport.addTeamMap(teams);
+        ListSport.addTeamMap((Team) teams);
         return teams;
     }
 
@@ -64,11 +64,11 @@ public class TeamService extends TemplateService<Team> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-<<<<<<< Updated upstream
-    public int getLastId()
-=======
+    public int getLastId(){
+
+        return teamMapper.getLastId();
+    }
     public int getNewId()
->>>>>>> Stashed changes
     {
         return teamMapper.getNewId();
     }
