@@ -11,6 +11,6 @@ public interface PlayerMapper {
     List<Player> selectPlayers();
     Player selectOnePlayer(@Param("id") int id);
     void deleteOnePlayer(@Param("id") int id);
-    void insertPlayer(Player player);
+    void insert(Player player);
     int getLastId();
 }
