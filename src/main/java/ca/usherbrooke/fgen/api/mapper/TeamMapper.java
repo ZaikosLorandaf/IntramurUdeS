@@ -11,6 +11,6 @@ public interface TeamMapper {
     List<Team> selectTeams();
     Team selectOneTeam(@Param("id") int id);
     void deleteOneTeam(@Param("id") int id);
-    void insertTeam(Team team);
+    void insert(Team team);
     int getLastId();
 }

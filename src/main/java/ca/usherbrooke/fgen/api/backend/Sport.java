@@ -80,4 +80,5 @@ public class Sport {
     public ListLeague getListLeague() {
         return this.listLeague;
     }
+    public int getNbTeamMatch() { return nbTeamMatch; }
 }

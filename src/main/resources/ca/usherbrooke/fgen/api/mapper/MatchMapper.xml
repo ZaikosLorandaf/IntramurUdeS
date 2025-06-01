@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.MatchMapper">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Match">
+        SET search_path = intramurudes;
+        SELECT vmls.match_id AS id,
+               vmls.date_match AS date_match,
+               vmls.begin_time AS begin_time,
+               vmls.end_time AS end_time,
+               vmls.id_league AS id_league,
+               vmls.nb_team_match
+        FROM v_match_league_sport vmls;
+    </select>
+
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Match">
+        SET search_path = intramurudes;
+        SELECT vmls.match_id AS id,
+               vmls.date_match AS date_match,
+               vmls.begin_time AS begin_time,
+               vmls.end_time AS end_time,
+               vmls.id_league AS id_league,
+               vmls.nb_team_match AS nb_team_match
+        FROM v_match_league_sport vmls
+        WHERE match_id = #{id};
+    </select>
+
+
+    <delete id="deleteOne">
+        delete
+        from intramurudes.match_
+        where id = #{id}
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.match__id_seq;
+    </select>
+
+    <insert id="insert">
+        insert into intramurudes.match_(date_match, begin_time, end_time, id_league)
+        values (#{dateMatch},
+                #{beginTime},
+                #{endTime},
+                #{idLeague});
+    </insert>
+
+</mapper>
