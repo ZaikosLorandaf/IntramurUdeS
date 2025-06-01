@@ -1,0 +1,19 @@
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+const params = new URLSearchParams(window.location.search);
+const sport = params.get('sport');
+const ligue = params.get('ligue');
+
+
+axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+name, {})
+.then(function (response) {
+console.log(response.data);
+// if (window.opener) {
+//     window.opener.location.reload();
+//     window.close();
+// }
+})
+.catch(function (error) {
+console.log(error);
+});
