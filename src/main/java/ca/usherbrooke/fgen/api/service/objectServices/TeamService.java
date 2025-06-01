@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
+import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
@@ -20,13 +21,17 @@ public class TeamService extends TemplateService<Team> {
     // Redirection vers les fonctions template
     @GET
     public List<Team> getTeams() {
-        return getItems();
+        List<Team> teams = getItems();
+        ListSport.addTeamMap(teams);
+        return teams;
     }
 
     @GET
     @Path("{id}")
     public Team getTeam(@PathParam("id") Integer id) {
-        return getItem(id);
+        Team team = getItem(id);
+        ListSport.addTeamMap(team);
+        return team;
     }
 
     @POST
@@ -59,8 +64,6 @@ public class TeamService extends TemplateService<Team> {
      * Méthode pour aller chercher le prochain id de l'ajout
      * @return
      */
-    @GET
-    @Path("temp")
     public int getLastId()
     {
         return teamMapper.getLastId();
