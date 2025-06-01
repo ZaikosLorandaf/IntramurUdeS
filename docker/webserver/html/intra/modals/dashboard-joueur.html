@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifier les statistiques du joueur</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="p-4">
@@ -52,19 +53,25 @@
     const sport = params.get('sport');
     const ligue = params.get('ligue');
     const team = params.get('team');
-    const player = params.get('nom');  // Le nom du joueur
+    const player = params.get('nom');
 
     document.getElementById('playerHeader').textContent = `Sport: ${sport} | Ligue: ${ligue} | Équipe: ${team} | Joueur: ${player}`;
 
     function ajouterStat() {
-        const key = document.getElementById('newStatKey').value.trim();
-        const value = document.getElementById('newStatValue').value.trim();
-        if (key && value) {
-            console.log(`AJOUT : [${team} - ${player}] ${key} = ${value}`);
-            alert(`Statistique ajoutée : ${key} = ${value}`);
-            window.close();
-        } else {
-            alert("Veuillez entrer une clé et une valeur.");
+        const key = document.getElementById('newStatKey').value;
+        const value = document.getElementById('newStatValue').value;
+        if (!key || !value){
+        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+name+"/"+key+"/"+value, {})
+            .then(function (response) {
+                console.log(response.data);
+            // if (window.opener) {
+            //     window.opener.location.reload();
+            //     window.close();
+            // }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     }
 
