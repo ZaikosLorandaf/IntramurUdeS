@@ -22,7 +22,7 @@ public class TeamService extends TemplateService<Team> {
     @GET
     public List<Team> getTeams() {
         List<Team> teams = getItems();
-        ListSport.addTeamMap((Team) teams);
+        ListSport.addTeamMap(teams);
         return teams;
     }
 
