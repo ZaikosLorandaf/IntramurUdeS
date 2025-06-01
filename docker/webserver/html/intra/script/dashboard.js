@@ -153,8 +153,13 @@ function renderEquipeList() {
         const div = document.createElement("div");
         div.className = "card-custom";
         div.textContent = `Gérer équipe`;
+
+        const myParams = new URLSearchParams(window.location.search);
+        let sports = myParams.get('sport');
+        let seasons = myParams.get('ligue');
+
         div.addEventListener('click', () => {
-            window.open('./modals/dashboard-equipe.html', 'popupWindow', 'width=500,height=500');
+            window.open(`./modals/dashboard-equipe.html?sport=${sports}&ligue=${seasons}`, 'popupWindow', 'width=500,height=500');
         });
         // div.onclick = () => ;
         container.appendChild(div);
@@ -174,7 +179,7 @@ function showInfo(team) {
         let sports = myParams.get('sport');
         let seasons = myParams.get('ligue');
 
-        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&league=${seasons}&equipe=${team}', 'popupWindow', 'width=500,height=400')">Modifier Stats</button>`;
+        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
     }
 
     const teamStats = info.stats || {};
