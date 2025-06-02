@@ -34,7 +34,7 @@
         where id = #{id}
     </delete>
 
-    <insert id="insertPlayer">
+    <insert id="insert">
         insert into intramurudes.Player(id,
                                         name,
                                         last_name,
