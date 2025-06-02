@@ -1,7 +1,6 @@
 let roleNumber = 0; // 0 user, 1, chef, 2 admin
 
-function initialisation()
-{
+function initialisation() {
     // axios.get("http://localhost:8888/api/init", { })
     //     .then(function (response) {
     //         console.log(response.data);
@@ -61,12 +60,13 @@ function logout(){
 initKeycloak()
     .then(() => {
         const div = document.getElementById("btn-login");
+        const logoutOptions = { redirectUri : "http://localhost/8888/" };
         if (isAuthenticated()) {
             console.log("Utilisateur connecté !");
             roleNumber = getRoleNumber();
             console.log("Rôle détecté:", roleNumber);
             div.textContent = "Déconnexion";
-            div.onclick = () => logout();
+            div.onclick = () => keycloak.logout(logoutOptions);
         } else {
             console.log("Utilisateur non connecté.");
             div.textContent = "Connexion";
