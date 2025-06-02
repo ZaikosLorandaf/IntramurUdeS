@@ -1,6 +1,6 @@
 services:
   webserver:
-    image: nginx
+    image: openquantumsafe/nginx-quic:latest
     container_name: webserver
     volumes:
       - ./webserver/cert:/etc/nginx/cert
