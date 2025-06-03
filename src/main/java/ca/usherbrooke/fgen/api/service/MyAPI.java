@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.service;
 import ca.usherbrooke.fgen.api.service.postAdd.addLeague;
+import ca.usherbrooke.fgen.api.service.postAdd.addPlayer;
 import ca.usherbrooke.fgen.api.service.postAdd.addSport;
 import ca.usherbrooke.fgen.api.service.postAdd.addTeam;
 import io.smallrye.common.constraint.NotNull;
@@ -68,11 +69,11 @@ public class MyAPI {
     }
 
     // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
-    @GET
-    @Path("listSport/")
-    public String getListSport() {
-        return ogClass.listSport();
-    }
+//    @GET
+//    @Path("listSport/")
+//    public String getListSport() {
+//        return ogClass.listSport();
+//    }
 
     @POST
     @Path("addSport")
@@ -184,20 +185,11 @@ public class MyAPI {
 
 
     // ~~~~~~~~~~~ Players ~~~~~~~~~~ //
-    @GET
-    @Path("addPlayer/{nom_sport}/{nom_ligue}/{nom_equipe}/{prenom_joueur}/{nom_joueur}")
-    public String addPlayer(
-            @PathParam("nom_sport") String nomSport,
-            @PathParam("nom_ligue") String nomLigue,
-            @PathParam("nom_equipe") String nomEquipe,
-            @PathParam("nom_joueur") String nomJoueur,
-            @PathParam("prenom_joueur") String prenomJoueur ) {
-        nomSport = nomSport.replace("%20", " ");
-        nomLigue = nomLigue.replace("%20", " ");
-        nomEquipe = nomEquipe.replace("%20", " ");
-        nomJoueur = nomJoueur.replace("%20", " ");
-        prenomJoueur = prenomJoueur.replace("%20", " ");
-        return ogClass.addPlayer(nomSport,nomLigue,nomEquipe,prenomJoueur, nomJoueur);
+    @POST
+    @Path("addPlayer")
+    public String addPlayer(@NotNull addPlayer player) {
+        int number = player.number;
+        return ogClass.addPlayer(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
     }
 
     @GET

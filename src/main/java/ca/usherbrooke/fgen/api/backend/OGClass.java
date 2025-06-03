@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.backend;
 
 import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
+import ca.usherbrooke.fgen.api.service.objectServices.PlayerService;
 import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import org.json.JSONArray;
@@ -24,6 +25,8 @@ public class OGClass {
     LeagueService leagueService;
     @Inject
     TeamService teamService;
+    @Inject
+    PlayerService playerService;
 
     public OGClass() {
 
@@ -41,7 +44,7 @@ public class OGClass {
     }
 
     public String getSports() {
-        System.out.println(sportList.getMapSports());
+        //System.out.println(sportList.getMapSports());
         String result = "";
         for (int i : sportList.getMapSports().keySet()) {
             result += sportList.getSport(i).getName() + "</br>";
@@ -147,11 +150,11 @@ public class OGClass {
         Sport newSport = new Sport(sportName);
         int id = sportService.getLastId() + 1;
         newSport.setId(id);
-        int resultAdd = sportList.addSport(newSport);
+//        int resultAdd = sportList.addSport(newSport);
         String result;
-        if (resultAdd == 0)
-            result = "<div>erreur</div>";
-        else {
+//        if (resultAdd == 0)
+//            result = "<div>erreur</div>";
+//        else {
 
             if(ajoutSportDb(newSport))
             {
@@ -161,7 +164,7 @@ public class OGClass {
             else {
                 result = "Impossible d'ajouter dans la base de données "+ "<br>";
             }
-        }
+//        }
         return result;
     }
 
@@ -320,6 +323,7 @@ public class OGClass {
         } else {
             int id = teamService.getLastId() + 1;
             int idLeague = league.getId();
+            if (teamName == null || teamName == "") return "nom impossible";
             Team team = new Team(id, teamName, idLeague);
             if (ajoutTeamDb(team)) {
                 result = "Équipe ajoutée";
@@ -394,8 +398,7 @@ public class OGClass {
         return "<div>Erreur lors du retrait d'équipe</div>";
     }
 
-    public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName,
-            String playerLastName) {
+    public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName, int number) {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
@@ -407,7 +410,15 @@ public class OGClass {
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        if (team.newPlayer(playerFirsName, playerLastName))
+        int id = playerService.getLastId() + 1;
+        int idTeam = team.getId();
+        Player player = new Player(id, playerFirsName, playerLastName,number ,idTeam);
+
+        if(team.getListPlayer().getMapNumberId().containsKey(number))
+            return "Erreur numero";
+        if (team.getListPlayer().getMapItems().containsKey(id))
+            return "Erreur getting id";
+        if (ajoutPlayerDb(player))
             return "<div> Joueur : " + playerFirsName + " " + playerLastName + " ajouté</div>";
 
         return "<div>Erreur nom</div>";
@@ -429,9 +440,9 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i: team.getListPlayer().getPlayerIds()) {
+                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
                     Player player = team.getListPlayer().getPlayerByNumber(i);
-                    result += player.getName() + " " + player.getLastName() + "</br>";
+                    result += player.getNumber()+ ": "+ player.getName() + " " + player.getLastName() + "</br>";
                 }
             }
         }
@@ -476,6 +487,12 @@ public class OGClass {
     public boolean ajoutTeamDb(Team team)
     {
         teamService.addTeam(team);
+        return true;
+    }
+
+    public boolean ajoutPlayerDb(Player player)
+    {
+        playerService.addPlayer(player);
         return true;
     }
 
