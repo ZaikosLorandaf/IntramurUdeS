@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 @ApplicationScoped
@@ -59,25 +60,44 @@ public class OGClass {
         ListTeam listTeam = league.getTeams();
 
         for (int i = 0; i < listTeam.getSize(); i++) {
-            Team team = listTeam.getTeam(i);
+            Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));
 
-            List<String> player = new ArrayList<>();
+            JSONObject joueurs = new JSONObject();
+
             for (int j = 0; j < team.getListPlayer().getSize(); j++) {
-                Player p = team.getListPlayer().getPlayer(j);
-                player.add(p.getName());
+                Player p = team.getListPlayer().getPlayer(team.getListPlayer().getPlayerIds().get(j));
+
+                JSONObject stats = new JSONObject()
+                        .put("role", "Joueur") // à adapter selon ton modèle
+                        .put("matchsJoues", 4)
+                        .put("buts", new Random().nextInt(4))
+                        .put("passes", new Random().nextInt(4))
+                        .put("cartonsJaunes", new Random().nextInt(2))
+                        .put("cartonsRouges", new Random().nextInt(1))
+                        .put("arrets", new Random().nextInt(3))
+                        .put("blessures", new Random().nextInt(2))
+                        .put("remarques", ""); // tu peux mettre p.getRemark() si dispo
+
+                joueurs.put(p.getName(), stats);
             }
 
-            String playerStr = String.join(", ", player);
-            String matchsStr = "Statistiques fictives";
+            // Génère des stats fictives d’équipe
+            JSONObject teamStats = new JSONObject()
+                    .put("matchsJoues", 4)
+                    .put("victoires", new Random().nextInt(5))
+                    .put("defaites", new Random().nextInt(5))
+                    .put("pointsMarques", new Random().nextInt(100))
+                    .put("pointsEncaisses", new Random().nextInt(100))
+                    .put("differenceDePoints", new Random().nextInt(50));
 
             JSONObject teamInfo = new JSONObject()
-                .put("joueurs", playerStr)
-                .put("matchs", matchsStr);
+                    .put("joueurs", joueurs)
+                    .put("stats", teamStats);
 
             response.put(team.getName(), teamInfo);
         }
 
-        return response.toString();
+        return response.toString(2); // indente pour lisibilité
     }
 
     public String getSportLeague() {
