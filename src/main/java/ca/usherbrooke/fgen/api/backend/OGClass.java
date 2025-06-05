@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 @ApplicationScoped
 public class OGClass {
@@ -149,14 +148,17 @@ public class OGClass {
 
     public String getSportLeague() {
         JSONArray sports = new JSONArray();
+        Sport sport;
+        ListLeague leagues;
+        List<String> leagueNames;
 
         for (int i : sportList.getMapSports().keySet()) {
-            Sport sport = sportList.getSport(i);
+            sport = sportList.getSport(i);
             if (sport == null)
                 return "error sport dans la liste";
             // Récupère les noms des ligues de ce sport
-            ListLeague leagues = sport.getListLeague();
-            List<String> leagueNames = new ArrayList<>();
+            leagues = sport.getListLeague();
+            leagueNames = new ArrayList<>();
             for (int j : leagues.getLeagueIds()) {
                 leagueNames.add(leagues.getLeague(j).getName());
             }
@@ -227,8 +229,8 @@ public class OGClass {
         String result = "";
         if (league != null) {
             result = "Ligue retirée :" + league.getName();
-            sportList.getSport(sport).getListLeague().removeLeague(league);
-            leagueMapper.deleteOne(sportList.getSport(sport).getListLeague().getId(league));
+            getsport.getListLeague().removeLeague(league);
+            leagueMapper.deleteOne(getsport.getListLeague().getId(league));
             System.out.println("Ligue retirée: " + result);
         } else {
             result = "Pas de ligue appelé " + nom;
@@ -237,15 +239,16 @@ public class OGClass {
     }
 
     public String listLeague(String sportName) {
-        if (sportList.getSport(sportName) == null)
+        Sport sport = sportList.getSport(sportName);
+        if (sport == null)
             return "Erreur Sport";
 
         String result = "";
-        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
+        if (sport.getListLeague().getSize() <= 0)
             return "<div>Pas de ligue</div>";
 
-        for (int i : sportList.getSport(sportName).getListLeague().getLeagueIds())
-            result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
+        for (int i : sport.getListLeague().getLeagueIds())
+            result += sport.getListLeague().getLeague(i).getName() + "</br>";
 
         return result;
     }
@@ -359,16 +362,18 @@ public class OGClass {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
+        ListLeague league = sportList.getSport(sportName).getListLeague();
+
+        if (league.getSize() <= 0)
             return "<div>Pas de ligue</div>";
 
-        Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
+        Team team = league.getLeague(leagueName).getTeams().getTeam(teamName);
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
+        teamMapper.deleteOneTeam(league.getLeague(leagueName).getTeams().getId(team));
 
-        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
+        if (league.getLeague(leagueName).removeTeam(team))
             return "<div>Équipe retirée</div>";
 
         return "<div>Erreur lors du retrait d'équipe</div>";
