@@ -43,101 +43,6 @@ public class OGClass {
         LoggerUtil.info("Création de OGClass terminée.");
     }
 
-    /**
-     * Getter pour la listeSport
-     *
-     * @return L'objet ListeSport
-     */
-    public ListSport getSportList() {
-        return this.sportList;
-    }
-
-    public String getSports() {
-        System.out.println(sportList.getMapSports());
-        String result = "";
-        for (int i : sportList.getMapSports().keySet()) {
-            result += sportList.getSport(i).getName() + "</br>";
-        }
-        return result;
-    }
-
-    public String getEquipesData(String sportName, String leagueName) {
-        JSONObject response = new JSONObject();
-
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
-        if (league == null) {
-            return new JSONObject().put("error", "Ligue introuvable").toString();
-        }
-
-        ListTeam listTeam = league.getTeams();
-
-        for (int i = 0; i < listTeam.getSize(); i++) {
-            Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));
-
-            JSONObject joueurs = new JSONObject();
-
-            for (int j = 0; j < team.getListPlayer().getSize(); j++) {
-                Player p = team.getListPlayer().getPlayer(team.getListPlayer().getPlayerIds().get(j));
-
-                JSONObject stats = new JSONObject()
-                        .put("role", "Joueur") // à adapter selon ton modèle
-                        .put("matchsJoues", 4)
-                        .put("buts", new Random().nextInt(4))
-                        .put("passes", new Random().nextInt(4))
-                        .put("cartonsJaunes", new Random().nextInt(2))
-                        .put("cartonsRouges", new Random().nextInt(1))
-                        .put("arrets", new Random().nextInt(3))
-                        .put("blessures", new Random().nextInt(2))
-                        .put("remarques", ""); // tu peux mettre p.getRemark() si dispo
-
-                joueurs.put(p.getName(), stats);
-            }
-
-            // Génère des stats fictives d’équipe
-            JSONObject teamStats = new JSONObject()
-                    .put("matchsJoues", 4)
-                    .put("victoires", new Random().nextInt(5))
-                    .put("defaites", new Random().nextInt(5))
-                    .put("pointsMarques", new Random().nextInt(100))
-                    .put("pointsEncaisses", new Random().nextInt(100))
-                    .put("differenceDePoints", new Random().nextInt(50));
-
-            JSONObject teamInfo = new JSONObject()
-                    .put("joueurs", joueurs)
-                    .put("stats", teamStats);
-
-            response.put(team.getName(), teamInfo);
-        }
-
-        return response.toString(2); // indente pour lisibilité
-    }
-
-    public String getSportLeague() {
-        JSONArray sports = new JSONArray();
-
-        for (int i : sportList.getMapSports().keySet()) {
-            Sport sport = sportList.getSport(i);
-            if (sport == null)
-                return "error sport dans la liste";
-            // Récupère les noms des ligues de ce sport
-            ListLeague leagues = sport.getListLeague();
-            List<String> leagueNames = new ArrayList<>();
-            for (int j : leagues.getLeagueIds()) {
-                leagueNames.add(leagues.getLeague(j).getName());
-            }
-
-            // Ajoute le sport et ses ligues dans le JSON
-            JSONObject sportJson = new JSONObject()
-                .put("name", sport.getName())
-                .put("id", sport.getId())
-                .put("seasons", new JSONArray(leagueNames));
-
-            sports.put(sportJson);
-        }
-
-        return sports.toString();
-    }
-
     public void trashData() {
         Sport bb = new Sport("Basket Ball");
         bb.addLeague(new League("Tintin au congo"));
@@ -153,26 +58,23 @@ public class OGClass {
 
     // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
     public String newSport(String sportName) {
+        // Verifier si le sport existe deja
         if (sportList.getAllSports().contains(sportList.getSport(sportName)))
             return "Sport Error";
 
-        Sport newSport = new Sport(sportName);
-        int id = sportService.getLastId() + 1;
-        newSport.setId(id);
-        int resultAdd = sportList.addSport(newSport);
+        // Creer le sport
         String result;
-        if (resultAdd == 0)
+        Sport newSport = new Sport(sportName);
+        newSport.setId(sportService.getLastId() + 1); // Assigner l'Id
+
+        // Creer la reponse
+        if (sportList.addSport(newSport) == 0)
             result = "<div>erreur</div>";
         else {
-
             if(ajoutSportDb(newSport))
-            {
-                result = "<div>";
-                result += sportName + "</div>";
-            }
-            else {
+                result = "<div>" + sportName + "</div>";
+            else
                 result = "Impossible d'ajouter dans la base de données "+ "<br>";
-            }
         }
         return result;
     }
@@ -181,15 +83,14 @@ public class OGClass {
         if (sportList.getAllSports().size() <= 0)
             return "No Sports";
 
+        // Liste tous les sports dans une chaine de caractere
         String result = "";
-        int maxSport = sportList.getSize();
-        Set<Integer> keys = sportList.getMapSports().keySet();
-        for (int i: keys) {
+        for (int i: sportList.getMapSports().keySet()) {
             result += sportList.getSport(i) + "</br>";
         }
-
         return result;
     }
+
 
     public String getSport(String sportName) {
         if (sportList.getAllSports() == null)
@@ -228,6 +129,50 @@ public class OGClass {
         return result;
     }
 
+    /**
+     * Getter pour la listeSport
+     *
+     * @return L'objet ListeSport
+     */
+    public ListSport getSportList() {
+        return this.sportList;
+    }
+
+    public String getSports() {
+        System.out.println(sportList.getMapSports());
+        String result = "";
+        for (int i : sportList.getMapSports().keySet()) {
+            result += sportList.getSport(i).getName() + "</br>";
+        }
+        return result;
+    }
+
+    public String getSportLeague() {
+        JSONArray sports = new JSONArray();
+
+        for (int i : sportList.getMapSports().keySet()) {
+            Sport sport = sportList.getSport(i);
+            if (sport == null)
+                return "error sport dans la liste";
+            // Récupère les noms des ligues de ce sport
+            ListLeague leagues = sport.getListLeague();
+            List<String> leagueNames = new ArrayList<>();
+            for (int j : leagues.getLeagueIds()) {
+                leagueNames.add(leagues.getLeague(j).getName());
+            }
+
+            // Ajoute le sport et ses ligues dans le JSON
+            JSONObject sportJson = new JSONObject()
+                    .put("name", sport.getName())
+                    .put("id", sport.getId())
+                    .put("seasons", new JSONArray(leagueNames));
+
+            sports.put(sportJson);
+        }
+
+        return sports.toString();
+    }
+
     // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
 
     public String newLeague(String nom_sport, String nom, Date dateDebut, Date dateFin) {
@@ -241,13 +186,11 @@ public class OGClass {
         }
         League newLeague = new League(nom, dateDebut, dateFin);
         int id = leagueService.getLastId() + 1;
-        newLeague.setLeagueID(id);
         int sportId = sport.getId();
+        newLeague.setLeagueID(id);
         newLeague.setIdSport(sportId);
 
-
         String result;
-
         if(ajoutLigueDb(newLeague))
         {
             result = "<div>";
@@ -256,7 +199,6 @@ public class OGClass {
         else {
             result = "Impossible d'ajouter la ligue dans la base de données "+ "<br>";
         }
-
 
         return result;
     }
@@ -276,23 +218,6 @@ public class OGClass {
         return result;
     }
 
-    // public String removeLeague(String nom) {
-    // League league = listLeague.getLeague(nom);
-    // String result = "";
-    // if(league != null) {
-    // result = "Ligue retirée :" + league.getName();
-    // listLeague.removeLeague(league);
-    // System.out.println("Ligue retirée: " + result);
-    // }
-    // else
-    // {
-    // result = "Pas de ligue appelé " + nom;
-    // }
-    // //result = "<div>" + result + "</div>";
-    // //String result = "<div> aaaaa </div>";
-    // return result;
-    // }
-
     public String removeLeague(String sport, String nom) {
         Sport getsport = sportList.getSport(sport);
         if (sport == null)
@@ -308,6 +233,20 @@ public class OGClass {
         } else {
             result = "Pas de ligue appelé " + nom;
         }
+        return result;
+    }
+
+    public String listLeague(String sportName) {
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        String result = "";
+        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
+            return "<div>Pas de ligue</div>";
+
+        for (int i : sportList.getSport(sportName).getListLeague().getLeagueIds())
+            result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
+
         return result;
     }
 
@@ -365,30 +304,55 @@ public class OGClass {
         return result;
     }
 
-    // public String listLeague() {
-    // String result = "";
-    // if(listLeague.getSize() <= 0) {
-    // return "<div>Pas de ligue</div>";
-    // }
-    // for (int i = 0; i < listLeague.getSize(); i++) {
-    // result += listLeague.getLeagueByIndex(i).getName() + "</br>";
-    // }
-    //
-    // return result;
-    // }
+    public String getEquipesData(String sportName, String leagueName) {
+        JSONObject response = new JSONObject();
 
-    public String listLeague(String sportName) {
-        if (sportList.getSport(sportName) == null)
-            return "Erreur Sport";
+        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        if (league == null) {
+            return new JSONObject().put("error", "Ligue introuvable").toString();
+        }
 
-        String result = "";
-        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
-            return "<div>Pas de ligue</div>";
+        ListTeam listTeam = league.getTeams();
 
-        for (int i : sportList.getSport(sportName).getListLeague().getLeagueIds())
-            result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
+        for (int i = 0; i < listTeam.getSize(); i++) {
+            Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));
 
-        return result;
+            JSONObject joueurs = new JSONObject();
+
+            for (int j = 0; j < team.getListPlayer().getSize(); j++) {
+                Player p = team.getListPlayer().getPlayer(team.getListPlayer().getPlayerIds().get(j));
+
+                JSONObject stats = new JSONObject()
+                        .put("role", "Joueur") // à adapter selon ton modèle
+                        .put("matchsJoues", 4)
+                        .put("buts", new Random().nextInt(4))
+                        .put("passes", new Random().nextInt(4))
+                        .put("cartonsJaunes", new Random().nextInt(2))
+                        .put("cartonsRouges", new Random().nextInt(1))
+                        .put("arrets", new Random().nextInt(3))
+                        .put("blessures", new Random().nextInt(2))
+                        .put("remarques", ""); // tu peux mettre p.getRemark() si dispo
+
+                joueurs.put(p.getName(), stats);
+            }
+
+            // Génère des stats fictives d’équipe
+            JSONObject teamStats = new JSONObject()
+                    .put("matchsJoues", 4)
+                    .put("victoires", new Random().nextInt(5))
+                    .put("defaites", new Random().nextInt(5))
+                    .put("pointsMarques", new Random().nextInt(100))
+                    .put("pointsEncaisses", new Random().nextInt(100))
+                    .put("differenceDePoints", new Random().nextInt(50));
+
+            JSONObject teamInfo = new JSONObject()
+                    .put("joueurs", joueurs)
+                    .put("stats", teamStats);
+
+            response.put(team.getName(), teamInfo);
+        }
+
+        return response.toString(2); // indente pour lisibilité
     }
 
     public String removeTeam(String sportName, String leagueName, String teamName) {
@@ -410,6 +374,7 @@ public class OGClass {
         return "<div>Erreur lors du retrait d'équipe</div>";
     }
 
+    // ~~~~~~~~~~~~ Player ~~~~~~~~~~~ //
     public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName,
             String playerLastName) {
         if (sportList.getSport(sportName) == null)
