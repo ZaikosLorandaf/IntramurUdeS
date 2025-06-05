@@ -4,6 +4,8 @@ out/
 !**/src/test/**/out/
 
 src/logs/
+**/logs/
+
 */setdata.sh
 */init.sh
 .idea/gradle.xml
