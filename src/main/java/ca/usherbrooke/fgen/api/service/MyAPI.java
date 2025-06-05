@@ -1,19 +1,12 @@
 package ca.usherbrooke.fgen.api.service;
-import ca.usherbrooke.fgen.api.service.postAdd.addLeague;
-import ca.usherbrooke.fgen.api.service.postAdd.addSport;
-import ca.usherbrooke.fgen.api.service.postAdd.addTeam;
+import ca.usherbrooke.fgen.api.service.postClass.addLeague;
+import ca.usherbrooke.fgen.api.service.postClass.addSport;
+import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import io.smallrye.common.constraint.NotNull;
-import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.sql.Date;
-import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;

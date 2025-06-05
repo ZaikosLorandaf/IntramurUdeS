@@ -1,5 +1,9 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
+import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
+import ca.usherbrooke.fgen.api.mapper.SportMapper;
+import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
 import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
@@ -21,9 +25,17 @@ public class OGClass {
     @Inject
     SportService sportService;
     @Inject
+    SportMapper sportMapper;
+    @Inject
     LeagueService leagueService;
     @Inject
+    LeagueMapper leagueMapper;
+    @Inject
     TeamService teamService;
+    @Inject
+    TeamMapper teamMapper;
+    @Inject
+    PlayerMapper playerMapper;
 
     public OGClass() {
 
@@ -209,6 +221,7 @@ public class OGClass {
         if (oldSport != null) {
             result = "Sport retirée :" + oldSport.getName();
             sportList.removeSport(oldSport);
+            sportMapper.deleteOne(sportList.getId(sportList.getSport(sportName)));
             System.out.println("Ligue retirée: " + result);
         }
 
@@ -290,6 +303,7 @@ public class OGClass {
         if (league != null) {
             result = "Ligue retirée :" + league.getName();
             sportList.getSport(sport).getListLeague().removeLeague(league);
+            leagueMapper.deleteOne(sportList.getSport(sport).getListLeague().getId(league));
             System.out.println("Ligue retirée: " + result);
         } else {
             result = "Pas de ligue appelé " + nom;
@@ -388,6 +402,8 @@ public class OGClass {
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
+        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
+
         if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
             return "<div>Équipe retirée</div>";
 
@@ -454,6 +470,7 @@ public class OGClass {
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
 
+        playerMapper.deleteOnePlayer(team.getListPlayer().getId(player));
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 

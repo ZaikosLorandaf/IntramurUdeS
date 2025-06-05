@@ -3,11 +3,12 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
+import ca.usherbrooke.fgen.api.service.postClass.removeSport;
+import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,6 +40,12 @@ public class SportService extends TemplateService<Sport> {
 
     }
 
+    @POST
+    @Path("removeSport")
+    public boolean removeSport(@NotNull removeSport sport ) {
+        ogClass.removeSport(sport.name);
+        return true;
+    }
 
     // Implementation des fonctions du template
     protected List<Sport> selectAll(){
@@ -48,9 +55,7 @@ public class SportService extends TemplateService<Sport> {
         return sportMapper.selectOne(id);
     }
 
-    protected void insert(Sport sport){
-        sportMapper.insert(sport);
-    }
+    protected void insert(Sport sport){ sportMapper.insert(sport); }
     protected void add(Sport sport){
         ogClass.getSportList().addSport(sport);
     }
