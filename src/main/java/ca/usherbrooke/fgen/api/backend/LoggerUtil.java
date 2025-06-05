@@ -16,12 +16,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class LoggerUtil {
 
-    private static final String LOG_FILE = "logs/app.log";
+    private static final String LOG_FILE = "../../../../src/logs/app.log";
     private static final boolean DISPLAY_IN_CONSOLE = true;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     static {
         // Crée le dossier logs si nécessaire
+        System.out.println("Répertoire courant: " + System.getProperty("user.dir"));
         java.io.File logDir = new java.io.File("logs");
         if (!logDir.exists()) {
             logDir.mkdir();
