@@ -48,7 +48,7 @@ public class PlayerService extends TemplateService<Player> {
         playerMapper.insert(player);
     }
     protected void add(Player player){
-        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(player);
+        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(unescapeEntities(player));
     }
 
     protected void setName(Player player) {

@@ -1,8 +1,12 @@
 package ca.usherbrooke.fgen.api.backend;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListPlayer extends ListTemplate<Player, Integer> {
+    private Map<Integer, Integer> mapNumberId = new HashMap<Integer, Integer>();
+
     /**
      * Constructeur vide par defaut. Class herite de ListTemplate
      */
@@ -10,33 +14,38 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
         LoggerUtil.info("Création de la liste de joueur");
     }
 
+
     /**
      * Ajout d'un joueur dans le veteur
      *
      * @param player Objet de classe Joueur a ajouter
-     *
      * @return false if list over max size
      */
-    public boolean addPlayer(Player player)
-    {
+    public boolean addPlayer(Player player) {
+        int id = player.getId();
+        int number = player.getNumber();
+        if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
+            mapId.put(player.getId(), player);
+            mapNumberId.put(player.getNumber(), player.getId());
 
-        switch (addItem(player)){
-            case 0:
-                LoggerUtil.info("Ajout du joueur " + player.getName());
-                return true;
-            case 1:
-                LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
-                return false;
-            default:
-                return false;
+            switch (addItem(player)) {
+                case 0:
+                    LoggerUtil.info("Ajout du joueur " + player.getName() + " " + player.getLastName() + " " + player.getNumber());
+                    return true;
+                case 1:
+                    LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
+                    return false;
+                default:
+                    return false;
+            }
         }
+        return false;
     }
 
     /**
      * Ajout plusieurs joueur dans le veteur a partir d'une liste de joueur
      *
      * @param players liste d'Objet de classe Joueur a ajouter
-     *
      * @return false if list over max size
      */
     public int addPlayer(List<Player> players) {
@@ -47,11 +56,10 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * Retire un joueur du vecteur à partir de l'index
      *
      * @param id Id du joueur à retirer
-     *
      * @return faux si index out of bound sinon vrai
      */
     public boolean removePlayer(int id) {
-        if (removeItem(id)){
+        if (removeItem(id)) {
             LoggerUtil.warning("Retrait du joueur " + getItem(id).getName() + "(id: " + id + ").");
             return true;
         } else {
@@ -64,11 +72,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * Retire un joueur du vecteur à partir de l'index
      *
      * @param player Joueur à retirer
-     *
      * @return faux si Joueur n'est pas dans le vecteur sinon vrai
      */
-    public boolean removePlayer(Player player)
-    {
+    public boolean removePlayer(Player player) {
         return removePlayer(player.getId());
     }
 
@@ -76,7 +82,6 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * Retire un joueur du vecteur à partir de son numero
      *
      * @param number numero du Joueur à retirer
-     *
      * @return faux si Joueur n'est pas dans le vecteur sinon vrai
      */
     public boolean removePlayerByNumber(int number) {
@@ -91,7 +96,7 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
             System.out.println("Liste vide");
         else {
             System.out.println("------LISTE------");
-            System.out.printf("Size = %d\n",getSize());
+            System.out.printf("Size = %d\n", getSize());
             for (int i : getMapIds()) {
                 getPlayer(i).printPlayer();
             }
@@ -100,23 +105,34 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
     }
 
     // Getter
-    public int getSize()
-    {
+    public int getSize() {
         return getMapSize();
     }
-    public Player getPlayer(int id)
-    {
+
+    public Player getPlayer(int id) {
         return getItem(id);
     }
 
-    public List<Integer> getPlayerIds() { return getMapIds(); }
+    public List<Integer> getPlayerIds() {
+        return getMapIds();
+    }
 
-    public Player getPlayerByNumber(Integer number) { return getItem(number); }
+    public Player getPlayerByNumber(Integer number) {
+        return getItem(number);
+    }
 
-    public int getId(Player player) { return player.getId(); }
-    public Integer getName(Player player) { return player.getNumber(); }
-}
+    public int getId(Player player) {
+        return player.getId();
+    }
 
+    public Integer getName(Player player) {
+        return player.getNumber();
+    }
+
+    public Map<Integer, Integer> getMapNumberId()
+    {
+        return mapNumberId;
+    }
 /*
 public class ListPlayer {
     private Map<Integer, Player> mapId;
@@ -223,9 +239,12 @@ public Player getPlayer(int id)
 {
     return mapId.getOrDefault(id, null);
 }
-public Player getPlayerByNumber(int number)
-{
-    return this.getPlayer(mapNumberId.getOrDefault(number, null));
+*/
+
+    public Player getPlayerByNumber(int number)
+    {
+        int numb = mapNumberId.getOrDefault(number, null);
+        Player p = this.getPlayer(numb);
+        return p;
+    }
 }
-}
- */
