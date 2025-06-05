@@ -39,9 +39,8 @@ public class PlayerService extends TemplateService<Player> {
 
     @POST
     @Path("removePlayer")
-    public boolean removePlayer(@NotNull removePlayer player ) {
-        ogClass.removePlayer(player.sportName, player.leagueName, player.teamName, player.playerNumber);
-        return true;
+    public String removePlayer(@NotNull removePlayer player ) {
+        return ogClass.removePlayer(player.sportName, player.leagueName, player.teamName, player.playerNumber);
     }
 
     // Implementation des fonctions du template

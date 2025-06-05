@@ -55,9 +55,8 @@ public class LeagueService extends TemplateService<League> {
 
     @POST
     @Path("removeLeague")
-    public boolean removeLeague(@NotNull removeLeague league ) {
-        ogClass.removeSport(league.name);
-        return true;
+    public String removeLeague(@NotNull removeLeague league ) {
+        return ogClass.removeSport(league.name);
     }
 
     // Implementation des fonctions du template
