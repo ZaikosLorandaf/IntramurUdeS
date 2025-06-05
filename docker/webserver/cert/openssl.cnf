@@ -1,0 +1,10 @@
+openssl req -x509 -out intramurUdeS.crt -keyout intramurUdeS.key -newkey rsa:8192 -sha3-512 -nodes -subj "/CN=localhost" -days 365 -extensions EXT -config openssl.cnf
+[dn]
+CN=localhost
+[req]
+distinguished_name = dn
+[EXT]
+subjectAltName=DNS:localhost
+keyUsage=digitalSignature
+extendedKeyUsage=serverAuth
+basicConstraints=CA:FALSE
