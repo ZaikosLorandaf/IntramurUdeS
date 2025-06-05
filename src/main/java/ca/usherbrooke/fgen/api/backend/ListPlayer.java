@@ -30,7 +30,7 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
 
             switch (addItem(player)) {
                 case 0:
-                    LoggerUtil.info("Ajout du joueur " + player.getName());
+                    LoggerUtil.info("Ajout du joueur " + player.getName() + " " + player.getLastName() + " " + player.getNumber());
                     return true;
                 case 1:
                     LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");

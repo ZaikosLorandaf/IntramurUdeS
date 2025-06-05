@@ -323,7 +323,7 @@ public class OGClass {
         } else {
             int id = teamService.getLastId() + 1;
             int idLeague = league.getId();
-            if (teamName == null || teamName == "") return "nom impossible";
+            if (teamName.isEmpty() || league.getTeams().getMapNameId().containsKey(teamName)) return "nom impossible";
             Team team = new Team(id, teamName, idLeague);
             if (ajoutTeamDb(team)) {
                 result = "Équipe ajoutée";

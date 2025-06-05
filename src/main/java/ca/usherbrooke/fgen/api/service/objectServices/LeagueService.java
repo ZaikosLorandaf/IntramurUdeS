@@ -63,7 +63,10 @@ public class LeagueService extends TemplateService<League> {
     protected void insert(League league){
         leagueMapper.insert(league);
     }
-    protected void add(League league){ ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league)); }
+    protected void add(League league)
+    {
+        ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league));
+    }
 
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));
