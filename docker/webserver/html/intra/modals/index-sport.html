@@ -32,7 +32,7 @@
   document.getElementById('addSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('sportName').value;
 
-    axios.get("http://localhost:8888/api/addSport/"+sportName, {})
+    axios.get("http://localhost:8888/api/sport/addSport/"+sportName, {})
       .then(function (response) {
         if (window.opener) {
           window.opener.location.reload();
@@ -47,7 +47,7 @@
   document.getElementById('deleteSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('deleteSportName').value;
 
-    axios.get("http://localhost:8888/api/removeSport/"+sportName, {})
+    axios.get("http://localhost:8888/api/sport/removeSport/"+sportName, {})
       .then(function (response) {
         if (window.opener) {
           window.opener.location.reload();
