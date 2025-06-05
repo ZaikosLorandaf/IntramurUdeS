@@ -56,8 +56,20 @@ public class LoggerUtil {
             System.err.println("Impossible d'écrire dans le fichier de log : " + e.getMessage());
         }
 
-        if (DISPLAY_IN_CONSOLE){
-            System.out.println(logMessage);
+        if (DISPLAY_IN_CONSOLE) {
+            String color = "";
+
+            switch (level) {
+                case "WARNING":
+                    color = AnsiColors.YELLOW;
+                    break;
+                case "ERROR":
+                    color = AnsiColors.RED;
+                    break;
+                // INFO ou autres → pas de couleur
+            }
+
+            System.out.println(color + logMessage + AnsiColors.RESET);
         }
     }
 }
