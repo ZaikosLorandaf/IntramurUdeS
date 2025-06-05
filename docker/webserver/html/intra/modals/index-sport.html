@@ -32,11 +32,13 @@
   document.getElementById('addSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('sportName').value;
 
-    axios.get("http://localhost:8888/api/addSport/"+sportName, {})
+    axios.post("http://localhost:8888/api/addSport/", {
+      nom:sportName
+    })
       .then(function (response) {
         if (window.opener) {
           window.opener.location.reload();
-          window.close();
+          //window.close();
         }
       })
       .catch(function (error) {
@@ -51,7 +53,7 @@
       .then(function (response) {
         if (window.opener) {
           window.opener.location.reload();
-          window.close();
+          //window.close();
         }
       })
       .catch(function (error) {

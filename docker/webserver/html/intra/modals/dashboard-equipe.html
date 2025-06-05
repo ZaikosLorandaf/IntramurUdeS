@@ -48,10 +48,23 @@
     <label for="addPlayerTeam" class="form-label">Nom de l’équipe</label>
     <input type="text" id="addPlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
 </div>
-<div class="mb-3">
-    <label for="playerNameToAdd" class="form-label">Nom du joueur</label>
-    <input type="text" id="playerNameToAdd" class="form-control" placeholder="Ex. Jean Dupont">
+<div class="row mb-3">
+    <div class="col-4">
+        <label for="playerFirstName" class="form-label">Prénom</label>
+        <input type="text" id="playerFirstName" class="form-control" placeholder="Ex. Jean">
+    </div>
+    <div class="col-4">
+        <label for="playerLastName" class="form-label">Nom</label>
+        <input type="text" id="playerLastName" class="form-control" placeholder="Ex. Dupont">
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3">
+        <label for="playerNumber" class="form-label">Numéro</label>
+        <input type="number" id="playerNumber" class="form-control" placeholder="0">
+    </div>
 </div>
+
+
 <button id="addPlayerBtn" class="btn btn-primary mb-4">Ajouter le joueur</button>
 
 <hr>
@@ -79,13 +92,17 @@
         const teamName = document.getElementById('teamName').value;
 
         console.log("Tentative ajouter équipe:", teamName);
-        axios.get("http://localhost:8888/api/addTeam/"+sport+"/"+league+"/"+teamName, {})
+        axios.post("http://localhost:8888/api/addTeam/", {
+            nomSport: sport,
+            nomLigue: league,
+            nomTeam: teamName
+        })
             .then(function (response) {
                 console.log(response.data);
-                // if (window.opener) {
-                //     window.opener.location.reload();
-                //     window.close();
-                // }
+                if (window.opener) {
+                    window.opener.location.reload();
+                    //window.close();
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -120,10 +137,19 @@
 
     document.getElementById('addPlayerBtn').addEventListener('click', () => {
         const team = document.getElementById('addPlayerTeam').value;
-        const player = document.getElementById('playerNameToAdd').value;
+        const playerFN = document.getElementById('playerFirstName').value;
+        const playerLN = document.getElementById('playerLastName').value;
+        const number = document.getElementById('playerNumber').value;
 
-        console.log("Tentative d'ajout du joueur:", player, "à l'équipe:", team);
-        axios.get(`http://localhost:8888/api/addPlayer/${sport}/${league}/${team}/${player}/${player}`)
+        console.log("Tentative d'ajout du joueur:", playerFN, " ", playerLN," à l'équipe:", team);
+        axios.post(`http://localhost:8888/api/addPlayer`,{
+            nomSport: sport,
+            nomLigue: league,
+            nomTeam: team,
+            nom: playerFN,
+            prenom: playerLN,
+            number: number
+        })
             .then(response => {
                 console.log(response.data);
                 alert(`Joueur ajouté : ${player} à ${team}`);
