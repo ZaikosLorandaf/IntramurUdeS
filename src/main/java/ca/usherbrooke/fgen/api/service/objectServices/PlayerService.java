@@ -38,10 +38,10 @@ public class PlayerService extends TemplateService<Player> {
 
     // Implementation des fonctions du template
     protected List<Player> selectAll(){
-        return playerMapper.selectPlayers();
+        return playerMapper.select();
     }
     protected Player selectOne(Integer id){
-        return playerMapper.selectOnePlayer(id);
+        return playerMapper.selectOne(id);
     }
 
     protected void insert(Player player){

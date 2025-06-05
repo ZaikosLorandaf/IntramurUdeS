@@ -24,6 +24,8 @@ public class OGClass {
     @Inject
     TeamService teamService;
 
+    ListSeason listSeasons;
+
     public OGClass() {
 
         sportList = new ListSport();
@@ -37,6 +39,10 @@ public class OGClass {
      */
     public ListSport getSportList() {
         return this.sportList;
+    }
+
+    public ListSeason getListSeasons() {
+        return this.listSeasons;
     }
 
     public String getSports() {
