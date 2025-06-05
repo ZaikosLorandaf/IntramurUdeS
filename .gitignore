@@ -3,6 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+src/logs/*
 */setdata.sh
 */init.sh
 .idea/gradle.xml
