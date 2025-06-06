@@ -9,7 +9,7 @@ public abstract class TemplateService<ListType> {
         // Ajouter l'équipe à la base de données via le mapper
         insert(item);
         add(item);
-     }
+    }
 
     public ListType unescapeEntities(ListType item) {
         setName(item);

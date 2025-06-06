@@ -1,4 +1,4 @@
-package ca.usherbrooke.fgen.api.service.postAdd;
+package ca.usherbrooke.fgen.api.service.postClass;
 
 import io.smallrye.common.constraint.NotNull;
 

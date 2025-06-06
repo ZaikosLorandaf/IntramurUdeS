@@ -72,7 +72,7 @@
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
 
-        axios.get("http://localhost:8888/api/addLigue/"+sport+"/"+name, {
+        axios.get("http://localhost:8888/api/league/addLeague/"+sport+"/"+name, {
 
         })
             .then(function (response) {
@@ -92,7 +92,7 @@
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
 
-        axios.get("http://localhost:8888/api/removeLigue/"+sport+"/"+ligueName, {
+        axios.get("http://localhost:8888/api/league/removeLeague/"+sport+"/"+ligueName, {
         }).then(function (response) {
             console.log(response.data);
             if (window.opener) {
