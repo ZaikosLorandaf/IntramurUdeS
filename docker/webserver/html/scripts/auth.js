@@ -1,23 +1,18 @@
-// On crée et initialise Keycloak ici
-
-
-
-
-// Initialize Keycloak (assuming you already have this somewhere)
+// Initialize Keycloak
 const keycloak = new Keycloak({
-  url: 'https://your-keycloak-domain/auth',
-  realm: 'user',
-  clientId: 'your-client-id'
+    url: 'https://localhost/8180',
+    realm: 'usager',
+    clientId: 'frontend'
 });
 
 keycloak.init({ onLoad: 'check-sso' }).then(function(authenticated) {
-  updateButton(authenticated);
+    updateButton(authenticated);
 }).catch(function() {
-  console.error('Failed to initialize Keycloak');
+    console.error('Failed to initialize Keycloak');
 });
 
 function updateButton(isAuthenticated) {
-  const btn = document.getElementById('btn-login');
+    const btn = document.getElementById('btn-login');
   btn.textContent = isAuthenticated ? 'Logout' : 'Connection';
 }
 
