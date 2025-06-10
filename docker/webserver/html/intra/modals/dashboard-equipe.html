@@ -152,11 +152,12 @@
         })
             .then(response => {
                 console.log(response.data);
-                alert(`Joueur ajouté : ${player} à ${team}`);
+                alert(`Joueur ajouté:` + sport + " " + league + " " + team + " " + playerFN + " " + playerLN + " " + number);
+                if(window.opener) window.opener.location.reload();
             })
             .catch(error => {
                 console.error(error);
-                alert("Erreur lors de l'ajout du joueur");
+                alert("Erreur lors de l'ajout du joueur :" + error);
             });
     });
 

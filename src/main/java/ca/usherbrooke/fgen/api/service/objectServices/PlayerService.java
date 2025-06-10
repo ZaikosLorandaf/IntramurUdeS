@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Player;
+import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import org.jsoup.parser.Parser;
 
@@ -48,7 +49,10 @@ public class PlayerService extends TemplateService<Player> {
         playerMapper.insert(player);
     }
     protected void add(Player player){
-        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(unescapeEntities(player));
+        player = unescapeEntities(player);
+        int teamId = player.getIdTeam();
+        Team team = ogClass.getSportList().getTeam(teamId);
+        team.addPlayer(player);
     }
 
     protected void setName(Player player) {

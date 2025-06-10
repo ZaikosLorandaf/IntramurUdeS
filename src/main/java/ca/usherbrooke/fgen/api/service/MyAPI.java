@@ -189,7 +189,8 @@ public class MyAPI {
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
         int number = player.number;
-        return ogClass.addPlayer(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
+        String reslt =  ogClass.addPlayer(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
+        return reslt;
     }
 
     @GET

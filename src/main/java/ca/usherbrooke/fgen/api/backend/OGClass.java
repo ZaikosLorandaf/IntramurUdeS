@@ -420,7 +420,7 @@ public class OGClass {
         if (team.getListPlayer().getMapItems().containsKey(id))
             return "Erreur getting id";
         if (ajoutPlayerDb(player))
-            return "<div> Joueur : " + playerFirsName + " " + playerLastName + " ajouté</div>";
+            return "Ajout du joueur";
 
         return "<div>Erreur nom</div>";
     }
