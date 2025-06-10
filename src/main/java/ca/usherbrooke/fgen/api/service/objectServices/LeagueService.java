@@ -3,6 +3,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import org.jsoup.parser.Parser;
 
@@ -63,7 +64,10 @@ public class LeagueService extends TemplateService<League> {
     protected void insert(League league){
         leagueMapper.insert(league);
     }
-    protected void add(League league){ ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league)); }
+    protected void add(League league){
+        Sport sport = ogClass.getSportList().getSport(league.getIdSport());
+        sport.addLeague(unescapeEntities(league));
+    }
 
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));

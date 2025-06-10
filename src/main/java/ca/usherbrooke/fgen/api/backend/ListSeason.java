@@ -72,16 +72,6 @@ public class ListSeason extends ListTemplate<Season, String>
         return removeSeason(season.getId());
     }
 
-    /**
-     * Retire une saison du vecteur à partir de son string qualificatif
-     *
-     * @param seasonPeriod numero du Joueur à retirer
-     *
-     * @return faux si saison n'est pas dans le vecteur sinon vrai
-     */
-    public boolean removeSeasonByPeriod(String seasonPeriod) {
-        return this.removeSeason(getItem(seasonPeriod));
-    }
 
     /**
      * Affiche ce que contient la liste dans la console pour tester

@@ -38,7 +38,7 @@ public class PlayerService extends TemplateService<Player> {
 
     // Implementation des fonctions du template
     protected List<Player> selectAll(){
-        return playerMapper.select();
+        return playerMapper.selectAll();
     }
     protected Player selectOne(Integer id){
         return playerMapper.selectOne(id);
