@@ -82,7 +82,9 @@ public class ListLeague extends ListTemplate<League, String> {
     public List<Integer> getLeagueIds() { return getMapIds(); }
 
     public int getId(League league){ return league.getId(); };
-    public String getName(League league){ return league.getName(); };
+    public String getName(League league){
+        return league.getName();
+    };
 }
 
 /*

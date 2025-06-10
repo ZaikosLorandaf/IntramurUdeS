@@ -66,4 +66,11 @@ public class Match
         return nbTeamMatch;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Match{" + "id=" + id +
+                "\n date=" + date + ", begin time=" + beginTime + ", end time=" + endTime + "\nidLeague: " + idLeague + "}";
+    }
+
 }

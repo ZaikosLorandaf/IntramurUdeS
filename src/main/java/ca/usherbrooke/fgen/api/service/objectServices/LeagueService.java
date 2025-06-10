@@ -3,6 +3,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addLeague;
 import ca.usherbrooke.fgen.api.service.postClass.removeLeague;
@@ -97,8 +98,13 @@ public class LeagueService extends TemplateService<League> {
     protected List<League> selectAll(){ return leagueMapper.selectAll(); }
     protected League selectOne(Integer id){ return leagueMapper.selectOne(id); }
 
-    protected void insert(League league){ leagueMapper.insert(league); }
-    protected void add(League league){ ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league)); }
+    protected void insert(League league){
+        leagueMapper.insert(league);
+    }
+    protected void add(League league){
+        Sport sport = ogClass.getSportList().getSport(league.getIdSport());
+        sport.addLeague(unescapeEntities(league));
+    }
 
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));

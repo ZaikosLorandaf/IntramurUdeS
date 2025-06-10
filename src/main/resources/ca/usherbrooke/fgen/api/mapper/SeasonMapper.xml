@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.SeasonMapper">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Season">
+        SET search_path = intramurudes;
+        SELECT s.id, s.season_year, s.time_precision
+        FROM season s;
+    </select>
+
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Season">
+        SET search_path = intramurudes;
+        SELECT s.id, s.season_year, s.time_precision
+        FROM season s
+        WHERE id = #{id};
+    </select>
+
+
+    <delete id="deleteOne">
+        delete
+        from intramurudes.season
+        where id = #{id};
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.season_id_seq;
+    </select>
+
+    <insert id="insert">
+        insert into intramurudes.season(season_year, time_precision)
+        values (#{seasonYear},
+                #{timePrecision});
+    </insert>
+
+</mapper>

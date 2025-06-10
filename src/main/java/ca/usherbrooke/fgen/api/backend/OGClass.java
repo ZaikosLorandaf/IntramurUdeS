@@ -36,6 +36,8 @@ public class OGClass {
     @Inject
     PlayerMapper playerMapper;
 
+    ListSeason listSeasons;
+
     public OGClass() {
 
         sportList = new ListSport();
@@ -440,7 +442,7 @@ public class OGClass {
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
 
-        playerMapper.deleteOnePlayer(team.getListPlayer().getId(player));
+        playerMapper.deleteOne(team.getListPlayer().getId(player));
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 
