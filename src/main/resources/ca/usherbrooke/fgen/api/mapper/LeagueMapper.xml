@@ -52,11 +52,11 @@
                                         end_date,
                                         done,
                                         id_sport)
-        values (#{name},
-                #{beginDate},
-                #{endDate},
-                #{done},
-                #{idSport});
+        values (#{league.name},
+                #{league.beginDate},
+                #{league.endDate},
+                #{league.done},
+                #{league.idSport});
     </insert>
 
 </mapper>

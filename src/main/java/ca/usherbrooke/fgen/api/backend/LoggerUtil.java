@@ -16,12 +16,13 @@ import java.time.format.DateTimeFormatter;
  */
 public class LoggerUtil {
 
-    private static final String LOG_FILE = "logs/app.log";
+    private static final String LOG_FILE = "../../../../src/logs/app.log";
     private static final boolean DISPLAY_IN_CONSOLE = true;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     static {
         // Crée le dossier logs si nécessaire
+        System.out.println("Répertoire courant: " + System.getProperty("user.dir"));
         java.io.File logDir = new java.io.File("logs");
         if (!logDir.exists()) {
             logDir.mkdir();
@@ -55,8 +56,20 @@ public class LoggerUtil {
             System.err.println("Impossible d'écrire dans le fichier de log : " + e.getMessage());
         }
 
-        if (DISPLAY_IN_CONSOLE){
-            System.out.println(logMessage);
+        if (DISPLAY_IN_CONSOLE) {
+            String color = "";
+
+            switch (level) {
+                case "WARNING":
+                    color = AnsiColors.YELLOW;
+                    break;
+                case "ERROR":
+                    color = AnsiColors.RED;
+                    break;
+                // INFO ou autres → pas de couleur
+            }
+
+            System.out.println(color + logMessage + AnsiColors.RESET);
         }
     }
 }
