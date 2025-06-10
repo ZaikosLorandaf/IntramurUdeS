@@ -28,16 +28,16 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
             mapId.put(player.getId(), player);
             mapNumberId.put(player.getNumber(), player.getId());
 
-            switch (addItem(player)) {
-                case 0:
+//            switch (addItem(player)) {
+//                case 1:
                     LoggerUtil.info("Ajout du joueur " + player.getName() + " " + player.getLastName() + " " + player.getNumber());
                     return true;
-                case 1:
-                    LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
-                    return false;
-                default:
-                    return false;
-            }
+//                case 0:
+//                    LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
+//                    return false;
+//                default:
+//                    return false;
+//            }
         }
         return false;
     }

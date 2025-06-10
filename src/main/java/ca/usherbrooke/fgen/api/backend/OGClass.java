@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map;
 
 @ApplicationScoped
 public class OGClass {
@@ -413,13 +414,13 @@ public class OGClass {
         int id = playerService.getLastId() + 1;
         int idTeam = team.getId();
         Player player = new Player(id, playerFirsName, playerLastName,number ,idTeam);
-
+        Map<Integer, Integer> map = team.getListPlayer().getMapNumberId();
         if(team.getListPlayer().getMapNumberId().containsKey(number))
             return "Erreur numero";
         if (team.getListPlayer().getMapItems().containsKey(id))
             return "Erreur getting id";
         if (ajoutPlayerDb(player))
-            return "<div> Joueur : " + playerFirsName + " " + playerLastName + " ajouté</div>";
+            return "Ajout du joueur";
 
         return "<div>Erreur nom</div>";
     }
