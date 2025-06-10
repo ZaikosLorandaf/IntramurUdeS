@@ -4,6 +4,8 @@ import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
+import ca.usherbrooke.fgen.api.service.postClass.removeTeam;
+import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
@@ -40,6 +42,11 @@ public class TeamService extends TemplateService<Team> {
         addItem(team);
     }
 
+    @POST
+    @Path("removeTeam")
+    public String removeTeam(@NotNull removeTeam team ) {
+        return ogClass.removeTeam(team.sportName, team.leagueName, team.teamName);
+    }
 
     // Implementation des fonctions du template
     protected List<Team> selectAll(){
