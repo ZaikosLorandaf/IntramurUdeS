@@ -329,12 +329,10 @@ function populateMatchDays() {
 }
 
 function appelMatch(){
-
-    axios.get("http://localhost:8888/api/dashboard/matchs", {
-        params: {
-            sport: sport,
-            ligue: season
-        }
+    const myParams = new URLSearchParams(window.location.search);
+    let sports = myParams.get('sport');
+    let seasons = myParams.get('ligue');
+    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
     }).then(function (response) {
         matchDatas = response.data;
         console.log(matchDatas);
