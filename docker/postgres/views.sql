@@ -46,10 +46,12 @@ CREATE OR REPLACE VIEW v_match_league_sport
 AS
 SELECT m.id AS match_id, m.date_match, m.begin_time, m.end_time,
        l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date, l.done,
-       s.id AS id_sport, s.name AS name_sport, s.nb_team_match
+       s.id AS id_sport, s.name AS name_sport, s.nb_team_match, ARRAY_AGG(mt.id_team) AS list_teams
 FROM match_ m
 INNER JOIN league l ON l.id = m.id_league
-INNER JOIN sport s ON s.id = l.id_sport;
+INNER JOIN sport s ON s.id = l.id_sport
+INNER JOIN match_team mt ON mt.id_match = m.id
+GROUP BY m.id, m.date_match, m.id, m.begin_time, m.end_time, l.id, l.name, l.begin_date, l.end_date, l.done, s.id, s.name, s.nb_team_match;
 
 
 
