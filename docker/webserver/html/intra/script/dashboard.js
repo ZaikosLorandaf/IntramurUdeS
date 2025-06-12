@@ -3,8 +3,12 @@ let roleNumber = 0; // 0 user, 1, chef, 2 admin
 let sport;
 let season;
 
-initPage();
 // Page Initialisation
+
+document.addEventListener("DOMContentLoaded", function(event){
+    initPage();
+});
+
 function initPage() {
     const params = new URLSearchParams(window.location.search);
     let sport = params.get('sport');
@@ -24,61 +28,51 @@ function initPage() {
     }).then(function (response) {
         equipeData = response.data;
         console.log(equipeData);
-        renderEquipeList();
-        appelMatch();
-    })
-        .catch(function (error) {
-            const container = document.querySelector('.main-container');
-            container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
-        });
-})
-    .catch(() => {
-        console.error("Erreur lors de l'initialisation de Keycloak");
+        renderTeamList();
+        callMatch();
+    }).catch(function (error) {
+        const container = document.querySelector('.main-container');
+        container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
     });
-
 }
 
-
-// ********************************
-// ****** LOGIQUE EQUIPE **********
-// ********************************
-
+// Logique Equipe
 let equipeData = {
     A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
+        matchsJoues: 4,
+        victoires: 3,
+        defaites: 1,
+        pointsMarques: 89,
+        pointsEncaisses: 65,
+        differenceDePoints: 24
+    } },
     B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
+        matchsJoues: 4,
+        victoires: 3,
+        defaites: 1,
+        pointsMarques: 89,
+        pointsEncaisses: 65,
+        differenceDePoints: 24
+    } },
     C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
+        matchsJoues: 4,
+        victoires: 3,
+        defaites: 1,
+        pointsMarques: 89,
+        pointsEncaisses: 65,
+        differenceDePoints: 24
+    } },
     D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
+        matchsJoues: 4,
+        victoires: 3,
+        defaites: 1,
+        pointsMarques: 89,
+        pointsEncaisses: 65,
+        differenceDePoints: 24
+    } },
 };
 
-function renderEquipeList() {
+function renderTeamList() {
     const container = document.getElementById("liste-equipes");
     container.innerHTML = "";
 
@@ -126,32 +120,32 @@ function showInfo(team) {
     const teamStats = info.stats || {};
 
     const statsTable = `
-    <table class="stats-table">
+        <table class="stats-table">
         <thead>
-            <tr><th>Statistiques</th><th>Valeurs</th></tr>
+        <tr><th>Statistiques</th><th>Valeurs</th></tr>
         </thead>
         <tbody>
-            ${Object.entries(teamStats).map(([cle, valeur]) => `
-                <tr>
-                    <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
-                    <td style="padding: 0px 20px;">${valeur}</td>
-                </tr>
+        ${Object.entries(teamStats).map(([cle, valeur]) => `
+            <tr>
+            <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+            <td style="padding: 0px 20px;">${valeur}</td>
+            </tr>
             `).join('')}
         </tbody>
-    </table>
-`;
+        </table>
+        `;
 
     document.getElementById("equipe-info").innerHTML = `
-    <h4>Équipe ${team}</h4>
-    <div class="equipe-container" id="equipe-content">
+        <h4>Équipe ${team}</h4>
+        <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
-            ${statsTable}
-            ${buttonHTML}
+        ${statsTable}
+    ${buttonHTML}
         </div>
-    </div>
-    <div id="player-info" style="display: none;"></div>
-`;
+        </div>
+        <div id="player-info" style="display: none;"></div>
+        `;
 
     // Fonction pour afficher les stats du joueur
     window.showPlayer = function (nom, team) {
@@ -160,20 +154,20 @@ function showInfo(team) {
 
         // Générer un tableau des stats du joueur
         const statsJoueurTable = `
-        <table class="stats-table">
+            <table class="stats-table">
             <thead>
-                <tr><th>Statistiques</th><th>Valeurs</th></tr>
+            <tr><th>Statistiques</th><th>Valeurs</th></tr>
             </thead>
             <tbody>
-                ${Object.entries(stats).map(([cle, valeur]) => `
-                    <tr>
-                        <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
-                        <td style="padding: 0px 20px;">${valeur}</td>
-                    </tr>
+            ${Object.entries(stats).map(([cle, valeur]) => `
+                <tr>
+                <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                <td style="padding: 0px 20px;">${valeur}</td>
+                </tr>
                 `).join('')}
             </tbody>
-        </table>
-    `;
+            </table>
+            `;
 
         // Affichage conditionnel pour rôle admin
         let modifierJoueurBtn = "";
@@ -190,11 +184,11 @@ function showInfo(team) {
 
         // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
-        <h4>${nom}</h4>
-        ${statsJoueurTable}
+            <h4>${nom}</h4>
+            ${statsJoueurTable}
         ${modifierJoueurBtn}
-        <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
-    `;
+            <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
+            `;
     };
 
     // Fonction de retour
@@ -204,10 +198,7 @@ function showInfo(team) {
 }
 
 
-// ********************************
-// ******* LOGIQUE MATCH **********
-// ********************************
-
+// Logique Matchs
 let matchDatas;
 
 function showMatchDay(date) {
@@ -219,12 +210,12 @@ function showMatchDay(date) {
     title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
 
     container.innerHTML = matchs.map(match => `
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
-                    <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
-                </div>
-            </div>
+        <div class="card border-0 shadow-sm">
+        <div class="card-body">
+        <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
+        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+        </div>
+        </div>
         `).join("");
     if (roleNumber === 2) {
         const myParams = new URLSearchParams(window.location.search);
@@ -269,8 +260,7 @@ function populateMatchDays() {
     listContainer.appendChild(manageBtn)
 }
 
-function appelMatch(){
-
+function callMatch(){
     axios.get("http://localhost:8888/api/dashboard/matchs", {
         params: {
             sport: sport,

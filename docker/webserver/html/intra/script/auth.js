@@ -35,6 +35,14 @@ function updateButton() {
   }
 }
 
+// function silentButton() {
+//     return keycloak.init({
+//         onLoad: 'check-sso',
+//         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html"
+//     });
+// }
+//
+//
 async function silentButton() {
   const authenticated = await keycloak.init({ onLoad: 'check-sso' });
   if (authenticated) {
