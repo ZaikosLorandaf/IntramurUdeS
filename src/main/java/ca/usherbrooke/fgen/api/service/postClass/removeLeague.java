@@ -4,5 +4,8 @@ import io.smallrye.common.constraint.NotNull;
 
 public class removeLeague {
     @NotNull
-    public String name;
+    public String leagueName;
+    @NotNull
+    public String sportName;
+
 }

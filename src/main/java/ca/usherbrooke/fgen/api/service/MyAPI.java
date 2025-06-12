@@ -24,7 +24,7 @@ public class MyAPI {
 
 
 
-    @GET
+    /*@GET
     @Path("monendpointJojojo")
     public String getMonMessageJojojo() {
         return "<div>Coucou</div>";
@@ -39,7 +39,7 @@ public class MyAPI {
 
     /*
     * Retourne les informations sur une équipe
-     */
+     *
     @GET
     @Path("data_equipe")
     public String getDataEquipe() {
@@ -59,7 +59,7 @@ public class MyAPI {
     @Path("liste_match_pour_date")
     public String getListeMatchPourDate() {
         return "coucouille";
-    }
+    }*/
 
     // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
 //    @GET
@@ -81,7 +81,7 @@ public class MyAPI {
         return ogClass.getSport(nom_sport);
     }
 
-    @GET
+    @POST
     @Path("removeSport/{nom_sport}")
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {

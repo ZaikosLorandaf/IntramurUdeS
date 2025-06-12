@@ -78,10 +78,10 @@ CREATE TABLE team_stat(
                           id_stat_statement INT NOT NULL,
                           id_team INT NOT NULL,
                           PRIMARY KEY(id),
-                          FOREIGN KEY(id_season) REFERENCES season(id),
-                          FOREIGN KEY(id_match) REFERENCES match_(id),
-                          FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id),
+                          FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id) ON DELETE CASCADE,
                           FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE
+                          FOREIGN KEY(id_season) REFERENCES season(id) ON DELETE CASCADE,
+                          FOREIGN KEY(id_match) REFERENCES match_(id) ON DELETE CASCADE,
 );
 
 CREATE TABLE player_stat(

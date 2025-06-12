@@ -1,9 +1,9 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.League;
-import ca.usherbrooke.fgen.api.backend.ListSport;
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Sport;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.service.postClass.removeLeague;
 import io.smallrye.common.constraint.NotNull;
@@ -57,7 +57,7 @@ public class LeagueService extends TemplateService<League> {
     @POST
     @Path("removeLeague")
     public String removeLeague(@NotNull removeLeague league ) {
-        return ogClass.removeSport(league.name);
+        return ogClass.removeLeague(league.sportName, league.leagueName);
     }
 
     // Implementation des fonctions du template

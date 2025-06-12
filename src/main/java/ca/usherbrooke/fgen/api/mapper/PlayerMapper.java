@@ -1,6 +1,6 @@
 package ca.usherbrooke.fgen.api.mapper;
 
-import ca.usherbrooke.fgen.api.backend.Player;
+import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

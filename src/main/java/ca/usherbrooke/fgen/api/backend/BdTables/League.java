@@ -1,4 +1,9 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.BdTables;
+
+import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
+import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
+import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 import java.sql.Date;
 

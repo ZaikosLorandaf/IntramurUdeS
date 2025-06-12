@@ -152,7 +152,7 @@ function renderEquipeList() {
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "card-custom";
-        div.textContent = `Gérer équipe`;
+        div.textContent = `Gérer équipe/joueur`;
 
         const myParams = new URLSearchParams(window.location.search);
         let sports = myParams.get('sport');
@@ -241,7 +241,7 @@ function showInfo(team) {
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Modifier Joueur</button>`;
+            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";
@@ -325,22 +325,14 @@ function populateMatchDays() {
         // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
         window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
     };
-
-// Encapsuler le bouton dans un élément <li> pour garder la structure list-group cohérente
-    const btnLi = document.createElement('li');
-    btnLi.className = 'list-group-item';
-    btnLi.appendChild(manageBtn);
-
-    listContainer.appendChild(btnLi);
+    listContainer.appendChild(manageBtn)
 }
 
 function appelMatch(){
-
-    axios.get("http://localhost:8888/api/dashboard/matchs", {
-        params: {
-            sport: sport,
-            ligue: season
-        }
+    const myParams = new URLSearchParams(window.location.search);
+    let sports = myParams.get('sport');
+    let seasons = myParams.get('ligue');
+    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
     }).then(function (response) {
         matchDatas = response.data;
         console.log(matchDatas);

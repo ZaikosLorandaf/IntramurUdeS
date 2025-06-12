@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Sport;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.service.postClass.removeSport;
 import io.smallrye.common.constraint.NotNull;
@@ -30,6 +30,13 @@ public class SportService extends TemplateService<Sport> {
     @Path("{id}")
     public Sport getSport(@PathParam("id") Integer id) {
         return getItem(id);
+    }
+
+    @GET
+    @Path("get_sport_ligue")
+    public String getSportLeague() {
+
+        return ogClass.getSportLeague();
     }
 
     @POST

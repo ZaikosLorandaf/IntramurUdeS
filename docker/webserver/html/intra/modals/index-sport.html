@@ -49,16 +49,19 @@
   document.getElementById('deleteSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('deleteSportName').value;
 
-    axios.get("http://localhost:8888/api/removeSport/"+sportName, {})
-      .then(function (response) {
-        if (window.opener) {
-          window.opener.location.reload();
-          //window.close();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    axios.post("http://localhost:8888/api/sport/removeSport/", {
+      name:sportName
+    }) .then(function (response) {
+      if (window.opener) {
+        console.log(response);
+        window.opener.location.reload();
+        window.close();
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   });
 </script>
 
