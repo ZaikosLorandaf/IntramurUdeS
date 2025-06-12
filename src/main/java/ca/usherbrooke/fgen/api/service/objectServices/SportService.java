@@ -32,6 +32,13 @@ public class SportService extends TemplateService<Sport> {
         return getItem(id);
     }
 
+    @GET
+    @Path("get_sport_ligue")
+    public String getSportLeague() {
+
+        return ogClass.getSportLeague();
+    }
+
     @POST
     @Consumes("application/json")
     public void addSport(Sport sport)
