@@ -8,16 +8,6 @@ const keycloak = new Keycloak({
     "confidential-port": 0
 });
 
-function updateButton() {
-    const btn = document.getElementById('btn-login');
-    btn.textContent = keycloak.authenticated  ? 'Déconnexion' : 'Connexion';
-}
-
-async function authAndButton() {
-    await checkAuth();
-    updateButton();
-}
-
 async function checkAuth() {
   const authenticated = await keycloak.init({ onLoad: 'check-sso' });
     if (!authenticated) {
@@ -29,23 +19,20 @@ async function checkAuth() {
     }
 }
 
+function updateButton() {
+    const btn = document.getElementById('btn-login');
+    btn.textContent = keycloak.authenticated  ? 'Déconnexion' : 'Connexion';
+}
+
+async function authAndButton() {
+    await checkAuth();
+    updateButton();
+}
 
 // Pour récupérer le token (utile si besoin)
 function getToken() {
     return keycloak.token;
 }
-
-// function getRoleNumber() {
-//     if (!keycloak.tokenParsed || !keycloak.tokenParsed.realm_access)
-//         return 0;
-//
-//     const roles = keycloak.tokenParsed.realm_access.roles;
-//     if (roles.includes("student"))
-//         return 2;
-//     if (roles.includes("teacher"))
-//         return 1;
-//     return 0;
-// }
 
 //
 // // Init avec check-sso, ça ne force pas la connexion mais vérifie la session

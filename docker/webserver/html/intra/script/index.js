@@ -1,17 +1,8 @@
 let roleNumber = 2; // 0 .user, 1, chef, 2 admin
+initialisation();
 
-
-console.log("coucou");
-
+//~~~~~~~~~~~~ Functions ~~~~~~~~~//
 function initialisation() {
-    // axios.get("http://localhost:8888/api/init", { })
-    //     .then(function (response) {
-    //         console.log(response.data);
-    //     })
-    //     .catch(function (error) {
-    //         console.log(error);
-    //     });
-
     const div = document.getElementById("btn-login");
     axios.get("http://localhost:8888/api/sport", { })
         .then(function (response) {
@@ -20,11 +11,8 @@ function initialisation() {
         .catch(function (error) {
             console.log(error);
         });
-
+    getSportsData();
 }
-initialisation();
-
-
 
 function getSportsData() {
     axios.get("http://localhost:8888/api/index/get_sport_ligue", { })

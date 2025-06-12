@@ -3,6 +3,41 @@ let roleNumber = 0; // 0 user, 1, chef, 2 admin
 let sport;
 let season;
 
+// Page Initialisation
+function initPage() {
+    const params = new URLSearchParams(window.location.search);
+    let sport = params.get('sport');
+    let season = params.get('ligue');
+
+    console.log(sport);
+    console.log(season);
+
+    const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
+    monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
+
+    axios.get("http://localhost:8888/api/dashboard/equipes", {
+        params: {
+            sport: sport,
+            ligue: season
+        }
+    }).then(function (response) {
+        equipeData = response.data;
+        console.log(equipeData);
+        renderEquipeList();
+        appelMatch();
+    })
+        .catch(function (error) {
+            const container = document.querySelector('.main-container');
+            container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
+        });
+})
+    .catch(() => {
+        console.error("Erreur lors de l'initialisation de Keycloak");
+    });
+
+}
+
+
 // ********************************
 // ****** LOGIQUE EQUIPE **********
 // ********************************
