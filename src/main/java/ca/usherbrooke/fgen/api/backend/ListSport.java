@@ -161,7 +161,7 @@ public class ListSport extends ListTemplate<Sport, String> {
      */
     public boolean removeSport(int id) {
         if (removeItem(id)) {
-            LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
+            //LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
             return true;
         }
         else{

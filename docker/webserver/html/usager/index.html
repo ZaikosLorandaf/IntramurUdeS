@@ -7,6 +7,259 @@
         <script src="https://cdn.jsdelivr.net/npm/auth.js"></script>
         <script src="../script/auth.js"></script>
         <script src="../script/calls.js"></script>
+        <script>
+            function requestStudent() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                axios.get("http://localhost:8888/api/student", {
+                    headers: {
+                        'Authorization': 'Bearer ' + keycloak.token
+                    }
+                })
+                    .then(function (response) {
+                        console.log("Response: ", response.status);
+                        span.innerHTML = '<br> <strong>' + response.data.cip + '</strong> </br>' +
+                            '<br> <strong>' + response.data.last_name + '</strong> </br>' +
+                            '<br> <strong>' + response.data.first_name + '</strong> </br>' +
+                            '<br> <strong>' + response.data.email + '</strong> </br>' +
+                            '<br> <strong>' + response.data.roles + '</strong> </br>'
+                    })
+                    .catch(function (error) {
+                        console.log('refreshing');
+                        keycloak.updateToken(5).then(function () {
+                            console.log('Token refreshed');
+                        }).catch(function () {
+                            console.log('Failed to refresh token');
+                        })
+                    });
+                span.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'étudiant" + '</strong> </br>'
+            }
+
+            function requestTeacher() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                axios.get("http://localhost:8888/api/teacher", {
+                    headers: {
+                        'Authorization': 'Bearer ' + keycloak.token
+                    }
+                })
+                    .then(function (response) {
+                        console.log("Response: ", response.status);
+                        span.innerHTML = '<br> <strong>' + response.data.cip + '</strong> </br>' +
+                            '<br> <strong>' + response.data.last_name + '</strong> </br>' +
+                            '<br> <strong>' + response.data.first_name + '</strong> </br>' +
+                            '<br> <strong>' + response.data.email + '</strong> </br>' +
+                            '<br> <strong>' + response.data.roles + '</strong> </br>'
+                    })
+                    .catch(function (error) {
+                        console.log('refreshing');
+                        keycloak.updateToken(5).then(function () {
+                            console.log('Token refreshed');
+                        }).catch(function () {
+                            console.log('Failed to refresh token');
+                        })
+                    });
+                span.innerHTML = '<br> <strong>' + "Vous n'avez pas le role d'enseignant" + '</strong> </br>'
+            }
+
+            function myAPI() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                axios.get("http://localhost:8888/api/monendpoint", {
+                    headers: {
+                        'Authorization': 'Bearer ' + keycloak.token
+                    }
+                })
+                    .then(function (response) {
+                        span.innerHTML = "";
+                        span.innerHTML += '<div>' + response.data + '</div>';
+                    })
+                    .catch(function (error) {
+                        span.innerHTML = '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            <!-- Jojojo -->
+            function myAPIJojojo() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                axios.get("http://localhost:8888/api/monendpointJojojo", {
+                    headers: {
+                        'Authorization': 'Bearer ' + keycloak.token
+                    }
+                })
+                    .then(function (response) {
+                    })
+                    .catch(function (error) {
+                        span.innerHTML = '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            <!-- SPORTS -->
+            function listSport() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                axios.get("http://localhost:8888/api/listSport/", {})
+                    .then(function (response) {
+                        span.innerHTML +=
+                            response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function addSport() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomSport = document.getElementById("nomSport").value;
+                axios.post("http://localhost:8888/api/addSport/", {
+                    nom: nomSport
+                })
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function getSport() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomLigue = document.getElementById("nomSport").value;
+                axios.get("http://localhost:8888/api/getSport/"+nomSport, {})
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function removeSport() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomSport =document.getElementById("nomSport").value;
+                axios.post("http://localhost:8888/api/sport/removeSport/", {
+                    name:nomSport
+                })
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            <!-- LEAGUES -->
+            function listLeague() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const sport = document.getElementById("nomSport").value;
+                axios.get("http://localhost:8888/api/listLigue/" + sport, {})
+                    .then(function (response) {
+                        span.innerHTML +=
+                            response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function addLeague() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomLigue =document.getElementById("nomLigue").value;
+                const nomSport = document.getElementById("nomSport").value;
+                const dateDebut = document.getElementById("date_debut").value;
+                const dateFin = document.getElementById("date_fin").value;
+                axios.post("http://localhost:8888/api/addLigue/",
+                    {
+                        nom_sport: nomSport,
+                        nom: nomLigue,
+                        date_debut: dateDebut,
+                        date_fin: dateFin
+                    })
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function getLeague() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomLigue =document.getElementById("nomLigue").value;
+                axios.get("http://localhost:8888/api/getLigue/"+nomLigue, {})
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function removeLeague() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomLigue =document.getElementById("nomLigue").value;
+                const nomSport = document.getElementById("nomSport").value;
+                axios.post("http://localhost:8888/api/league/removeLeague/", {
+                    sportName:nomSport,
+                    leagueName:nomLigue
+                })
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            <!-- TEAMS -->
+            function listTeam() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nomLigue =document.getElementById("nomLigue").value;
+                const nomSport = document.getElementById("nomSport").value;
+                axios.get("http://localhost:8888/api/listTeam/" +nomSport+"/"+ nomLigue, {})
+                    .then(function (response) {
+                        span.innerHTML +=
+                            response.data;
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
+
+            function addTeam() {
+                const div = document.getElementById('title');
+                const span = div.firstElementChild;
+                const nom_Ligue =document.getElementById("nomLigue").value;
+                const nom_Team =document.getElementById("nomTeam").value;
+                const nom_Sport =document.getElementById("nomSport").value;
+                axios.post("http://localhost:8888/api/addTeam/", {
+                    nomSport: nom_Sport,
+                    nomLigue: nom_Ligue,
+                    nomTeam: nom_Team
+                })
+                    .then(function (response) {
+                        span.innerHTML +=
+                            '<br> nom : ' +  response.data + '</br>';
+                    })
+                    .catch(function (error) {
+                        span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                    });
+            }
 
         function removeTeam() {
             const div = document.getElementById('title');
@@ -14,7 +267,11 @@
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
             const nomSport = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removeTeam/"+nomSport+"/"+ nomLigue +"/"+nomTeam, {})
+            axios.post("http://localhost:8888/api/team/removeTeam/", {
+                sportName:nomSport,
+                leagueName:nomLigue,
+                teamName:nomTeam
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -100,10 +357,14 @@
             const span = div.firstElementChild;
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            const prenomPlayer = document.getElementById("prenomPlayer").value;
-            const nomPlayer = document.getElementById("nomPlayer").value;
+            const numberPlayer = document.getElementById("number").value;
             const nomSport = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removePlayer/"+nomSport+"/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {})
+            axios.post("http://localhost:8888/api/player/removePlayer", {
+                sportName:nomSport,
+                leagueName:nomLigue,
+                teamName:nomTeam,
+                playerNumber:numberPlayer
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -128,47 +389,47 @@
 <button onclick="myAPI()" style="color: red;">Coucou mon ami</button>
 <button onclick="myAPIJojojo()" style="color: red;">Jojojo</button>
 
-        <!-- SPORTS -->
-        <div>
-            <button onclick="listSport()" style="color: blue;">List Sport</button>
-            <button onclick="addSport()" style="color: red;">Add Sport</button>
-            <button onclick="removeSport()" style="color: blue;">removeSport</button>
-            <input
-                    type="text"
-                    id="nomSport"
-                    size="20">
-        </div>
+<!-- SPORTS -->
+<div>
+    <button onclick="listSport()" style="color: blue;">List Sport</button>
+    <button onclick="addSport()" style="color: red;">Add Sport</button>
+    <button onclick="removeSport()" style="color: blue;">removeSport</button>
+    <input
+            type="text"
+            id="nomSport"
+            size="20">
+</div>
 
-        <!-- LEAGUES -->
-        <div>
-            <button onclick="listLeague()" style="color: red;">Lister Ligue</button>
-            <button onclick="addLeague()" style="color: red;">Add Ligue</button>
-            <button onclick="getLeague()" style="color: blue;">getLigue</button>
-            <button onclick="removeLeague()" style="color: blue;">removeLigue</button>
-            <input
-                    type="text"
-                    id="nomLigue"
-                    size="20">
-            <input
-                    type="date"
-                    id="date_debut"
-                    size="20">
-            <input
-                    type="date"
-                    id="date_fin"
-                    size="20">
-        </div>
+<!-- LEAGUES -->
+<div>
+    <button onclick="listLeague()" style="color: red;">Lister Ligue</button>
+    <button onclick="addLeague()" style="color: red;">Add Ligue</button>
+    <button onclick="getLeague()" style="color: blue;">getLigue</button>
+    <button onclick="removeLeague()" style="color: blue;">removeLigue</button>
+    <input
+        type="text"
+        id="nomLigue"
+        size="20">
+    <input
+            type="date"
+            id="date_debut"
+            size="20">
+    <input
+            type="date"
+            id="date_fin"
+            size="20">
+</div>
 
-        <!-- TEAMS -->
-        <div>
-            <button onclick="listTeam()" style="color: blue;">List Team</button>
-            <button onclick="addTeam()" style="color: red;">Add Team</button>
-            <button onclick="removeTeam()" style="color: blue;">removeTeam</button>
-            <input
-                    type="text"
-                    id="nomTeam"
-                    size="20">
-        </div>
+<!-- TEAMS -->
+<div>
+    <button onclick="listTeam()" style="color: blue;">List Team</button>
+    <button onclick="addTeam()" style="color: red;">Add Team</button>
+    <button onclick="removeTeam()" style="color: blue;">removeTeam</button>
+    <input
+        type="text"
+        id="nomTeam"
+        size="20">
+</div>
 
 <!-- PLAYERS -->
 <div>
@@ -189,8 +450,8 @@
             size="10">
 </div>
 
-        <div id="title">
-            <span></span>
-        </div>
-    </body>
+<div id="title">
+    <span></span>
+</div>
+</body>
 </html>
