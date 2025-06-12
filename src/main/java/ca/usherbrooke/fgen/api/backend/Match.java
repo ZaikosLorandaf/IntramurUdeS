@@ -89,9 +89,25 @@ public class Match
         return this.teams;
     }
 
+    /**
+     * Méthode qui prend la liste des id du match, va chercher son équipe et l'ajoute à la liste
+     */
     public void getTeamsFromId() {
-        
+        for (int idTeam : this.idTeams) {
+            Team team = ListSport.getTeamById(idTeam);
+            if(!this.teams.contains(team)) {
+                this.teams.add(team);
+            }
+        }
     }
+
+    /**
+     * Méthode pour initialiser un match
+     */
+    public void init() {
+        this.getTeamsFromId();
+    }
+
 
     @Override
     public String toString()
