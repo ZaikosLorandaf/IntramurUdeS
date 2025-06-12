@@ -44,12 +44,16 @@ public class ListTeam extends ListTemplate<Team, String>  {
     }
 
     public boolean removeTeam(int id) {
+        Team team = getItem(id);
+        for(int i: team.getListPlayer().getPlayerIds())
+            team.getListPlayer().removePlayer(i);
+
         if (removeItem(id)) {
-            LoggerUtil.warning("Retrait de l'équipe " + getItem(id).getName() + "(id: " + id + ").");
-            ListSport.removeTeamMap(getItem(id));
+            LoggerUtil.warning("Retrait de l'équipe " + team.getName() + "(id: " + id + ").");
+            ListSport.removeTeamMap(team);
             return true;
         } else {
-            LoggerUtil.warning("Échec du retrait de l'équipe " + getItem(id).getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Échec du retrait de l'équipe " + team.getName() + "(id: " + id + ").");
             return false;
         }
     }
