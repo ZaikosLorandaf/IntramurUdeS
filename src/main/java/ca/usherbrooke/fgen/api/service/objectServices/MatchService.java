@@ -42,10 +42,16 @@ public class MatchService extends TemplateService<Match> {
 
     // Implementation des fonctions du template
     protected List<Match> selectAll(){
-        return matchMapper.selectAll();
+        List<Match> matches = matchMapper.selectAll();
+        for (Match match : matches) {
+            match.init();
+        }
+        return matches;
     }
     protected Match selectOne(Integer id){
-        return matchMapper.selectOne(id);
+        Match match = matchMapper.selectOne(id);
+        match.init();
+        return match;
     }
 
     @Override

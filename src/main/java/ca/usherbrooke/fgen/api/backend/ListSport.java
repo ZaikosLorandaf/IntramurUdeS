@@ -125,6 +125,10 @@ public class ListSport extends ListTemplate<Sport, String> {
     }
 
 
+    public static Team getTeamById(int id) {
+        return ListSport.mapTeamLeague.get(id);
+    }
+
 
     public static int addTeamMap(List<Team> teams) {
         int counter = 0;
