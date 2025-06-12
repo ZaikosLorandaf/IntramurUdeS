@@ -217,15 +217,17 @@ public class OGClass {
         Sport oldSport = sportList.getSport(sportName);
         if (oldSport == null)
             return "Pas de ligue appelé " + sportName;
-
-        for (int i = 0; i < oldSport.getListLeague().getSize(); i++)
+        List<Integer> list = oldSport.getListLeague().getLeagueIds();
+        for (int i : oldSport.getListLeague().getLeagueIds())
             oldSport.getListLeague().removeLeague(i);
 
         String result = "";
         if (oldSport != null) {
             result = "Sport retirée :" + oldSport.getName();
+            Sport sport = sportList.getSport(sportName);
+            int sportId = sportList.getId(sport);
+            sportMapper.deleteOne(sportId);
             sportList.removeSport(oldSport);
-            sportMapper.deleteOne(sportList.getId(sportList.getSport(sportName)));
             System.out.println("Ligue retirée: " + result);
         }
 
@@ -430,8 +432,8 @@ public class OGClass {
         int id = playerService.getLastId() + 1;
         int idTeam = team.getId();
         Player player = new Player(id, playerFirsName, playerLastName,number ,idTeam);
-        Map<Integer, Integer> map = team.getListPlayer().getMapNumberId();
-        if(team.getListPlayer().getMapNumberId().containsKey(number))
+        Map<Integer, Integer> map = team.getListPlayer().getMapNameId();
+        if(team.getListPlayer().getMapNameId().containsKey(number))
             return "Erreur numero";
         if (team.getListPlayer().getMapItems().containsKey(id))
             return "Erreur getting id";
@@ -457,7 +459,7 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
+                for (int i: team.getListPlayer().getMapNameId().keySet()) {
                     Player player = team.getListPlayer().getPlayerByNumber(i);
                     result += player.getNumber()+ ": "+ player.getName() + " " + player.getLastName() + "</br>";
                 }

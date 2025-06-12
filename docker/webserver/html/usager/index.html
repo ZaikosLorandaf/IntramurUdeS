@@ -155,7 +155,9 @@
             const div = document.getElementById('title');
             const span = div.firstElementChild;
             const nomSport =document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removeSport/"+nomSport, {})
+            axios.post("http://localhost:8888/api/sport/removeSport/", {
+                name:nomSport
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;

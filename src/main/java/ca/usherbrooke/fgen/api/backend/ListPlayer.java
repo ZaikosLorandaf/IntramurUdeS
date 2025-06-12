@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ListPlayer extends ListTemplate<Player, Integer> {
-    private Map<Integer, Integer> mapNumberId = new HashMap<Integer, Integer>();
+
 
     /**
      * Constructeur vide par defaut. Class herite de ListTemplate
@@ -24,9 +24,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
     public boolean addPlayer(Player player) {
         int id = player.getId();
         int number = player.getNumber();
-        if (!mapId.containsKey(player.getId()) && !mapNumberId.containsKey(player.getNumber())) {
+        if (!mapId.containsKey(player.getId()) && !mapNameId.containsKey(player.getNumber())) {
             mapId.put(player.getId(), player);
-            mapNumberId.put(player.getNumber(), player.getId());
+            mapNameId.put(player.getNumber(), player.getId());
 
 //            switch (addItem(player)) {
 //                case 1:
@@ -59,11 +59,12 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * @return faux si index out of bound sinon vrai
      */
     public boolean removePlayer(int id) {
+        Player player = getItem(id);
         if (removeItem(id)) {
-            LoggerUtil.warning("Retrait du joueur " + getItem(id).getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Retrait du joueur " + player.getName() + "(id: " + id + ").");
             return true;
         } else {
-            LoggerUtil.warning("Échec du retrait du sport " + getItem(id).getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Échec du retrait du sport " + player.getName() + "(id: " + id + ").");
             return false;
         }
     }
@@ -129,10 +130,7 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
         return player.getNumber();
     }
 
-    public Map<Integer, Integer> getMapNumberId()
-    {
-        return mapNumberId;
-    }
+
 /*
 public class ListPlayer {
     private Map<Integer, Player> mapId;
@@ -243,7 +241,7 @@ public Player getPlayer(int id)
 
     public Player getPlayerByNumber(int number)
     {
-        int numb = mapNumberId.getOrDefault(number, null);
+        int numb = mapNameId.getOrDefault(number, null);
         Player p = this.getPlayer(numb);
         return p;
     }
