@@ -1,6 +1,6 @@
 package ca.usherbrooke.fgen.api.mapper;
 
-import ca.usherbrooke.fgen.api.backend.Sport;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

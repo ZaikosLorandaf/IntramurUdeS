@@ -1,4 +1,9 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Lists;
+
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.util.*;

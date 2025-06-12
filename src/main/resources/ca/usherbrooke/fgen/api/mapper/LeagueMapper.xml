@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.LeagueMapper">
-    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.League">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
         select l.id as id,
                l.name as name,
                l.begin_date as begin_date,
@@ -13,7 +13,7 @@
         from intramurudes.league l
     </select>
 
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.League">
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
         select l.id as id,
                l.name as name,
                l.begin_date as begin_date,
@@ -24,7 +24,7 @@
         where id = #{id}
     </select>
 
-    <select id="selectFromSport" resultType="ca.usherbrooke.fgen.api.backend.League">
+    <select id="selectFromSport" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
         select l.id as id,
                l.name as name,
                l.begin_date as begin_date,

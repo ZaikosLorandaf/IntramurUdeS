@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.PlayerMapper">
 
-    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Player">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Player">
         select id,
                name,
                last_name,
@@ -13,7 +13,7 @@
         from intramurudes.Player
     </select>
 
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Player">
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Player">
         select id,
                name,
                last_name,

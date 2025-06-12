@@ -39,37 +39,37 @@ function initPage() {
 // Logique Equipe
 let equipeData = {
     A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
-        matchsJoues: 4,
-        victoires: 3,
-        defaites: 1,
-        pointsMarques: 89,
-        pointsEncaisses: 65,
-        differenceDePoints: 24
-    } },
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
     B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus",stats: {
-        matchsJoues: 4,
-        victoires: 3,
-        defaites: 1,
-        pointsMarques: 89,
-        pointsEncaisses: 65,
-        differenceDePoints: 24
-    } },
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
     C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus",stats: {
-        matchsJoues: 4,
-        victoires: 3,
-        defaites: 1,
-        pointsMarques: 89,
-        pointsEncaisses: 65,
-        differenceDePoints: 24
-    } },
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
     D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu",stats: {
-        matchsJoues: 4,
-        victoires: 3,
-        defaites: 1,
-        pointsMarques: 89,
-        pointsEncaisses: 65,
-        differenceDePoints: 24
-    } },
+            matchsJoues: 4,
+            victoires: 3,
+            defaites: 1,
+            pointsMarques: 89,
+            pointsEncaisses: 65,
+            differenceDePoints: 24
+        } },
 };
 
 function renderTeamList() {
@@ -261,11 +261,10 @@ function populateMatchDays() {
 }
 
 function callMatch(){
-    axios.get("http://localhost:8888/api/dashboard/matchs", {
-        params: {
-            sport: sport,
-            ligue: season
-        }
+    const myParams = new URLSearchParams(window.location.search);
+    let sports = myParams.get('sport');
+    let seasons = myParams.get('ligue');
+    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
     }).then(function (response) {
         matchDatas = response.data;
         console.log(matchDatas);

@@ -1,4 +1,7 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Lists;
+
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 
 import java.util.List;
 

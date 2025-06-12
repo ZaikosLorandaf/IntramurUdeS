@@ -1,8 +1,8 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.ListSport;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Team;
+import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import ca.usherbrooke.fgen.api.service.postClass.removeTeam;

@@ -1,6 +1,7 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Lists;
 
-import org.postgresql.core.Tuple;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.BdTables.Season;
 
 import java.util.List;
 

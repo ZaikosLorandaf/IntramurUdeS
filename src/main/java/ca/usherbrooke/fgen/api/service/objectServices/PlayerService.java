@@ -1,8 +1,8 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Player;
-import ca.usherbrooke.fgen.api.backend.Team;
+import ca.usherbrooke.fgen.api.backend.BdTables.Player;
+import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
 import io.smallrye.common.constraint.NotNull;

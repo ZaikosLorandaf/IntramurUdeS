@@ -1,4 +1,6 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.BdTables;
+
+import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 
 public class Season
 {

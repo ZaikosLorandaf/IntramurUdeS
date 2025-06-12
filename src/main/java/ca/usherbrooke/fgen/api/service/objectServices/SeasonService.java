@@ -1,6 +1,6 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.Season;
+import ca.usherbrooke.fgen.api.backend.BdTables.Season;
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.mapper.SeasonMapper;
 

@@ -1,5 +1,7 @@
 package ca.usherbrooke.fgen.api.backend;
 
+// Permet d'avoir des couleurs dans la console
+
 // Codes ANSI pour les couleurs
 public class AnsiColors {
     public static final String RESET = "\u001B[0m";
