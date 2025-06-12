@@ -25,11 +25,11 @@ public class ListSport extends ListTemplate<Sport, String> {
      */
     public int addSport(Sport sport) {
         int status = addItem(sport);
-        switch (addItem(sport)) {
-            case 0:
+        switch (status) {
+            case 1:
                 LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");
                 break;
-            case 1:
+            case 0:
                 LoggerUtil.info("Ajout du sport " + sport.getName());
                 break;
         }

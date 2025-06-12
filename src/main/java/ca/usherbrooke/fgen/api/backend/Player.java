@@ -22,6 +22,14 @@ public class Player {
         LoggerUtil.info("Création du joueur");
     }
 
+    public Player(String fn, String ln, int idTeam, int number) {
+        setName(fn);
+        setLastName(ln);
+        setIdTeam(idTeam);
+        this.number = number;
+        LoggerUtil.info("Création du joueur");
+    }
+
     public Player(int id, String name, String lastName, int number, int idTeam) {
         this.id = id;
         this.name = name;

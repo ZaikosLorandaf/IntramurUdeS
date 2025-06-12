@@ -20,11 +20,11 @@ public class ListTeam extends ListTemplate<Team, String>  {
     public boolean addTeam(Team team) {
 
         switch (addItem(team)) {
-            case 0:
+            case 1:
                 ListSport.addTeamMap(team);
                 LoggerUtil.info("Ajout de l'équipe " + team.getName());
                 return true;
-            case 1:
+            case 0:
                 LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
                 return false;
             default:

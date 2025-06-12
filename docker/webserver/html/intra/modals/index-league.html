@@ -34,16 +34,17 @@
 <!--                </select>-->
 <!--            </div>-->
 
-<!--            <div class="row mb-3">-->
-<!--                <div class="col">-->
-<!--                    <label for="startTime" class="form-label">Heure de début</label>-->
-<!--                    <input type="time" class="form-control" id="startTime">-->
-<!--                </div>-->
-<!--                <div class="col">-->
-<!--                    <label for="endTime" class="form-label">Heure de fin</label>-->
-<!--                    <input type="time" class="form-control" id="endTime">-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="startDate" class="form-label">Date de début</label>
+                    <input type="date" class="form-control" id="startDate">
+                </div>
+                <div class="col">
+                    <label for="endDate" class="form-label">Date de fin</label>
+                    <input type="date" class="form-control" id="endDate">
+                </div>
+            </div>
+
 
             <button id="submitBtn" class="btn btn-primary">Soumettre</button>
         </div>
@@ -71,15 +72,20 @@
 
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
+        const dateDebut = document.getElementById("startDate").value;
+        const dateFin = document.getElementById("endDate").value;
 
-        axios.get("http://localhost:8888/api/addLigue/"+sport+"/"+name, {
-
+        axios.post("http://localhost:8888/api/addLigue/", {
+            nom_sport: sport,
+            nom: name,
+            date_fin: dateFin,
+            date_debut: dateDebut
         })
             .then(function (response) {
                 console.log("reponse : " + response.data);
                 if (window.opener) {
                     window.opener.location.reload();
-                    window.close();
+                    //window.close();
                 }
             })
             .catch(function (error) {
@@ -97,7 +103,7 @@
             console.log(response.data);
             if (window.opener) {
                 window.opener.location.reload();
-                window.close();
+                //window.close();
             }
             })
             .catch(function (error) {

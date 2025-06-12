@@ -322,7 +322,15 @@
             const nomLigue =document.getElementById("nomLigue").value;
             const prenomPlayer =document.getElementById("prenomPlayer").value;
             const nomPlayer =document.getElementById("nomPlayer").value;
-            axios.get("http://localhost:8888/api/addPlayer/"+nomSport+"/"+nomLigue+"/"+nomTeam + "/" + prenomPlayer + "/" + nomPlayer, {})
+            const number = document.getElementById("number").value;
+            axios.post("http://localhost:8888/api/addPlayer/", {
+                nomSport: nomSport,
+                nomLigue: nomLigue,
+                nomTeam: nomTeam,
+                nom: nomPlayer,
+                prenom: prenomPlayer,
+                number: number
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -436,6 +444,10 @@
             type="text"
             id="nomPlayer"
             size="20">
+    <input
+            type="number"
+            id="number"
+            size="10">
 </div>
 
 <div id="title">

@@ -35,13 +35,14 @@
     </delete>
 
     <insert id="insert">
-        insert into intramurudes.Player(id,
-                                        name,
+        insert into intramurudes.Player(name,
                                         last_name,
-                                        id_team)
-        values (#{player.name},
-                #{player.last_name},
-                #{player.id_team})
+                                        id_team,
+                                        number)
+        values (#{name},
+                #{lastName},
+                #{idTeam},
+                #{number})
     </insert>
 
 
