@@ -480,11 +480,11 @@ public class OGClass {
         if (team == null)
             return "<div>Équipe non-trouvée</div>";
 
-        Player player = team.getListPlayer().getPlayer(playerNumber);
+        Player player = team.getListPlayer().getPlayerByNumber(playerNumber);
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
-
-        playerMapper.deleteOnePlayer(team.getListPlayer().getId(player));
+        int playerId = team.getListPlayer().getId(player);
+        playerMapper.deleteOne(playerId);
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 
