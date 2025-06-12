@@ -81,7 +81,7 @@ public class MyAPI {
         return ogClass.getSport(nom_sport);
     }
 
-    @GET
+    @POST
     @Path("removeSport/{nom_sport}")
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {

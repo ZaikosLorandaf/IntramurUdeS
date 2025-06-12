@@ -224,7 +224,10 @@
             const span = div.firstElementChild;
             const nomLigue =document.getElementById("nomLigue").value;
             const nomSport = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removeLigue/"+nomSport+"/"+nomLigue, {})
+            axios.post("http://localhost:8888/api/league/removeLeague/", {
+                sportName:nomSport,
+                leagueName:nomLigue
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data;
@@ -277,7 +280,11 @@
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
             const nomSport = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removeTeam/"+nomSport+"/"+ nomLigue +"/"+nomTeam, {})
+            axios.post("http://localhost:8888/api/team/removeTeam/", {
+                sportName:nomSport,
+                leagueName:nomLigue,
+                teamName:nomTeam
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
@@ -363,10 +370,14 @@
             const span = div.firstElementChild;
             const nomLigue = document.getElementById("nomLigue").value;
             const nomTeam =document.getElementById("nomTeam").value;
-            const prenomPlayer = document.getElementById("prenomPlayer").value;
-            const nomPlayer = document.getElementById("nomPlayer").value;
+            const numberPlayer = document.getElementById("number").value;
             const nomSport = document.getElementById("nomSport").value;
-            axios.get("http://localhost:8888/api/removePlayer/"+nomSport+"/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {})
+            axios.post("http://localhost:8888/api/player/removePlayer", {
+                sportName:nomSport,
+                leagueName:nomLigue,
+                teamName:nomTeam,
+                playerNumber:numberPlayer
+            })
                 .then(function (response) {
                     span.innerHTML +=
                         '<br> nom : ' +  response.data + '</br>';
