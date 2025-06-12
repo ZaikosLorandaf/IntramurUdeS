@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.backend;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.sql.Array;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Match
     private Time endTime;
     private int idLeague;
     private int nbTeamMatch = 2;
+    private List<Integer> idTeams;
     private List<Team> teams;
 
 
@@ -29,7 +31,20 @@ public class Match
         this.endTime = endTime;
         this.idLeague = idLeague;
         this.nbTeamMatch = nbTeamMatch;
+        this.idTeams = new ArrayList<>();
         teams = new ArrayList<Team>();
+    }
+
+    public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams)
+    {
+        this.id = id;
+        this.date = date;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.idLeague = idLeague;
+        this.nbTeamMatch = nbTeamMatch;
+        this.idTeams = idTeams;
+        teams = new ArrayList<>();
     }
 
     public Match(int id, Date date, Time beginTime, Time endTime)
@@ -39,31 +54,66 @@ public class Match
         this.beginTime = beginTime;
         this.endTime = endTime;
         teams = new ArrayList<Team>();
+        this.idTeams = new ArrayList<>();
     }
 
 
     public int getId(){
-        return id;
+        return this.id;
     }
 
     public Date getDate(){
-        return date;
+        return this.date;
     }
 
     public Time getBeginTime(){
-        return beginTime;
+        return this.beginTime;
     }
 
     public Time getEndTime(){
-        return endTime;
+        return this.endTime;
     }
 
     public int getIdLeague(){
-        return idLeague;
+        return this.idLeague;
     }
 
     public int getNbTeamMatch(){
-        return nbTeamMatch;
+        return this.nbTeamMatch;
+    }
+
+    public List<Integer> getIdTeams(){
+        return this.idTeams;
+    }
+    public List<Team> getTeams(){
+        return this.teams;
+    }
+
+    /**
+     * Méthode qui prend la liste des id du match, va chercher son équipe et l'ajoute à la liste
+     */
+    public void getTeamsFromId() {
+        for (int idTeam : this.idTeams) {
+            Team team = ListSport.getTeamById(idTeam);
+            if(!this.teams.contains(team)) {
+                this.teams.add(team);
+            }
+        }
+    }
+
+    /**
+     * Méthode pour initialiser un match
+     */
+    public void init() {
+        this.getTeamsFromId();
+    }
+
+
+    @Override
+    public String toString()
+    {
+        return "Match{" + "id=" + id +
+                "\n date=" + date + ", begin time=" + beginTime + ", end time=" + endTime + "\nidLeague: " + idLeague + "}";
     }
 
 }

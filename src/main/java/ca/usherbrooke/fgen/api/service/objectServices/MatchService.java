@@ -1,15 +1,13 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.League;
-import ca.usherbrooke.fgen.api.backend.ListSport;
-import ca.usherbrooke.fgen.api.backend.Match;
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.*;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.util.Collection;
 import java.util.List;
 
 @Path("/api/match")
@@ -36,22 +34,31 @@ public class MatchService extends TemplateService<Match> {
 
     @POST
     @Consumes("application/json")
-    public void addMatch(Match match) {
+    public void addMatch(Match match)
+    {
         addItem(match);
     }
 
 
     // Implementation des fonctions du template
     protected List<Match> selectAll(){
-        return matchMapper.selectAll();
+        List<Match> matches = matchMapper.selectAll();
+        for (Match match : matches) {
+            match.init();
+        }
+        return matches;
     }
     protected Match selectOne(Integer id){
-        return matchMapper.selectOne(id);
+        Match match = matchMapper.selectOne(id);
+        match.init();
+        return match;
     }
 
     @Override
     protected void add(Match item) {
-
+        Collection<League> leagues = ListSport.getLeagues();
+        League league = ListSport.getLeagueById(item.getIdLeague());
+        league.getListMatch().addMatch(item);
     }
 
     protected void insert(Match match){

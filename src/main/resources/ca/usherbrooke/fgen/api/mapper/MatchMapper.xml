@@ -3,25 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.MatchMapper">
-    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.Match">
+    <resultMap id="MatchMap" type="ca.usherbrooke.fgen.api.backend.Match">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer"/>
+            <arg column="date_match" javaType="java.sql.Date"/>
+            <arg column="begin_time" javaType="java.sql.Time"/>
+            <arg column="end_time" javaType="java.sql.Time"/>
+            <arg column="id_league" javaType="java.lang.Integer"/>
+            <arg column="nb_team_match" javaType="java.lang.Integer"/>
+            <arg column="id_teams" javaType="java.util.List" typeHandler="ca.usherbrooke.fgen.api.handler.IntegerArrayToListTypeHandler"/>
+        </constructor>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="MatchMap">
         SET search_path = intramurudes;
         SELECT vmls.match_id AS id,
                vmls.date_match AS date_match,
                vmls.begin_time AS begin_time,
                vmls.end_time AS end_time,
                vmls.id_league AS id_league,
-               vmls.nb_team_match
+               vmls.nb_team_match AS nb_team_match,
+               vmls.list_teams AS id_teams
         FROM v_match_league_sport vmls;
     </select>
 
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.Match">
+    <select id="selectOne" resultMap="MatchMap">
         SET search_path = intramurudes;
         SELECT vmls.match_id AS id,
                vmls.date_match AS date_match,
                vmls.begin_time AS begin_time,
                vmls.end_time AS end_time,
                vmls.id_league AS id_league,
-               vmls.nb_team_match AS nb_team_match
+               vmls.nb_team_match AS nb_team_match,
+               vmls.list_teams AS id_teams
         FROM v_match_league_sport vmls
         WHERE match_id = #{id};
     </select>
