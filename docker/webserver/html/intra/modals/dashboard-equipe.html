@@ -121,7 +121,7 @@
         const name = document.getElementById('deleteTeamName').value;
 
         console.log("Tentative supprimer équipe:", name);
-        axios.get("http://localhost:8888/api/removeTeam/"+sport+"/"+ league +"/"+name, {})
+        axios.get("http://localhost:8888/api/team/removeTeam/"+sport+"/"+ league +"/"+name, {})
             .then(function (response) {
                 console.log(response.data);
                 // if (window.opener) {
