@@ -46,6 +46,7 @@ public class Season
     }
 
 
+    @Override
     public String toString(){
 
         return timePrecision + " " + seasonYear;

@@ -32,7 +32,7 @@ public class Match
         this.idLeague = idLeague;
         this.nbTeamMatch = nbTeamMatch;
         this.idTeams = new ArrayList<>();
-        teams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams)

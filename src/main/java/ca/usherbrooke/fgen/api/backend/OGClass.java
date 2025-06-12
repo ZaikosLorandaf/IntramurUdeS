@@ -46,6 +46,7 @@ public class OGClass {
     public OGClass() {
 
         sportList = new ListSport();
+        listSeasons = new ListSeason();
         LoggerUtil.info("Création de OGClass terminée.");
     }
 
