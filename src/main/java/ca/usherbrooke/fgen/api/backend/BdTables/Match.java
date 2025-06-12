@@ -1,8 +1,8 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.BdTables;
 
-import javax.annotation.PostConstruct;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
+
 import javax.inject.Inject;
-import java.sql.Array;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;

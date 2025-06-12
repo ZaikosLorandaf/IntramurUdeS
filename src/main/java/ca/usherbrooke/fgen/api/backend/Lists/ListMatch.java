@@ -1,4 +1,7 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Lists;
+
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 
 public class ListMatch extends ListTemplate<Match, String> {
 

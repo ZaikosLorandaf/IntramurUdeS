@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
-import ca.usherbrooke.fgen.api.backend.Sport;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.service.postClass.removeSport;
 import io.smallrye.common.constraint.NotNull;

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.MatchMapper">
-    <resultMap id="MatchMap" type="ca.usherbrooke.fgen.api.backend.Match">
+    <resultMap id="MatchMap" type="ca.usherbrooke.fgen.api.backend.BdTables.Match">
         <constructor>
             <arg column="id" javaType="java.lang.Integer"/>
             <arg column="date_match" javaType="java.sql.Date"/>

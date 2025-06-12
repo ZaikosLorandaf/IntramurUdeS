@@ -1,8 +1,9 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Lists;
 
-import java.util.HashMap;
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.BdTables.Player;
+
 import java.util.List;
-import java.util.Map;
 
 public class ListPlayer extends ListTemplate<Player, Integer> {
 

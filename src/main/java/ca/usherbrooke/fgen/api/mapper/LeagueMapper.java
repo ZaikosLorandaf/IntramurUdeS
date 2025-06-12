@@ -1,12 +1,10 @@
 package ca.usherbrooke.fgen.api.mapper;
 
-import ca.usherbrooke.fgen.api.backend.League;
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Mapper
 public interface LeagueMapper {
