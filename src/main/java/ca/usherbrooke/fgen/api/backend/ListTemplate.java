@@ -31,9 +31,9 @@ public abstract class ListTemplate<ObjectType, NameType> {
         if (!this.mapId.containsKey(getId(item)) && !this.mapNameId.containsKey(getName(item))) {
             this.mapId.put(getId(item), item);
             this.mapNameId.put(getName(item), getId(item));
-            return 1;
-        } else {
             return 0;
+        } else {
+            return 1;
         }
     }
 

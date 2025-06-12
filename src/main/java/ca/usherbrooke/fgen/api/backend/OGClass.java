@@ -41,6 +41,8 @@ public class OGClass {
     @Inject
     PlayerService playerService;
 
+    ListSeason listSeasons;
+
     public OGClass() {
 
         sportList = new ListSport();
@@ -54,6 +56,10 @@ public class OGClass {
      */
     public ListSport getSportList() {
         return this.sportList;
+    }
+
+    public ListSeason getListSeasons() {
+        return this.listSeasons;
     }
 
     public String getSports() {
@@ -482,7 +488,7 @@ public class OGClass {
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
 
-        playerMapper.deleteOnePlayer(team.getListPlayer().getId(player));
+        playerMapper.deleteOne(team.getListPlayer().getId(player));
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 
