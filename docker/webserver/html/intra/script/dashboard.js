@@ -325,13 +325,7 @@ function populateMatchDays() {
         // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
         window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
     };
-
-// Encapsuler le bouton dans un élément <li> pour garder la structure list-group cohérente
-    const btnLi = document.createElement('li');
-    btnLi.className = 'list-group-item';
-    btnLi.appendChild(manageBtn);
-
-    listContainer.appendChild(btnLi);
+    listContainer.appendChild(manageBtn)
 }
 
 function appelMatch(){
