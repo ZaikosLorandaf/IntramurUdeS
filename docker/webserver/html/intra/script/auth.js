@@ -8,7 +8,8 @@ const keycloak = new Keycloak({
     "confidential-port": 0
 });
 
-async function checkAuth() {
+
+async function manageAuth() {
   const authenticated = await keycloak.init({ onLoad: 'check-sso' });
     if (!authenticated) {
       keycloak.login();
@@ -17,16 +18,28 @@ async function checkAuth() {
       console.log('Token:', keycloak.token);
       // Continue app logic here if already authenticated
     }
-}
-
-function updateButton() {
-    const btn = document.getElementById('btn-login');
-    btn.textContent = keycloak.authenticated  ? 'Déconnexion' : 'Connexion';
+    return authenticated;
 }
 
 async function authAndButton() {
-    await checkAuth();
+  const authenticated = await manageAuth();
+  if (authenticated) {
     updateButton();
+  }
+}
+
+function updateButton() {
+  const btn = document.getElementById('btn-login');
+  if (btn) {
+    btn.textContent = keycloak.authenticated ? 'Déconnexion' : 'Connexion';
+  }
+}
+
+async function silentButton() {
+  const authenticated = await keycloak.init({ onLoad: 'check-sso' });
+  if (authenticated) {
+    updateButton();
+  }
 }
 
 // Pour récupérer le token (utile si besoin)
@@ -34,11 +47,8 @@ function getToken() {
     return keycloak.token;
 }
 
-//
-// // Init avec check-sso, ça ne force pas la connexion mais vérifie la session
-// function initKeycloak() {
-//     return keycloak.init({
-//         onLoad: 'check-sso',
-//         silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html"
-//     });
-// }
+
+window.addEventListener('DOMContentLoaded', () => {
+  silentButton();
+});
+
