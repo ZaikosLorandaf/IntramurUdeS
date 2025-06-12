@@ -100,58 +100,15 @@ public class GetDashboard {
 
 
     @GET
-    @Path("matchs")
-    public String getAllMatchs(
-            @QueryParam("sport") String nomSport,
-            @QueryParam("ligue") String nomLigue
+    @Path("matchs/{sport}/{ligue}")
+
+    public String getAllMatches(
+            @PathParam("sport") String nomSport,
+            @PathParam("ligue") String nomLigue
     ) {
         LoggerUtil.info("Sport reçu : " + nomSport);
-        return """
-        {
-          "2026-05-21": [
-            {
-              "id": 1,
-              "heure": "10:00",
-              "equipes": "Équipe A vs Équipe B",
-              "lieu": "Gymnase 1"
-            },
-            {
-              "id": 2,
-              "heure": "14:30",
-              "equipes": "Équipe C vs Équipe D",
-              "lieu": "Gymnase 2"
-            }
-          ],
-          "2025-05-25": [
-            {
-              "id": 3,
-              "heure": "09:00",
-              "equipes": "Équipe A vs Équipe D",
-              "lieu": "Gymnase 1"
-            },
-            {
-              "id": 4,
-              "heure": "11:00",
-              "equipes": "Équipe B vs Équipe C",
-              "lieu": "Gymnase 3"
-            },
-            {
-              "id": 5,
-              "heure": "16:00",
-              "equipes": "Équipe A vs Équipe C",
-              "lieu": "Extérieur"
-            }
-          ],
-          "2025-05-28": [
-            {
-              "id": 6,
-              "heure": "13:00",
-              "equipes": "Équipe D vs Équipe B",
-              "lieu": "Gymnase 2"
-            }
-          ]
-        }
-        """;
+        LoggerUtil.info("Ligue reçu : " + nomLigue);
+        return ogClass.getMatchesData(nomSport, nomLigue);
     }
 
 }
