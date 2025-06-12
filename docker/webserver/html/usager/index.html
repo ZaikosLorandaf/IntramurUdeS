@@ -8,13 +8,125 @@
         <script src="../script/auth.js"></script>
         <script src="../script/calls.js"></script>
 
-    </head>
-    <body onload="checkAuth()">
-        <button onclick="requestStudent()">Étudiant?</button>
-        <button onclick="requestTeacher()">Enseignant?</button>
-        <button onclick="requestMessage()">Message app2?</button>
-        <button onclick="myAPI()" style="color: red;">Coucou mon ami</button>
-        <button onclick="myAPIJojojo()" style="color: red;">Jojojo</button>
+        function removeTeam() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            const nomLigue = document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removeTeam/"+nomSport+"/"+ nomLigue +"/"+nomTeam, {})
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function requestMessage() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            axios.get("http://localhost:8888/api/getmessages/e24/s3i/app2", {
+                headers: {
+                    'Authorization': 'Bearer ' + keycloak.token
+                }
+            })
+                .then(function (response) {
+                    console.log("Response: ", response.status);
+                    span.innerHTML = '';
+                    for (let i in response.data) {
+                        console.log(response.data[i]);
+                        span.innerHTML +=
+                            '<br> <strong>' + response.data[i].cip + '</strong>' +
+                            '<br> <strong>' + response.data[i].description + '</strong> </br>'
+                    }
+                })
+                .catch(function (error) {
+                    console.log('refreshing');
+                    keycloak.updateToken(5).then(function () {
+                        console.log('Token refreshed');
+                    }).catch(function () {
+                        console.log('Failed to refresh token');
+                    })
+                });
+            span.innerHTML = '<br> <strong>' + "Aucun message" + '</strong> </br>'
+        }
+
+        function addPlayer() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            const nomTeam =document.getElementById("nomTeam").value;
+            const nomSport = document.getElementById("nomSport").value;
+            const nomLigue =document.getElementById("nomLigue").value;
+            const prenomPlayer =document.getElementById("prenomPlayer").value;
+            const nomPlayer =document.getElementById("nomPlayer").value;
+            const number = document.getElementById("number").value;
+            axios.post("http://localhost:8888/api/addPlayer/", {
+                nomSport: nomSport,
+                nomLigue: nomLigue,
+                nomTeam: nomTeam,
+                nom: nomPlayer,
+                prenom: prenomPlayer,
+                number: number
+            })
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function listPlayer() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            const nomLigue =document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/listPlayer/" +nomSport+"/"+ nomLigue + "/" + nomTeam, {})
+                .then(function (response) {
+                    span.innerHTML +=
+                        response.data;
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function removePlayer() {
+            const div = document.getElementById('title');
+            const span = div.firstElementChild;
+            const nomLigue = document.getElementById("nomLigue").value;
+            const nomTeam =document.getElementById("nomTeam").value;
+            const prenomPlayer = document.getElementById("prenomPlayer").value;
+            const nomPlayer = document.getElementById("nomPlayer").value;
+            const nomSport = document.getElementById("nomSport").value;
+            axios.get("http://localhost:8888/api/removePlayer/"+nomSport+"/"+ nomLigue +"/"+nomTeam+"/"+prenomPlayer+"/"+nomPlayer, {})
+                .then(function (response) {
+                    span.innerHTML +=
+                        '<br> nom : ' +  response.data + '</br>';
+                })
+                .catch(function (error) {
+                    span.innerHTML += '<div>Erreur : ' + error + '</div>';
+                });
+        }
+
+        function logout() {
+         //   let logoutURL = "http://localhost:8080//realms/usager/protocol/openid-connect/logout"
+         //   window.location.href = logoutURL;
+        }
+
+
+    </script>
+</head>
+<body onload="checkAuth()">
+<button onclick="requestStudent()">Étudiant?</button>
+<button onclick="requestTeacher()">Enseignant?</button>
+<button onclick="requestMessage()">Message app2?</button>
+<button onclick="myAPI()" style="color: red;">Coucou mon ami</button>
+<button onclick="myAPIJojojo()" style="color: red;">Jojojo</button>
 
         <!-- SPORTS -->
         <div>
@@ -58,20 +170,24 @@
                     size="20">
         </div>
 
-        <!-- PLAYERS -->
-        <div>
-            <button onclick="listPlayer()" style="color: blue;">List Player</button>
-            <button onclick="addPlayer()" style="color: red;">Add Player</button>
-            <button onclick="removePlayer()" style="color: blue;">removePlayer</button>
-            <input
-                    type="text"
-                    id="prenomPlayer"
-                    size="20">
-            <input
-                    type="text"
-                    id="nomPlayer"
-                    size="20">
-        </div>
+<!-- PLAYERS -->
+<div>
+    <button onclick="listPlayer()" style="color: blue;">List Player</button>
+    <button onclick="addPlayer()" style="color: red;">Add Player</button>
+    <button onclick="removePlayer()" style="color: blue;">removePlayer</button>
+    <input
+            type="text"
+            id="prenomPlayer"
+            size="20">
+    <input
+            type="text"
+            id="nomPlayer"
+            size="20">
+    <input
+            type="number"
+            id="number"
+            size="10">
+</div>
 
         <div id="title">
             <span></span>

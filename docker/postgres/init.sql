@@ -203,6 +203,8 @@ ALTER TABLE team ADD CONSTRAINT team_name_league_id UNIQUE (name, id_league);
 
 ALTER TABLE player ADD CONSTRAINT player_number_team_id_unique UNIQUE  (number, id_team);
 
+ALTER TABLE season ADD CONSTRAINT season_year_time_precision_unique UNIQUE  (season_year, time_precision);
+
 /**
   Fonction qui donne le nombre de places restantes pour le match
  */

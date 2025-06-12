@@ -45,7 +45,7 @@ public class Sport {
      *
      * @param name      Nom du sport [string]
      */
-    public Sport(String name) { initSport(rand.nextInt(1, 32), name, 2); }
+    public Sport(String name) { initSport(-1, name, 2); }
 
     /**
      * Constructeur vide. Initialise la classe avec des parametres par defaut

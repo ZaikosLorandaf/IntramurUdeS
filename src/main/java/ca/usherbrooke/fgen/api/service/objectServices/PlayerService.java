@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.OGClass;
 import ca.usherbrooke.fgen.api.backend.Player;
+import ca.usherbrooke.fgen.api.backend.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
 import io.smallrye.common.constraint.NotNull;
@@ -58,17 +59,20 @@ public class PlayerService extends TemplateService<Player> {
 
     // Implementation des fonctions du template
     protected List<Player> selectAll(){
-        return playerMapper.selectPlayers();
+        return playerMapper.selectAll();
     }
     protected Player selectOne(Integer id){
-        return playerMapper.selectOnePlayer(id);
+        return playerMapper.selectOne(id);
     }
 
     protected void insert(Player player){
         playerMapper.insert(player);
     }
     protected void add(Player player){
-        ogClass.getSportList().getTeam(player.getIdTeam()).addPlayer(player);
+        player = unescapeEntities(player);
+        int teamId = player.getIdTeam();
+        Team team = ogClass.getSportList().getTeam(teamId);
+        team.addPlayer(player);
     }
 
     protected void setName(Player player) {

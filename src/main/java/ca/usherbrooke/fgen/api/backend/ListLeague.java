@@ -20,11 +20,11 @@ public class ListLeague extends ListTemplate<League, String> {
      */
     public boolean addLeague(League league) {
         switch (addItem(league)) {
-            case 0:
+            case 1:
                 ListSport.addLeagueMap(league);
                 LoggerUtil.info("Ajout de la ligue " + league.getName());
                 return true;
-            case 1:
+            case 0:
                 LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
                         " (" + league.getId() + ") existe déjà.");
                 return false;
@@ -82,7 +82,9 @@ public class ListLeague extends ListTemplate<League, String> {
     public List<Integer> getLeagueIds() { return getMapIds(); }
 
     public int getId(League league){ return league.getId(); };
-    public String getName(League league){ return league.getName(); };
+    public String getName(League league){
+        return league.getName();
+    };
 }
 
 /*

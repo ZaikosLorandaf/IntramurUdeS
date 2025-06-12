@@ -90,6 +90,7 @@ public class Team {
         this.id = id;
         this.name = name;
         this.idLeague = idLeague;
+        this.listPlayer = new ListPlayer();
     }
 
     /**
@@ -146,12 +147,12 @@ public class Team {
      * @param ln Nom de famille
      * @return Faux si le nom est invalide sinon vrai
      */
-    public boolean newPlayer(String fn, String ln) {
-        if (fn.isEmpty() || ln.isEmpty()) {
+    public boolean newPlayer(String fn, String ln, int number) {
+        if (fn.isEmpty() || ln.isEmpty() || number < 0) {
             LoggerUtil.error("Impossible de créer le joueur pour l'ajouter dans l'équipe");
             return false;
         }
-        Player player = new Player(fn, ln, getId());
+        Player player = new Player(fn, ln, getId(), number);
         if (this.addPlayer(player)) {
             LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
             return true;

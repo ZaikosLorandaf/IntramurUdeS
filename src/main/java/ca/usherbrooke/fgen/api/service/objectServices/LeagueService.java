@@ -3,17 +3,14 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 import ca.usherbrooke.fgen.api.backend.League;
 import ca.usherbrooke.fgen.api.backend.ListSport;
 import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Sport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
-import ca.usherbrooke.fgen.api.service.postClass.addLeague;
 import ca.usherbrooke.fgen.api.service.postClass.removeLeague;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -24,36 +21,7 @@ public class LeagueService extends TemplateService<League> {
     @Inject
     OGClass ogClass;
 
-    // Methodes POST
-    @POST
-    @Consumes("application/json")
-    public void addLeague(League league) {
-        addItem(league);
-    }
-
-    @POST
-    @Path("addLeague/")
-    public String addLeague(@NotNull addLeague league) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date_debut;
-        Date date_fin;
-        try {
-            java.util.Date date_debutParsed = dateFormat.parse(league.date_debut);
-            java.util.Date date_finParsed = dateFormat.parse(league.date_fin);
-
-            date_debut = new Date(date_debutParsed.getTime());
-            date_fin = new Date(date_finParsed.getTime());
-        } catch (ParseException e) {
-            return "Invalid date format: " + e.getMessage();
-        }
-        return ogClass.newLeague(league.nom_sport, league.nom,date_debut,date_fin);
-    }
-
-    @POST
-    @Path("removeLeague")
-    public String removeLeague(@NotNull removeLeague league ) { return ogClass.removeSport(league.name); }
-
-    // Methodes GET
+    // Redirection vers les fonctions template
     @GET
     public List<League> getLeagues(){
         List<League> leagues = getItems();
@@ -69,15 +37,6 @@ public class LeagueService extends TemplateService<League> {
         return league;
     }
 
-    @GET
-    @Path("getLigue/{sport}/{nom}")
-    public String getLeague(
-            @PathParam("sport") String sport,
-            @PathParam("nom") String nom) {
-        sport = sport.replace("%20", " ");
-        nom = nom.replace("%20", " ");
-        return ogClass.getLeague(sport, nom);
-    }
 
     @GET
     @Path("sport/{sportid}")
@@ -89,16 +48,33 @@ public class LeagueService extends TemplateService<League> {
         return unescapeEntities(leagues);
     }
 
-    @GET
-    @Path("listLigue/{nom_sport}")
-    public String getListeLigue(@PathParam("nom_sport") String nom_sport) { return ogClass.listLeague(nom_sport.replace("%20", " ")); }
+    @POST
+    @Consumes("application/json")
+    public void addLeague(League league) {
+        addItem(league);
+    }
+
+    @POST
+    @Path("removeLeague")
+    public String removeLeague(@NotNull removeLeague league ) {
+        return ogClass.removeSport(league.name);
+    }
 
     // Implementation des fonctions du template
-    protected List<League> selectAll(){ return leagueMapper.selectAll(); }
-    protected League selectOne(Integer id){ return leagueMapper.selectOne(id); }
+    protected List<League> selectAll(){
+        return leagueMapper.selectAll();
+    }
+    protected League selectOne(Integer id){
+        return leagueMapper.selectOne(id);
+    }
 
-    protected void insert(League league){ leagueMapper.insert(league); }
-    protected void add(League league){ ogClass.getSportList().getSport(league.getIdSport()).addLeague(unescapeEntities(league)); }
+    protected void insert(League league){
+        leagueMapper.insert(league);
+    }
+    protected void add(League league){
+        Sport sport = ogClass.getSportList().getSport(league.getIdSport());
+        sport.addLeague(unescapeEntities(league));
+    }
 
     protected void setName(League league) {
         league.setName(Parser.unescapeEntities(league.getName(), true));

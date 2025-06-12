@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class ListTemplate<ObjectType, NameType> {
-    private Map<Integer, ObjectType> mapId;    // Converssion d'un id vers l'objet
-    private Map<NameType, Integer> mapNameId;  // Converssion nom objet vers id
+    protected Map<Integer, ObjectType> mapId;    // Converssion d'un id vers l'objet
+    protected Map<NameType, Integer> mapNameId;  // Converssion nom objet vers id
 
     // Constructeur
     /**
@@ -31,9 +31,9 @@ public abstract class ListTemplate<ObjectType, NameType> {
         if (!this.mapId.containsKey(getId(item)) && !this.mapNameId.containsKey(getName(item))) {
             this.mapId.put(getId(item), item);
             this.mapNameId.put(getName(item), getId(item));
-            return 1;
-        } else {
             return 0;
+        } else {
+            return 1;
         }
     }
 
@@ -86,6 +86,7 @@ public abstract class ListTemplate<ObjectType, NameType> {
     public Map<Integer, ObjectType> getMapItems() { return this.mapId; }
     public List<Integer> getMapIds() { return new ArrayList<>(this.mapId.keySet()); }
     public boolean checkItemExist(ObjectType item) { return this.mapId.containsKey(getId(item)); }
+    public Map<NameType, Integer> getMapNameId() { return this.mapNameId; }
 
     // Methodes abtraites
     abstract int getId(ObjectType item);

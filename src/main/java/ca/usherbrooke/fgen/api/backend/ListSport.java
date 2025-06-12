@@ -25,11 +25,11 @@ public class ListSport extends ListTemplate<Sport, String> {
      */
     public int addSport(Sport sport) {
         int status = addItem(sport);
-        switch (addItem(sport)) {
-            case 0:
+        switch (status) {
+            case 1:
                 LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");
                 break;
-            case 1:
+            case 0:
                 LoggerUtil.info("Ajout du sport " + sport.getName());
                 break;
         }
@@ -80,6 +80,19 @@ public class ListSport extends ListTemplate<Sport, String> {
         return counter;
     }
 
+    /**
+     * Méthode pour aller chercher un objet league à partir de son id dans la map générale
+     * @param id Id de la ligue
+     * @return L'objet ligue
+     */
+    public static League getLeagueById(int id) {
+        return ListSport.mapLeagueSport.get(id);
+    }
+
+    public static Collection<League> getLeagues() {
+        return ListSport.mapLeagueSport.values();
+    }
+
 
     /**
      * retirer une ligue du map qui converti ligue en sport
@@ -111,6 +124,10 @@ public class ListSport extends ListTemplate<Sport, String> {
         }
     }
 
+
+    public static Team getTeamById(int id) {
+        return ListSport.mapTeamLeague.get(id);
+    }
 
 
     public static int addTeamMap(List<Team> teams) {

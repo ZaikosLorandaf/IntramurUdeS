@@ -5,6 +5,7 @@ import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
+import ca.usherbrooke.fgen.api.service.objectServices.PlayerService;
 import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import org.json.JSONArray;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.Map;
 
 @ApplicationScoped
 public class OGClass {
@@ -35,97 +38,15 @@ public class OGClass {
     TeamMapper teamMapper;
     @Inject
     PlayerMapper playerMapper;
+    @Inject
+    PlayerService playerService;
+
+    ListSeason listSeasons;
 
     public OGClass() {
 
         sportList = new ListSport();
         LoggerUtil.info("Création de OGClass terminée.");
-    }
-
-    public void trashData() {
-        Sport bb = new Sport("Basket Ball");
-        bb.addLeague(new League("Tintin au congo"));
-        bb.addLeague(new League("Les pythoniste"));
-        sportList.addSport(bb);
-
-        Sport vb = new Sport("Volley Ball");
-        vb.addLeague(new League("Les coucouille de Gerard"));
-        vb.addLeague(new League("Les c++ teams"));
-        sportList.addSport(vb);
-
-    }
-
-    // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
-    public String newSport(String sportName) {
-        // Verifier si le sport existe deja
-        if (sportList.getAllSports().contains(sportList.getSport(sportName)))
-            return "Sport Error";
-
-        // Creer le sport
-        String result;
-        Sport newSport = new Sport(sportName);
-        newSport.setId(sportService.getLastId() + 1); // Assigner l'Id
-
-        // Creer la reponse
-        if (sportList.addSport(newSport) == 0)
-            result = "<div>erreur</div>";
-        else {
-            if(ajoutSportDb(newSport))
-                result = "<div>" + sportName + "</div>";
-            else
-                result = "Impossible d'ajouter dans la base de données "+ "<br>";
-        }
-        return result;
-    }
-
-    public String listSport() {
-        if (sportList.getAllSports().size() <= 0)
-            return "No Sports";
-
-        // Liste tous les sports dans une chaine de caractere
-        String result = "";
-        for (int i: sportList.getMapSports().keySet()) {
-            result += sportList.getSport(i) + "</br>";
-        }
-        return result;
-    }
-
-
-    public String getSport(String sportName) {
-        if (sportList.getAllSports() == null)
-            return "No Sports";
-
-        Sport sportCheck = sportList.getSport(sportName);
-        String result;
-        if (sportCheck != null) {
-            result = sportCheck.getName();
-            System.out.println("Sport: " + result);
-        } else {
-            result = "No sports matching the given name: " + sportName;
-        }
-        return result;
-    }
-
-    public String removeSport(String sportName) {
-        if (sportList.getAllSports() == null)
-            return "No Sports";
-
-        Sport oldSport = sportList.getSport(sportName);
-        if (oldSport == null)
-            return "Pas de ligue appelé " + sportName;
-
-        for (int i = 0; i < oldSport.getListLeague().getSize(); i++)
-            oldSport.getListLeague().removeLeague(i);
-
-        String result = "";
-        if (oldSport != null) {
-            result = "Sport retirée :" + oldSport.getName();
-            sportList.removeSport(oldSport);
-            sportMapper.deleteOne(sportList.getId(sportList.getSport(sportName)));
-            System.out.println("Ligue retirée: " + result);
-        }
-
-        return result;
     }
 
     /**
@@ -137,172 +58,15 @@ public class OGClass {
         return this.sportList;
     }
 
+    public ListSeason getListSeasons() {
+        return this.listSeasons;
+    }
+
     public String getSports() {
-        System.out.println(sportList.getMapSports());
+        //System.out.println(sportList.getMapSports());
         String result = "";
         for (int i : sportList.getMapSports().keySet()) {
             result += sportList.getSport(i).getName() + "</br>";
-        }
-        return result;
-    }
-
-    public String getSportLeague() {
-        JSONArray sports = new JSONArray();
-        Sport sport;
-        ListLeague leagues;
-        List<String> leagueNames;
-
-        for (int i : sportList.getMapSports().keySet()) {
-            sport = sportList.getSport(i);
-            if (sport == null)
-                return "error sport dans la liste";
-            // Récupère les noms des ligues de ce sport
-            leagues = sport.getListLeague();
-            leagueNames = new ArrayList<>();
-            for (int j : leagues.getLeagueIds()) {
-                leagueNames.add(leagues.getLeague(j).getName());
-            }
-
-            // Ajoute le sport et ses ligues dans le JSON
-            JSONObject sportJson = new JSONObject()
-                    .put("name", sport.getName())
-                    .put("id", sport.getId())
-                    .put("seasons", new JSONArray(leagueNames));
-
-            sports.put(sportJson);
-        }
-
-        return sports.toString();
-    }
-
-    // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
-
-    public String newLeague(String nom_sport, String nom, Date dateDebut, Date dateFin) {
-        Sport sport = sportList.getSport(nom_sport);
-        if (sport == null) {
-            return "Sport Error";
-        }
-        if (dateFin == null || dateDebut == null || dateFin.before(dateDebut))
-        {
-            return "Erreur dans les dates";
-        }
-        League newLeague = new League(nom, dateDebut, dateFin);
-        int id = leagueService.getLastId() + 1;
-        int sportId = sport.getId();
-        newLeague.setLeagueID(id);
-        newLeague.setIdSport(sportId);
-
-        String result;
-        if(ajoutLigueDb(newLeague))
-        {
-            result = "<div>";
-            result += nom + "</div>";
-        }
-        else {
-            result = "Impossible d'ajouter la ligue dans la base de données "+ "<br>";
-        }
-
-        return result;
-    }
-
-    public String getLeague(String sport, String nom) {
-        if (!sportList.getAllSports().contains(sportList.getSport(sport)))
-            return "Sport Error";
-
-        League league = sportList.getSport(sport).getListLeague().getLeague(nom);
-        String result;
-        if (league != null) {
-            result = league.getName();
-            System.out.println("League: " + result);
-        } else {
-            result = "Pas de ligue appelé " + nom;
-        }
-        return result;
-    }
-
-    public String removeLeague(String sport, String nom) {
-        Sport getsport = sportList.getSport(sport);
-        if (sport == null)
-            return "Sport Error";
-
-        League league = getsport.getListLeague().getLeague(nom);
-        String result = "";
-        if (league != null) {
-            result = "Ligue retirée :" + league.getName();
-            getsport.getListLeague().removeLeague(league);
-            leagueMapper.deleteOne(getsport.getListLeague().getId(league));
-            System.out.println("Ligue retirée: " + result);
-        } else {
-            result = "Pas de ligue appelé " + nom;
-        }
-        return result;
-    }
-
-    public String listLeague(String sportName) {
-        Sport sport = sportList.getSport(sportName);
-        if (sport == null)
-            return "Erreur Sport";
-
-        String result = "";
-        if (sport.getListLeague().getSize() <= 0)
-            return "<div>Pas de ligue</div>";
-
-        for (int i : sport.getListLeague().getLeagueIds())
-            result += sport.getListLeague().getLeague(i).getName() + "</br>";
-
-        return result;
-    }
-
-    // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
-    public String getTeams(String sport, String league) {
-        return "";
-    }
-
-
-    public String addTeam(String sportName, String leagueName, String teamName) {
-        if (sportName == null || leagueName == null || teamName == null)
-        {
-            return "Erreur noms";
-        }
-        Sport sport = sportList.getSport(sportName);
-        if (sport == null) {
-            return "Sport Error";
-        }
-
-        String result;
-        League league = sport.getListLeague().getLeague(leagueName);
-        if (league == null) {
-            result = "Ligue introuvable";
-        } else {
-            int id = teamService.getLastId() + 1;
-            int idLeague = league.getId();
-            Team team = new Team(id, teamName, idLeague);
-            if (ajoutTeamDb(team)) {
-                result = "Équipe ajoutée";
-            } else {
-                result = "Impossible d'ajouter l'équipe";
-            }
-        }
-
-        return result;
-    }
-
-    public String listTeam(String sportName, String leagueName) {
-        if (sportList.getSport(sportName) == null) {
-            return "Erreur Sport";
-        }
-        String result = "";
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
-        if (league == null)
-            result = "Ligue introuvable";
-        else {
-            if (league.getTeams().getSize() <= 0) {
-                result = "Pas d'équipe";
-            } else {
-                for (int i : league.getTeams().getTeamIds()) {
-                    result += league.getTeams().getTeam(i).getName() + "</br>";
-                }
-            }
         }
         return result;
     }
@@ -358,30 +122,306 @@ public class OGClass {
         return response.toString(2); // indente pour lisibilité
     }
 
+    public String getSportLeague() {
+        JSONArray sports = new JSONArray();
+
+        for (int i : sportList.getMapSports().keySet()) {
+            Sport sport = sportList.getSport(i);
+            if (sport == null)
+                return "error sport dans la liste";
+            // Récupère les noms des ligues de ce sport
+            ListLeague leagues = sport.getListLeague();
+            List<String> leagueNames = new ArrayList<>();
+            for (int j : leagues.getLeagueIds()) {
+                leagueNames.add(leagues.getLeague(j).getName());
+            }
+
+            // Ajoute le sport et ses ligues dans le JSON
+            JSONObject sportJson = new JSONObject()
+                .put("name", sport.getName())
+                .put("id", sport.getId())
+                .put("seasons", new JSONArray(leagueNames));
+
+            sports.put(sportJson);
+        }
+
+        return sports.toString();
+    }
+
+    public void trashData() {
+        Sport bb = new Sport("Basket Ball");
+        bb.addLeague(new League("Tintin au congo"));
+        bb.addLeague(new League("Les pythoniste"));
+        sportList.addSport(bb);
+
+        Sport vb = new Sport("Volley Ball");
+        vb.addLeague(new League("Les coucouille de Gerard"));
+        vb.addLeague(new League("Les c++ teams"));
+        sportList.addSport(vb);
+
+    }
+
+    // ~~~~~~~~~~~~ Sports ~~~~~~~~~~ //
+    public String newSport(String sportName) {
+        if (sportList.getAllSports().contains(sportList.getSport(sportName)))
+            return "Sport Error";
+
+        Sport newSport = new Sport(sportName);
+        int id = sportService.getLastId() + 1;
+        newSport.setId(id);
+//        int resultAdd = sportList.addSport(newSport);
+        String result;
+//        if (resultAdd == 0)
+//            result = "<div>erreur</div>";
+//        else {
+
+            if(ajoutSportDb(newSport))
+            {
+                result = "<div>";
+                result += sportName + "</div>";
+            }
+            else {
+                result = "Impossible d'ajouter dans la base de données "+ "<br>";
+            }
+//        }
+        return result;
+    }
+
+    public String listSport() {
+        if (sportList.getAllSports().size() <= 0)
+            return "No Sports";
+
+        String result = "";
+        int maxSport = sportList.getSize();
+        Set<Integer> keys = sportList.getMapSports().keySet();
+        for (int i: keys) {
+            result += sportList.getSport(i) + "</br>";
+        }
+
+        return result;
+    }
+
+    public String getSport(String sportName) {
+        if (sportList.getAllSports() == null)
+            return "No Sports";
+
+        Sport sportCheck = sportList.getSport(sportName);
+        String result;
+        if (sportCheck != null) {
+            result = sportCheck.getName();
+            System.out.println("Sport: " + result);
+        } else {
+            result = "No sports matching the given name: " + sportName;
+        }
+        return result;
+    }
+
+    public String removeSport(String sportName) {
+        if (sportList.getAllSports() == null)
+            return "No Sports";
+
+        Sport oldSport = sportList.getSport(sportName);
+        if (oldSport == null)
+            return "Pas de ligue appelé " + sportName;
+
+        for (int i = 0; i < oldSport.getListLeague().getSize(); i++)
+            oldSport.getListLeague().removeLeague(i);
+
+        String result = "";
+        if (oldSport != null) {
+            result = "Sport retirée :" + oldSport.getName();
+            sportList.removeSport(oldSport);
+            sportMapper.deleteOne(sportList.getId(sportList.getSport(sportName)));
+            System.out.println("Ligue retirée: " + result);
+        }
+
+        return result;
+    }
+
+    // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
+
+    public String newLeague(String nom_sport, String nom, Date dateDebut, Date dateFin) {
+        Sport sport = sportList.getSport(nom_sport);
+        if (sport == null) {
+            return "Sport Error";
+        }
+        if (dateFin == null || dateDebut == null || dateFin.before(dateDebut))
+        {
+            return "Erreur dans les dates";
+        }
+        League newLeague = new League(nom, dateDebut, dateFin);
+        int id = leagueService.getLastId() + 1;
+        newLeague.setLeagueID(id);
+        int sportId = sport.getId();
+        newLeague.setIdSport(sportId);
+
+
+        String result;
+
+        if(ajoutLigueDb(newLeague))
+        {
+            result = "<div>";
+            result += nom + "</div>";
+        }
+        else {
+            result = "Impossible d'ajouter la ligue dans la base de données "+ "<br>";
+        }
+
+
+        return result;
+    }
+
+    public String getLeague(String sport, String nom) {
+        if (!sportList.getAllSports().contains(sportList.getSport(sport)))
+            return "Sport Error";
+
+        League league = sportList.getSport(sport).getListLeague().getLeague(nom);
+        String result;
+        if (league != null) {
+            result = league.getName();
+            System.out.println("League: " + result);
+        } else {
+            result = "Pas de ligue appelé " + nom;
+        }
+        return result;
+    }
+
+    // public String removeLeague(String nom) {
+    // League league = listLeague.getLeague(nom);
+    // String result = "";
+    // if(league != null) {
+    // result = "Ligue retirée :" + league.getName();
+    // listLeague.removeLeague(league);
+    // System.out.println("Ligue retirée: " + result);
+    // }
+    // else
+    // {
+    // result = "Pas de ligue appelé " + nom;
+    // }
+    // //result = "<div>" + result + "</div>";
+    // //String result = "<div> aaaaa </div>";
+    // return result;
+    // }
+
+    public String removeLeague(String sport, String nom) {
+        Sport getsport = sportList.getSport(sport);
+        if (sport == null)
+            return "Sport Error";
+
+        League league = getsport.getListLeague().getLeague(nom);
+        String result = "";
+        if (league != null) {
+            result = "Ligue retirée :" + league.getName();
+            sportList.getSport(sport).getListLeague().removeLeague(league);
+            leagueMapper.deleteOne(sportList.getSport(sport).getListLeague().getId(league));
+            System.out.println("Ligue retirée: " + result);
+        } else {
+            result = "Pas de ligue appelé " + nom;
+        }
+        return result;
+    }
+
+    // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
+    public String getTeams(String sport, String league) {
+        return "";
+    }
+
+
+    public String addTeam(String sportName, String leagueName, String teamName) {
+        if (sportName == null || leagueName == null || teamName == null)
+        {
+            return "Erreur noms";
+        }
+        Sport sport = sportList.getSport(sportName);
+        if (sport == null) {
+            return "Sport Error";
+        }
+
+        String result;
+        League league = sport.getListLeague().getLeague(leagueName);
+        if (league == null) {
+            result = "Ligue introuvable";
+        } else {
+            int id = teamService.getLastId() + 1;
+            int idLeague = league.getId();
+            if (teamName.isEmpty() || league.getTeams().getMapNameId().containsKey(teamName)) return "nom impossible";
+            Team team = new Team(id, teamName, idLeague);
+            if (ajoutTeamDb(team)) {
+                result = "Équipe ajoutée";
+            } else {
+                result = "Impossible d'ajouter l'équipe";
+            }
+        }
+
+        return result;
+    }
+
+    public String listTeam(String sportName, String leagueName) {
+        if (sportList.getSport(sportName) == null) {
+            return "Erreur Sport";
+        }
+        String result = "";
+        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        if (league == null)
+            result = "Ligue introuvable";
+        else {
+            if (league.getTeams().getSize() <= 0) {
+                result = "Pas d'équipe";
+            } else {
+                for (int i : league.getTeams().getTeamIds()) {
+                    result += league.getTeams().getTeam(i).getName() + "</br>";
+                }
+            }
+        }
+        return result;
+    }
+
+    // public String listLeague() {
+    // String result = "";
+    // if(listLeague.getSize() <= 0) {
+    // return "<div>Pas de ligue</div>";
+    // }
+    // for (int i = 0; i < listLeague.getSize(); i++) {
+    // result += listLeague.getLeagueByIndex(i).getName() + "</br>";
+    // }
+    //
+    // return result;
+    // }
+
+    public String listLeague(String sportName) {
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        String result = "";
+        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
+            return "<div>Pas de ligue</div>";
+
+        for (int i : sportList.getSport(sportName).getListLeague().getLeagueIds())
+            result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
+
+        return result;
+    }
+
     public String removeTeam(String sportName, String leagueName, String teamName) {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        ListLeague league = sportList.getSport(sportName).getListLeague();
-
-        if (league.getSize() <= 0)
+        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
             return "<div>Pas de ligue</div>";
 
-        Team team = league.getLeague(leagueName).getTeams().getTeam(teamName);
+        Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        teamMapper.deleteOneTeam(league.getLeague(leagueName).getTeams().getId(team));
+        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
 
-        if (league.getLeague(leagueName).removeTeam(team))
+        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
             return "<div>Équipe retirée</div>";
 
         return "<div>Erreur lors du retrait d'équipe</div>";
     }
 
-    // ~~~~~~~~~~~~ Player ~~~~~~~~~~~ //
-    public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName,
-            String playerLastName) {
+    public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName, int number) {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
@@ -393,8 +433,16 @@ public class OGClass {
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        if (team.newPlayer(playerFirsName, playerLastName))
-            return "<div> Joueur : " + playerFirsName + " " + playerLastName + " ajouté</div>";
+        int id = playerService.getLastId() + 1;
+        int idTeam = team.getId();
+        Player player = new Player(id, playerFirsName, playerLastName,number ,idTeam);
+        Map<Integer, Integer> map = team.getListPlayer().getMapNumberId();
+        if(team.getListPlayer().getMapNumberId().containsKey(number))
+            return "Erreur numero";
+        if (team.getListPlayer().getMapItems().containsKey(id))
+            return "Erreur getting id";
+        if (ajoutPlayerDb(player))
+            return "Ajout du joueur";
 
         return "<div>Erreur nom</div>";
     }
@@ -415,9 +463,9 @@ public class OGClass {
             else {
                 if (team.getListPlayer().getSize() <= 0)
                     result = "Pas de joueur";
-                for (int i: team.getListPlayer().getPlayerIds()) {
+                for (int i: team.getListPlayer().getMapNumberId().keySet()) {
                     Player player = team.getListPlayer().getPlayerByNumber(i);
-                    result += player.getName() + " " + player.getLastName() + "</br>";
+                    result += player.getNumber()+ ": "+ player.getName() + " " + player.getLastName() + "</br>";
                 }
             }
         }
@@ -440,7 +488,7 @@ public class OGClass {
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
 
-        playerMapper.deleteOnePlayer(team.getListPlayer().getId(player));
+        playerMapper.deleteOne(team.getListPlayer().getId(player));
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 
@@ -463,6 +511,12 @@ public class OGClass {
     public boolean ajoutTeamDb(Team team)
     {
         teamService.addTeam(team);
+        return true;
+    }
+
+    public boolean ajoutPlayerDb(Player player)
+    {
+        playerService.addPlayer(player);
         return true;
     }
 

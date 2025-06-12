@@ -11,6 +11,7 @@ public class League {
   private Date endDate;
   private int idSport;
   private boolean done = false;
+  private ListMatch listMatch;
   private java.util.Random rand = new java.util.Random();
 
   // Constructeurs
@@ -24,6 +25,7 @@ public class League {
     this.id = id;
     this.name = name;
     this.listTeam = new ListTeam();
+    this.listMatch = new ListMatch();
     LoggerUtil.info("Création d'une ligue");
   }
 
@@ -40,6 +42,7 @@ public class League {
     this.id = id;
     this.name = name;
     this.listTeam = listTeam;
+    this.listMatch = new ListMatch();
     LoggerUtil.info("Création d'une ligue");
   }
 
@@ -254,4 +257,5 @@ public class League {
     return this.name;
   }
   public ListTeam getTeams() { return this.listTeam; }
+  public ListMatch getListMatch() {return this.listMatch;}
 }
