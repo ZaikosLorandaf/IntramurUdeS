@@ -152,7 +152,7 @@ function renderEquipeList() {
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "card-custom";
-        div.textContent = `Gérer équipe`;
+        div.textContent = `Gérer équipe/joueur`;
 
         const myParams = new URLSearchParams(window.location.search);
         let sports = myParams.get('sport');
@@ -241,7 +241,7 @@ function showInfo(team) {
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Modifier Joueur</button>`;
+            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";
