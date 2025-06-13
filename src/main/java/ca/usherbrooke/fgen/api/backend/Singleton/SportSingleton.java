@@ -1,10 +1,15 @@
 package ca.usherbrooke.fgen.api.backend.Singleton;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.SportService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -114,5 +119,29 @@ public class SportSingleton extends OGClass {
      */
     public ListSport getSportList() {
         return sportList;
+    }
+
+    public String getSportLeague() {
+        JSONArray sports = new JSONArray();
+
+        for (int i : sportList.getMapSports().keySet()) {
+            Sport sport = sportList.getSport(i);
+            if (sport == null)
+                return "error sport dans la liste";
+            ListLeague leagues = sport.getListLeague();
+            List<String> leagueNames = new ArrayList<>();
+            for (int j : leagues.getLeagueIds()) {
+                leagueNames.add(leagues.getLeague(j).getName());
+            }
+
+            JSONObject sportJson = new JSONObject()
+                    .put("name", sport.getName())
+                    .put("id", sport.getId())
+                    .put("seasons", new JSONArray(leagueNames));
+
+            sports.put(sportJson);
+        }
+
+        return sports.toString();
     }
 }
