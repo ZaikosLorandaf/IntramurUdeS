@@ -1,4 +1,4 @@
-package ca.usherbrooke.fgen.api.backend;
+package ca.usherbrooke.fgen.api.backend.Singleton;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
@@ -12,6 +12,7 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 
+import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
@@ -54,32 +55,13 @@ public class OGClass {
     ListSeason listSeasons;
 
     public final SportSingleton sportSingleton = new SportSingleton();
+    public final LeagueSingleton leagueSingleton = new LeagueSingleton();
+    public final TeamSingleton teamSingleton = new TeamSingleton();
+    public final PlayerSingleton playerSingleton = new PlayerSingleton();
 
     public OGClass() {
         sportList = new ListSport();
         LoggerUtil.info("Création de OGClass terminée.");
-    }
-
-    /**
-     * Getter pour la listeSport
-     *
-     * @return L'objet ListeSport
-     */
-    public ListSport getSportList() {
-        return this.sportList;
-    }
-
-    public ListSeason getListSeasons() {
-        return this.listSeasons;
-    }
-
-    public String getSports() {
-        //System.out.println(sportList.getMapSports());
-        String result = "";
-        for (int i : sportList.getMapSports().keySet()) {
-            result += sportList.getSport(i).getName() + "</br>";
-        }
-        return result;
     }
 
     /**
@@ -128,58 +110,6 @@ public class OGClass {
 
         for (Map.Entry<String, JSONArray> entry : matchsParDate.entrySet()) {
             response.put(entry.getKey(), entry.getValue());
-        }
-
-        return response.toString(2);
-    }
-
-
-    public String getEquipesData(String sportName, String leagueName) {
-        JSONObject response = new JSONObject();
-
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
-        if (league == null) {
-            return new JSONObject().put("error", "Ligue introuvable").toString();
-        }
-
-        ListTeam listTeam = league.getTeams();
-
-        for (int i = 0; i < listTeam.getSize(); i++) {
-            Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));
-
-            JSONObject joueurs = new JSONObject();
-
-            for (int j = 0; j < team.getListPlayer().getSize(); j++) {
-                Player p = team.getListPlayer().getPlayer(team.getListPlayer().getPlayerIds().get(j));
-
-                JSONObject stats = new JSONObject()
-                        .put("role", "Joueur")
-                        .put("matchsJoues", 4)
-                        .put("buts", new Random().nextInt(4))
-                        .put("passes", new Random().nextInt(4))
-                        .put("cartonsJaunes", new Random().nextInt(2))
-                        .put("cartonsRouges", new Random().nextInt(1))
-                        .put("arrets", new Random().nextInt(3))
-                        .put("blessures", new Random().nextInt(2))
-                        .put("remarques", "");
-
-                joueurs.put(p.getName(), stats);
-            }
-
-            // Génère des stats fictives d’équipe
-            JSONObject teamStats = new JSONObject()
-                    .put("matchsJoues", 4)
-                    .put("victoires", new Random().nextInt(5))
-                    .put("defaites", new Random().nextInt(5))
-                    .put("pointsMarques", new Random().nextInt(100))
-                    .put("pointsEncaisses", new Random().nextInt(100))
-                    .put("differenceDePoints", new Random().nextInt(50));
-
-            JSONObject teamInfo = new JSONObject()
-                    .put("joueurs", joueurs)
-                    .put("stats", teamStats);
-
-            response.put(team.getName(), teamInfo);
         }
 
         return response.toString(2);
@@ -279,6 +209,15 @@ public class OGClass {
             return result;
         }
 
+        public String getSports() {
+            //System.out.println(sportList.getMapSports());
+            String result = "";
+            for (int i : sportList.getMapSports().keySet()) {
+                result += sportList.getSport(i).getName() + "</br>";
+            }
+            return result;
+        }
+
         public String removeSport(String sportName) {
             if (sportList.getAllSports() == null)
                 return "No Sports";
@@ -301,6 +240,20 @@ public class OGClass {
             }
 
             return result;
+        }
+
+        public boolean ajoutSportDb(Sport sport) {
+            sportService.addSport(sport);
+            return true;
+        }
+
+        /**
+         * Getter pour la listeSport
+         *
+         * @return L'objet ListeSport
+         */
+        public ListSport getSportList() {
+            return sportList;
         }
     }
     // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
@@ -399,6 +352,15 @@ public class OGClass {
             }
             return result;
         }
+
+        public boolean ajoutLigueDb(League league) {
+            leagueService.addLeague(league);
+            return true;
+        }
+
+        public ListSeason getListSeasons() {
+            return this.listSeasons;
+        }
     }
 
     // ~~~~~~~~~~~~ Teams ~~~~~~~~~~~ //
@@ -490,6 +452,62 @@ public class OGClass {
 
             return "<div>Erreur lors du retrait d'équipe</div>";
         }
+
+        public boolean ajoutTeamDb(Team team) {
+            teamService.addTeam(team);
+            return true;
+        }
+
+        public String getEquipesData(String sportName, String leagueName) {
+            JSONObject response = new JSONObject();
+
+            League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+            if (league == null) {
+                return new JSONObject().put("error", "Ligue introuvable").toString();
+            }
+
+            ListTeam listTeam = league.getTeams();
+
+            for (int i = 0; i < listTeam.getSize(); i++) {
+                Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));
+
+                JSONObject joueurs = new JSONObject();
+
+                for (int j = 0; j < team.getListPlayer().getSize(); j++) {
+                    Player p = team.getListPlayer().getPlayer(team.getListPlayer().getPlayerIds().get(j));
+
+                    JSONObject stats = new JSONObject()
+                            .put("role", "Joueur")
+                            .put("matchsJoues", 4)
+                            .put("buts", new Random().nextInt(4))
+                            .put("passes", new Random().nextInt(4))
+                            .put("cartonsJaunes", new Random().nextInt(2))
+                            .put("cartonsRouges", new Random().nextInt(1))
+                            .put("arrets", new Random().nextInt(3))
+                            .put("blessures", new Random().nextInt(2))
+                            .put("remarques", "");
+
+                    joueurs.put(p.getName(), stats);
+                }
+
+                // Génère des stats fictives d’équipe
+                JSONObject teamStats = new JSONObject()
+                        .put("matchsJoues", 4)
+                        .put("victoires", new Random().nextInt(5))
+                        .put("defaites", new Random().nextInt(5))
+                        .put("pointsMarques", new Random().nextInt(100))
+                        .put("pointsEncaisses", new Random().nextInt(100))
+                        .put("differenceDePoints", new Random().nextInt(50));
+
+                JSONObject teamInfo = new JSONObject()
+                        .put("joueurs", joueurs)
+                        .put("stats", teamStats);
+
+                response.put(team.getName(), teamInfo);
+            }
+
+            return response.toString(2);
+        }
     }
 
     // ~~~~~~~~~~~~ Player ~~~~~~~~~~~ //
@@ -570,27 +588,10 @@ public class OGClass {
 
             return "<div>Erreur lors du retrait du joueur</div>";
         }
+
+        public boolean ajoutPlayerDb(Player player) {
+            playerService.addPlayer(player);
+            return true;
+        }
     }
-
-
-    public boolean ajoutSportDb(Sport sport) {
-        sportService.addSport(sport);
-        return true;
-    }
-
-    public boolean ajoutLigueDb(League league) {
-        leagueService.addLeague(league);
-        return true;
-    }
-
-    public boolean ajoutTeamDb(Team team) {
-        teamService.addTeam(team);
-        return true;
-    }
-
-    public boolean ajoutPlayerDb(Player player) {
-        playerService.addPlayer(player);
-        return true;
-    }
-
 }

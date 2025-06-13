@@ -12,7 +12,7 @@ import java.sql.Date;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)

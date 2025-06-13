@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.service;
 
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
