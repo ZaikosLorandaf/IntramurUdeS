@@ -1,7 +1,6 @@
 package ca.usherbrooke.fgen.api.backend.Singleton;
 
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
-import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -11,8 +10,6 @@ import javax.inject.Inject;
 public class OGClass {
     @Inject
     ListSport sportList;
-
-    ListSeason listSeasons;
 
     public final SportSingleton sportSingleton = new SportSingleton();
     public final LeagueSingleton leagueSingleton = new LeagueSingleton();

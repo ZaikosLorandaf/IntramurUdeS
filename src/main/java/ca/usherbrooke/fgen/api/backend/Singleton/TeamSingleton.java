@@ -3,19 +3,24 @@ package ca.usherbrooke.fgen.api.backend.Singleton;
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import org.json.JSONObject;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Random;
 
-public class TeamSingleton extends OGClass {
+@ApplicationScoped
+public class TeamSingleton {
     @Inject
     TeamService teamService;
     @Inject
     TeamMapper teamMapper;
+    @Inject
+    ListSport sportList;
 
     TeamSingleton() {
     }

@@ -8,16 +8,20 @@ import ca.usherbrooke.fgen.api.service.objectServices.SportService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class SportSingleton extends OGClass {
+@ApplicationScoped
+public class SportSingleton {
     @Inject
     SportService sportService;
     @Inject
     SportMapper sportMapper;
+    @Inject
+    ListSport sportList;
 
     SportSingleton(){
     }

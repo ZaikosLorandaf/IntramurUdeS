@@ -4,13 +4,20 @@ import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MatchSingleton extends OGClass {
+@ApplicationScoped
+public class MatchSingleton {
+    @Inject
+    ListSport sportList;
+
     MatchSingleton(){
     }
 

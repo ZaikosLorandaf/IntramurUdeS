@@ -2,17 +2,22 @@ package ca.usherbrooke.fgen.api.backend.Singleton;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.PlayerService;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Map;
 
-public class PlayerSingleton extends OGClass {
+@ApplicationScoped
+public class PlayerSingleton {
     @Inject
     PlayerMapper playerMapper;
     @Inject
     PlayerService playerService;
+    @Inject
+    ListSport sportList;
 
     PlayerSingleton() {
     }
