@@ -7,7 +7,6 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +14,9 @@ public class MatchSingleton extends OGClass {
     MatchSingleton(){
     }
 
+    // Gestion donnees
+
+    // Getter
     /**
      * Fonction qui crée le JSON pour les data des matchs
      *

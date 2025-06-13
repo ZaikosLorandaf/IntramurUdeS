@@ -22,7 +22,8 @@ public class SportSingleton extends OGClass {
     SportSingleton(){
     }
 
-    public String newSport(String sportName) {
+    // Gestion donnees
+    public String add(String sportName) {
         if (sportList.getAllSports().contains(sportList.getSport(sportName)))
             return "Sport Error";
 
@@ -35,7 +36,7 @@ public class SportSingleton extends OGClass {
 //            result = "<div>erreur</div>";
 //        else {
 
-        if (ajoutSportDb(newSport)) {
+        if (addDb(newSport)) {
             result = "<div>";
             result += sportName + "</div>";
         } else {
@@ -45,6 +46,36 @@ public class SportSingleton extends OGClass {
         return result;
     }
 
+    public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.Sport sport) {
+        sportService.addSport(sport);
+        return true;
+    }
+
+    public String remove(String sportName) {
+        if (sportList.getAllSports() == null)
+            return "No Sports";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.Sport oldSport = sportList.getSport(sportName);
+        if (oldSport == null)
+            return "Pas de ligue appelé " + sportName;
+        List<Integer> list = oldSport.getListLeague().getLeagueIds();
+        for (int i : oldSport.getListLeague().getLeagueIds())
+            oldSport.getListLeague().removeLeague(i);
+
+        String result = "";
+        if (oldSport != null) {
+            result = "Sport retirée :" + oldSport.getName();
+            ca.usherbrooke.fgen.api.backend.BdTables.Sport sport = sportList.getSport(sportName);
+            int sportId = sportList.getId(sport);
+            sportMapper.deleteOne(sportId);
+            sportList.removeSport(oldSport);
+            System.out.println("Ligue retirée: " + result);
+        }
+
+        return result;
+    }
+
+    // Getter
     public String listSport() {
         if (sportList.getAllSports().size() <= 0)
             return "No Sports";
@@ -81,35 +112,6 @@ public class SportSingleton extends OGClass {
             result += sportList.getSport(i).getName() + "</br>";
         }
         return result;
-    }
-
-    public String removeSport(String sportName) {
-        if (sportList.getAllSports() == null)
-            return "No Sports";
-
-        ca.usherbrooke.fgen.api.backend.BdTables.Sport oldSport = sportList.getSport(sportName);
-        if (oldSport == null)
-            return "Pas de ligue appelé " + sportName;
-        List<Integer> list = oldSport.getListLeague().getLeagueIds();
-        for (int i : oldSport.getListLeague().getLeagueIds())
-            oldSport.getListLeague().removeLeague(i);
-
-        String result = "";
-        if (oldSport != null) {
-            result = "Sport retirée :" + oldSport.getName();
-            ca.usherbrooke.fgen.api.backend.BdTables.Sport sport = sportList.getSport(sportName);
-            int sportId = sportList.getId(sport);
-            sportMapper.deleteOne(sportId);
-            sportList.removeSport(oldSport);
-            System.out.println("Ligue retirée: " + result);
-        }
-
-        return result;
-    }
-
-    public boolean ajoutSportDb(ca.usherbrooke.fgen.api.backend.BdTables.Sport sport) {
-        sportService.addSport(sport);
-        return true;
     }
 
     /**

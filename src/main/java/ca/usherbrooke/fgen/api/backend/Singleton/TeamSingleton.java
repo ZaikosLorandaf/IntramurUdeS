@@ -20,12 +20,8 @@ public class TeamSingleton extends OGClass {
     TeamSingleton() {
     }
 
-    public String getTeams(String sport, String league) {
-        return "";
-    }
-
-
-    public String addTeam(String sportName, String leagueName, String teamName) {
+    // Gestion donnees
+    public String add(String sportName, String leagueName, String teamName) {
         if (sportName == null || leagueName == null || teamName == null) {
             return "Erreur noms";
         }
@@ -44,7 +40,7 @@ public class TeamSingleton extends OGClass {
             if (teamName.isEmpty() || league.getTeams().getMapNameId().containsKey(teamName))
                 return "nom impossible";
             ca.usherbrooke.fgen.api.backend.BdTables.Team team = new ca.usherbrooke.fgen.api.backend.BdTables.Team(id, teamName, idLeague);
-            if (ajoutTeamDb(team)) {
+            if (addDb(team)) {
                 result = "Équipe ajoutée";
             } else {
                 result = "Impossible d'ajouter l'équipe";
@@ -52,6 +48,35 @@ public class TeamSingleton extends OGClass {
         }
 
         return result;
+    }
+
+    public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.Team team) {
+        teamService.addTeam(team);
+        return true;
+    }
+
+    public String remove(String sportName, String leagueName, String teamName) {
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
+            return "<div>Pas de ligue</div>";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
+        if (team == null)
+            return "<div>Pas d'équipe</div>";
+
+        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
+
+        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
+            return "<div>Équipe retirée</div>";
+
+        return "<div>Erreur lors du retrait d'équipe</div>";
+    }
+
+    // Getter
+    public String getTeams(String sport, String league) {
+        return "";
     }
 
     public String listTeam(String sportName, String leagueName) {
@@ -85,30 +110,6 @@ public class TeamSingleton extends OGClass {
     //
     // return result;
     // }
-
-    public String removeTeam(String sportName, String leagueName, String teamName) {
-        if (sportList.getSport(sportName) == null)
-            return "Erreur Sport";
-
-        if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
-            return "<div>Pas de ligue</div>";
-
-        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
-        if (team == null)
-            return "<div>Pas d'équipe</div>";
-
-        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
-
-        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
-            return "<div>Équipe retirée</div>";
-
-        return "<div>Erreur lors du retrait d'équipe</div>";
-    }
-
-    public boolean ajoutTeamDb(ca.usherbrooke.fgen.api.backend.BdTables.Team team) {
-        teamService.addTeam(team);
-        return true;
-    }
 
     public String getEquipesData(String sportName, String leagueName) {
         JSONObject response = new JSONObject();

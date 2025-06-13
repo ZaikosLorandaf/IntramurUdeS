@@ -17,7 +17,8 @@ public class PlayerSingleton extends OGClass {
     PlayerSingleton() {
     }
 
-    public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName, int number) {
+    // Gestion donnees
+    public String add(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName, int number) {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
@@ -37,12 +38,41 @@ public class PlayerSingleton extends OGClass {
             return "Erreur numero";
         if (team.getListPlayer().getMapItems().containsKey(id))
             return "Erreur getting id";
-        if (ajoutPlayerDb(player))
+        if (addDb(player))
             return "Ajout du joueur";
 
         return "<div>Erreur nom</div>";
     }
 
+    public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.Player player) {
+        playerService.addPlayer(player);
+        return true;
+    }
+
+    public String remove(String sportName, String leagueName, String teamName, int playerNumber) {
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        if (league == null)
+            return "<div>Ligue non-trouvée</div>";
+
+        Team team = league.getTeams().getTeam(teamName);
+        if (team == null)
+            return "<div>Équipe non-trouvée</div>";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.Player player = team.getListPlayer().getPlayerByNumber(playerNumber);
+        if (player == null)
+            return "<div>Joueur non-trouvé</div>";
+        int playerId = team.getListPlayer().getId(player);
+        playerMapper.deleteOne(playerId);
+        if (team.removePlayer(player))
+            return "<div>Joueur retiré</div>";
+
+        return "<div>Erreur lors du retrait du joueur</div>";
+    }
+
+    // Getter
     public String listPlayer(String sportName, String leagueName, String teamName) {
         if (sportList.getSport(sportName) == null) {
             return "Erreur Sport";
@@ -66,33 +96,5 @@ public class PlayerSingleton extends OGClass {
             }
         }
         return result;
-    }
-
-    public String removePlayer(String sportName, String leagueName, String teamName, int playerNumber) {
-        if (sportList.getSport(sportName) == null)
-            return "Erreur Sport";
-
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
-        if (league == null)
-            return "<div>Ligue non-trouvée</div>";
-
-        Team team = league.getTeams().getTeam(teamName);
-        if (team == null)
-            return "<div>Équipe non-trouvée</div>";
-
-        ca.usherbrooke.fgen.api.backend.BdTables.Player player = team.getListPlayer().getPlayerByNumber(playerNumber);
-        if (player == null)
-            return "<div>Joueur non-trouvé</div>";
-        int playerId = team.getListPlayer().getId(player);
-        playerMapper.deleteOne(playerId);
-        if (team.removePlayer(player))
-            return "<div>Joueur retiré</div>";
-
-        return "<div>Erreur lors du retrait du joueur</div>";
-    }
-
-    public boolean ajoutPlayerDb(ca.usherbrooke.fgen.api.backend.BdTables.Player player) {
-        playerService.addPlayer(player);
-        return true;
     }
 }
