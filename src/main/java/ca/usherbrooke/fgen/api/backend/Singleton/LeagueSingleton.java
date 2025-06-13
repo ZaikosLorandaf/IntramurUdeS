@@ -8,13 +8,13 @@ import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
 import javax.inject.Inject;
 import java.sql.Date;
 
-public class League extends OGClass {
+public class LeagueSingleton extends OGClass {
     @Inject
     LeagueService leagueService;
     @Inject
     LeagueMapper leagueMapper;
 
-    League(){
+    LeagueSingleton(){
     }
 
     public String newLeague(String nom_sport, String nom, Date dateDebut, Date dateFin) {

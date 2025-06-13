@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.*;
-import java.sql.Date;
 
 @ApplicationScoped
 public class OGClass {
@@ -20,10 +19,10 @@ public class OGClass {
 
     ListSeason listSeasons;
 
-    public final Sport sportSingleton = new Sport();
-    public final League leagueSingleton = new League();
-    public final Team teamSingleton = new Team();
-    public final Player playerSingleton = new Player();
+    public final SportSingleton sportSingleton = new SportSingleton();
+    public final LeagueSingleton leagueSingleton = new LeagueSingleton();
+    public final TeamSingleton teamSingleton = new TeamSingleton();
+    public final PlayerSingleton playerSingleton = new PlayerSingleton();
 
     public OGClass() {
         sportList = new ListSport();
@@ -38,11 +37,11 @@ public class OGClass {
     public String getMatchesData(String sportName, String leagueName) {
         JSONObject response = new JSONObject();
 
-        Sport sport = sportList.getSport(sportName);
+        SportSingleton sport = sportList.getSport(sportName);
         if (sport == null)
             return new JSONObject().put("error", "Sport introuvable").toString();
 
-        League league = sport.getListLeague().getLeague(leagueName);
+        LeagueSingleton league = sport.getListLeague().getLeague(leagueName);
         if (league == null)
             return new JSONObject().put("error", "Ligue introuvable").toString();
 
@@ -85,7 +84,7 @@ public class OGClass {
         JSONArray sports = new JSONArray();
 
         for (int i : sportList.getMapSports().keySet()) {
-            Sport sport = sportList.getSport(i);
+            SportSingleton sport = sportList.getSport(i);
             if (sport == null)
                 return "error sport dans la liste";
             ListLeague leagues = sport.getListLeague();
@@ -106,14 +105,14 @@ public class OGClass {
     }
 
     public void trashData() {
-        Sport bb = new Sport("Basket Ball");
-        bb.addLeague(new League("Tintin au congo"));
-        bb.addLeague(new League("Les pythoniste"));
+        SportSingleton bb = new SportSingleton("Basket Ball");
+        bb.addLeague(new LeagueSingleton("Tintin au congo"));
+        bb.addLeague(new LeagueSingleton("Les pythoniste"));
         sportList.addSport(bb);
 
-        Sport vb = new Sport("Volley Ball");
-        vb.addLeague(new League("Les coucouille de Gerard"));
-        vb.addLeague(new League("Les c++ teams"));
+        SportSingleton vb = new SportSingleton("Volley Ball");
+        vb.addLeague(new LeagueSingleton("Les coucouille de Gerard"));
+        vb.addLeague(new LeagueSingleton("Les c++ teams"));
         sportList.addSport(vb);
 
     }

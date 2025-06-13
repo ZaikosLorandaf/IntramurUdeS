@@ -8,13 +8,13 @@ import ca.usherbrooke.fgen.api.service.objectServices.PlayerService;
 import javax.inject.Inject;
 import java.util.Map;
 
-public class Player extends OGClass{
+public class PlayerSingleton extends OGClass {
     @Inject
     PlayerMapper playerMapper;
     @Inject
     PlayerService playerService;
 
-    Player() {
+    PlayerSingleton() {
     }
 
     public String addPlayer(String sportName, String leagueName, String teamName, String playerFirsName, String playerLastName, int number) {

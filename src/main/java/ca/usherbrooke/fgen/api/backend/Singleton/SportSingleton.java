@@ -8,13 +8,13 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.Set;
 
-public class Sport extends OGClass {
+public class SportSingleton extends OGClass {
     @Inject
     SportService sportService;
     @Inject
     SportMapper sportMapper;
 
-    Sport(){
+    SportSingleton(){
     }
 
     public String newSport(String sportName) {

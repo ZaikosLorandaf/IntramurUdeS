@@ -11,13 +11,13 @@ import org.json.JSONObject;
 import javax.inject.Inject;
 import java.util.Random;
 
-public class Team extends OGClass {
+public class TeamSingleton extends OGClass {
     @Inject
     TeamService teamService;
     @Inject
     TeamMapper teamMapper;
 
-    Team() {
+    TeamSingleton() {
     }
 
     public String getTeams(String sport, String league) {
