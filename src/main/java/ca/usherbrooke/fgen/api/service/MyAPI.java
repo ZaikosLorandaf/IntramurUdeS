@@ -70,15 +70,15 @@ public class MyAPI {
 
     @POST
     @Path("addSport")
-    public String addSport(@NotNull addSport sport ) {
-		return ogClass.newSport(sport.nom);
+    public String addSport(@NotNull addSport sport) {
+        return ogClass.sportSingleton.add(sport.nom);
     }
 
     @GET
     @Path("getSport/{nom_sport}")
     public String getSport(
             @PathParam("nom_sport") String nom_sport) {
-        return ogClass.getSport(nom_sport);
+        return ogClass.sportSingleton.getSport(nom_sport);
     }
 
     @POST
@@ -86,7 +86,7 @@ public class MyAPI {
     public String removeLeague(
             @PathParam("nom_sport") String nomSport) {
         nomSport = nomSport.replace("%20", " ");
-        return ogClass.removeSport(nomSport);
+        return ogClass.sportSingleton.remove(nomSport);
     }
 
     // ~~~~~~~~~~~ Leagues ~~~~~~~~~~ //
@@ -94,7 +94,7 @@ public class MyAPI {
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
         nom_sport = nom_sport.replace("%20", " ");
-        return ogClass.listLeague(nom_sport);
+        return ogClass.leagueSingleton.listLeague(nom_sport);
     }
 
 
@@ -113,7 +113,7 @@ public class MyAPI {
         } catch (ParseException e) {
             return "Invalid date format: " + e.getMessage();
         }
-        return ogClass.newLeague(league.nom_sport, league.nom,date_debut,date_fin);
+        return ogClass.leagueSingleton.add(league.nom_sport, league.nom,date_debut,date_fin);
    }
 
     @GET
@@ -123,7 +123,7 @@ public class MyAPI {
             @PathParam("nom") String nom) {
         sport = sport.replace("%20", " ");
         nom = nom.replace("%20", " ");
-        return ogClass.getLeague(sport, nom);
+        return ogClass.leagueSingleton.getLeague(sport, nom);
     }
 
     @GET
@@ -133,7 +133,7 @@ public class MyAPI {
             @PathParam("nom_ligue") String nomLigue) {
         nomSport = nomSport.replace("%20", " ");
         nomLigue = nomLigue.replace("%20", " ");
-        return ogClass.removeLeague(nomSport, nomLigue);
+        return ogClass.leagueSingleton.remove(nomSport, nomLigue);
     }
 
 
@@ -141,7 +141,7 @@ public class MyAPI {
     @POST
     @Path("addTeam")
     public String getAddTeam(@NotNull addTeam team) {
-        return ogClass.addTeam(team.nomSport, team.nomLigue, team.nomTeam);
+        return ogClass.teamSingleton.add(team.nomSport, team.nomLigue, team.nomTeam);
     }
 
     @GET
@@ -151,7 +151,7 @@ public class MyAPI {
             @PathParam("ligue") String ligue) {
         nom_sport = nom_sport.replace("%20", " ");
         ligue = ligue.replace("%20", " ");
-        return ogClass.getTeams(nom_sport,ligue);
+        return ogClass.teamSingleton.getTeams(nom_sport,ligue);
     }
 
     @GET
@@ -161,7 +161,7 @@ public class MyAPI {
             @PathParam("nom_ligue") String nom_ligue) {
         nomSport = nomSport.replace("%20", " ");
         nom_ligue = nom_ligue.replace("%20", " ");
-        return ogClass.listTeam(nomSport,nom_ligue);
+        return ogClass.teamSingleton.listTeam(nomSport,nom_ligue);
     }
 
     @GET
@@ -173,7 +173,7 @@ public class MyAPI {
         nomSport = nomSport.replace("%20", " ");
         nom_ligue = nom_ligue.replace("%20", " ");
         nom_equipe = nom_equipe.replace("%20", " ");
-        return ogClass.removeTeam(nomSport, nom_ligue,nom_equipe);
+        return ogClass.teamSingleton.remove(nomSport, nom_ligue,nom_equipe);
     }
 
 
@@ -182,8 +182,8 @@ public class MyAPI {
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
         int number = player.number;
-        String reslt =  ogClass.addPlayer(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
-        return reslt;
+        String result =  ogClass.playerSingleton.add(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
+        return result;
     }
 
     @GET
@@ -195,7 +195,7 @@ public class MyAPI {
         nomSport = nomSport.replace("%20", " ");
         nomLigue = nomLigue.replace("%20", " ");
         nomEquipe = nomEquipe.replace("%20", " ");
-        return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
+        return ogClass.playerSingleton.listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
     @GET
@@ -208,7 +208,7 @@ public class MyAPI {
         nomSport = nomSport.replace("%20", " ");
         nomLigue = nomLigue.replace("%20", " ");
         nomEquipe = nomEquipe.replace("%20", " ");
-        return ogClass.removePlayer(nomSport,nomLigue,nomEquipe,numberPlayer);
+        return ogClass.playerSingleton.remove(nomSport,nomLigue,nomEquipe,numberPlayer);
     }
 
     
@@ -216,7 +216,7 @@ public class MyAPI {
     @GET
     @Path("listSport")
     public String listSport() {
-        return ogClass.getSports();
+        return ogClass.sportSingleton.getSports();
     }
 
 }

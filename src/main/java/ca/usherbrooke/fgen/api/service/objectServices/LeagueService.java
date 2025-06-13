@@ -57,7 +57,7 @@ public class LeagueService extends TemplateService<League> {
     @POST
     @Path("removeLeague")
     public String removeLeague(@NotNull removeLeague league ) {
-        return ogClass.removeLeague(league.sportName, league.leagueName);
+        return ogClass.leagueSingleton.remove(league.sportName, league.leagueName);
     }
 
     // Implementation des fonctions du template
@@ -72,7 +72,7 @@ public class LeagueService extends TemplateService<League> {
         leagueMapper.insert(league);
     }
     protected void add(League league){
-        Sport sport = ogClass.getSportList().getSport(league.getIdSport());
+        Sport sport = ogClass.sportSingleton.getSportList().getSport(league.getIdSport());
         sport.addLeague(unescapeEntities(league));
     }
 

@@ -31,13 +31,13 @@ public class TeamService extends TemplateService<Team> {
     @POST
     @Path("addTeam")
     public String addTeam(@NotNull addTeam team) {
-        return ogClass.addTeam(team.nomSport, team.nomLigue, team.nomTeam);
+        return ogClass.teamSingleton.add(team.nomSport, team.nomLigue, team.nomTeam);
     }
 
     @POST
     @Path("removeTeam")
     public String removeTeam(@NotNull removeTeam team ) {
-        return ogClass.removeTeam(team.sportName, team.leagueName, team.teamName);
+        return ogClass.teamSingleton.remove(team.sportName, team.leagueName, team.teamName);
     }
 
     // Methode GET
@@ -48,7 +48,7 @@ public class TeamService extends TemplateService<Team> {
             @PathParam("nom_ligue") String nom_ligue) {
         nomSport = nomSport.replace("%20", " ");
         nom_ligue = nom_ligue.replace("%20", " ");
-        return ogClass.listTeam(nomSport,nom_ligue);
+        return ogClass.teamSingleton.listTeam(nomSport,nom_ligue);
     }
 
     @GET
@@ -73,7 +73,7 @@ public class TeamService extends TemplateService<Team> {
             @PathParam("ligue") String ligue) {
         nom_sport = nom_sport.replace("%20", " ");
         ligue = ligue.replace("%20", " ");
-        return ogClass.getTeams(nom_sport,ligue);
+        return ogClass.teamSingleton.getTeams(nom_sport,ligue);
     }
 
     // Implementation des fonctions du template
@@ -88,7 +88,7 @@ public class TeamService extends TemplateService<Team> {
         teamMapper.insert(team);
     }
     protected void add(Team team){
-        ogClass.getSportList().getLeague(team.getIdLeague()).addTeam(team);
+        ogClass.sportSingleton.getSportList().getLeague(team.getIdLeague()).addTeam(team);
     }
 
     protected void setName(Team team) {
