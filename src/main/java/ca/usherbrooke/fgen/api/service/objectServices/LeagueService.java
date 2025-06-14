@@ -26,7 +26,10 @@ public class LeagueService extends TemplateService<League> {
     public List<League> getLeagues(){
         List<League> leagues = getItems();
         ListSport.addLeagueMap(leagues);
-        return leagues;
+        for (League league : leagues){
+            league.addToSeason();
+        }
+        return ListSport.getLeagues();
     }
 
     @GET
@@ -34,7 +37,8 @@ public class LeagueService extends TemplateService<League> {
     public League getLeague(@PathParam("id") Integer id) {
         League league = getItem(id);
         ListSport.addLeagueMap(league);
-        return league;
+        league.addToSeason();
+        return ListSport.getLeagueById(league.getId());
     }
 
 

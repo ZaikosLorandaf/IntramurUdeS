@@ -57,7 +57,7 @@ public class MatchService extends TemplateService<Match> {
 
     @Override
     protected void add(Match item) {
-        Collection<League> leagues = ListSport.getLeagues();
+        List<League> leagues = ListSport.getLeagues();
         League league = ListSport.getLeagueById(item.getIdLeague());
         league.getListMatch().addMatch(item);
     }

@@ -79,9 +79,9 @@ CREATE TABLE team_stat(
                           id_team INT NOT NULL,
                           PRIMARY KEY(id),
                           FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE
+                          FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE,
                           FOREIGN KEY(id_season) REFERENCES season(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_match) REFERENCES match_(id) ON DELETE CASCADE,
+                          FOREIGN KEY(id_match) REFERENCES match_(id) ON DELETE CASCADE
 );
 
 CREATE TABLE player_stat(
@@ -199,6 +199,21 @@ FROM intramurudes.player p
          INNER JOIN intramurudes.team t ON t.id = p.id_team
          INNER JOIN intramurudes.league l ON l.id = t.id_league
          INNER JOIN intramurudes.sport s ON s.id = l.id_sport;
+
+CREATE OR REPLACE VIEW v_league
+AS
+SELECT l.id as id,
+       l.name as name,
+       l.begin_date as begin_date,
+       l.end_date as end_date,
+       l.done,
+       l.id_sport,
+       ARRAY_AGG(ls.id_season) AS id_seasons
+FROM intramurudes.league l
+         INNER JOIN intramurudes.league_season ls ON l.id = ls.id_league
+GROUP BY l.id, l.name, l.begin_date, l.end_date, l.done, l.id_sport;
+
+
 
 ALTER TABLE league ADD CONSTRAINT league_name_sport_id_unique UNIQUE  (name, id_sport);
 

@@ -54,9 +54,8 @@ public class OGClass {
     ListSeason listSeasons;
 
     public OGClass() {
-
-        sportList = new ListSport();
-        listSeasons = new ListSeason();
+        this.sportList = new ListSport();
+        this.listSeasons = new ListSeason();
         LoggerUtil.info("Création de OGClass terminée.");
     }
 

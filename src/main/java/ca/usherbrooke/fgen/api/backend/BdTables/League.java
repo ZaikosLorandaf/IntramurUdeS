@@ -4,11 +4,19 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.OGClass;
+import io.quarkus.arc.Arc;
+import io.quarkus.arc.runtime.BeanContainer;
 
+import javax.inject.Inject;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class League {
+  OGClass ogClass;
+
   private int id;
   private ListTeam listTeam;
   private String name;
@@ -17,6 +25,7 @@ public class League {
   private int idSport;
   private boolean done = false;
   private ListMatch listMatch;
+  private List<Integer> idSeasons;
   private java.util.Random rand = new java.util.Random();
 
   // Constructeurs
@@ -31,7 +40,9 @@ public class League {
     this.name = name;
     this.listTeam = new ListTeam();
     this.listMatch = new ListMatch();
+    this.idSeasons = new ArrayList<Integer>();
     LoggerUtil.info("Création d'une ligue");
+    this.ogClass = Arc.container().instance(OGClass.class).get();
   }
 
 
@@ -48,7 +59,9 @@ public class League {
     this.name = name;
     this.listTeam = listTeam;
     this.listMatch = new ListMatch();
+    this.idSeasons = new ArrayList<Integer>();
     LoggerUtil.info("Création d'une ligue");
+    this.ogClass = Arc.container().instance(OGClass.class).get();
   }
 
   /**
@@ -72,6 +85,7 @@ public class League {
     id = -1;
     this.beginDate = beginDate;
     this.endDate = endDate;
+    this.idSeasons = new ArrayList<Integer>();
     LoggerUtil.info("Création de la ligue " + name);
   }
 
@@ -96,7 +110,7 @@ public class League {
   }*/
 
   /**
-   * Constructeur avec date de debut et date de fin
+   * Constructeur utilisé pour le mapping
    *
    * @param id        Id of the league
    * @param name      Name of the league
@@ -104,12 +118,13 @@ public class League {
    * @param endDate   Date where the league ends
    * @param idSport   The id of the sport of the league
    */
-  public League(int id, String name, Date beginDate, Date endDate, int idSport) {
+  public League(Integer id, String name, Date beginDate, Date endDate, Integer idSport, List<Integer> idSeasons) {
     initLeague(id, name);
     this.beginDate = beginDate;
     this.endDate = endDate;
     this.idSport = idSport;
     this.done = false;
+    this.idSeasons = idSeasons;
   }
 
   // Methodes
@@ -189,6 +204,25 @@ public class League {
     return listTeam.removeTeam(id);
   }
 
+
+  /**
+   * Méthode pour ajouter la league à toutes ses saisons
+   * @return True si tous les ajouts se sont bien fait, sinon false si au moins un ajout à échoué
+   */
+  public boolean addToSeason(){
+    boolean result = true;
+    for (Integer id :idSeasons){
+      Season season = ogClass.getListSeasons().getSeason(id);
+      if(!season.getLeagues().addLeague(this)){
+        if (result){
+          result = false;
+        }
+      }
+    }
+    return result;
+  }
+
+
   /**
    * Afficher dans la console la liste des equipes de la ligue
    */
@@ -263,4 +297,5 @@ public class League {
   }
   public ListTeam getTeams() { return this.listTeam; }
   public ListMatch getListMatch() {return this.listMatch;}
+  public List<Integer> getIdSeasons() {return this.idSeasons;}
 }
