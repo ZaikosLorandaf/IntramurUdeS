@@ -22,7 +22,8 @@ public class TeamSingleton {
     @Inject
     ListSport sportList;
 
-    TeamSingleton() {
+    TeamSingleton(ListSport sportList) {
+        this.sportList = sportList;
     }
 
     // Gestion donnees

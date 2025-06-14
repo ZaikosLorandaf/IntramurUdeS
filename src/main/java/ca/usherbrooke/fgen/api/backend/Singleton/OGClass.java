@@ -3,6 +3,7 @@ package ca.usherbrooke.fgen.api.backend.Singleton;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -11,14 +12,19 @@ public class OGClass {
     @Inject
     ListSport sportList;
 
-    public final SportSingleton sportSingleton = new SportSingleton();
-    public final LeagueSingleton leagueSingleton = new LeagueSingleton();
-    public final MatchSingleton matchSingleton = new MatchSingleton();
-    public final TeamSingleton teamSingleton = new TeamSingleton();
-    public final PlayerSingleton playerSingleton = new PlayerSingleton();
+    public SportSingleton sportSingleton;
+    public LeagueSingleton leagueSingleton;
+    public MatchSingleton matchSingleton;
+    public TeamSingleton teamSingleton;
+    public PlayerSingleton playerSingleton;
 
     public OGClass() {
         sportList = new ListSport();
+        sportSingleton = new SportSingleton(sportList);
+        leagueSingleton = new LeagueSingleton(sportList);
+        matchSingleton = new MatchSingleton(sportList);
+        teamSingleton = new TeamSingleton(sportList);
+        playerSingleton = new PlayerSingleton(sportList);
         LoggerUtil.info("Création de OGClass terminée.");
     }
 }

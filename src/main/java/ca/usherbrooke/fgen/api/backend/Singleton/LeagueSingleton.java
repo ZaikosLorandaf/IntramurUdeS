@@ -21,7 +21,8 @@ public class LeagueSingleton {
 
     ListSeason listSeasons;
 
-    LeagueSingleton(){
+    LeagueSingleton(ListSport sportList){
+        this.sportList = sportList;
     }
 
     // Gestion donnees
