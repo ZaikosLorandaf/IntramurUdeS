@@ -38,13 +38,13 @@ public class PlayerService extends TemplateService<Player> {
     @POST
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
-        return ogClass.playerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
+        return ogClass.getPlayerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
     }
 
     @POST
     @Path("removePlayer")
     public String removePlayer(@NotNull removePlayer player ) {
-        return ogClass.playerSingleton().remove(player.sportName, player.leagueName, player.teamName, player.playerNumber);
+        return ogClass.getPlayerSingleton().remove(player.sportName, player.leagueName, player.teamName, player.playerNumber);
     }
 
     // Methode GET
@@ -68,7 +68,7 @@ public class PlayerService extends TemplateService<Player> {
         nomSport = nomSport.replace("%20", " ");
         nomLigue = nomLigue.replace("%20", " ");
         nomEquipe = nomEquipe.replace("%20", " ");
-        return ogClass.playerSingleton().listPlayer(nomSport,nomLigue,nomEquipe);
+        return ogClass.getPlayerSingleton().listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
     // Implementation des fonctions du template
@@ -85,7 +85,7 @@ public class PlayerService extends TemplateService<Player> {
     protected void add(Player player){
         player = unescapeEntities(player);
         int teamId = player.getIdTeam();
-        Team team = ogClass.sportSingleton().getSportList().getTeam(teamId);
+        Team team = ogClass.getSportSingleton().getSportList().getTeam(teamId);
         team.addPlayer(player);
     }
 

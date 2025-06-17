@@ -29,7 +29,7 @@ public class GetDashboard {
         LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
         LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
 
-        return ogClass.teamSingleton().getEquipesData(nomSport, nomLigue);
+        return ogClass.getTeamSingleton().getEquipesData(nomSport, nomLigue);
 //        return "{\n" +
 //                "  \"A\": {\n" +
 //                "    \"joueurs\": {\n" +
@@ -108,7 +108,7 @@ public class GetDashboard {
     ) {
         LoggerUtil.info("Sport reçu : " + nomSport + " pour les matchs");
         LoggerUtil.info("Ligue reçu : " + nomLigue + " pour les matchs");
-        return ogClass.getMatchesData(nomSport, nomLigue);
+        return ogClass.getMatchSingleton().getMatchesData(nomSport, nomLigue);
     }
 
 }

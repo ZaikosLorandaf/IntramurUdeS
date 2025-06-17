@@ -39,19 +39,19 @@ public class OGClass {
         playerSingleton = new PlayerSingleton(sportList);
     }
 
-    public SportSingleton sportSingleton(){
+    public SportSingleton getSportSingleton(){
         return sportSingleton;
     }
-    public LeagueSingleton leagueSingleton(){
+    public LeagueSingleton getLeagueSingleton(){
         return leagueSingleton;
     }
-    public MatchSingleton matchSingleton(){
+    public MatchSingleton getMatchSingleton(){
         return matchSingleton;
     }
-    public TeamSingleton teamSingleton(){
+    public TeamSingleton getTeamSingleton(){
         return teamSingleton;
     }
-    public PlayerSingleton playerSingleton(){
+    public PlayerSingleton getPlayerSingleton(){
         return playerSingleton;
     }
 }

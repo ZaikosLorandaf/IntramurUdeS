@@ -47,20 +47,20 @@ public class LeagueService extends TemplateService<League> {
         } catch (ParseException e) {
             return "Invalid date format: " + e.getMessage();
         }
-        return ogClass.leagueSingleton().add(league.nom_sport, league.nom,date_debut,date_fin);
+        return ogClass.getLeagueSingleton().add(league.nom_sport, league.nom,date_debut,date_fin);
     }
 
     @POST
     @Path("removeLeague")
     public String removeLeague(@NotNull removeLeague league ) {
-        return ogClass.leagueSingleton().remove(league.sportName, league.leagueName);
+        return ogClass.getLeagueSingleton().remove(league.sportName, league.leagueName);
     }
 
     @POST
     @Path("removeSport/{nom_sport}")
     public String removeLeague(@PathParam("nom_sport") String nomSport) {
         nomSport = nomSport.replace("%20", " ");
-        return ogClass.sportSingleton().remove(nomSport);
+        return ogClass.getSportSingleton().remove(nomSport);
     }
 
     // Methodes GET
@@ -86,14 +86,14 @@ public class LeagueService extends TemplateService<League> {
             @PathParam("nom") String nom) {
         sport = sport.replace("%20", " ");
         nom = nom.replace("%20", " ");
-        return ogClass.leagueSingleton().getLeague(sport, nom);
+        return ogClass.getLeagueSingleton().getLeague(sport, nom);
     }
 
     @GET
     @Path("listLigue/{nom_sport}")
     public String getListeLigue(@PathParam("nom_sport") String nom_sport) {
         nom_sport = nom_sport.replace("%20", " ");
-        return ogClass.leagueSingleton().listLeague(nom_sport);
+        return ogClass.getLeagueSingleton().listLeague(nom_sport);
     }
 
     @GET
@@ -119,7 +119,7 @@ public class LeagueService extends TemplateService<League> {
         leagueMapper.insert(league);
     }
     protected void add(League league){
-        Sport sport = ogClass.sportSingleton().getSportList().getSport(league.getIdSport());
+        Sport sport = ogClass.getSportSingleton().getSportList().getSport(league.getIdSport());
         sport.addLeague(unescapeEntities(league));
     }
 
