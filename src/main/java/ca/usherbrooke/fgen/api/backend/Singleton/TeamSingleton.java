@@ -15,15 +15,13 @@ import java.util.Random;
 
 @ApplicationScoped
 public class TeamSingleton {
-    @Inject
-    TeamService teamService;
-    @Inject
-    TeamMapper teamMapper;
-    @Inject
     ListSport sportList;
+    TeamService teamService;
+    TeamMapper teamMapper;
 
     TeamSingleton(ListSport sportList) {
         this.sportList = sportList;
+        teamService = new TeamService();
     }
 
     // Gestion donnees

@@ -12,17 +12,15 @@ import java.sql.Date;
 
 @ApplicationScoped
 public class LeagueSingleton {
-    @Inject
-    LeagueService leagueService;
-    @Inject
-    LeagueMapper leagueMapper;
-    @Inject
     ListSport sportList;
-
+    LeagueService leagueService;
     ListSeason listSeasons;
+    LeagueMapper leagueMapper;
 
-    LeagueSingleton(ListSport sportList){
+    LeagueSingleton( ListSport sportList){
         this.sportList = sportList;
+        leagueService = new LeagueService();
+        listSeasons = new ListSeason();
     }
 
     // Gestion donnees

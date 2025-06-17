@@ -12,15 +12,13 @@ import java.util.Map;
 
 @ApplicationScoped
 public class PlayerSingleton {
-    @Inject
-    PlayerMapper playerMapper;
-    @Inject
-    PlayerService playerService;
-    @Inject
     ListSport sportList;
+    PlayerService playerService;
+    PlayerMapper playerMapper;
 
     PlayerSingleton(ListSport sportList) {
         this.sportList = sportList;
+        this.playerService = new PlayerService();
     }
 
     // Gestion donnees

@@ -15,7 +15,6 @@ import java.util.Map;
 
 @ApplicationScoped
 public class MatchSingleton {
-    @Inject
     ListSport sportList;
 
     MatchSingleton(ListSport sportList){

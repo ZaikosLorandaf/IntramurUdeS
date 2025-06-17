@@ -36,7 +36,7 @@ public class SportService extends TemplateService<Sport> {
     @Path("get_sport_ligue")
     public String getSportLeague() {
 
-        return ogClass.sportSingleton.getSportLeague();
+        return ogClass.sportSingleton().getSportLeague();
     }
 
     @POST
@@ -50,7 +50,7 @@ public class SportService extends TemplateService<Sport> {
     @POST
     @Path("removeSport")
     public String removeSport(@NotNull removeSport sport ) {
-        return ogClass.sportSingleton.remove(sport.name);
+        return ogClass.sportSingleton().remove(sport.name);
     }
 
     // Implementation des fonctions du template
@@ -63,7 +63,7 @@ public class SportService extends TemplateService<Sport> {
 
     protected void insert(Sport sport){ sportMapper.insert(sport); }
     protected void add(Sport sport){
-        ogClass.sportSingleton.getSportList().addSport(sport);
+        ogClass.sportSingleton().getSportList().addSport(sport);
     }
 
     protected void setName(Sport sport) {

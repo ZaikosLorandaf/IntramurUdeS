@@ -16,12 +16,8 @@ import java.util.Set;
 
 @ApplicationScoped
 public class SportSingleton {
-    @Inject
-    SportService sportService;
-    @Inject
-    SportMapper sportMapper;
-    @Inject
     ListSport sportList;
+    SportMapper sportMapper;
 
     SportSingleton(ListSport sportList){
         this.sportList = sportList;
@@ -33,7 +29,7 @@ public class SportSingleton {
             return "Sport Error";
 
         ca.usherbrooke.fgen.api.backend.BdTables.Sport newSport = new ca.usherbrooke.fgen.api.backend.BdTables.Sport(sportName);
-        int id = sportService.getLastId() + 1;
+        int id = sportMapper.getLastId() + 1;
         newSport.setId(id);
 //        int resultAdd = sportList.addSport(newSport);
         String result;
@@ -52,7 +48,9 @@ public class SportSingleton {
     }
 
     public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.Sport sport) {
-        sportService.addSport(sport);
+        //sportService.addSport(sport);
+        getSportList().addSport(sport);
+        sportMapper.insert(sport);
         return true;
     }
 
