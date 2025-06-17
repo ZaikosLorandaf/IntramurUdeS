@@ -62,10 +62,10 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
     public boolean removePlayer(int id) {
         Player player = getItem(id);
         if (removeItem(id)) {
-            LoggerUtil.warning("Retrait du joueur " + player.getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Retrait du joueur " + player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
             return true;
         } else {
-            LoggerUtil.warning("Échec du retrait du sport " + player.getName() + "(id: " + id + ").");
+            LoggerUtil.warning("Échec du retrait du sport " +  player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
             return false;
         }
     }
