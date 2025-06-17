@@ -7,6 +7,7 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
+import io.quarkus.arc.Arc;
 import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,7 +21,8 @@ public class TeamSingleton {
 
     TeamSingleton(ListSport sportList) {
         this.sportList = sportList;
-        teamService = new TeamService();
+        this.teamService = Arc.container().instance(TeamService.class).get();
+        this.teamMapper = Arc.container().instance(TeamMapper.class).get();
     }
 
     // Gestion donnees

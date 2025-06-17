@@ -6,9 +6,11 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import ca.usherbrooke.fgen.api.service.postClass.removeTeam;
+import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
@@ -16,10 +18,14 @@ import java.util.List;
 
 @Path("/api/team")
 public class TeamService extends TemplateService<Team> {
-    @Inject
     TeamMapper teamMapper;
-    @Inject
     OGClass ogClass;
+
+    @PostConstruct
+    public void init() {
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+        this.teamMapper = Arc.container().instance(TeamMapper.class).get();
+    }
 
     // Methode POST
     @POST
@@ -27,13 +33,6 @@ public class TeamService extends TemplateService<Team> {
     public void addTeam(Team team) {
         addItem(team);
     }
-
-    @POST
-    @Path("addTeam")
-    public String getAddTeam(@NotNull addTeam team) {
-        return ogClass.teamSingleton().add(team.nomSport, team.nomLigue, team.nomTeam);
-    }
-
 
     @POST
     @Path("addTeam")

@@ -4,11 +4,14 @@ import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
+import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addPlayer;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
+import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
@@ -16,10 +19,14 @@ import java.util.List;
 
 @Path("/api/player")
 public class PlayerService extends TemplateService<Player> {
-    @Inject
     PlayerMapper playerMapper;
-    @Inject
     OGClass ogClass;
+
+    @PostConstruct
+    public void init() {
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+        this.playerMapper = Arc.container().instance(PlayerMapper.class).get();
+    }
 
     // Methodes POST
     @POST
@@ -31,9 +38,7 @@ public class PlayerService extends TemplateService<Player> {
     @POST
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
-        int number = player.number;
-        String result =  ogClass.playerSingleton().add(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
-        return result;
+        return ogClass.playerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
     }
 
     @POST
