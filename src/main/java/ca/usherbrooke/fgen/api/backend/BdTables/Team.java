@@ -22,7 +22,7 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = listPlayer;
-        LoggerUtil.info("Création d'une équipe");
+        LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
     }
 
     /**
@@ -38,7 +38,7 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
-        LoggerUtil.info("Création d'une équipe");
+        LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
     }
 
     /**
@@ -113,7 +113,7 @@ public class Team {
      * @return le joueur est ajoutee? [Boolean]
      */
     public boolean addPlayer(Player newPlayer) {
-        LoggerUtil.info("Tentative d'insertion de joueur dans une équipe");
+        LoggerUtil.info("Tentative d'insertion de joueur" + "(" + newPlayer.getName() + " " + newPlayer.getLastName() +  ")" + " dans une équipe" + "(" + this.name +  ")" );
         return this.listPlayer.addPlayer(newPlayer);
     }
 
@@ -125,7 +125,7 @@ public class Team {
      * @return l'equipe est retiree? [Boolean]
      */
     public boolean removePlayer(Player player) {
-        LoggerUtil.warning("Tentative de retrait de joueur de l'équipe");
+        LoggerUtil.warning("Tentative de retrait du joueur " + player.getName() + " " + player.getLastName() + " de l'équipe");
         return this.listPlayer.removePlayer(player);
     }
 
@@ -137,7 +137,7 @@ public class Team {
      * @return l'equipe est retiree? [Boolean]
      */
     public boolean removePlayer(int index) {
-        LoggerUtil.warning("Tentative de retrait de joueur de l'équipe");
+        LoggerUtil.warning("Tentative de retrait de joueur de l'équipe par l'index " + index);
         return this.listPlayer.removePlayer(index);
     }
 
@@ -150,15 +150,15 @@ public class Team {
      */
     public boolean newPlayer(String fn, String ln, int number) {
         if (fn.isEmpty() || ln.isEmpty() || number < 0) {
-            LoggerUtil.error("Impossible de créer le joueur pour l'ajouter dans l'équipe");
+            LoggerUtil.error("Impossible de créer le joueur " +fn + " " + ln + " " + number + " pour l'ajouter dans l'équipe");
             return false;
         }
         Player player = new Player(fn, ln, getId(), number);
         if (this.addPlayer(player)) {
-            LoggerUtil.info("L'ajout du joueur dans l'équipe fut un succès");
+            LoggerUtil.info("L'ajout du joueur " + fn + " " + ln + " " + number + " dans l'équipe fut un succès");
             return true;
         }
-        LoggerUtil.error("L'ajout du joueur dans l'équipe ne fut complété");
+        LoggerUtil.error("L'ajout du joueur " + fn + " " + ln + " " + number + " dans l'équipe ne fut complété");
 
         return false;
     }
@@ -177,30 +177,31 @@ public class Team {
     // Setter
     public boolean setIdLeague(int idLeague) {
         if (idLeague < 0) {
-            LoggerUtil.error("Impossible de changer l'id de la ligue");
+            LoggerUtil.error("Impossible de changer l'id de la ligue " + this.idLeague + " -X-> " + idLeague);
             return false;
         }
+        LoggerUtil.info("Changement de l'id de la ligue avec succès" + this.idLeague + " --> " + idLeague );
         this.idLeague = idLeague;
-        LoggerUtil.info("Changement de l'id de la ligue avec succès");
+
         return true;
     }
 
     public boolean setId(int id) {
         if (id <= 0) {
-            LoggerUtil.error("Impossible de changer l'id de l'équipe");
+            LoggerUtil.error("Impossible de changer l'id de l'équipe " + this.name + ": " + this.id + " -X-> " + id);
             return false;
         }
         for (int i = 0; i < getListPlayer().getSize(); i++) {
             getListPlayer().getPlayer(i).setIdTeam(id);
         }
+        LoggerUtil.info("Le changement de l'id de l'équipe " + this.name + " fut un succès" + this.id + " --> " + id);
         this.id = id;
-        LoggerUtil.info("Le changement de l'id d'équipe fut un succès");
         return true;
     }
 
     public void setName(String newName) {
+        LoggerUtil.info("Changement du nom de l'équipe: " + this.name + " --> " + newName);
         this.name = newName;
-        LoggerUtil.info("Changement du nom de l'équipe");
     }
 
     // Getter

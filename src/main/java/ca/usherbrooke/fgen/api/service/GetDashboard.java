@@ -26,8 +26,8 @@ public class GetDashboard {
             @QueryParam("sport") String nomSport,
             @QueryParam("ligue") String nomLigue
     ) {
-        LoggerUtil.info("Sport reçu : " + nomSport);
-        LoggerUtil.info("Ligue reçue : " + nomLigue);
+        LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
+        LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
 
         return ogClass.teamSingleton().getEquipesData(nomSport, nomLigue);
 //        return "{\n" +
@@ -106,9 +106,9 @@ public class GetDashboard {
             @PathParam("sport") String nomSport,
             @PathParam("ligue") String nomLigue
     ) {
-        LoggerUtil.info("Sport reçu : " + nomSport);
-        LoggerUtil.info("Ligue reçu : " + nomLigue);
-        return ogClass.matchSingleton().getMatchesData(nomSport, nomLigue);
+        LoggerUtil.info("Sport reçu : " + nomSport + " pour les matchs");
+        LoggerUtil.info("Ligue reçu : " + nomLigue + " pour les matchs");
+        return ogClass.getMatchesData(nomSport, nomLigue);
     }
 
 }

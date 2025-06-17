@@ -23,7 +23,7 @@ public class Sport {
         this.name = name;
         this.nbTeamMatch = nbTeamMatch;
         listLeague = new ListLeague();
-        LoggerUtil.info("Création d'un sport");
+        LoggerUtil.info("Création du sport: " + name);
     }
 
     /**
