@@ -32,7 +32,7 @@
   document.getElementById('addSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('sportName').value;
 
-    axios.post("http://localhost:8888/api/addSport/", {
+    axios.post("http://localhost:8888/api/sport/addSport/", {
       nom:sportName
     })
       .then(function (response) {

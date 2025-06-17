@@ -178,13 +178,7 @@ public class MyAPI {
 
 
     // ~~~~~~~~~~~ Players ~~~~~~~~~~ //
-    @POST
-    @Path("addPlayer")
-    public String addPlayer(@NotNull addPlayer player) {
-        int number = player.number;
-        String result =  ogClass.playerSingleton().add(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
-        return result;
-    }
+
 
     @GET
     @Path("listPlayer/{nom_sport}/{nom_ligue}/{nom_equipe}")

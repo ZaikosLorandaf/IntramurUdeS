@@ -92,7 +92,7 @@
         const teamName = document.getElementById('teamName').value;
 
         console.log("Tentative ajouter équipe:", teamName);
-        axios.post("http://localhost:8888/api/addTeam/", {
+        axios.post("http://localhost:8888/api/team/addTeam/", {
             nomSport: sport,
             nomLigue: league,
             nomTeam: teamName
@@ -142,7 +142,7 @@
         const number = document.getElementById('playerNumber').value;
 
         console.log("Tentative d'ajout du joueur:", playerFN, " ", playerLN," à l'équipe:", team);
-        axios.post(`http://localhost:8888/api/addPlayer`,{
+        axios.post(`http://localhost:8888/api/player/addPlayer`,{
             nomSport: sport,
             nomLigue: league,
             nomTeam: team,

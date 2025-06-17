@@ -4,6 +4,7 @@ import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
+import ca.usherbrooke.fgen.api.service.postClass.addPlayer;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
@@ -25,6 +26,14 @@ public class PlayerService extends TemplateService<Player> {
     @Consumes("application/json")
     public void addPlayer(Player player) {
         addItem(player);
+    }
+
+    @POST
+    @Path("addPlayer")
+    public String addPlayer(@NotNull addPlayer player) {
+        int number = player.number;
+        String result =  ogClass.playerSingleton().add(player.nomSport,player.nomLigue,player.nomTeam,player.prenom, player.nom, player.number);
+        return result;
     }
 
     @POST
