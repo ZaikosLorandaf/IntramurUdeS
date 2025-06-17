@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
-@ApplicationScoped
 public class MatchSingleton {
     ListSport sportList;
 

@@ -10,14 +10,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.sql.Date;
 
-@ApplicationScoped
 public class LeagueSingleton {
     ListSport sportList;
     LeagueService leagueService;
     ListSeason listSeasons;
     LeagueMapper leagueMapper;
 
-    LeagueSingleton( ListSport sportList){
+    LeagueSingleton(ListSport sportList){
         this.sportList = sportList;
         leagueService = new LeagueService();
         listSeasons = new ListSeason();

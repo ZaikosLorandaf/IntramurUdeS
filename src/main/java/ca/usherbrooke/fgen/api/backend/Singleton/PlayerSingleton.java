@@ -10,7 +10,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Map;
 
-@ApplicationScoped
 public class PlayerSingleton {
     ListSport sportList;
     PlayerService playerService;

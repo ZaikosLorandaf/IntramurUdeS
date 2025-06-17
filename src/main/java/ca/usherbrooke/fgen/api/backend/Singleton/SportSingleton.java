@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-@ApplicationScoped
 public class SportSingleton {
     ListSport sportList;
     SportMapper sportMapper;

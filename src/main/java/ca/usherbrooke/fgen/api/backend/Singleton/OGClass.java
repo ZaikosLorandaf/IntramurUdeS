@@ -20,19 +20,23 @@ public class OGClass {
     @Inject
     ListSport sportList;
 
-    @Inject
-    SportSingleton sportSingleton;
-    @Inject
-    LeagueSingleton leagueSingleton;
-    @Inject
-    MatchSingleton matchSingleton;
-    @Inject
-    TeamSingleton teamSingleton;
-    @Inject
-    PlayerSingleton playerSingleton;
+    private SportSingleton sportSingleton;
+    private LeagueSingleton leagueSingleton;
+    private MatchSingleton matchSingleton;
+    private TeamSingleton teamSingleton;
+    private PlayerSingleton playerSingleton;
 
     public OGClass() {
         LoggerUtil.info("Création de OGClass terminée.");
+    }
+
+    @PostConstruct
+    public void init() {
+        sportSingleton = new SportSingleton(sportList);
+        leagueSingleton = new LeagueSingleton(sportList);
+        matchSingleton = new MatchSingleton(sportList);
+        teamSingleton = new TeamSingleton(sportList);
+        playerSingleton = new PlayerSingleton(sportList);
     }
 
     public SportSingleton sportSingleton(){

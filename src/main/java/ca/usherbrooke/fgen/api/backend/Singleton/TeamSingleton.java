@@ -13,7 +13,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.Random;
 
-@ApplicationScoped
 public class TeamSingleton {
     ListSport sportList;
     TeamService teamService;
