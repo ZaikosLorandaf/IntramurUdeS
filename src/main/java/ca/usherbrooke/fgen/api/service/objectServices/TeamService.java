@@ -30,6 +30,13 @@ public class TeamService extends TemplateService<Team> {
 
     @POST
     @Path("addTeam")
+    public String getAddTeam(@NotNull addTeam team) {
+        return ogClass.teamSingleton().add(team.nomSport, team.nomLigue, team.nomTeam);
+    }
+
+
+    @POST
+    @Path("addTeam")
     public String addTeam(@NotNull addTeam team) {
         return ogClass.teamSingleton().add(team.nomSport, team.nomLigue, team.nomTeam);
     }
@@ -103,7 +110,4 @@ public class TeamService extends TemplateService<Team> {
     {
         return teamMapper.getLastId();
     }
-
-
-
 }
