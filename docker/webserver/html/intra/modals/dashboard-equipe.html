@@ -76,8 +76,8 @@
     <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
 </div>
 <div class="mb-3">
-    <label for="playerNameToRemove" class="form-label">Nom du joueur</label>
-    <input type="text" id="playerNameToRemove" class="form-control" placeholder="Ex. Jean Dupont">
+    <label for="playerNumberToRemove" class="form-label">Numero du joueur</label>
+    <input type="number" id="playerNumberToRemove" class="form-control" placeholder="Ex. Jean Dupont">
 </div>
 <button id="removePlayerBtn" class="btn btn-danger">Supprimer le joueur</button>
 
@@ -121,13 +121,17 @@
         const name = document.getElementById('deleteTeamName').value;
 
         console.log("Tentative supprimer équipe:", name);
-        axios.get("http://localhost:8888/api/team/removeTeam/"+sport+"/"+ league +"/"+name, {})
+        axios.post("http://localhost:8888/api/team/removeTeam/", {
+            sportName: sport,
+            leagueName: league,
+            teamName: name,
+        })
             .then(function (response) {
                 console.log(response.data);
-                // if (window.opener) {
-                //     window.opener.location.reload();
-                //     window.close();
-                // }
+                 if (window.opener) {
+                    window.opener.location.reload();
+                    // window.close();
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -163,13 +167,19 @@
 
     document.getElementById('removePlayerBtn').addEventListener('click', () => {
         const team = document.getElementById('removePlayerTeam').value;
-        const player = document.getElementById('playerNameToRemove').value;
+        const playerNumber = document.getElementById('playerNumberToRemove').value;
 
-        console.log("Tentative de suppression du joueur:", player, "de l'équipe:", team);
-        axios.get(`http://localhost:8888/api/...../${sport}/${league}/${team}/${player}`)
+        // console.log("Tentative de suppression du joueur:", ,"de l'équipe:", team);
+        axios.post(`http://localhost:8888/api/player/removePlayer/`,{
+            sportName: sport,
+            leagueName: league,
+            teamName: team,
+            playerNumber: playerNumber
+        })
             .then(response => {
                 console.log(response.data);
-                alert(`Joueur supprimé : ${player} de ${team}`);
+                alert(`Joueur supprimé`);
+                if(window.opener) window.opener.location.reload();
             })
             .catch(error => {
                 console.error(error);

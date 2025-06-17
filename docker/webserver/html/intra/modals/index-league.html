@@ -98,7 +98,9 @@
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
 
-        axios.get("http://localhost:8888/api/league/removeLeague/"+sport+"/"+ligueName, {
+        axios.post("http://localhost:8888/api/league/removeLeague/", {
+            leagueName: ligueName,
+            sportName: sport,
         }).then(function (response) {
             console.log(response.data);
             if (window.opener) {
