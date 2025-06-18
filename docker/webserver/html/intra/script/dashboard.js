@@ -1,10 +1,7 @@
-let roleNumber = 0; // 0 user, 1, chef, 2 admin
-
 let sport;
 let season;
 
 // Page Initialisation
-
 document.addEventListener("DOMContentLoaded", function(event){
     initPage();
 });
