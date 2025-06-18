@@ -2,9 +2,24 @@ let sport;
 let season;
 
 // Page Initialisation
-document.addEventListener("DOMContentLoaded", function(event){
-    initPage();
+document.addEventListener("DOMContentLoaded", function() {
+    waitForRoleNumber(initPage);
 });
+
+
+function waitForRoleNumber(callback, retries = 20, interval = 100) {
+    const check = () => {
+        if (typeof roleNumber !== "undefined") {
+            callback();
+        } else if (retries > 0) {
+            setTimeout(() => waitForRoleNumber(callback, retries - 1, interval), interval);
+        } else {
+            console.warn("roleNumber not defined after waiting");
+            callback(); // on continue quand même pour éviter de bloquer toute la page
+        }
+    };
+    check();
+}
 
 function initPage() {
     const params = new URLSearchParams(window.location.search);
@@ -80,7 +95,7 @@ function renderTeamList() {
         div.onclick = () => showInfo(team);
         container.appendChild(div);
     });
-
+    console.log("affichage roleNumber", roleNumber);
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "card-custom";
