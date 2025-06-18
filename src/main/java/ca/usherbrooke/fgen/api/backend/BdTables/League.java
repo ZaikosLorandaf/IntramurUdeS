@@ -31,7 +31,7 @@ public class League {
     this.name = name;
     this.listTeam = new ListTeam();
     this.listMatch = new ListMatch();
-    LoggerUtil.info("Création d'une ligue");
+    LoggerUtil.info("Création de la ligue :" + name);
   }
 
 
@@ -48,7 +48,7 @@ public class League {
     this.name = name;
     this.listTeam = listTeam;
     this.listMatch = new ListMatch();
-    LoggerUtil.info("Création d'une ligue");
+    LoggerUtil.info("Création de la ligue :"+ name);
   }
 
   /**
@@ -72,7 +72,7 @@ public class League {
     id = -1;
     this.beginDate = beginDate;
     this.endDate = endDate;
-    LoggerUtil.info("Création de la ligue " + name);
+    LoggerUtil.info("Création de la ligue :" + name);
   }
 
 
@@ -124,7 +124,7 @@ public class League {
    */
   public boolean newTeam(int id, String name, ListPlayer listPlayer) {
     Team newTeam = new Team(id, name, listPlayer);
-    LoggerUtil.info("Tentative de création d'équipe " + name);
+    LoggerUtil.info("Tentative de création de l'équipe :" + name);
     return listTeam.addTeam(newTeam);
   }
 
@@ -173,7 +173,7 @@ public class League {
    * @return l'equipe est retiree? [Boolean]
    */
   public boolean removeTeam(Team team) {
-    LoggerUtil.info("Tentative de retrait de l'équipe: " + team.getName());
+    LoggerUtil.info("Tentative de retrait de l'équipe :" + team.getName());
     return listTeam.removeTeam(team);
   }
 
@@ -185,7 +185,7 @@ public class League {
    * @return l'equipe est retiree? [Boolean]
    */
   public boolean removeTeam(int id) {
-    LoggerUtil.info("Tentative de retrait d'équipe");
+    LoggerUtil.info("Tentative de retrait de l'équipe: "+ getName());
     return listTeam.removeTeam(id);
   }
 
@@ -219,7 +219,7 @@ public class League {
 
   public boolean setName(String leagueName) {
     if(leagueName == null) {
-      LoggerUtil.error("Impossible de changer le nom de la ligue");
+      LoggerUtil.error("Impossible de changer le nom de la ligue: "+ getName());
       return false;
     }
     LoggerUtil.info("Changement du nom de la ligue: " + this.name + " -> " + leagueName);
@@ -229,15 +229,14 @@ public class League {
 
   public boolean setLeagueID(int idLeague) {
     if (idLeague < 0) {
-      LoggerUtil.error("Impossible de changer l'id de la ligue");
+      LoggerUtil.error("Impossible de changer l'id de la ligue: " + getName() + " (id: " + getId() + ")");
       return false;
     }
-
+    LoggerUtil.info("Changement de l'id de la ligue " + getName() + ":" + this.id + "-->" + idLeague);
     this.id = idLeague;
     for (int i = 0; i < getTeams().getSize(); i++) {
       this.getTeams().getTeam(i).setIdLeague(idLeague);
     }
-    LoggerUtil.info("Changement de l'id de la ligue");
     return true;
   }
 

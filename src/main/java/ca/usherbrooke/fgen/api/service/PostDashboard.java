@@ -1,9 +1,9 @@
 package ca.usherbrooke.fgen.api.service;
 
-/*@Path("/api/index")
+/*@Path("/api/dashboard")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class PostIndex {
+public class PostDashboard {
 
     @Inject
     OGClass ogClass;

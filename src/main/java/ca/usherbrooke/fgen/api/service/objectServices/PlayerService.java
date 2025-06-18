@@ -1,13 +1,17 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
+import ca.usherbrooke.fgen.api.mapper.TeamMapper;
+import ca.usherbrooke.fgen.api.service.postClass.addPlayer;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
+import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
@@ -15,10 +19,14 @@ import java.util.List;
 
 @Path("/api/player")
 public class PlayerService extends TemplateService<Player> {
-    @Inject
     PlayerMapper playerMapper;
-    @Inject
     OGClass ogClass;
+
+    @PostConstruct
+    public void init() {
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+        this.playerMapper = Arc.container().instance(PlayerMapper.class).get();
+    }
 
     // Methodes POST
     @POST
@@ -28,9 +36,15 @@ public class PlayerService extends TemplateService<Player> {
     }
 
     @POST
+    @Path("addPlayer")
+    public String addPlayer(@NotNull addPlayer player) {
+        return ogClass.getPlayerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
+    }
+
+    @POST
     @Path("removePlayer")
     public String removePlayer(@NotNull removePlayer player ) {
-        return ogClass.removePlayer(player.sportName, player.leagueName, player.teamName, player.playerNumber);
+        return ogClass.getPlayerSingleton().remove(player.sportName, player.leagueName, player.teamName, player.playerNumber);
     }
 
     // Methode GET
@@ -54,7 +68,7 @@ public class PlayerService extends TemplateService<Player> {
         nomSport = nomSport.replace("%20", " ");
         nomLigue = nomLigue.replace("%20", " ");
         nomEquipe = nomEquipe.replace("%20", " ");
-        return ogClass.listPlayer(nomSport,nomLigue,nomEquipe);
+        return ogClass.getPlayerSingleton().listPlayer(nomSport,nomLigue,nomEquipe);
     }
 
     // Implementation des fonctions du template
@@ -71,7 +85,7 @@ public class PlayerService extends TemplateService<Player> {
     protected void add(Player player){
         player = unescapeEntities(player);
         int teamId = player.getIdTeam();
-        Team team = ogClass.getSportList().getTeam(teamId);
+        Team team = ogClass.getSportSingleton().getSportList().getTeam(teamId);
         team.addPlayer(player);
     }
 

@@ -1,8 +1,9 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
+import ca.usherbrooke.fgen.api.service.postClass.addSport;
 import ca.usherbrooke.fgen.api.service.postClass.removeSport;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
@@ -19,7 +20,26 @@ public class SportService extends TemplateService<Sport> {
     @Inject
     OGClass ogClass;
 
-    // Redirection vers les fonctions template
+    // Methodes POST
+    @POST
+    @Consumes("application/json")
+    public void addSport(Sport sport) {
+        addItem(sport);
+    }
+
+    @POST
+    @Path("addSport")
+    public String addSport(@NotNull addSport sport) {
+        return ogClass.getSportSingleton().add(sport.nom);
+    }
+
+    @POST
+    @Path("removeSport")
+    public String removeSport(@NotNull removeSport sport ) {
+        return ogClass.getSportSingleton().remove(sport.name);
+    }
+
+    // Methodes GET
     @GET
     public List<Sport> getSports() {
         List<Sport> sports = getItems();
@@ -33,24 +53,23 @@ public class SportService extends TemplateService<Sport> {
     }
 
     @GET
+    @Path("getSport/{nom_sport}")
+    public String getSport(
+            @PathParam("nom_sport") String nom_sport) {
+        return ogClass.getSportSingleton().getSport(nom_sport);
+    }
+
+    @GET
     @Path("get_sport_ligue")
     public String getSportLeague() {
 
-        return ogClass.getSportLeague();
+        return ogClass.getSportSingleton().getSportLeague();
     }
 
-    @POST
-    @Consumes("application/json")
-    public void addSport(Sport sport)
-    {
-        addItem(sport);
-
-    }
-
-    @POST
-    @Path("removeSport")
-    public String removeSport(@NotNull removeSport sport ) {
-        return ogClass.removeSport(sport.name);
+    @GET
+    @Path("listSport")
+    public String listSport() {
+        return ogClass.getSportSingleton().getSports();
     }
 
     // Implementation des fonctions du template
@@ -63,7 +82,7 @@ public class SportService extends TemplateService<Sport> {
 
     protected void insert(Sport sport){ sportMapper.insert(sport); }
     protected void add(Sport sport){
-        ogClass.getSportList().addSport(sport);
+        ogClass.getSportSingleton().getSportList().addSport(sport);
     }
 
     protected void setName(Sport sport) {
@@ -79,58 +98,3 @@ public class SportService extends TemplateService<Sport> {
         return sportMapper.getLastId();
     }
 }
-
-/*public class SportService {
-    @Inject
-    SportMapper sportMapper;
-    @Inject
-    OGClass ogClass;
-
-
-    @GET
-    public List<Sport> getSports() {
-        List<Sport> sports = sportMapper.selectAll();
-        ogClass.getSportList().addSports(sports);
-        return unescapeEntities(sports);
-    }
-
-
-
-    @GET
-    @Path("{id}")
-    public Sport getSport(
-            @PathParam("id") Integer id
-    ) {
-        Sport sport = sportMapper.selectOne(id);
-        ogClass.getSportList().addSport(sport);
-        return unescapeEntities(sport);
-    }
-
-    @POST
-    @Consumes("application/json")
-    public void addSport(Sport sport) {
-        // Ajouter l'équipe à la base de données via le mapper
-        sportMapper.insertSport(sport);
-
-        // Ajouter l'équipe à la ligue correspondante
-        ogClass.getSportList().addSport(sport);
-    }
-
-
-
-
-
-
-
-    public static Sport unescapeEntities(Sport sport) {
-        sport.setName(Parser.unescapeEntities(sport.getName(), true));
-        return sport;
-    }
-
-    public static List<Sport> unescapeEntities(List<Sport> sport) {
-        return sport
-                .stream()
-                .map(SportService::unescapeEntities)
-                .collect(Collectors.toList());
-    }
-}*/
