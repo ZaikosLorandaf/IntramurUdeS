@@ -20,7 +20,6 @@ public class ListSeason extends ListTemplate<Season, String>
      */
     public boolean addSeason(Season season)
     {
-
         switch (addItem(season)){
             case 0:
                 LoggerUtil.info("Ajout de la saison " + season.toString());

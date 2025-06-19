@@ -23,6 +23,10 @@ public class Match
     private List<Team> teams;
 
 
+    public Match() {
+        this.id = -1;
+    }
+
     public Match(int id, Date date, Time beginTime, Time endTime, int idLeague, int nbTeamMatch)
     {
         this.id = id;
@@ -32,7 +36,7 @@ public class Match
         this.idLeague = idLeague;
         this.nbTeamMatch = nbTeamMatch;
         this.idTeams = new ArrayList<>();
-        teams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
     }
 
     public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams)
@@ -93,10 +97,12 @@ public class Match
      * Méthode qui prend la liste des id du match, va chercher son équipe et l'ajoute à la liste
      */
     public void getTeamsFromId() {
-        for (int idTeam : this.idTeams) {
-            Team team = ListSport.getTeamById(idTeam);
-            if(!this.teams.contains(team)) {
-                this.teams.add(team);
+        if(this.idTeams != null && !this.idTeams.isEmpty()){
+            for (int idTeam : this.idTeams) {
+                Team team = ListSport.getTeamById(idTeam);
+                if(!this.teams.contains(team)) {
+                    this.teams.add(team);
+                }
             }
         }
     }

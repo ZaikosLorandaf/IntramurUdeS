@@ -19,7 +19,7 @@ public class ListLeague extends ListTemplate<League, String> {
      *
      * @param league Ligue a ajouter de type Ligue
      *
-     * @return Le nombre de ligues ajoutées
+     * @return True si la ligue a bien été ajoutée, sinon false
      */
     public boolean addLeague(League league) {
         switch (addItem(league)) {
