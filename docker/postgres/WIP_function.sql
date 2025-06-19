@@ -103,3 +103,52 @@ CREATE TRIGGER trg_delete_player
     BEFORE DELETE ON player
     FOR EACH ROW
 EXECUTE function instead_delete_player();
+
+
+
+CREATE OR REPLACE FUNCTION instead_delete_league_season()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE league_season ls
+    SET archive = TRUE
+    WHERE ls.id_league = old.id_league AND ls.id_season = old.id_season;
+
+    RETURN NULL;
+END;
+$$;
+
+CREATE TRIGGER trg_delete_league_season
+    BEFORE DELETE ON league_season
+    FOR EACH ROW
+EXECUTE function instead_delete_league_season();
+
+
+
+CREATE OR REPLACE FUNCTION instead_delete_match()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+AS $$
+BEGIN
+    UPDATE match_ m
+    SET archive = TRUE
+    WHERE m.id = old.id;
+
+    DELETE FROM match_team
+    WHERE id_match = old.id;
+
+    DELETE FROM player_stat
+    WHERE id_match = old.id;
+
+    DELETE FROM team_stat
+    WHERE id_match = old.id;
+
+    RETURN NULL;
+END;
+$$;
+
+CREATE TRIGGER trg_delete_match
+    BEFORE DELETE ON match_
+    FOR EACH ROW
+EXECUTE function instead_delete_match();
