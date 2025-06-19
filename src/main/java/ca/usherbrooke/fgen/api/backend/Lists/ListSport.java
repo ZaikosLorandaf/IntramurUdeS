@@ -94,8 +94,8 @@ public class ListSport extends ListTemplate<Sport, String> {
         return ListSport.mapLeagueSport.get(id);
     }
 
-    public static Collection<League> getLeagues() {
-        return ListSport.mapLeagueSport.values();
+    public static List<League> getLeagues() {
+        return new ArrayList<League>(ListSport.mapLeagueSport.values());
     }
 
 

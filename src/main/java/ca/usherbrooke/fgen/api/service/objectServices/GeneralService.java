@@ -20,10 +20,13 @@ public class GeneralService {
         PlayerService playerService;
         @Inject
         MatchService matchService;
+        @Inject
+        SeasonService seasonService;
 
 
         @GET
         public String getAllData() {
+            seasonService.getSeasons();
             sportService.getSports();
             leagueService.getLeagues();
             teamService.getTeams();

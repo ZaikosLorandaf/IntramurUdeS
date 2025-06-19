@@ -18,8 +18,8 @@ public class LeagueSingleton {
     ListSeason listSeasons;
     LeagueMapper leagueMapper;
 
-    LeagueSingleton(ListSport sportList){
-        this.sportList = sportList;
+    LeagueSingleton(){
+        this.sportList = Arc.container().instance(ListSport.class).get();
         this.leagueService = Arc.container().instance(LeagueService.class).get();
         this.listSeasons = Arc.container().instance(ListSeason.class).get();
     }

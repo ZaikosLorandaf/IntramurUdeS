@@ -7,6 +7,7 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.service.objectServices.MatchService;
+import io.quarkus.arc.Arc;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,8 +22,8 @@ public class MatchSingleton {
     ListSport sportList;
     MatchService matchService;
 
-    MatchSingleton(ListSport sportList){
-        this.sportList = sportList;
+    MatchSingleton(){
+        this.sportList = Arc.container().instance(ListSport.class).get();
     }
 
     // Gestion donnees
