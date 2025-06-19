@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
@@ -15,6 +16,7 @@ import javax.ws.rs.*;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -71,7 +73,8 @@ public class LeagueService extends TemplateService<League> {
         for (League league : leagues){
             league.addToSeason();
         }
-        return ListSport.getLeagues();
+        List<League> listRetour = ListSport.getLeagues();
+        return listRetour;
     }
 
     @GET
