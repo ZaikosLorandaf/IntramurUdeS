@@ -118,12 +118,21 @@
         }
 
         const encodedTeams = encodeURIComponent(nomEquipes.join(","));
-        const url = `http://localhost:8888/api/match/add/${sport}/${ligue}/${date}/${encodedTeams}/${heureDebut}/${heureFin}`;
-
-        axios.post(url, {})
+        axios.post("http://localhost:8888/api/match/add", {
+            sport: sport,
+            ligue: ligue,
+            date: date,
+            equipes: nomEquipes,         // tableau de 2 équipes
+            heure_debut: heureDebut,
+            heure_fin: heureFin
+        })
             .then(function (response) {
                 console.log(response.data);
                 alert("Match ajouté avec succès.");
+                // if (window.opener) {
+                //   window.opener.location.reload();
+                //   window.close();
+                // }
             })
             .catch(function (error) {
                 console.error(error);

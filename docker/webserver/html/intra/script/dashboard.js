@@ -257,19 +257,21 @@ function populateMatchDays() {
         listContainer.appendChild(li);
     });
 
-    // Création du bouton "Gérer Dates"
-    const manageBtn = document.createElement('button');
-    manageBtn.textContent = 'Gérer Matchs';
-    manageBtn.className = 'list-group-item list-group-item-action'; // classe Bootstrap, adapte si besoin
-    const myParams = new URLSearchParams(window.location.search);
-    let sport = myParams.get('sport');
-    let season = myParams.get('ligue');
+    if (roleNumber === 2) {
+        // Création du bouton "Gérer Dates"
+        const manageBtn = document.createElement('button');
+        manageBtn.textContent = 'Gérer Matchs';
+        manageBtn.className = 'list-group-item list-group-item-action'; // classe Bootstrap, adapte si besoin
+        const myParams = new URLSearchParams(window.location.search);
+        let sport = myParams.get('sport');
+        let season = myParams.get('ligue');
 
-    manageBtn.onclick = () => {
-        // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
-        window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
-    };
-    listContainer.appendChild(manageBtn)
+        manageBtn.onclick = () => {
+            // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
+            window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
+        };
+        listContainer.appendChild(manageBtn)
+    }
 }
 
 function callMatch(){
