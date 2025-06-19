@@ -33,7 +33,11 @@
     const sport = params.get('sport');
     const ligue = params.get('league');
 
+
     document.getElementById('addDateBtn').addEventListener('click', () => {
+        const heureDebut = '';
+        const heureFin = '';
+        const nomEquipes = ["Apple", "Banana"];
         const date = document.getElementById('addDate').value;
         if (!date) {
             alert("Veuillez choisir une date à ajouter.");
