@@ -55,8 +55,12 @@
         <div class="card-body">
             <h5 class="card-title">Supprimer une ligue</h5>
             <div class="mb-3">
-                <label for="deleteName" class="form-label">Nom de la ligue</label>
-                <input type="text" class="form-control" id="deleteName" placeholder="Ex: Ligue du dimanche">
+                <label for="deleteSportName" class="form-label">Nom de la ligue</label>
+
+                <input class="form-control" list="LeagueNames" id="deleteSportName" name="deleteSportName" placeholder="Ex. Soccer">
+                <datalist id="LeagueNames">
+                    <option value="Ligue du mardi">
+                </datalist>
             </div>
             <button id="deleteBtn" class="btn btn-danger">Supprimer</button>
         </div>
@@ -65,14 +69,25 @@
 
 <script>
     function init() {
-
+        console.log("allo");
         axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
             .then(function (response) {
                 const sports = response.data;
-                console.log(sports);
+                const params = new URLSearchParams(window.location.search);
+                let sportName = params.get('sport');
+                console.log(sportName);
+
+                const datalist = document.getElementById('LeagueNames');
+                datalist.innerHTML = '';
                 sports.forEach(sport => {
-                    document.getElementById("SportNames").innerHTML += `<option value="${sport.seasons}">`;
-                })
+                    if (sport.name === sportName) {
+                        sport.seasons.forEach(season => {
+                            const option = document.createElement('option');
+                            option.value = season;
+                            datalist.appendChild(option);
+                        });
+                    }
+                });
             })
             .catch(function (error) {
                 // const container = document.querySelector('.main-container');
