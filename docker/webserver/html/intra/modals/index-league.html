@@ -63,6 +63,7 @@
     </div>
 </div>
 
+<script src="../script/global-modals.js"></script>
 <script>
     document.getElementById('submitBtn').addEventListener('click', () => {
         const name = document.getElementById('leagueName').value;
@@ -82,11 +83,8 @@
             date_debut: dateDebut
         })
             .then(function (response) {
+                refresh();
                 console.log("reponse : " + response.data);
-                if (window.opener) {
-                    window.opener.location.reload();
-                    //window.close();
-                }
             })
             .catch(function (error) {
                 console.log('refreshing');
@@ -103,10 +101,7 @@
             sportName: sport,
         }).then(function (response) {
             console.log(response.data);
-            if (window.opener) {
-                window.opener.location.reload();
-                //window.close();
-            }
+            refresh();
             })
             .catch(function (error) {
                 span.innerHTML += '<div>Erreur : ' + error + '</div>';

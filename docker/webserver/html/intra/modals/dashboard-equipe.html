@@ -82,6 +82,7 @@
 <button id="removePlayerBtn" class="btn btn-danger">Supprimer le joueur</button>
 
 
+<script src="../script/global-modals.js"></script>
 
 <script>
     const params = new URLSearchParams(window.location.search);
@@ -99,10 +100,7 @@
         })
             .then(function (response) {
                 console.log(response.data);
-                if (window.opener) {
-                    window.opener.location.reload();
-                    //window.close();
-                }
+                refresh();
             })
             .catch(function (error) {
                 console.log(error);
@@ -128,10 +126,7 @@
         })
             .then(function (response) {
                 console.log(response.data);
-                 if (window.opener) {
-                    window.opener.location.reload();
-                    // window.close();
-                }
+                 refresh();
             })
             .catch(function (error) {
                 console.log(error);
@@ -157,7 +152,7 @@
             .then(response => {
                 console.log(response.data);
                 alert(`Joueur ajouté:` + sport + " " + league + " " + team + " " + playerFN + " " + playerLN + " " + number);
-                if(window.opener) window.opener.location.reload();
+                refresh();
             })
             .catch(error => {
                 console.error(error);
@@ -179,7 +174,7 @@
             .then(response => {
                 console.log(response.data);
                 alert(`Joueur supprimé`);
-                if(window.opener) window.opener.location.reload();
+                refresh();
             })
             .catch(error => {
                 console.error(error);
