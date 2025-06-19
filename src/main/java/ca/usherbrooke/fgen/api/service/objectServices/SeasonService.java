@@ -20,8 +20,8 @@ public class SeasonService extends TemplateService<Season> {
     @GET
     public List<Season> getSeasons(){
         List<Season> seasons = getItems();
-        this.ogClass.getListSeasons().addSeason(seasons);
-        List<Season> resultList = this.ogClass.getListSeasons().getAllItems();
+        this.ogClass.getSeasonSingleton().getListSeasons().addSeason(seasons);
+        List<Season> resultList = this.ogClass.getSeasonSingleton().getListSeasons().getAllItems();
         return resultList;
     }
 
@@ -32,8 +32,8 @@ public class SeasonService extends TemplateService<Season> {
         if(season == null){
             return new Season();
         }
-        this.ogClass.getListSeasons().addSeason(season);
-        Season resultSeason = this.ogClass.getListSeasons().getSeason(id);
+        this.ogClass.getSeasonSingleton().getListSeasons().addSeason(season);
+        Season resultSeason = this.ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
         return resultSeason;
     }
 
@@ -55,7 +55,7 @@ public class SeasonService extends TemplateService<Season> {
 
     @Override
     protected void add(Season item) {
-        ListSeason listSeason = ogClass.getListSeasons();
+        ListSeason listSeason = ogClass.getSeasonSingleton().getListSeasons();
         listSeason.addSeason(item);
     }
 

@@ -4,7 +4,7 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import io.quarkus.arc.Arc;
 import io.quarkus.arc.runtime.BeanContainer;
 
@@ -212,7 +212,7 @@ public class League {
   public boolean addToSeason(){
     boolean result = true;
     for (Integer id :idSeasons){
-      Season season = ogClass.getListSeasons().getSeason(id);
+      Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
       if(season.getLeagues() != null && !season.getLeagues().addLeague(this)){
         if (result){
           result = false;
