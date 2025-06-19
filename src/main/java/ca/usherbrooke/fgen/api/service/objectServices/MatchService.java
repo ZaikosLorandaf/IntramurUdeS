@@ -5,6 +5,9 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
+import ca.usherbrooke.fgen.api.service.postClass.addMatch;
+import ca.usherbrooke.fgen.api.service.postClass.removeMatch;
+import io.smallrye.common.constraint.NotNull;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -18,7 +21,27 @@ public class MatchService extends TemplateService<Match> {
     @Inject
     OGClass ogClass;
 
-    // Redirection vers les fonctions template
+    // Mehtodes POST
+    @POST
+    @Consumes("application/json")
+    public void addMatch(Match match)
+    {
+        addItem(match);
+    }
+
+    @POST
+    @Path("add")
+    public String addTeam(@NotNull addMatch match) {
+        return ogClass.getMatchSingleton().add(match.sportName, match.ligueName, match.teamName, match.date, match.heureDebut, match.heureFin);
+    }
+
+    @POST
+    @Path("remove")
+    public String removeTeam(@NotNull removeMatch match) {
+        return ogClass.getMatchSingleton().remove(match.sportName, match.leagueName, match.date);
+    }
+
+    // Methodes GET
     @GET
     public List<Match> getMatches(){
         List<Match> matches = getItems();
@@ -30,14 +53,6 @@ public class MatchService extends TemplateService<Match> {
     public Match getMatch(@PathParam("id") Integer id) {
         Match match = getItem(id);
         return match;
-    }
-
-
-    @POST
-    @Consumes("application/json")
-    public void addMatch(Match match)
-    {
-        addItem(match);
     }
 
 
