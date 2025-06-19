@@ -10,19 +10,21 @@ const keycloak = new Keycloak({
 });
 
 async function manageAuth() {
-    const authenticated = await keycloak.init({ onLoad: 'check-sso' });
-    if (!authenticated) {
+    // const auth = await keycloak.init({ onLoad: 'check-sso' });
+    const auth = keycloak.authenticated;
+    if (!auth) {
         keycloak.login();
     } else {
         logout();
     }
-    return authenticated;
+    return auth;
 }
 
 function logout() {
     const redirectUri = "https://localhost/intra/";
     const logoutUrl = keycloak.createLogoutUrl({ redirectUri });
     keycloak.clearToken();
+    keycloak.logout(logoutUrl);
     window.location.href = logoutUrl;
 }
 
@@ -30,7 +32,6 @@ async function authAndButton() {
     const authenticated = await manageAuth();
     updateButton();
     console.log(authenticated)
-    roleNumber = (authenticated ? 2 : 0);
 }
 
 function updateButton() {
@@ -48,7 +49,6 @@ async function silentButton() {
     return authenticated;
 }
 
-// Pour récupérer le token (utile si besoin)
 function getToken() {
     return keycloak.token;
 }
