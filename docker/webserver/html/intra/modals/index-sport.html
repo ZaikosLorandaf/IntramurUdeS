@@ -26,7 +26,6 @@
 <!--  <input type="text" id="deleteSportName" class="form-control" placeholder="Ex. Soccer">-->
   <input class="form-control" list="SportNames" id="deleteSportName" name="deleteSportName" placeholder="Ex. Soccer">
   <datalist id="SportNames">
-
   </datalist>
 </div>
 
@@ -35,18 +34,18 @@
 <script>
   function init() {
 
-      axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
-              .then(function (response) {
-                const sports = response.data;
-                console.log(sports);
-                sports.forEach(sport => {
-                  document.getElementById("SportNames").innerHTML += `<option value="${sport.name}">`;
-                })
+    axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
+            .then(function (response) {
+              const sports = response.data;
+              console.log(sports);
+              sports.forEach(sport => {
+                document.getElementById("SportNames").innerHTML += `<option value="${sport.name}">`;
               })
-              .catch(function (error) {
-                // const container = document.querySelector('.main-container');
-                // container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
-              });
+            })
+            .catch(function (error) {
+              // const container = document.querySelector('.main-container');
+              // container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
+            });
 
   }
 
