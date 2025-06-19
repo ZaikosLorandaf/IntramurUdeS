@@ -19,7 +19,7 @@ CREATE TABLE league(
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_sport INT NOT NULL,
                        PRIMARY KEY(id),
-                       FOREIGN KEY(id_sport) REFERENCES sport(id) ON DELETE CASCADE
+                       FOREIGN KEY(id_sport) REFERENCES sport(id)
 );
 
 CREATE TABLE team(
@@ -28,7 +28,7 @@ CREATE TABLE team(
                      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                      id_league INT NOT NULL,
                      PRIMARY KEY(id),
-                     FOREIGN KEY(id_league) REFERENCES league(id) ON DELETE CASCADE
+                     FOREIGN KEY(id_league) REFERENCES league(id)
 );
 
 CREATE TABLE player(
@@ -39,7 +39,7 @@ CREATE TABLE player(
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_team INT NOT NULL,
                        PRIMARY KEY(id),
-                       FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE
+                       FOREIGN KEY(id_team) REFERENCES team(id)
 );
 
 CREATE TABLE match_(
@@ -50,7 +50,7 @@ CREATE TABLE match_(
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_league INT,
                        PRIMARY KEY(id),
-                       FOREIGN KEY(id_league) REFERENCES league(id) ON DELETE CASCADE
+                       FOREIGN KEY(id_league) REFERENCES league(id)
 );
 
 CREATE TABLE season(
@@ -78,10 +78,10 @@ CREATE TABLE team_stat(
                           id_stat_statement INT NOT NULL,
                           id_team INT NOT NULL,
                           PRIMARY KEY(id),
-                          FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_season) REFERENCES season(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_match) REFERENCES match_(id) ON DELETE CASCADE
+                          FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id),
+                          FOREIGN KEY(id_team) REFERENCES team(id),
+                          FOREIGN KEY(id_season) REFERENCES season(id),
+                          FOREIGN KEY(id_match) REFERENCES match_(id)
 );
 
 CREATE TABLE player_stat(
@@ -94,9 +94,9 @@ CREATE TABLE player_stat(
                             id_player INT NOT NULL,
                             PRIMARY KEY(id),
                             FOREIGN KEY(id_match) REFERENCES match_(id),
-                            FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id) ON DELETE CASCADE,
+                            FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id),
                             FOREIGN KEY(id_season) REFERENCES season(id),
-                            FOREIGN KEY(id_player) REFERENCES player(id) ON DELETE CASCADE
+                            FOREIGN KEY(id_player) REFERENCES player(id)
 );
 
 CREATE TABLE role(
@@ -126,32 +126,32 @@ CREATE TABLE match_team(
                            id_team INT,
                            id_match INT,
                            PRIMARY KEY(id_team, id_match),
-                           FOREIGN KEY(id_team) REFERENCES team(id) ON DELETE CASCADE,
-                           FOREIGN KEY(id_match) REFERENCES match_(id) ON DELETE CASCADE
+                           FOREIGN KEY(id_team) REFERENCES team(id),
+                           FOREIGN KEY(id_match) REFERENCES match_(id)
 );
 
 CREATE TABLE league_season(
                               id_league INT,
                               id_season INT,
                               PRIMARY KEY(id_league, id_season),
-                              FOREIGN KEY(id_league) REFERENCES league(id) ON DELETE CASCADE,
-                              FOREIGN KEY(id_season) REFERENCES season(id) ON DELETE CASCADE
+                              FOREIGN KEY(id_league) REFERENCES league(id),
+                              FOREIGN KEY(id_season) REFERENCES season(id)
 );
 
 CREATE TABLE role_user(
                           id_role INT,
                           id_user INT,
                           PRIMARY KEY(id_role, id_user),
-                          FOREIGN KEY(id_role) REFERENCES role(id) ON DELETE CASCADE,
-                          FOREIGN KEY(id_user) REFERENCES user_(id) ON DELETE CASCADE
+                          FOREIGN KEY(id_role) REFERENCES role(id),
+                          FOREIGN KEY(id_user) REFERENCES user_(id)
 );
 
 CREATE TABLE stat_statement_sport(
                                      id_sport INT,
                                      id_stat_statement INT,
                                      PRIMARY KEY(id_sport, id_stat_statement),
-                                     FOREIGN KEY(id_sport) REFERENCES sport(id) ON DELETE CASCADE,
-                                     FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id) ON DELETE CASCADE
+                                     FOREIGN KEY(id_sport) REFERENCES sport(id),
+                                     FOREIGN KEY(id_stat_statement) REFERENCES stat_statement(id)
 );
 
 CREATE OR REPLACE VIEW v_league_sport
