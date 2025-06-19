@@ -1,107 +1,54 @@
-let roleNumber = 0; // 0 user, 1, chef, 2 admin
-
 let sport;
 let season;
 
-// ********************************
-// ********** KEYCLOAK ************
-// ********************************
-// On crée et initialise Keycloak ici
-const keycloak = new Keycloak({
-    realm: "usager",
-    "auth-server-url": "http://localhost:8180/",
-    "ssl-required": "external",
-    clientId: "frontend",
-    "public-client": true,
-    "confidential-port": 0
+// Page Initialisation
+document.addEventListener("DOMContentLoaded", function() {
+    waitForRoleNumber(initPage);
 });
 
-function getRoleNumber() {
-    if (!keycloak.tokenParsed || !keycloak.tokenParsed.realm_access) return 0;
 
-    const roles = keycloak.tokenParsed.realm_access.roles;
-    if (roles.includes("student")) return 2;
-    if (roles.includes("teacher")) return 1;
-    return 0;
-}
-
-function initKeycloak() {
-    // Init avec check-sso, ça ne force pas la connexion mais vérifie la session
-    return keycloak.init({
-        onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: window.location.origin + "/silent-check-sso.html"
-    });
-}
-
-initKeycloak()
-    .then(() => {
-        const div = document.getElementById("btn-login");
-        if (isAuthenticated()) {
-            console.log("Utilisateur connecté !");
-            roleNumber = getRoleNumber();
-            console.log("Rôle détecté:", roleNumber);
-            div.textContent = "Déconnexion";
-            div.onclick = () => logout();
+function waitForRoleNumber(callback, retries = 20, interval = 100) {
+    const check = () => {
+        if (typeof roleNumber !== "undefined") {
+            callback();
+        } else if (retries > 0) {
+            setTimeout(() => waitForRoleNumber(callback, retries - 1, interval), interval);
         } else {
-            console.log("Utilisateur non connecté.");
-            div.textContent = "Connexion";
-            div.onclick = () => keycloak.login();
+            console.warn("roleNumber not defined after waiting");
+            callback(); // on continue quand même pour éviter de bloquer toute la page
         }
+    };
+    check();
+}
 
-        const params = new URLSearchParams(window.location.search);
-        let sport = params.get('sport');
-        let season = params.get('ligue');
+function initPage() {
+    const params = new URLSearchParams(window.location.search);
+    let sport = params.get('sport');
+    let season = params.get('ligue');
 
-        console.log(sport);
-        console.log(season);
+    console.log(sport);
+    console.log(season);
 
-        const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
-        monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
+    const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
+    monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
 
-        axios.get("http://localhost:8888/api/dashboard/equipes", {
-            params: {
-                sport: sport,
-                ligue: season
-            }
-        }).then(function (response) {
-                equipeData = response.data;
-                console.log(equipeData);
-                renderEquipeList();
-                appelMatch();
-            })
-            .catch(function (error) {
-                const container = document.querySelector('.main-container');
-                container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
-            });
-    })
-    .catch(() => {
-        console.error("Erreur lors de l'initialisation de Keycloak");
+    axios.get("http://localhost:8888/api/dashboard/equipes", {
+        params: {
+            sport: sport,
+            ligue: season
+        }
+    }).then(function (response) {
+        equipeData = response.data;
+        console.log(equipeData);
+        renderTeamList();
+        callMatch();
+    }).catch(function (error) {
+        const container = document.querySelector('.main-container');
+        container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
     });
-
-function logout(){
-    keycloak.logout();
-    // window.location.href = 'index-league.html';
 }
 
-// Pour savoir si connecté
-function isAuthenticated() {
-    return keycloak.authenticated;
-}
-
-// Pour récupérer le token (utile si besoin)
-function getToken() {
-    return keycloak.token;
-}
-
-
-// ********************************
-// ******* FIN KEYCLOAK ***********
-// ********************************
-
-// ********************************
-// ****** LOGIQUE EQUIPE **********
-// ********************************
-
+// Logique Equipe
 let equipeData = {
     A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
             matchsJoues: 4,
@@ -137,7 +84,7 @@ let equipeData = {
         } },
 };
 
-function renderEquipeList() {
+function renderTeamList() {
     const container = document.getElementById("liste-equipes");
     container.innerHTML = "";
 
@@ -148,7 +95,7 @@ function renderEquipeList() {
         div.onclick = () => showInfo(team);
         container.appendChild(div);
     });
-
+    console.log("affichage roleNumber", roleNumber);
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "card-custom";
@@ -185,32 +132,32 @@ function showInfo(team) {
     const teamStats = info.stats || {};
 
     const statsTable = `
-    <table class="stats-table">
+        <table class="stats-table">
         <thead>
-            <tr><th>Statistiques</th><th>Valeurs</th></tr>
+        <tr><th>Statistiques</th><th>Valeurs</th></tr>
         </thead>
         <tbody>
-            ${Object.entries(teamStats).map(([cle, valeur]) => `
-                <tr>
-                    <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
-                    <td style="padding: 0px 20px;">${valeur}</td>
-                </tr>
+        ${Object.entries(teamStats).map(([cle, valeur]) => `
+            <tr>
+            <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+            <td style="padding: 0px 20px;">${valeur}</td>
+            </tr>
             `).join('')}
         </tbody>
-    </table>
-`;
+        </table>
+        `;
 
     document.getElementById("equipe-info").innerHTML = `
-    <h4>Équipe ${team}</h4>
-    <div class="equipe-container" id="equipe-content">
+        <h4>Équipe ${team}</h4>
+        <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
-            ${statsTable}
-            ${buttonHTML}
+        ${statsTable}
+    ${buttonHTML}
         </div>
-    </div>
-    <div id="player-info" style="display: none;"></div>
-`;
+        </div>
+        <div id="player-info" style="display: none;"></div>
+        `;
 
     // Fonction pour afficher les stats du joueur
     window.showPlayer = function (nom, team) {
@@ -219,20 +166,20 @@ function showInfo(team) {
 
         // Générer un tableau des stats du joueur
         const statsJoueurTable = `
-        <table class="stats-table">
+            <table class="stats-table">
             <thead>
-                <tr><th>Statistiques</th><th>Valeurs</th></tr>
+            <tr><th>Statistiques</th><th>Valeurs</th></tr>
             </thead>
             <tbody>
-                ${Object.entries(stats).map(([cle, valeur]) => `
-                    <tr>
-                        <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
-                        <td style="padding: 0px 20px;">${valeur}</td>
-                    </tr>
+            ${Object.entries(stats).map(([cle, valeur]) => `
+                <tr>
+                <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                <td style="padding: 0px 20px;">${valeur}</td>
+                </tr>
                 `).join('')}
             </tbody>
-        </table>
-    `;
+            </table>
+            `;
 
         // Affichage conditionnel pour rôle admin
         let modifierJoueurBtn = "";
@@ -249,11 +196,11 @@ function showInfo(team) {
 
         // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
-        <h4>${nom}</h4>
-        ${statsJoueurTable}
+            <h4>${nom}</h4>
+            ${statsJoueurTable}
         ${modifierJoueurBtn}
-        <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
-    `;
+            <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
+            `;
     };
 
     // Fonction de retour
@@ -263,10 +210,7 @@ function showInfo(team) {
 }
 
 
-// ********************************
-// ******* LOGIQUE MATCH **********
-// ********************************
-
+// Logique Matchs
 let matchDatas;
 
 function showMatchDay(date) {
@@ -278,12 +222,12 @@ function showMatchDay(date) {
     title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
 
     container.innerHTML = matchs.map(match => `
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
-                    <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
-                </div>
-            </div>
+        <div class="card border-0 shadow-sm">
+        <div class="card-body">
+        <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
+        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+        </div>
+        </div>
         `).join("");
     if (roleNumber === 2) {
         const myParams = new URLSearchParams(window.location.search);
@@ -328,7 +272,7 @@ function populateMatchDays() {
     listContainer.appendChild(manageBtn)
 }
 
-function appelMatch(){
+function callMatch(){
     const myParams = new URLSearchParams(window.location.search);
     let sports = myParams.get('sport');
     let seasons = myParams.get('ligue');

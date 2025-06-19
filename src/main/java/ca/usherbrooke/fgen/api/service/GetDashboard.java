@@ -1,7 +1,7 @@
 package ca.usherbrooke.fgen.api.service;
 
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import ca.usherbrooke.fgen.api.backend.OGClass;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -26,10 +26,10 @@ public class GetDashboard {
             @QueryParam("sport") String nomSport,
             @QueryParam("ligue") String nomLigue
     ) {
-        LoggerUtil.info("Sport reçu : " + nomSport);
-        LoggerUtil.info("Ligue reçue : " + nomLigue);
+        LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
+        LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
 
-        return ogClass.getEquipesData(nomSport, nomLigue);
+        return ogClass.getTeamSingleton().getEquipesData(nomSport, nomLigue);
 //        return "{\n" +
 //                "  \"A\": {\n" +
 //                "    \"joueurs\": {\n" +
@@ -106,9 +106,9 @@ public class GetDashboard {
             @PathParam("sport") String nomSport,
             @PathParam("ligue") String nomLigue
     ) {
-        LoggerUtil.info("Sport reçu : " + nomSport);
-        LoggerUtil.info("Ligue reçu : " + nomLigue);
-        return ogClass.getMatchesData(nomSport, nomLigue);
+        LoggerUtil.info("Sport reçu : " + nomSport + " pour les matchs");
+        LoggerUtil.info("Ligue reçu : " + nomLigue + " pour les matchs");
+        return ogClass.getMatchSingleton().getMatchesData(nomSport, nomLigue);
     }
 
 }

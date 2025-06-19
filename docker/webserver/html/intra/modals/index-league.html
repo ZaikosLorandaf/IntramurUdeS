@@ -75,7 +75,7 @@
         const dateDebut = document.getElementById("startDate").value;
         const dateFin = document.getElementById("endDate").value;
 
-        axios.post("http://localhost:8888/api/addLigue/", {
+        axios.post("http://localhost:8888/api/league/addLigue/", {
             nom_sport: sport,
             nom: name,
             date_fin: dateFin,
@@ -98,7 +98,9 @@
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
 
-        axios.get("http://localhost:8888/api/removeLigue/"+sport+"/"+ligueName, {
+        axios.post("http://localhost:8888/api/league/removeLeague/", {
+            leagueName: ligueName,
+            sportName: sport,
         }).then(function (response) {
             console.log(response.data);
             if (window.opener) {

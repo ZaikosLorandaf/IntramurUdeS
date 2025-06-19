@@ -1,12 +1,6 @@
 package ca.usherbrooke.fgen.api.service;
 
-import ca.usherbrooke.fgen.api.backend.OGClass;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.inject.Inject;
-
-@Path("/api/dashboard")
+/*@Path("/api/dashboard")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PostDashboard {
@@ -19,4 +13,4 @@ public class PostDashboard {
     public String nothing() {
         return "---";
     }
-}
+}*/

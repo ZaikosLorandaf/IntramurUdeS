@@ -1,9 +1,9 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
-import ca.usherbrooke.fgen.api.backend.*;
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
 
 import javax.inject.Inject;
