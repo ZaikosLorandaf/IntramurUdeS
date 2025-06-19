@@ -34,14 +34,29 @@ public abstract class TemplateService<ListType> {
 
     public ListType getItem(@PathParam("id") Integer id) {
         ListType item = selectOne(id);
-        add(item);
-        return unescapeEntities(item);
+        if(item != null){
+            add(item);
+            return unescapeEntities(item);
+        }
+        return null;
     }
 
     // Methodes abstraites
     protected abstract List<ListType> selectAll();
     protected abstract ListType selectOne(Integer id);
+
+    /**
+     * Méthode pour ajouter l'item à la liste générale Java
+     * @param item Item à ajouter
+     */
     protected abstract void add(ListType item);
+
+    /**
+     * Insert l'item dans la base de données
+     * @param item Item à ajouter à la base de données
+     */
     protected abstract void insert(ListType item);
+
+
     protected abstract void setName(ListType item);
 }

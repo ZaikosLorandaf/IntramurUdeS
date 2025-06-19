@@ -3,25 +3,37 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.LeagueMapper">
-    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
-        select l.id as id,
-               l.name as name,
-               l.begin_date as begin_date,
-               l.end_date as end_date,
-               l.done,
-               l.id_sport
-        from intramurudes.league l
+
+    <resultMap id="LeagueMap" type="ca.usherbrooke.fgen.api.backend.BdTables.League">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer"/>
+            <arg column="name" javaType="java.lang.String"/>
+            <arg column="begin_date" javaType="java.sql.Date"/>
+            <arg column="end_date" javaType="java.sql.Date"/>
+            <arg column="id_sport" javaType="java.lang.Integer"/>
+            <arg column="id_seasons" javaType="java.util.List" typeHandler="ca.usherbrooke.fgen.api.handler.IntegerArrayToListTypeHandler"/>
+        </constructor>
+    </resultMap>
+
+    <select id="selectAll" resultMap="LeagueMap">
+        SELECT vl.id as id,
+               vl.name as name,
+               vl.begin_date as begin_date,
+               vl.end_date as end_date,
+               vl.id_sport,
+               vl.id_seasons
+        FROM intramurudes.v_league vl
     </select>
 
-    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
-        select l.id as id,
-               l.name as name,
-               l.begin_date as begin_date,
-               l.end_date as end_date,
-               l.done,
-               l.id_sport
-        from intramurudes.league l
-        where id = #{id}
+    <select id="selectOne" resultMap="LeagueMap">
+        SELECT vl.id as id,
+               vl.name as name,
+               vl.begin_date as begin_date,
+               vl.end_date as end_date,
+               vl.id_sport,
+               vl.id_seasons
+        FROM intramurudes.v_league vl
+        WHERE id = #{id}
     </select>
 
     <select id="selectFromSport" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
