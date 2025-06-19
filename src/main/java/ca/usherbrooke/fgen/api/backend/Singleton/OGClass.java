@@ -25,6 +25,7 @@ public class OGClass {
     private MatchSingleton matchSingleton;
     private TeamSingleton teamSingleton;
     private PlayerSingleton playerSingleton;
+    private SeasonSingleton seasonSingleton;
 
     public OGClass() {
         LoggerUtil.info("Création de OGClass terminée.");
@@ -32,11 +33,12 @@ public class OGClass {
 
     @PostConstruct
     public void init() {
-        sportSingleton = new SportSingleton(sportList);
-        leagueSingleton = new LeagueSingleton(sportList);
-        matchSingleton = new MatchSingleton(sportList);
-        teamSingleton = new TeamSingleton(sportList);
-        playerSingleton = new PlayerSingleton(sportList);
+        sportSingleton = new SportSingleton();
+        leagueSingleton = new LeagueSingleton();
+        matchSingleton = new MatchSingleton();
+        teamSingleton = new TeamSingleton();
+        playerSingleton = new PlayerSingleton();
+        seasonSingleton = new SeasonSingleton();
     }
 
     public SportSingleton getSportSingleton(){
@@ -53,5 +55,8 @@ public class OGClass {
     }
     public PlayerSingleton getPlayerSingleton(){
         return playerSingleton;
+    }
+    public SeasonSingleton getSeasonSingleton(){
+        return seasonSingleton;
     }
 }

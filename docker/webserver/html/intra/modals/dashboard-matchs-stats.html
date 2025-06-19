@@ -48,6 +48,8 @@
 
 <button id="deleteMatchBtn" class="btn btn-danger">Supprimer</button>
 
+<script src="../script/global-modals.js"></script>
+
 <script>
     document.getElementById('addMatchBtn').addEventListener('click', () => {
         const startDate = document.getElementById('startDate').value;
@@ -66,14 +68,14 @@
         });
 
         alert(`Match ajouté : ${teamA} vs ${teamB} (${startDate} → ${endDate}) à ${location}`);
-        window.close();
+        refresh();
     });
 
     document.getElementById('deleteMatchBtn').addEventListener('click', () => {
         const matchId = document.getElementById('matchId').value;
         console.log("Supprimer match ID:", matchId);
         alert(`Match supprimé : ${matchId}`);
-        window.close();
+        refresh();
     });
 </script>
 

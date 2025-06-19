@@ -40,7 +40,7 @@ bin/
 
 .idea/inspectionProfiles
 IntraMurUdeS.db
-logs/*
+src/logs/*
 
 build/
 .gradle/

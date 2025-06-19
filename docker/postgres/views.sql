@@ -55,4 +55,15 @@ GROUP BY m.id, m.date_match, m.id, m.begin_time, m.end_time, l.id, l.name, l.beg
 
 
 
-
+CREATE OR REPLACE VIEW v_league
+AS
+SELECT l.id as id,
+       l.name as name,
+       l.begin_date as begin_date,
+       l.end_date as end_date,
+       l.done,
+       l.id_sport,
+       ARRAY_AGG(ls.id_season) AS id_seasons
+FROM intramurudes.league l
+INNER JOIN intramurudes.league_season ls ON l.id = ls.id_league
+GROUP BY l.id, l.name, l.begin_date, l.end_date, l.done, l.id_sport;

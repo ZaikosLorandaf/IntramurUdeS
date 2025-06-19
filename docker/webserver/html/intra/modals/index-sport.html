@@ -31,6 +31,8 @@
 
 <button id="deleteSportBtn" class="btn btn-danger">Supprimer</button>
 
+<script src="../script/global-modals.js"></script>
+
 <script>
   function init() {
 
@@ -56,10 +58,7 @@
       nom:sportName
     })
       .then(function (response) {
-        if (window.opener) {
-          window.opener.location.reload();
-          //window.close();
-        }
+        refresh();
       })
       .catch(function (error) {
         console.log(error);
@@ -73,11 +72,7 @@
     axios.post("http://localhost:8888/api/sport/removeSport/", {
       name:sportName
     }) .then(function (response) {
-      if (window.opener) {
-        console.log(response);
-        window.opener.location.reload();
-        // window.close();
-      }
+      refresh();
     })
     .catch(function (error) {
       console.log(error);

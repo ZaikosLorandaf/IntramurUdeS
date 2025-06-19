@@ -45,6 +45,8 @@
 
 <button id="deleteDateBtn" class="btn btn-danger">Supprimer</button>
 
+<script src="../script/global-modals.js"></script>
+
 <script>
     const params = new URLSearchParams(window.location.search);
     const sport = params.get('sport');
@@ -129,10 +131,7 @@
             .then(function (response) {
                 console.log(response.data);
                 alert("Match ajouté avec succès.");
-                // if (window.opener) {
-                //   window.opener.location.reload();
-                //   window.close();
-                // }
+                refresh();
             })
             .catch(function (error) {
                 console.error(error);
@@ -152,6 +151,7 @@
             .then(function (response) {
                 console.log(response.data);
                 alert("Match supprimé.");
+                refresh();
             })
             .catch(function (error) {
                 console.error(error);
@@ -159,6 +159,5 @@
             });
     });
 </script>
-
 </body>
 </html>

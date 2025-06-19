@@ -20,8 +20,8 @@ public class SportSingleton {
     ListSport sportList;
     SportMapper sportMapper;
 
-    SportSingleton(ListSport sportList){
-        this.sportList = sportList;
+    SportSingleton(){
+        this.sportList = Arc.container().instance(ListSport.class).get();
         this.sportMapper = Arc.container().instance(SportMapper.class).get();
     }
 

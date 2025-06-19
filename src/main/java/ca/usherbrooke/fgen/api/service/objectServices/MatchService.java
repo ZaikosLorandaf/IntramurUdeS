@@ -29,6 +29,9 @@ public class MatchService extends TemplateService<Match> {
     @Path("{id}")
     public Match getMatch(@PathParam("id") Integer id) {
         Match match = getItem(id);
+        if(match == null){
+            return new Match();
+        }
         return match;
     }
 
@@ -51,15 +54,20 @@ public class MatchService extends TemplateService<Match> {
     }
     protected Match selectOne(Integer id){
         Match match = matchMapper.selectOne(id);
+        if(match == null){
+            return null;
+        }
         match.init();
         return match;
     }
 
     @Override
     protected void add(Match item) {
-        Collection<League> leagues = ListSport.getLeagues();
-        League league = ListSport.getLeagueById(item.getIdLeague());
-        league.getListMatch().addMatch(item);
+        if(item != null){
+            List<League> leagues = ListSport.getLeagues();
+            League league = ListSport.getLeagueById(item.getIdLeague());
+            league.getListMatch().addMatch(item);
+        }
     }
 
     protected void insert(Match match){

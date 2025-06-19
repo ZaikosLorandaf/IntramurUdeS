@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.Season;
+import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.SeasonMapper;
 
@@ -17,16 +18,23 @@ public class SeasonService extends TemplateService<Season> {
 
     // Redirection vers les fonctions template
     @GET
-    public List<Season> getSeasones(){
+    public List<Season> getSeasons(){
         List<Season> seasons = getItems();
-        return seasons;
+        this.ogClass.getSeasonSingleton().getListSeasons().addSeason(seasons);
+        List<Season> resultList = this.ogClass.getSeasonSingleton().getListSeasons().getAllItems();
+        return resultList;
     }
 
     @GET
     @Path("{id}")
     public Season getSeason(@PathParam("id") Integer id) {
         Season season = getItem(id);
-        return season;
+        if(season == null){
+            return new Season();
+        }
+        this.ogClass.getSeasonSingleton().getListSeasons().addSeason(season);
+        Season resultSeason = this.ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
+        return resultSeason;
     }
 
 
@@ -47,7 +55,8 @@ public class SeasonService extends TemplateService<Season> {
 
     @Override
     protected void add(Season item) {
-
+        ListSeason listSeason = ogClass.getSeasonSingleton().getListSeasons();
+        listSeason.addSeason(item);
     }
 
     protected void insert(Season season){
