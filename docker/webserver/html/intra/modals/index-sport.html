@@ -23,7 +23,16 @@
 
 <div class="mb-3">
   <label for="deleteSportName" class="form-label">Nom du sport à supprimer</label>
-  <input type="text" id="deleteSportName" class="form-control" placeholder="Ex. Soccer">
+<!--  <input type="text" id="deleteSportName" class="form-control" placeholder="Ex. Soccer">-->
+  <input class="form-control" list="SportName" id="deleteSportName" name="deleteSportName" placeholder="Type to search...">
+  <datalist id="SportNames">
+    <option value="Chrome">
+    <option value="Firefox">
+    <option value="Internet Explorer">
+    <option value="Opera">
+    <option value="Safari">
+    <option value="Microsoft Edge">
+  </datalist>
 </div>
 
 <button id="deleteSportBtn" class="btn btn-danger">Supprimer</button>

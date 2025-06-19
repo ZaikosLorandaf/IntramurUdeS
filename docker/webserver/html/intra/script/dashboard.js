@@ -1,6 +1,6 @@
 let sport;
 let season;
-
+// let roleNumber = 2;
 // Page Initialisation
 document.addEventListener("DOMContentLoaded", function() {
     waitForRoleNumber(initPage);
