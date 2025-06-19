@@ -19,7 +19,7 @@ public class PlayerSingleton {
 
     PlayerSingleton(ListSport sportList) {
         this.sportList = sportList;
-        this.playerService = new PlayerService();
+        this.playerService = Arc.container().instance(PlayerService.class).get();
         this.playerMapper = Arc.container().instance(PlayerMapper.class).get();
     }
 
