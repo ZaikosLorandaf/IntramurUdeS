@@ -259,7 +259,7 @@ function populateMatchDays() {
 
     // Création du bouton "Gérer Dates"
     const manageBtn = document.createElement('button');
-    manageBtn.textContent = 'Gérer Dates';
+    manageBtn.textContent = 'Gérer Matchs';
     manageBtn.className = 'list-group-item list-group-item-action'; // classe Bootstrap, adapte si besoin
     const myParams = new URLSearchParams(window.location.search);
     let sport = myParams.get('sport');

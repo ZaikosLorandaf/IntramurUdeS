@@ -2,27 +2,44 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
-    <title>Gérer les dates</title>
+    <title>Gérer les Matchs</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 <body class="p-4">
 
-<h2 class="mb-4">Ajouter une date</h2>
+<h2 class="mb-4">Ajouter un Match</h2>
 
 <div class="mb-3">
     <label for="addDate" class="form-label">Date (AAAA-MM-JJ)</label>
     <input type="date" id="addDate" class="form-control" />
 </div>
 
+<div class="mb-3">
+    <label for="startTime" class="form-label">Heure de début</label>
+    <input type="time" id="startTime" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label for="endTime" class="form-label">Heure de fin</label>
+    <input type="time" id="endTime" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label class="form-label">Équipes participantes (sélectionnez 2)</label>
+    <div id="teamsContainer" class="form-check"></div>
+    <small class="form-text text-muted">Cochez exactement deux équipes.</small>
+</div>
+
+
 <button id="addDateBtn" class="btn btn-success mb-4">Ajouter</button>
 
 <hr />
 
-<h2 class="mb-3">Supprimer une date</h2>
+<h2 class="mb-3">Supprimer un Match</h2>
 
 <div class="mb-3">
-    <label for="deleteDate" class="form-label">Date à supprimer (AAAA-MM-JJ)</label>
+    <label for="deleteDate" class="form-label">Match à supprimer (AAAA-MM-JJ)</label>
     <input type="date" id="deleteDate" class="form-control" />
 </div>
 
@@ -33,43 +50,103 @@
     const sport = params.get('sport');
     const ligue = params.get('league');
 
+    // Récupération et affichage des équipes sous forme de checkboxes
+    axios.get("http://localhost:8888/api/dashboard/equipes", {
+        params: {
+            sport: sport,
+            ligue: ligue
+        }
+    }).then(function (response) {
+        const equipeData = response.data;
+        const container = document.getElementById('teamsContainer');
+        container.innerHTML = '';
 
+        Object.keys(equipeData).forEach(teamName => {
+            const div = document.createElement('div');
+            div.classList.add('form-check');
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.classList.add('form-check-input');
+            input.name = 'teamCheckbox';
+            input.value = teamName;
+            input.id = `team-${teamName}`;
+
+            const label = document.createElement('label');
+            label.classList.add('form-check-label');
+            label.htmlFor = input.id;
+            label.textContent = teamName;
+
+            // Limite à 2 sélections
+            input.addEventListener('change', () => {
+                const checked = document.querySelectorAll('input[name="teamCheckbox"]:checked');
+                const all = document.querySelectorAll('input[name="teamCheckbox"]');
+
+                if (checked.length >= 2) {
+                    all.forEach(cb => {
+                        if (!cb.checked) cb.disabled = true;
+                    });
+                } else {
+                    all.forEach(cb => cb.disabled = false);
+                }
+            });
+
+            div.appendChild(input);
+            div.appendChild(label);
+            container.appendChild(div);
+        });
+    }).catch(function (error) {
+        console.error("Erreur lors du chargement des équipes :", error);
+    });
+
+    // Bouton Ajouter un match
     document.getElementById('addDateBtn').addEventListener('click', () => {
-        const heureDebut = '';
-        const heureFin = '';
-        const nomEquipes = ["Apple", "Banana"];
         const date = document.getElementById('addDate').value;
-        if (!date) {
-            alert("Veuillez choisir une date à ajouter.");
+        const heureDebut = document.getElementById('startTime').value;
+        const heureFin = document.getElementById('endTime').value;
+        const checkedTeams = document.querySelectorAll('input[name="teamCheckbox"]:checked');
+        const nomEquipes = Array.from(checkedTeams).map(cb => cb.value);
+
+        if (!date || !heureDebut || !heureFin) {
+            alert("Veuillez remplir tous les champs.");
             return;
         }
 
-        axios.post("http://localhost:8888/api/match/add/"+sport+"/"+ ligue +"/"+date, + "/" + nomEquipes + "/" + heureDebut + "/" + heureFin, {})
+        if (nomEquipes.length !== 2) {
+            alert("Veuillez sélectionner exactement deux équipes.");
+            return;
+        }
+
+        const encodedTeams = encodeURIComponent(nomEquipes.join(","));
+        const url = `http://localhost:8888/api/match/add/${sport}/${ligue}/${date}/${encodedTeams}/${heureDebut}/${heureFin}`;
+
+        axios.post(url, {})
             .then(function (response) {
                 console.log(response.data);
-                // if (window.opener) {
-                //     window.opener.location.reload();
-                //     window.close();
-                // }
+                alert("Match ajouté avec succès.");
             })
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
+                alert("Erreur lors de l'ajout du match.");
             });
     });
 
+    // Bouton Supprimer un match
     document.getElementById('deleteDateBtn').addEventListener('click', () => {
         const date = document.getElementById('deleteDate').value;
+        if (!date) {
+            alert("Veuillez entrer une date à supprimer.");
+            return;
+        }
 
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+date, {})
+        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}`)
             .then(function (response) {
                 console.log(response.data);
-                // if (window.opener) {
-                //     window.opener.location.reload();
-                //     window.close();
-                // }
+                alert("Match supprimé.");
             })
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
+                alert("Erreur lors de la suppression.");
             });
     });
 </script>
