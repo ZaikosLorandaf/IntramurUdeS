@@ -11,6 +11,10 @@ public class Season
     private ListLeague leagues;
 
 
+    public Season(){
+        this.id = -1;
+    }
+
     public Season(int id, int seasonYear, String timePrecision)
     {
         this.id = id;

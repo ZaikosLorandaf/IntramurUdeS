@@ -29,6 +29,9 @@ public class SeasonService extends TemplateService<Season> {
     @Path("{id}")
     public Season getSeason(@PathParam("id") Integer id) {
         Season season = getItem(id);
+        if(season == null){
+            return new Season();
+        }
         this.ogClass.getListSeasons().addSeason(season);
         Season resultSeason = this.ogClass.getListSeasons().getSeason(id);
         return resultSeason;

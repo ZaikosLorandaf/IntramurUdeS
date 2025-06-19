@@ -34,8 +34,11 @@ public abstract class TemplateService<ListType> {
 
     public ListType getItem(@PathParam("id") Integer id) {
         ListType item = selectOne(id);
-        add(item);
-        return unescapeEntities(item);
+        if(item != null){
+            add(item);
+            return unescapeEntities(item);
+        }
+        return null;
     }
 
     // Methodes abstraites

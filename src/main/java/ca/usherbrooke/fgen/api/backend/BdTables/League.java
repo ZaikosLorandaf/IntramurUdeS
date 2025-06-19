@@ -213,7 +213,7 @@ public class League {
     boolean result = true;
     for (Integer id :idSeasons){
       Season season = ogClass.getListSeasons().getSeason(id);
-      if(!season.getLeagues().addLeague(this)){
+      if(season.getLeagues() != null && !season.getLeagues().addLeague(this)){
         if (result){
           result = false;
         }
