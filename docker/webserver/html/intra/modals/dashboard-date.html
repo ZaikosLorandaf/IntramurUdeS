@@ -44,7 +44,7 @@
             return;
         }
 
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+date, {})
+        axios.post("http://localhost:8888/api/match/add/"+sport+"/"+ ligue +"/"+date, + "/" + nomEquipes + "/" + heureDebut + "/" + heureFin, {})
             .then(function (response) {
                 console.log(response.data);
                 // if (window.opener) {
