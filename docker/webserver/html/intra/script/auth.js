@@ -57,6 +57,8 @@ function getToken() {
 window.addEventListener('DOMContentLoaded', async () => {
     const auth = await silentButton();
     roleNumber = (auth ? 2 : 0);
-    initialisation();
+    try {
+        initialisation()
+    } catch (error) {};
 });
 
