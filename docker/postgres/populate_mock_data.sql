@@ -1,5 +1,22 @@
 SET search_path = intramurudes;
 
+
+--Ajouter les saisons
+INSERT INTO season (season_year, time_precision) VALUES
+        (2023, 'Hiver'),
+        (2023, 'Printemps'),
+        (2023, 'Été'),
+        (2023, 'Automne'),
+        (2024, 'Hiver'),
+        (2024, 'Printemps'),
+        (2024, 'Été'),
+        (2024, 'Automne'),
+        (2025, 'Hiver'),
+        (2025, 'Printemps'),
+        (2025, 'Été'),
+        (2025, 'Automne');
+
+
 INSERT INTO sport(name) VALUES
         ('Ultimate'),
         ('Basketball'),
@@ -207,13 +224,38 @@ INSERT INTO player (name, last_name, id_team, number) VALUES
   ('Haleigh', 'Washington', 24, 24);
 
 
+
+
+-- Lier chaque ligue à chaque saison
+INSERT INTO league_season (id_league, id_season) VALUES
+-- Ligue 1 (Ultimate League 1)
+(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (1, 11), (1, 12),
+
+-- Ligue 2 (Ultimate League 2)
+(2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12),
+
+-- Ligue 3 (Basketball League 1)
+(3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (3, 12),
+
+-- Ligue 4 (Basketball League 2)
+(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (4, 12),
+
+-- Ligue 5 (Volleyball League 1)
+(5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12),
+
+-- Ligue 6 (Volleyball League 2)
+(6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8), (6, 9), (6, 10), (6, 11), (6, 12);
+
+
+
+
 -- Match
 -- Matchs Ultimate Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league) VALUES
-    ('2025-06-01', '14:00', '15:30', 1),  -- Match 1
-    ('2025-06-02', '16:00', '17:30', 1),  -- Match 2
-    ('2025-06-03', '18:00', '19:30', 1),  -- Match 3
-    ('2025-06-04', '18:00', '19:30', 1);   -- Match vide sans équipe
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
+    ('2025-06-01', '14:00', '15:30', 1, 1),  -- Match 1
+    ('2025-06-02', '16:00', '17:30', 1,1),  -- Match 2
+    ('2025-06-03', '18:00', '19:30', 1,3),  -- Match 3
+    ('2025-06-04', '18:00', '19:30', 1,4);   -- Match vide sans équipe
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (1, 1), (2, 1),    -- SFB vs Empire
@@ -268,44 +310,7 @@ INSERT INTO match_team (id_team, id_match) VALUES
 
 
 
---Ajouter les saisons
-INSERT INTO season (season_year, time_precision) VALUES
-    (2023, 'Hiver'),
-    (2023, 'Printemps'),
-    (2023, 'Été'),
-    (2023, 'Automne'),
-    (2024, 'Hiver'),
-    (2024, 'Printemps'),
-    (2024, 'Été'),
-    (2024, 'Automne'),
-    (2025, 'Hiver'),
-    (2025, 'Printemps'),
-    (2025, 'Été'),
-    (2025, 'Automne');
 
-
-
-
-
--- Lier chaque ligue à chaque saison
-INSERT INTO league_season (id_league, id_season) VALUES
--- Ligue 1 (Ultimate League 1)
-(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (1, 8), (1, 9), (1, 10), (1, 11), (1, 12),
-
--- Ligue 2 (Ultimate League 2)
-(2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12),
-
--- Ligue 3 (Basketball League 1)
-(3, 1), (3, 2), (3, 3), (3, 4), (3, 5), (3, 6), (3, 7), (3, 8), (3, 9), (3, 10), (3, 11), (3, 12),
-
--- Ligue 4 (Basketball League 2)
-(4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (4, 6), (4, 7), (4, 8), (4, 9), (4, 10), (4, 11), (4, 12),
-
--- Ligue 5 (Volleyball League 1)
-(5, 1), (5, 2), (5, 3), (5, 4), (5, 5), (5, 6), (5, 7), (5, 8), (5, 9), (5, 10), (5, 11), (5, 12),
-
--- Ligue 6 (Volleyball League 2)
-(6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (6, 6), (6, 7), (6, 8), (6, 9), (6, 10), (6, 11), (6, 12);
 
 
 
