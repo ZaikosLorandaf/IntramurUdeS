@@ -98,7 +98,7 @@ function renderTeamList() {
     console.log("affichage roleNumber", roleNumber);
     if (roleNumber === 2) {
         const div = document.createElement("div");
-        div.className = "card-custom";
+        div.className = "btn btn-secondary mb-2";
         div.textContent = `Gérer équipe/joueur`;
 
         const myParams = new URLSearchParams(window.location.search);
@@ -117,7 +117,7 @@ function showInfo(team) {
     const info = equipeData[team];
 
     const joueursList = Object.keys(info.joueurs)
-        .map(nom => `<button class="player-btn" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
+        .map(nom => `<button class="btn btn-success mb-4" style="margin-right: 10px;" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
         .join('');
 
     let buttonHTML = "";
@@ -126,7 +126,7 @@ function showInfo(team) {
         let sports = myParams.get('sport');
         let seasons = myParams.get('ligue');
 
-        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
+        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
     }
 
     const teamStats = info.stats || {};
@@ -188,7 +188,7 @@ function showInfo(team) {
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="player-btn" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer joueur</button>`;
+            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";
@@ -199,7 +199,7 @@ function showInfo(team) {
             <h4>${nom}</h4>
             ${statsJoueurTable}
         ${modifierJoueurBtn}
-            <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
+            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
             `;
     };
 
@@ -229,15 +229,6 @@ function showMatchDay(date) {
         </div>
         </div>
         `).join("");
-    if (roleNumber === 2) {
-        const myParams = new URLSearchParams(window.location.search);
-        let sports = myParams.get('sport');
-        let seasons = myParams.get('ligue');
-
-        buttonHTML = `<button class="player-btn" onclick="window.open('./modals/dashboard-matchs-stats.html?sport=${sports}&league=${seasons}&date=${date}', 'popupWindow', 'width=500,height=400')">Gérer match</button>`;
-        container.innerHTML += buttonHTML;
-    }
-
 }
 
 function formatDate(isoDate) {
@@ -270,7 +261,7 @@ function populateMatchDays() {
             // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
             window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
         };
-        listContainer.appendChild(manageBtn)
+        listContainer.appendChild(manageBtn);
     }
 }
 
