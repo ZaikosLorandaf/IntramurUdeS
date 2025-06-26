@@ -8,6 +8,7 @@ import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import ca.usherbrooke.fgen.api.service.postClass.removeTeam;
 import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
+import org.json.JSONObject;
 import org.jsoup.parser.Parser;
 
 import javax.annotation.PostConstruct;
@@ -49,7 +50,7 @@ public class TeamService extends TemplateService<Team> {
     // Methode GET
     @GET
     @Path("listTeam/{nom_sport}/{nom_ligue}")
-    public String listTeam(
+    public JSONObject listTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue) {
         nomSport = nomSport.replace("%20", " ");
