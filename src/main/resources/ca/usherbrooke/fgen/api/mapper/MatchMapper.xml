@@ -12,6 +12,7 @@
             <arg column="id_league" javaType="java.lang.Integer"/>
             <arg column="nb_team_match" javaType="java.lang.Integer"/>
             <arg column="id_teams" javaType="java.util.List" typeHandler="ca.usherbrooke.fgen.api.handler.IntegerArrayToListTypeHandler"/>
+            <arg column="id_season" javaType="java.lang.Integer"/>
         </constructor>
     </resultMap>
 
@@ -24,7 +25,8 @@
                vmls.end_time AS end_time,
                vmls.id_league AS id_league,
                vmls.nb_team_match AS nb_team_match,
-               vmls.list_teams AS id_teams
+               vmls.list_teams AS id_teams,
+               vmls.id_season AS id_season
         FROM v_match_league_sport vmls;
     </select>
 
