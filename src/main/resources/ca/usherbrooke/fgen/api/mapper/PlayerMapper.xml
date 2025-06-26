@@ -5,22 +5,23 @@
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.PlayerMapper">
 
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Player">
-        select id,
+        SELECT id,
                name,
                last_name,
                number,
                id_team
-        from intramurudes.Player
+        FROM intramurudes.Player p
+        WHERE p.archive = FALSE;
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Player">
-        select id,
+        SELECT id,
                name,
                last_name,
                number,
                id_team
-        from intramurudes.Player
-        where id = #{id}
+        FROM intramurudes.Player p
+        WHERE id = #{id} AND p.archive = FALSE;
     </select>
 
 
