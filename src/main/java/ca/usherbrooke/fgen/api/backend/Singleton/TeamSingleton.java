@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Random;
 
 public class TeamSingleton {
@@ -97,9 +98,12 @@ public class TeamSingleton {
             if (league.getTeams().getSize() <= 0) {
 
             } else {
+                List<String> nomLeagues = new java.util.ArrayList<>();
                 for (int i : league.getTeams().getTeamIds()) {
-                    result.put("nom",league.getTeams().getTeam(i).getName());
+                    nomLeagues.add(league.getTeams().getTeam(i).getName());
                 }
+                result.put("noms", nomLeagues);
+                System.out.println(result.toString(4));
             }
         }
         return result;
