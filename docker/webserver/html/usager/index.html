@@ -8,6 +8,11 @@
         <script src="../script/auth.js"></script>
         <script src="../script/calls.js"></script>
         <script>
+            function init() {
+                // manageAuth();
+                setOptions();
+            }
+
             function requestStudent() {
                 const div = document.getElementById('title');
                 const span = div.firstElementChild;
@@ -374,6 +379,11 @@
                 });
         }
 
+        function setOptions()
+        {
+            document.getElementById("browsers").innerHTML += "<option value='item'>";
+        }
+
         function logout() {
          //   let logoutURL = "http://localhost:8080//realms/usager/protocol/openid-connect/logout"
          //   window.location.href = logoutURL;
@@ -382,7 +392,7 @@
 
     </script>
 </head>
-<body onload="manageAuth()">
+<body onload="init()">
 <button onclick="requestStudent()">Étudiant?</button>
 <button onclick="requestTeacher()">Enseignant?</button>
 <button onclick="requestMessage()">Message app2?</button>
@@ -449,6 +459,16 @@
             id="number"
             size="10">
 </div>
+
+<input list="browsers" name="myBrowser" /></label>
+<datalist id="browsers">
+    <option value="Chrome">
+    <option value="Firefox">
+    <option value="Internet Explorer">
+    <option value="Opera">
+    <option value="Safari">
+    <option value="Microsoft Edge">
+</datalist>
 
 <div id="title">
     <span></span>

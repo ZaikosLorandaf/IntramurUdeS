@@ -22,6 +22,8 @@ public class LeagueSingleton {
         this.sportList = Arc.container().instance(ListSport.class).get();
         this.leagueService = Arc.container().instance(LeagueService.class).get();
         this.listSeasons = Arc.container().instance(ListSeason.class).get();
+
+        this.leagueMapper = Arc.container().instance(LeagueMapper.class).get();
     }
 
     // Gestion donnees

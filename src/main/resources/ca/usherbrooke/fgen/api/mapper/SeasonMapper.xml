@@ -6,14 +6,15 @@
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Season">
         SET search_path = intramurudes;
         SELECT s.id, s.season_year, s.time_precision
-        FROM season s;
+        FROM season s
+        WHERE s.archive = FALSE;
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Season">
         SET search_path = intramurudes;
         SELECT s.id, s.season_year, s.time_precision
         FROM season s
-        WHERE id = #{id};
+        WHERE id = #{id} AND s.archive = FALSE;
     </select>
 
 

@@ -4,19 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.SportMapper">
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Sport">
-        select id,
+        SELECT id,
                name,
                nb_team_match
-        from intramurudes.sport
+        FROM intramurudes.sport s
+        WHERE s.archive = FALSE;
 
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Sport">
-        select id,
+        SELECT id,
                name,
                nb_team_match
-        from intramurudes.sport
-        where id = #{id}
+        FROM intramurudes.sport s
+        WHERE id = #{id} AND s.archive = FALSE;
     </select>
 
 

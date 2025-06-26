@@ -8,6 +8,7 @@ import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import ca.usherbrooke.fgen.api.service.postClass.removeTeam;
 import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
+import org.json.JSONObject;
 import org.jsoup.parser.Parser;
 
 import javax.annotation.PostConstruct;
