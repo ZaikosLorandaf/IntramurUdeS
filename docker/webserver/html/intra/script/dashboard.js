@@ -116,8 +116,8 @@ function renderTeamList() {
 function showInfo(team) {
     const info = equipeData[team];
 
-    const joueursList = Object.keys(info.joueurs)
-        .map(nom => `<button class="player-btn" onclick="showPlayer('${nom}', '${team}')">${nom}</button>`)
+    const joueursList = Object.entries(info.joueurs)
+        .map(([numero,joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}', '${team}')">${numero} ${joueur.name}</button>`)
         .join('');
 
     let buttonHTML = "";
@@ -160,8 +160,8 @@ function showInfo(team) {
         `;
 
     // Fonction pour afficher les stats du joueur
-    window.showPlayer = function (nom, team) {
-        const joueurData = equipeData[team].joueurs[nom];
+    window.showPlayer = function (number ,nom, team) {
+        const joueurData = equipeData[team].joueurs[number].stats;
         const stats = joueurData ? joueurData : {};
 
         // Générer un tableau des stats du joueur
@@ -196,7 +196,7 @@ function showInfo(team) {
 
         // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
-            <h4>${nom}</h4>
+            <h4>${number} ${nom}</h4>
             ${statsJoueurTable}
         ${modifierJoueurBtn}
             <button onclick="retourEquipe('${team}')">← Retour à l'équipe</button>

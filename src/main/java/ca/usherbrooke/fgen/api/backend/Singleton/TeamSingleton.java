@@ -156,8 +156,9 @@ public class TeamSingleton {
                         .put("arrets", new Random().nextInt(3))
                         .put("blessures", new Random().nextInt(2))
                         .put("remarques", "");
+                JSONObject joueur = new JSONObject().put("name", p.getName() + " " + p.getLastName()).put("stats", stats);
+                joueurs.put(String.valueOf(p.getNumber()),joueur);
 
-                joueurs.put(String.valueOf(p.getNumber()), stats);
 
             }
 
