@@ -311,9 +311,39 @@ INSERT INTO match_team (id_team, id_match) VALUES
 
 
 
+--Statistiques
+-- Statistiques communes à tous les sports
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Passes complétées', 'PASS', ARRAY[1,2,3]),
+    ('Interceptions', 'INT', ARRAY[1,2,3]),
+    ('Fautes', 'FLT', ARRAY[1,2,3]),
+    ('Points marqués', 'PTS', ARRAY[1,2,3]);
 
+-- Ultimate Frisbee uniquement (id_sport = 1)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Passes décisives', 'ASTU', ARRAY[1]),
+    ('Réceptions de point', 'GLS', ARRAY[1]),
+    ('Turnovers', 'TOVU', ARRAY[1]),
+    ('Blocs défensifs', 'BLK', ARRAY[1]),
+    ('Drops', 'DRP', ARRAY[1]);
 
+-- Volley-ball uniquement (id_sport = 3)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Aces', 'ACE', ARRAY[3]),
+    ('Fautes service', 'FSV', ARRAY[3]),
+    ('Réceptions parfaites', 'RCV', ARRAY[3]),
+    ('Contres', 'CTR', ARRAY[3]),
+    ('Attaques gagnantes', 'ATQ', ARRAY[3]),
+    ('Erreurs attaque', 'ETA', ARRAY[3]);
 
-
+-- Basketball uniquement (id_sport = 2)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Rebonds offensifs', 'RBO', ARRAY[2]),
+    ('Rebonds défensifs', 'RBD', ARRAY[2]),
+    ('Passes décisives', 'ASTB', ARRAY[2]),
+    ('Fautes perso', 'FLP', ARRAY[2]),
+    ('Tirs 3 pts', 'T3P', ARRAY[2]),
+    ('Lancers francs', 'FTM', ARRAY[2]),
+    ('Ballons perdus', 'TOVB', ARRAY[2]);
 
 

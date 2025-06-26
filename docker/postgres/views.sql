@@ -68,3 +68,15 @@ SELECT l.id as id,
 FROM intramurudes.league l
 INNER JOIN intramurudes.league_season ls ON l.id = ls.id_league
 GROUP BY l.id, l.name, l.begin_date, l.end_date, l.done, l.id_sport;
+
+
+
+CREATE OR REPLACE VIEW v_stat_statement
+AS
+SELECT s.id as id,
+       s.statement as statement,
+       s.acronym as acronym,
+       ARRAY_AGG(sss.id_sport) AS id_sports
+FROM intramurudes.stat_statement s
+         INNER JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
+GROUP BY s.id, s.statement, s.acronym;
