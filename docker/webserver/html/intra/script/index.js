@@ -1,5 +1,3 @@
-let roleNumber = 2;
-
 initialisation();
 
 //~~~~~~~~~~~~ Functions ~~~~~~~~~//
