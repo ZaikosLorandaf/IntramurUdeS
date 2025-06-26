@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.backend.BdTables;
 
 import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
+import ca.usherbrooke.fgen.api.backend.Lists.ListStatStatement;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 public class Sport {
@@ -8,7 +9,7 @@ public class Sport {
     private String name;
     private int nbTeamMatch;
     private ListLeague listLeague;
-    java.util.Random rand = new java.util.Random();
+    private ListStatStatement listStatStatement;
 
     // Constructeurs
     /**
@@ -23,6 +24,7 @@ public class Sport {
         this.name = name;
         this.nbTeamMatch = nbTeamMatch;
         listLeague = new ListLeague();
+        listStatStatement = new ListStatStatement();
         LoggerUtil.info("Création du sport: " + name);
     }
 

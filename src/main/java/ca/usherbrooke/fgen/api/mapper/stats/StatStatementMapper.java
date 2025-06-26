@@ -1,0 +1,14 @@
+package ca.usherbrooke.fgen.api.mapper.stats;
+
+import ca.usherbrooke.fgen.api.backend.BdTables.StatStatement;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+public interface StatStatementMapper {
+    List<StatStatement> selectAll();
+    StatStatement selectOne(@Param("id") Integer id);
+    void deleteOne(@Param("id") Integer id);
+    void insert(@Param("statStatement") StatStatement statStatement);
+    Integer getLastId();
+}

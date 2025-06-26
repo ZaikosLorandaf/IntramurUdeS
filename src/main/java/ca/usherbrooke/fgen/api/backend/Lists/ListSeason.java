@@ -37,7 +37,7 @@ public class ListSeason extends ListTemplate<Season, String>
      *
      * @param seasons liste d'Objet de classe Joueur a ajouter
      *
-     * @return false if list over max size
+     * @return Le nombre de saisons ajoutées
      */
     public int addSeason(List<Season> seasons) {
         return addItems(seasons);
@@ -61,7 +61,7 @@ public class ListSeason extends ListTemplate<Season, String>
     }
 
     /**
-     * Retire un joueur du vecteur à partir de l'index
+     * Retire un joueur du vecteur à partir de l'objet
      *
      * @param season Joueur à retirer
      *

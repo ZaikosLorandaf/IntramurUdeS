@@ -26,6 +26,7 @@ public class OGClass {
     private TeamSingleton teamSingleton;
     private PlayerSingleton playerSingleton;
     private SeasonSingleton seasonSingleton;
+    private StatStatementSingleton statStatementSingleton;
 
     public OGClass() {
         LoggerUtil.info("Création de OGClass terminée.");
@@ -39,6 +40,7 @@ public class OGClass {
         teamSingleton = new TeamSingleton();
         playerSingleton = new PlayerSingleton();
         seasonSingleton = new SeasonSingleton();
+        statStatementSingleton = new StatStatementSingleton();
     }
 
     public SportSingleton getSportSingleton(){
@@ -58,5 +60,8 @@ public class OGClass {
     }
     public SeasonSingleton getSeasonSingleton(){
         return seasonSingleton;
+    }
+    public StatStatementSingleton getStatStatementSingleton(){
+        return statStatementSingleton;
     }
 }
