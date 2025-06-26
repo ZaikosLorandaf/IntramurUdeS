@@ -36,7 +36,8 @@
 <h2 class="mb-4">Supprimer une équipe</h2>
 <div class="mb-3">
     <label for="deleteTeamName" class="form-label">Nom de l’équipe à supprimer</label>
-    <input type="text" id="deleteTeamName" class="form-control" placeholder="Ex. Les Aigles">
+    <input type="text" id="deleteTeamName" class="form-control" list="teamNameData" placeholder="Ex. Les Aigles">
+    <datalist id="teamNameData"></datalist>
 </div>
 <button id="deleteTeamBtn" class="btn btn-danger">Supprimer</button>
 
@@ -202,13 +203,16 @@
                 const teams = response.data;
                 console.log(teams);
 
-                const datalist = document.getElementById('TeamNames');
+                const datalist = document.getElementById('teamNameData');
                 datalist.innerHTML = '';
-                teams.noms.forEach(teamName => {
+                for (const teamName in teams){
+                    console.log("b");
                     const option = document.createElement('option');
                     option.value = teamName;
+                    console.log(datalist);
                     datalist.appendChild(option);
-                });
+                }
+                console.log("a");
             })
             .catch(function (error) {
                 console.log(error);
