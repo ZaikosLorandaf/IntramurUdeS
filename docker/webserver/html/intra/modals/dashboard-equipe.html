@@ -195,21 +195,18 @@
         axios.get("http://localhost:8888/api/team/listTeam/"+sportName+"/"+leagueName, { })
             .then(function (response) {
                 const teams = response.data;
-                console.log(teams.nom);
+                console.log(teams);
 
-                const datalist = document.getElementById('LeagueNames');
+                const datalist = document.getElementById('TeamNames');
                 datalist.innerHTML = '';
-                sports.forEach(sport => {
-                    if (sport.name === sportName) {
-                        sport.seasons.forEach(season => {
-                            const option = document.createElement('option');
-                            option.value = season;
-                            datalist.appendChild(option);
-                        });
-                    }
+                teams.noms.forEach(teamName => {
+                    const option = document.createElement('option');
+                    option.value = teamName;
+                    datalist.appendChild(option);
                 });
             })
             .catch(function (error) {
+                console.log(error);
                 // const container = document.querySelector('.main-container');
                 // container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
             });
