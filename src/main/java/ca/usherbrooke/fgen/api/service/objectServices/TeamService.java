@@ -50,7 +50,7 @@ public class TeamService extends TemplateService<Team> {
     // Methode GET
     @GET
     @Path("listTeam/{nom_sport}/{nom_ligue}")
-    public JSONObject listTeam(
+    public String listTeam(
             @PathParam("nom_sport") String nomSport,
             @PathParam("nom_ligue") String nom_ligue) {
         nomSport = nomSport.replace("%20", " ");

@@ -86,7 +86,7 @@ public class TeamSingleton {
         return "";
     }
 
-    public JSONObject listTeam(String sportName, String leagueName) {
+    public String listTeam(String sportName, String leagueName) {
         if (sportList.getSport(sportName) == null) {
             throw new TeamException("Erreur Sport");
         }
@@ -106,7 +106,7 @@ public class TeamSingleton {
                 System.out.println(result.toString(4));
             }
         }
-        return result;
+        return result.toString();
     }
 
     // public String listLeague() {
