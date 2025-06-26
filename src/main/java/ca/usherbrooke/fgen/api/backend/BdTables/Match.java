@@ -40,7 +40,7 @@ public class Match
         this.teams = new ArrayList<Team>();
     }
 
-    public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams, int idSeason)
+    public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams, Integer idSeason)
     {
         this.id = id;
         this.date = date;
