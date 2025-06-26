@@ -74,15 +74,14 @@
 <h2 class="mb-4">Supprimer un joueur d’une équipe</h2>
 <div class="mb-3">
     <label for="removePlayerTeam" class="form-label">Nom de l’équipe</label>
-    <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
+    <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles" list="teamNameData">
+
 </div>
 <div class="mb-3">
     <label for="playerNumberToRemove" class="form-label">Numéro du joueur</label>
 
-    <input class="form-control" list="playerNumbers" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10">
-
-    <datalist id="playerNumbers">
-    </datalist>
+    <input class="form-control" list="playerNumberData" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10">
+    <datalist id="playerNumberData"></datalist>
 </div>
 
 <button id="removePlayerBtn" class="btn btn-danger">Supprimer le joueur</button>
@@ -211,6 +210,17 @@
                     option.value = teamName;
                     console.log(datalist);
                     datalist.appendChild(option);
+                    const team = teams[teamName];
+                    Object.entries(team.joueurs).forEach(([playerNumber, playerStats]) =>{
+                        let datalistPlayer = document.getElementById("playerNumberData");
+                        console.log(playerNumber);
+                        const option = document.createElement('option');
+                        option.value = (playerNumber);
+                        console.log(datalist);
+                        datalistPlayer.appendChild(option);
+                    })
+
+
                 }
                 console.log("a");
             })

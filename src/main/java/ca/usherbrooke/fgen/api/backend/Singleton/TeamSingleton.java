@@ -157,7 +157,8 @@ public class TeamSingleton {
                         .put("blessures", new Random().nextInt(2))
                         .put("remarques", "");
 
-                joueurs.put(p.getName(), stats);
+                joueurs.put(String.valueOf(p.getNumber()), stats);
+
             }
 
             // Génère des stats fictives d’équipe
