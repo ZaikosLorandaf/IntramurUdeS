@@ -63,7 +63,7 @@ CREATE TABLE match_(
                        end_time TIME,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_league INT,
-                       id_season INT,
+                       id_season INT DEFAULT 11,
                        archive BOOLEAN DEFAULT FALSE,
                        PRIMARY KEY(id),
                        FOREIGN KEY(id_league) REFERENCES league(id),
