@@ -43,6 +43,16 @@
     <input type="date" id="deleteDate" class="form-control" />
 </div>
 
+<div class="mb-3">
+    <label for="deleteTeam1" class="form-label">Nom de l'équipe 1</label>
+    <input type="text" id="deleteTeam1" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <label for="deleteTeam2" class="form-label">Nom de l'équipe 2</label>
+    <input type="text" id="deleteTeam2" class="form-control" />
+</div>
+
 <button id="deleteDateBtn" class="btn btn-danger">Supprimer</button>
 
 <script src="../script/global-modals.js"></script>
@@ -142,12 +152,18 @@
     // Bouton Supprimer un match
     document.getElementById('deleteDateBtn').addEventListener('click', () => {
         const date = document.getElementById('deleteDate').value;
-        if (!date) {
-            alert("Veuillez entrer une date à supprimer.");
+        const team1 = document.getElementById('deleteTeam1').value.trim();
+        const team2 = document.getElementById('deleteTeam2').value.trim();
+
+        if (!date || !team1 || !team2) {
+            alert("Veuillez remplir la date et les deux noms d'équipes.");
             return;
         }
 
-        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}`)
+        // Encodage propre pour URL
+        const encodedTeam1 = encodeURIComponent(team1);
+        const encodedTeam2 = encodeURIComponent(team2);
+        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}/${encodedTeam1}/${encodedTeam2}`)
             .then(function (response) {
                 console.log(response.data);
                 alert("Match supprimé.");
