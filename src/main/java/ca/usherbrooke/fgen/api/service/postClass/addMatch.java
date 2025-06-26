@@ -3,15 +3,15 @@ package ca.usherbrooke.fgen.api.service.postClass;
 import io.smallrye.common.constraint.NotNull;
 public class addMatch {
     @NotNull
-    public String sportName;
+    public String sport;
     @NotNull
-    public String ligueName;
+    public String ligue;
     @NotNull
     public String date;
     @NotNull
-    public String teamName;
+    public String equipes;
     @NotNull
-    public String heureDebut;
+    public String heure_debut;
     @NotNull
-    public String heureFin;
+    public String heure_fin;
 }

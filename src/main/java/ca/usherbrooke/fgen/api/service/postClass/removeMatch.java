@@ -3,12 +3,14 @@ package ca.usherbrooke.fgen.api.service.postClass;
 import io.smallrye.common.constraint.NotNull;
 
 public class removeMatch {
-    public class removeTeam {
-        @NotNull
-        public String sportName;
-        @NotNull
-        public String leagueName;
-        @NotNull
-        public String date;
-    }
+    @NotNull
+    public String sport;
+    @NotNull
+    public String ligue;
+    @NotNull
+    public String date;
+    @NotNull
+    public String team1;
+    @NotNull
+    public String team2;
 }

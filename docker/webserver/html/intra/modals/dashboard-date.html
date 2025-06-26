@@ -147,7 +147,10 @@
             return;
         }
 
-        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}`)
+        // TODO: ajouter teams dans get pour delete
+        const team1 = "";
+        const team2 = "";
+        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}/${team1}/${team2}`)
             .then(function (response) {
                 console.log(response.data);
                 alert("Match supprimé.");

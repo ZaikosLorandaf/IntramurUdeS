@@ -31,14 +31,14 @@ public class MatchService extends TemplateService<Match> {
 
     @POST
     @Path("add")
-    public String addTeam(@NotNull addMatch match) {
-        return ogClass.getMatchSingleton().add(match.sportName, match.ligueName, match.teamName, match.date, match.heureDebut, match.heureFin);
+    public String addMatch(@NotNull addMatch match) {
+        return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipes, match.date, match.heure_debut, match.heure_fin);
     }
 
     @POST
     @Path("remove")
-    public String removeTeam(@NotNull removeMatch match) {
-        return ogClass.getMatchSingleton().remove(match.sportName, match.leagueName, match.date);
+    public String removeMatch(@NotNull removeMatch match) {
+        return ogClass.getMatchSingleton().remove(match.sport, match.ligue, match.date, match.team1, match.team2);
     }
 
     // Methodes GET
