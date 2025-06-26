@@ -6,6 +6,7 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
+import ca.usherbrooke.fgen.api.service.objectServices.TeamException;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import io.quarkus.arc.Arc;
 import org.json.JSONObject;
@@ -84,20 +85,20 @@ public class TeamSingleton {
         return "";
     }
 
-    public String listTeam(String sportName, String leagueName) {
+    public JSONObject listTeam(String sportName, String leagueName) {
         if (sportList.getSport(sportName) == null) {
-            return "Erreur Sport";
+            throw new TeamException("Erreur Sport");
         }
-        String result = "";
+        JSONObject result = new JSONObject();
         ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
         if (league == null)
-            result = "Ligue introuvable";
+            throw new TeamException("Erreur Ligue");
         else {
             if (league.getTeams().getSize() <= 0) {
-                result = "Pas d'équipe";
+
             } else {
                 for (int i : league.getTeams().getTeamIds()) {
-                    result += league.getTeams().getTeam(i).getName() + "</br>";
+                    result.put("nom",league.getTeams().getTeam(i).getName());
                 }
             }
         }

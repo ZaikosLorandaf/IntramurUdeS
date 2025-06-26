@@ -76,9 +76,14 @@
     <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
 </div>
 <div class="mb-3">
-    <label for="playerNumberToRemove" class="form-label">Numero du joueur</label>
-    <input type="number" id="playerNumberToRemove" class="form-control" placeholder="Ex. Jean Dupont">
+    <label for="playerNumberToRemove" class="form-label">Numéro du joueur</label>
+
+    <input class="form-control" list="playerNumbers" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10">
+
+    <datalist id="playerNumbers">
+    </datalist>
 </div>
+
 <button id="removePlayerBtn" class="btn btn-danger">Supprimer le joueur</button>
 
 
