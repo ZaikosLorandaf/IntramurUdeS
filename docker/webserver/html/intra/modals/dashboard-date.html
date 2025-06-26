@@ -163,7 +163,13 @@
         // Encodage propre pour URL
         const encodedTeam1 = encodeURIComponent(team1);
         const encodedTeam2 = encodeURIComponent(team2);
-        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}/${encodedTeam1}/${encodedTeam2}`)
+        axios.post(`http://localhost:8888/api/match/delete/`, {
+            sport: sport,
+            ligue: ligue,
+            date: date,
+            team1: encodedTeam1,
+            team2: encodedTeam2
+        })
             .then(function (response) {
                 console.log(response.data);
                 alert("Match supprimé.");
