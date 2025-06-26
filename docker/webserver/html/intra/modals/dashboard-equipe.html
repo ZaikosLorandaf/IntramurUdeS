@@ -192,7 +192,12 @@
         const params = new URLSearchParams(window.location.search);
         let sportName = params.get('sport');
         let leagueName = params.get('ligue');
-        axios.get("http://localhost:8888/api/team/listTeam/"+sportName+"/"+leagueName, { })
+        axios.get("http://localhost:8888/api/dashboard/equipes", {
+            params: {
+                sport: sportName,
+                ligue: leagueName
+            }
+        })
             .then(function (response) {
                 const teams = response.data;
                 console.log(teams);

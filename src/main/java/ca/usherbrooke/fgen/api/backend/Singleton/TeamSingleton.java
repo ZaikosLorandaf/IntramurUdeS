@@ -98,11 +98,18 @@ public class TeamSingleton {
             if (league.getTeams().getSize() <= 0) {
 
             } else {
-                List<String> nomLeagues = new java.util.ArrayList<>();
+                List<String> nomTeams = new java.util.ArrayList<>();
                 for (int i : league.getTeams().getTeamIds()) {
-                    nomLeagues.add(league.getTeams().getTeam(i).getName());
+                    JSONObject players = new JSONObject();
+                    List<Integer> numbers = new java.util.ArrayList<>();
+                    for(int j: league.getTeams().getTeam(i).getListPlayer().getPlayerIds())
+                    {
+                        numbers.add(league.getTeams().getTeam(i).getListPlayer().getPlayer(j).getNumber());
+                    }
+                    players.put("number", numbers);
+                    nomTeams.add(league.getTeams().getTeam(i).getName());
                 }
-                result.put("noms", nomLeagues);
+                result.put("noms", nomTeams);
                 System.out.println(result.toString(4));
             }
         }
