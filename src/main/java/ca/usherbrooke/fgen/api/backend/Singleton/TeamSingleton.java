@@ -6,12 +6,14 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
+import ca.usherbrooke.fgen.api.service.objectServices.TeamException;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import io.quarkus.arc.Arc;
 import org.json.JSONObject;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Random;
 
 public class TeamSingleton {
@@ -86,22 +88,32 @@ public class TeamSingleton {
 
     public String listTeam(String sportName, String leagueName) {
         if (sportList.getSport(sportName) == null) {
-            return "Erreur Sport";
+            throw new TeamException("Erreur Sport");
         }
-        String result = "";
+        JSONObject result = new JSONObject();
         ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
         if (league == null)
-            result = "Ligue introuvable";
+            throw new TeamException("Erreur Ligue");
         else {
             if (league.getTeams().getSize() <= 0) {
-                result = "Pas d'équipe";
+
             } else {
+                List<String> nomTeams = new java.util.ArrayList<>();
                 for (int i : league.getTeams().getTeamIds()) {
-                    result += league.getTeams().getTeam(i).getName() + "</br>";
+                    JSONObject players = new JSONObject();
+                    List<Integer> numbers = new java.util.ArrayList<>();
+                    for(int j: league.getTeams().getTeam(i).getListPlayer().getPlayerIds())
+                    {
+                        numbers.add(league.getTeams().getTeam(i).getListPlayer().getPlayer(j).getNumber());
+                    }
+                    players.put("number", numbers);
+                    nomTeams.add(league.getTeams().getTeam(i).getName());
                 }
+                result.put("noms", nomTeams);
+                System.out.println(result.toString(4));
             }
         }
-        return result;
+        return result.toString();
     }
 
     // public String listLeague() {
@@ -144,8 +156,10 @@ public class TeamSingleton {
                         .put("arrets", new Random().nextInt(3))
                         .put("blessures", new Random().nextInt(2))
                         .put("remarques", "");
+                JSONObject joueur = new JSONObject().put("name", p.getName() + " " + p.getLastName()).put("stats", stats);
+                joueurs.put(String.valueOf(p.getNumber()),joueur);
 
-                joueurs.put(p.getName(), stats);
+
             }
 
             // Génère des stats fictives d’équipe

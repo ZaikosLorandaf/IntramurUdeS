@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="p-4">
+<body class="p-4" onload="init()">
 
 <!-- Ajouter une équipe -->
 <h2 class="mb-4">Ajouter une équipe</h2>
@@ -36,7 +36,8 @@
 <h2 class="mb-4">Supprimer une équipe</h2>
 <div class="mb-3">
     <label for="deleteTeamName" class="form-label">Nom de l’équipe à supprimer</label>
-    <input type="text" id="deleteTeamName" class="form-control" placeholder="Ex. Les Aigles">
+    <input type="text" id="deleteTeamName" class="form-control" list="teamNameData" placeholder="Ex. Les Aigles">
+    <datalist id="teamNameData"></datalist>
 </div>
 <button id="deleteTeamBtn" class="btn btn-danger">Supprimer</button>
 
@@ -73,12 +74,16 @@
 <h2 class="mb-4">Supprimer un joueur d’une équipe</h2>
 <div class="mb-3">
     <label for="removePlayerTeam" class="form-label">Nom de l’équipe</label>
-    <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
+    <input type="text" id="removePlayerTeam" class="form-control" placeholder="Ex. Les Aigles" list="teamNameData">
+
 </div>
 <div class="mb-3">
-    <label for="playerNumberToRemove" class="form-label">Numero du joueur</label>
-    <input type="number" id="playerNumberToRemove" class="form-control" placeholder="Ex. Jean Dupont">
+    <label for="playerNumberToRemove" class="form-label">Numéro du joueur</label>
+
+    <input class="form-control" list="playerNumberData" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10">
+    <datalist id="playerNumberData"></datalist>
 </div>
+
 <button id="removePlayerBtn" class="btn btn-danger">Supprimer le joueur</button>
 
 
@@ -181,6 +186,50 @@
                 alert("Erreur lors de la suppression du joueur");
             });
     });
+
+    function init() {
+        console.log("allo");
+        const params = new URLSearchParams(window.location.search);
+        let sportName = params.get('sport');
+        let leagueName = params.get('ligue');
+        axios.get("http://localhost:8888/api/dashboard/equipes", {
+            params: {
+                sport: sportName,
+                ligue: leagueName
+            }
+        })
+            .then(function (response) {
+                const teams = response.data;
+                console.log(teams);
+
+                const datalist = document.getElementById('teamNameData');
+                datalist.innerHTML = '';
+                for (const teamName in teams){
+                    console.log("b");
+                    const option = document.createElement('option');
+                    option.value = teamName;
+                    console.log(datalist);
+                    datalist.appendChild(option);
+                    const team = teams[teamName];
+                    Object.entries(team.joueurs).forEach(([playerNumber, playerStats]) =>{
+                        let datalistPlayer = document.getElementById("playerNumberData");
+                        console.log(playerNumber);
+                        const option = document.createElement('option');
+                        option.value = (playerNumber);
+                        console.log(datalist);
+                        datalistPlayer.appendChild(option);
+                    })
+
+
+                }
+                console.log("a");
+            })
+            .catch(function (error) {
+                console.log(error);
+                // const container = document.querySelector('.main-container');
+                // container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
+            });
+    }
 
 </script>
 </body>
