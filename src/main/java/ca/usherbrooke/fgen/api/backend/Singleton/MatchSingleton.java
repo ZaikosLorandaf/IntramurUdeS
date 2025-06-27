@@ -6,7 +6,9 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
+import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
+import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
 import ca.usherbrooke.fgen.api.service.objectServices.MatchService;
 import io.quarkus.arc.Arc;
 import org.json.JSONArray;
@@ -23,11 +25,13 @@ public class MatchSingleton {
 
     MatchSingleton(){
         this.sportList = Arc.container().instance(ListSport.class).get();
+        this.matchService = Arc.container().instance(MatchService.class).get();
+        this.matchMapper = Arc.container().instance(MatchMapper.class).get();
     }
 
     // Gestion donnees
-    public String add(String sportName, String leagueName, String teamsNames, String date, String heureDebut, String heureFin) {
-        if (sportName == null || leagueName == null || teamsNames == null) {
+    public String add(String sportName, String leagueName, String team1, String team2, String date, String heureDebut, String heureFin) {
+        if (sportName == null || leagueName == null || team1 == null || team2 == null) {
             return "Erreur noms";
         }
         Sport sport = sportList.getSport(sportName);
@@ -41,19 +45,14 @@ public class MatchSingleton {
         }
 
         List<Integer> matchTeams = new ArrayList<>();
-        for (String teamName : teamsNames.split(",")) {
-            Team team = league.getTeams().getTeam(teamName.trim());
-            if (team == null) {
-                return "Équipe introuvable: " + teamName;
-            }
-            matchTeams.add(team.getId());
-        }
+        matchTeams.add(league.getTeams().getTeam(team1).getId());
+        matchTeams.add(league.getTeams().getTeam(team2).getId());
 
         int idMatch = matchService.getLastId() + 1;
         int idLeague = league.getId();
-        Date dateMatch = new Date(Long.parseLong(date));
-        Time beginMatch = new Time(Long.parseLong(heureDebut));
-        Time endMatch = new Time(Long.parseLong(heureFin));
+        Date dateMatch = Date.valueOf(date);
+        Time beginMatch = Time.valueOf(heureDebut);
+        Time endMatch = Time.valueOf(heureFin);
         Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
 
         if (addDb(match)) {
@@ -85,7 +84,7 @@ public class MatchSingleton {
 
         int idTeam1 = league.getTeams().getTeam(team1).getId();
         int idTeam2 = league.getTeams().getTeam(team2).getId();
-        Date dateMatch = new Date(Long.parseLong(date));
+        Date dateMatch = Date.valueOf(date);
         ca.usherbrooke.fgen.api.backend.BdTables.Match match = league.getListMatch().getMatch(dateMatch, idTeam1, idTeam2);
         if (match == null)
             return "<div>Pas de match</div>";

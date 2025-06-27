@@ -32,7 +32,7 @@ public class MatchService extends TemplateService<Match> {
     @POST
     @Path("add")
     public String addMatch(@NotNull addMatch match) {
-        return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipes, match.date, match.heure_debut, match.heure_fin);
+        return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipe1, match.equipe2, match.date, match.heure_debut, match.heure_fin);
     }
 
     @POST

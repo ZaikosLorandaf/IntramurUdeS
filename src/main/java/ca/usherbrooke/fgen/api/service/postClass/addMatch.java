@@ -9,7 +9,9 @@ public class addMatch {
     @NotNull
     public String date;
     @NotNull
-    public String equipes;
+    public String equipe1;
+    @NotNull
+    public String equipe2;
     @NotNull
     public String heure_debut;
     @NotNull
