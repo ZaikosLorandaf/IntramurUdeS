@@ -30,7 +30,7 @@ public class ListMatch extends ListTemplate<Match, String> {
 
     public Match getMatch(Date date, Integer idTeam1, Integer idTeam2) {
         for (Match match : this.getAllItems()) {
-            if (match.getDate() == date && match.getTeams().contains(idTeam1) && match.getTeams().contains(idTeam2)) {
+            if (match.getDate().equals(date) && match.getTeams().contains(idTeam1) && match.getTeams().contains(idTeam2)) {
                 return match;
             }
         }

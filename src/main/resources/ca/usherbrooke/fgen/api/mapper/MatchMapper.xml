@@ -57,10 +57,10 @@
 
     <insert id="insert">
         insert into intramurudes.match_(date_match, begin_time, end_time, id_league)
-        values (#{dateMatch},
-                #{beginTime},
-                #{endTime},
-                #{idLeague});
+        values (#{match.date},
+                #{match.beginTime},
+                #{match.endTime},
+                #{match.idLeague});
     </insert>
 
 </mapper>
