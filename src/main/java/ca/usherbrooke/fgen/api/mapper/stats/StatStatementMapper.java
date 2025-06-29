@@ -1,10 +1,12 @@
 package ca.usherbrooke.fgen.api.mapper.stats;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.StatStatement;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface StatStatementMapper {
     List<StatStatement> selectAll();
     StatStatement selectOne(@Param("id") Integer id);
