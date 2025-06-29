@@ -29,8 +29,9 @@ public class ListMatch extends ListTemplate<Match, String> {
     }
 
     public Match getMatch(Date date, Integer idTeam1, Integer idTeam2) {
+        Date dateTest = Date.valueOf(date.toLocalDate().plusDays(1)); // Incrementer la date de 1 jour
         for (Match match : this.getAllItems()) {
-            if (match.getDate().equals(date) && match.getTeams().contains(idTeam1) && match.getTeams().contains(idTeam2)) {
+            if (match.getDate().equals(dateTest) && match.getIdTeams().contains(idTeam1) && match.getIdTeams().contains(idTeam2)) {
                 return match;
             }
         }
