@@ -3,6 +3,8 @@ package ca.usherbrooke.fgen.api.backend.Lists;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 
+import java.sql.Date;
+
 public class ListMatch extends ListTemplate<Match, String> {
 
     public boolean addMatch(Match match) {
@@ -22,9 +24,18 @@ public class ListMatch extends ListTemplate<Match, String> {
     public Match getMatch(int id) {
         return getItem(id);
     }
-
     public Match getMatch(Match match) {
         return getItem(match.getId());
+    }
+
+    public Match getMatch(Date date, Integer idTeam1, Integer idTeam2) {
+        Date dateTest = Date.valueOf(date.toLocalDate().plusDays(1)); // Incrementer la date de 1 jour
+        for (Match match : this.getAllItems()) {
+            if (match.getDate().equals(dateTest) && match.getIdTeams().contains(idTeam1) && match.getIdTeams().contains(idTeam2)) {
+                return match;
+            }
+        }
+        return null;
     }
 
     public boolean removeMatch(Match match) {

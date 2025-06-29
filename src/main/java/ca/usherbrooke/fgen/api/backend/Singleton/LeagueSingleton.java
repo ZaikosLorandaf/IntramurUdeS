@@ -5,11 +5,8 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
-import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 import io.quarkus.arc.Arc;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.sql.Date;
 
 public class LeagueSingleton {
@@ -40,7 +37,6 @@ public class LeagueSingleton {
         newLeague.setLeagueID(id);
         int sportId = sport.getId();
         newLeague.setIdSport(sportId);
-
 
         String result;
 

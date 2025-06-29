@@ -4,15 +4,13 @@ import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
-import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addPlayer;
 import ca.usherbrooke.fgen.api.service.postClass.removePlayer;
+
 import io.quarkus.arc.Arc;
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
-
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 

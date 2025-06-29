@@ -10,7 +10,6 @@ public class Season
     private String timePrecision;
     private ListLeague leagues;
 
-
     public Season(){
         this.id = -1;
         this.leagues = new ListLeague();

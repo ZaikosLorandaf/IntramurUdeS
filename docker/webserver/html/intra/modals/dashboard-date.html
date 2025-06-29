@@ -114,10 +114,15 @@
     // Bouton Ajouter un match
     document.getElementById('addDateBtn').addEventListener('click', () => {
         const date = document.getElementById('addDate').value;
-        const heureDebut = document.getElementById('startTime').value;
-        const heureFin = document.getElementById('endTime').value;
+        let heureDebut = document.getElementById('startTime').value;
+        let heureFin = document.getElementById('endTime').value;
         const checkedTeams = document.querySelectorAll('input[name="teamCheckbox"]:checked');
         const nomEquipes = Array.from(checkedTeams).map(cb => cb.value);
+
+        // Pour avoir un format hh:mm:ss
+        if (heureDebut && heureDebut.length === 5) heureDebut += ":00";
+        if (heureFin && heureFin.length === 5) heureFin += ":00";
+
 
         if (!date || !heureDebut || !heureFin) {
             alert("Veuillez remplir tous les champs.");
@@ -134,7 +139,8 @@
             sport: sport,
             ligue: ligue,
             date: date,
-            equipes: nomEquipes,         // tableau de 2 équipes
+            equipe1: nomEquipes[0],
+            equipe2: nomEquipes[1],
             heure_debut: heureDebut,
             heure_fin: heureFin
         })
@@ -163,7 +169,13 @@
         // Encodage propre pour URL
         const encodedTeam1 = encodeURIComponent(team1);
         const encodedTeam2 = encodeURIComponent(team2);
-        axios.get(`http://localhost:8888/api/match/delete/${sport}/${ligue}/${date}/${encodedTeam1}/${encodedTeam2}`)
+        axios.post(`http://localhost:8888/api/match/remove/`, {
+            sport: sport,
+            ligue: ligue,
+            date: date,
+            team1: encodedTeam1,
+            team2: encodedTeam2
+        })
             .then(function (response) {
                 console.log(response.data);
                 alert("Match supprimé.");

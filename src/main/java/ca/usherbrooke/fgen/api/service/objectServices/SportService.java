@@ -5,9 +5,9 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addSport;
 import ca.usherbrooke.fgen.api.service.postClass.removeSport;
+
 import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
