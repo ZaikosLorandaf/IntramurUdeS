@@ -27,13 +27,18 @@ public abstract class ListTemplate<ObjectType, NameType> {
      *
      * @return 1 reussi, 0 echec
      */
-    protected int addItem(ObjectType item){
-        if (!this.mapId.containsKey(getId(item)) && !this.mapNameId.containsKey(getName(item))) {
-            this.mapId.put(getId(item), item);
-            this.mapNameId.put(getName(item), getId(item));
-            return 0;
+    protected boolean addItem(ObjectType item){
+        int id = getId(item);
+        NameType name = getName(item);
+
+        if (!this.mapId.containsKey(id) && !this.mapNameId.containsKey(name)) {
+            this.mapId.put(id, item);
+            this.mapNameId.put(name, id);
+            logAddSuccess(item);
+            return true;
         } else {
-            return 1;
+            logAddFailure(item);
+            return false;
         }
     }
 
@@ -47,7 +52,7 @@ public abstract class ListTemplate<ObjectType, NameType> {
     protected int addItems(List<ObjectType> items){
         int counter = 0;
         for (ObjectType item : items)
-            counter += this.addItem(item);
+            counter += this.addItem(item) ? 1 : 0;
 
         return counter;
     }
@@ -63,9 +68,11 @@ public abstract class ListTemplate<ObjectType, NameType> {
         if(this.mapId.containsKey(id) && this.mapNameId.containsKey(getName(this.mapId.get(id)))) {
             this.mapNameId.remove(getName(this.mapId.get(id)));
             this.mapId.remove(id);
+            logRemoveSuccess(id);
             return true;
         }
         else {
+            logRemoveFailure(id);
             return false;
         }
     }
@@ -76,6 +83,22 @@ public abstract class ListTemplate<ObjectType, NameType> {
     protected void clearMap(){
         this.mapId.clear();
         this.mapNameId.clear();
+    }
+
+    /**
+     * Affiche ce que contient la liste dans la console pour tester
+     */
+    public void printList() {
+        if (this.getMapSize() <= 0)
+            System.out.println("Liste vide");
+        else {
+            System.out.println("------LISTE------");
+            System.out.printf("Size = %d\n", getMapSize());
+            for (int i : getMapIds()) {
+                printItem(i);
+            }
+            System.out.println("------FIN------");
+        }
     }
 
     // Getter
@@ -91,4 +114,10 @@ public abstract class ListTemplate<ObjectType, NameType> {
     // Methodes abtraites
     abstract int getId(ObjectType item);
     abstract NameType getName(ObjectType item);
+
+    abstract void printItem(int indexItem);
+    abstract void logAddSuccess(ObjectType item);
+    abstract void logAddFailure(ObjectType item);
+    abstract void logRemoveSuccess(int id);
+    abstract void logRemoveFailure(int id);
 }

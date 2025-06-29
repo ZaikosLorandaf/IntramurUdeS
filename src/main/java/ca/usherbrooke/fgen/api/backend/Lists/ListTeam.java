@@ -21,18 +21,7 @@ public class ListTeam extends ListTemplate<Team, String>  {
      * @return vrai si equipe ajoutee
      */
     public boolean addTeam(Team team) {
-
-        switch (addItem(team)) {
-            case 1:
-                ListSport.addTeamMap(team);
-                LoggerUtil.info("Ajout de l'équipe " + team.getName());
-                return true;
-            case 0:
-                LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
-                return false;
-            default:
-                return false;
-        }
+        return addItem(team);
     }
 
     /**
@@ -47,18 +36,7 @@ public class ListTeam extends ListTemplate<Team, String>  {
     }
 
     public boolean removeTeam(int id) {
-        Team team = getItem(id);
-        for(int i: team.getListPlayer().getPlayerIds())
-            team.getListPlayer().removePlayer(i);
-
-        if (removeItem(id)) {
-            LoggerUtil.warning("Retrait de l'équipe " + team.getName() + "(id: " + id + ").");
-            ListSport.removeTeamMap(team);
-            return true;
-        } else {
-            LoggerUtil.warning("Échec du retrait de l'équipe " + team.getName() + "(id: " + id + ").");
-            return false;
-        }
+        return removeItem(id);
     }
 
 
@@ -71,22 +49,6 @@ public class ListTeam extends ListTemplate<Team, String>  {
      */
     public boolean removeTeam(Team team) {
         return removeTeam(team.getId());
-    }
-
-
-    /**
-     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
-     */
-    public void printListTeam() {
-        if(getMapSize() <= 0) {
-            System.out.println("Pas d'équipe");
-            return;
-        }
-        System.out.println("-----base.ListTeam-----");
-        for(int i : getMapIds()) {
-            getTeam(i).printTeam();
-        }
-        System.out.println("-----Fin-----");
     }
 
     /**
@@ -106,4 +68,42 @@ public class ListTeam extends ListTemplate<Team, String>  {
 
     public int getId(Team team) { return team.getId(); }
     public String getName(Team team) { return team.getName(); };
+
+    // Methodes affichage
+    @Override
+    void logAddSuccess(Team team) {
+        ListSport.addTeamMap(team);
+        LoggerUtil.info("Ajout de l'équipe " + team.getName());
+    }
+
+    @Override
+    void logAddFailure(Team team){
+        LoggerUtil.warning("Le id de l'équipe " + team.getName() + " (" + team.getId() + ") est déjà dans présent.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id){
+        Team team = getItem(id);
+        for(int i: team.getListPlayer().getPlayerIds())
+            team.getListPlayer().removePlayer(i);
+
+        LoggerUtil.warning("Retrait de l'équipe " + team.getName() + "(id: " + id + ").");
+    }
+
+    @Override
+    void logRemoveFailure(int id){
+        Team team = getItem(id);
+        for(int i: team.getListPlayer().getPlayerIds())
+            team.getListPlayer().removePlayer(i);
+
+        LoggerUtil.warning("Échec du retrait de l'équipe " + team.getName() + "(id: " + id + ").");
+    }
+
+    /**
+     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
+     */
+    @Override
+    void printItem(int index){
+        getTeam(index).printTeam();
+    }
 }

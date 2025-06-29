@@ -23,24 +23,7 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * @return false if list over max size
      */
     public boolean addPlayer(Player player) {
-        int id = player.getId();
-        int number = player.getNumber();
-        if (!mapId.containsKey(player.getId()) && !mapNameId.containsKey(player.getNumber())) {
-            mapId.put(player.getId(), player);
-            mapNameId.put(player.getNumber(), player.getId());
-
-//            switch (addItem(player)) {
-//                case 1:
-                    LoggerUtil.info("Ajout du joueur " + player.getName() + " " + player.getLastName() + " " + player.getNumber());
-                    return true;
-//                case 0:
-//                    LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
-//                    return false;
-//                default:
-//                    return false;
-//            }
-        }
-        return false;
+        return addItem(player);
     }
 
     /**
@@ -60,14 +43,7 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      * @return faux si index out of bound sinon vrai
      */
     public boolean removePlayer(int id) {
-        Player player = getItem(id);
-        if (removeItem(id)) {
-            LoggerUtil.warning("Retrait du joueur " + player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
-            return true;
-        } else {
-            LoggerUtil.warning("Échec du retrait du sport " +  player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
-            return false;
-        }
+        return removeItem(id);
     }
 
     /**
@@ -88,22 +64,6 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
      */
     public boolean removePlayerByNumber(int number) {
         return this.removePlayer(getItem(number));
-    }
-
-    /**
-     * Affiche ce que contient la liste dans la console pour tester
-     */
-    public void printList() {
-        if (this.getSize() <= 0)
-            System.out.println("Liste vide");
-        else {
-            System.out.println("------LISTE------");
-            System.out.printf("Size = %d\n", getSize());
-            for (int i : getMapIds()) {
-                getPlayer(i).printPlayer();
-            }
-            System.out.println("------FIN------");
-        }
     }
 
     // Getter
@@ -136,5 +96,38 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
         int numb = mapNameId.getOrDefault(number, null);
         Player p = this.getPlayer(numb);
         return p;
+    }
+
+    // Methodes affichage
+    @Override
+    void logAddSuccess(Player player) {
+        LoggerUtil.info("Ajout du joueur " + player.getName() + " " + player.getLastName() + " " + player.getNumber());
+    }
+
+    @Override
+    void logAddFailure(Player player){
+        LoggerUtil.warning("Le id du joueur " + player.getName() + " (" + player.getId() + ") est déjà dans présent.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id){
+        Player player = getItem(id);
+
+        LoggerUtil.warning("Retrait du joueur " + player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
+    }
+
+    @Override
+    void logRemoveFailure(int id){
+        Player player = getItem(id);
+
+        LoggerUtil.warning("Échec du retrait du sport " +  player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
+    }
+
+    /**
+     * Affiche ce que contient la liste dans la console pour tester
+     */
+    @Override
+    void printItem(int index){
+        getPlayer(index).printPlayer();
     }
 }

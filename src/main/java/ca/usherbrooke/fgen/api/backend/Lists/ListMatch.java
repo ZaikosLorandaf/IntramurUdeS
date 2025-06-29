@@ -8,17 +8,7 @@ import java.sql.Date;
 public class ListMatch extends ListTemplate<Match, String> {
 
     public boolean addMatch(Match match) {
-        switch (addItem(match)) {
-            case 0:
-                LoggerUtil.info("Ajout du match " + match.getId());
-                return true;
-            case 1:
-                LoggerUtil.warning("Le id du match " + match.getId() + " est déjà dans présent.");
-                return false;
-            default:
-                return false;
-        }
-
+        return addItem(match);
     }
 
     public Match getMatch(int id) {
@@ -55,5 +45,33 @@ public class ListMatch extends ListTemplate<Match, String> {
     @Override
     public String getName(Match item) {
         return item.toString();
+    }
+
+    // Methodes affichage
+    @Override
+    void logAddSuccess(Match match) {
+        LoggerUtil.info("Ajout du match " + match.getId());
+    }
+
+    @Override
+    void logAddFailure(Match match){
+        LoggerUtil.warning("Le id du match " + match.getId() + " est déjà dans présent.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id){
+        LoggerUtil.warning("Retrait match reussi");
+    }
+
+    @Override
+    void logRemoveFailure(int id){
+        LoggerUtil.warning("Échec du retrait du match");
+    }
+
+    /**
+     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
+     */
+    @Override
+    void printItem(int index){
     }
 }

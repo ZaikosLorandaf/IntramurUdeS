@@ -22,18 +22,7 @@ public class ListLeague extends ListTemplate<League, String> {
      * @return True si la ligue a bien été ajoutée, sinon false
      */
     public boolean addLeague(League league) {
-        switch (addItem(league)) {
-            case 1:
-                ListSport.addLeagueMap(league);
-                LoggerUtil.info("Ajout de la ligue " + league.getName());
-                return true;
-            case 0:
-                LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
-                        " (" + league.getId() + ") existe déjà.");
-                return false;
-            default:
-                return false;
-        }
+        return addItem(league);
     }
 
     /**
@@ -55,18 +44,7 @@ public class ListLeague extends ListTemplate<League, String> {
      * @return faux si le vecteur ne contient pas le
      */
     public boolean removeLeague(int id) {
-        League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
-
-        if (removeItem(id)) {
-            LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
-            ListSport.removeLeagueMap(ligue);
-            return true;
-        } else {
-            LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
-            return false;
-        }
+        return removeItem(id);
     }
 
     /**
@@ -91,4 +69,42 @@ public class ListLeague extends ListTemplate<League, String> {
     public String getName(League league){
         return league.getName();
     };
+
+    // Methodes affichage
+    @Override
+    void logAddSuccess(League league) {
+        ListSport.addLeagueMap(league);
+        LoggerUtil.info("Ajout de la ligue " + league.getName());
+    }
+    @Override
+    void logAddFailure(League league){
+        LoggerUtil.warning("Le id ou le nom de la ligue " + league.getName() +
+                " (" + league.getId() + ") existe déjà.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id){
+        League ligue =getItem(id);
+        for (int i: ligue.getTeams().getTeamIds())
+            ligue.getTeams().removeTeam(i);
+
+        LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
+        ListSport.removeLeagueMap(ligue);
+    }
+
+    @Override
+    void logRemoveFailure(int id){
+        League ligue =getItem(id);
+        for (int i: ligue.getTeams().getTeamIds())
+            ligue.getTeams().removeTeam(i);
+
+        LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
+    }
+
+    /**
+     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
+     */
+    @Override
+    void printItem(int index){
+    }
 }
