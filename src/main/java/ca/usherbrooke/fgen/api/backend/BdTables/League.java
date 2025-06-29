@@ -266,8 +266,8 @@ public class League {
     }
     LoggerUtil.info("Changement de l'id de la ligue " + getName() + ":" + this.id + "-->" + idLeague);
     this.id = idLeague;
-    for (int i = 0; i < getTeams().getSize(); i++) {
-      this.getTeams().getTeam(i).setIdLeague(idLeague);
+    for (int i = 0; i < getListTeam().getSize(); i++) {
+      this.getListTeam().getTeam(i).setIdLeague(idLeague);
     }
     return true;
   }
@@ -292,7 +292,7 @@ public class League {
   public String getName() {
     return this.name;
   }
-  public ListTeam getTeams() { return this.listTeam; }
+  public ListTeam getListTeam() { return this.listTeam; }
   public ListMatch getListMatch() {return this.listMatch;}
   public List<Integer> getIdSeasons() {return this.idSeasons;}
 }

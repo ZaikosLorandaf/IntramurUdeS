@@ -43,8 +43,8 @@ public class MatchSingleton {
         }
 
         List<Integer> matchTeams = new ArrayList<>();
-        matchTeams.add(league.getTeams().getTeam(team1).getId());
-        matchTeams.add(league.getTeams().getTeam(team2).getId());
+        matchTeams.add(league.getListTeam().getTeam(team1).getId());
+        matchTeams.add(league.getListTeam().getTeam(team2).getId());
 
         int idMatch = matchService.getLastId() + 1;
         int idLeague = league.getId();
@@ -80,8 +80,8 @@ public class MatchSingleton {
             return "Ligue introuvable";
         }
 
-        int idTeam1 = league.getTeams().getTeam(team1).getId();
-        int idTeam2 = league.getTeams().getTeam(team2).getId();
+        int idTeam1 = league.getListTeam().getTeam(team1).getId();
+        int idTeam2 = league.getListTeam().getTeam(team2).getId();
         Date dateMatch = Date.valueOf(date);
         ca.usherbrooke.fgen.api.backend.BdTables.Match match = league.getListMatch().getMatch(dateMatch, idTeam1, idTeam2);
         if (match == null)

@@ -56,8 +56,8 @@ public class ListLeague extends ListTemplate<League, String> {
      */
     public boolean removeLeague(int id) {
         League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
+        for (int i: ligue.getListTeam().getTeamIds())
+            ligue.getListTeam().removeTeam(i);
 
         if (removeItem(id)) {
             LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");

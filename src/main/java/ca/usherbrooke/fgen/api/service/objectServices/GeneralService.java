@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
+import ca.usherbrooke.fgen.api.service.objectServices.stats.StatStatementService;
 import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.event.Observes;
@@ -21,10 +22,13 @@ public class GeneralService {
         MatchService matchService;
         @Inject
         SeasonService seasonService;
+        @Inject
+        StatStatementService statStatementService;
 
 
         @GET
         public String getAllData() {
+            statStatementService.getStatStatements();
             seasonService.getSeasons();
             sportService.getSports();
             leagueService.getLeagues();

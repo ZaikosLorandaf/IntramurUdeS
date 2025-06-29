@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.backend.BdTables;
 
 import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
+import ca.usherbrooke.fgen.api.backend.Lists.ListStat;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 public class Team {
@@ -8,6 +9,7 @@ public class Team {
     private String name;
     private int idLeague;
     private ListPlayer listPlayer;
+    private ListStat listStat;
 
     // Constructeurs
     /**
@@ -23,6 +25,7 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = listPlayer;
+        this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
     }
 
@@ -39,6 +42,7 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
     }
 
@@ -215,5 +219,8 @@ public class Team {
     }
     public String getName() {
         return this.name;
+    }
+    public ListStat getListStat() {
+        return this.listStat;
     }
 }

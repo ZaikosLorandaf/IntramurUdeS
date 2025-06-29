@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.StatPlayerMapper">
+    <resultMap id="StatPlayerMap" type="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer"/>
+            <arg column="id_stat_statement" javaType="java.lang.Integer"/>
+            <arg column="value" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="id_match" javaType="java.lang.Integer"/>
+            <arg column="id_season" javaType="java.lang.Integer"/>
+            <arg column="id_player" javaType="java.lang.Integer"/>
+            <arg column="id_league" javaType="java.lang.Integer"/>
+            <arg column="id_team" javaType="java.lang.Integer"/>
+            <arg column="id_league_player" javaType="java.lang.Integer"/>
+            <arg column="id_sport" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="StatPlayerMap">
+        SELECT vps.id AS id,
+               vps.id_stat_statement AS id_stat_statement,
+               CAST(vps.value_ AS VARCHAR(127)) AS value,
+               vps.id_match AS id_match,
+               vps.id_season AS id_season,
+               vps.id_player AS id_player,
+               vps.id_league AS id_league,
+               vps.id_team AS id_team,
+               vps.id_league_player AS id_league_player,
+               vps.id_sport AS id_sport
+        FROM intramurudes.v_player_stat vps;
+    </select>
+
+    <select id="selectOne" resultMap="StatPlayerMap">
+        SELECT vps.id AS id,
+               vps.id_stat_statement AS id_stat_statement,
+               CAST(vps.value_ AS VARCHAR(127)) AS value,
+               vps.id_match AS id_match,
+               vps.id_season AS id_season,
+               vps.id_player AS id_player,
+               vps.id_league AS id_league,
+               vps.id_team AS id_team,
+               vps.id_league_player AS id_league_player,
+               vps.id_sport AS id_sport
+        FROM intramurudes.v_player_stat vps
+        WHERE vps.id = #{id};
+    </select>
+
+
+    <delete id="deleteOne">
+        DELETE
+        FROM intramurudes.player_stat
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.player_stat_id_seq;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO intramurudes.player_stat(id, value_, id_match, id_stat_statement, id_season, id_player)
+        VALUES (#{id},
+                #{value},
+                #{match.id},
+                #{id_stat_statement});
+    </insert>
+
+</mapper>

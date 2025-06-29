@@ -1,6 +1,5 @@
-package ca.usherbrooke.fgen.api.backend.BdTables;
+package ca.usherbrooke.fgen.api.backend.BdTables.Stats;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StatStatement {
@@ -9,7 +8,7 @@ public class StatStatement {
     private String acronym;
     private List<Integer> idSports;
 
-    public StatStatement(int id, String statement, String acronym, List<Integer> idSports) {
+    public StatStatement(Integer id, String statement, String acronym, List<Integer> idSports) {
         this.id = id;
         this.statement = statement;
         this.acronym = acronym;
@@ -24,6 +23,9 @@ public class StatStatement {
     }
     public String getAcronym() {
         return acronym;
+    }
+    public List<Integer> getIdSports() {
+        return idSports;
     }
 
     @Override

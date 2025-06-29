@@ -1,7 +1,6 @@
 package ca.usherbrooke.fgen.api.backend.Lists;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.Season;
-import ca.usherbrooke.fgen.api.backend.BdTables.StatStatement;
+import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 import java.util.List;

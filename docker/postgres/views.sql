@@ -16,7 +16,7 @@ AS
 SELECT p.id AS id_player, p.name AS player_name, p.last_name, p.number,
        t.id AS id_team, t.name AS team_name,
        l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
-       s.id AS sport_id, s.name AS sport_name, s.nb_team_match,
+       s.id AS id_sport, s.name AS sport_name, s.nb_team_match,
        p.archive AS archive_player
 FROM intramurudes.player p
          INNER JOIN intramurudes.team t ON t.id = p.id_team
@@ -29,7 +29,7 @@ CREATE OR REPLACE VIEW v_team_league_sport
 AS
 SELECT t.id AS id_team, t.name AS team_name,
        l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
-       s.id AS sport_id, s.name AS sport_name, s.nb_team_match,
+       s.id AS id_sport, s.name AS sport_name, s.nb_team_match,
        s.archive AS archive_sport
 FROM intramurudes.team t
          INNER JOIN intramurudes.league l ON l.id = t.id_league
@@ -85,3 +85,34 @@ SELECT s.id as id,
 FROM intramurudes.stat_statement s
          INNER JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
 GROUP BY s.id, s.statement, s.acronym;
+
+
+
+CREATE OR REPLACE VIEW v_player_stat
+AS
+SELECT ps.id AS id,
+       ps.value_ AS value_,
+       CASE
+           WHEN ps.id_match IS NULL THEN -1
+           ELSE ps.id_match END
+           AS id_match,
+       ps.id_stat_statement AS id_stat_statement,
+       CASE
+           WHEN ps.id_season IS NULL THEN -1
+           ELSE ps.id_season END
+           AS id_season,
+       ps.id_player AS id_player,
+       CASE
+           WHEN m.id_league IS NULL THEN -1
+           ELSE m.id_league END AS id_league,
+       vptls.id_team AS id_team,
+       vptls.id_league AS id_league_player,
+       vptls.id_sport AS id_sport
+FROM intramurudes.player_stat ps
+LEFT JOIN match_ m ON m.id = ps.id_match
+LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player;
+
+
+
+
+

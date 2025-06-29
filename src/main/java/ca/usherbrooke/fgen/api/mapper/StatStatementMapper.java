@@ -1,6 +1,6 @@
-package ca.usherbrooke.fgen.api.mapper.stats;
+package ca.usherbrooke.fgen.api.mapper;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.StatStatement;
+import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

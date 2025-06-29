@@ -1,15 +1,14 @@
 package ca.usherbrooke.fgen.api.service.objectServices.stats;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.Match;
-import ca.usherbrooke.fgen.api.backend.BdTables.StatStatement;
-import ca.usherbrooke.fgen.api.mapper.stats.StatStatementMapper;
+import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
+import ca.usherbrooke.fgen.api.mapper.StatStatementMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import java.util.List;
 
-@Path("/api/statStatement")
+@Path("/api/stat/statement")
 public class StatStatementService extends TemplateService<StatStatement> {
     @Inject
     StatStatementMapper statStatementMapper;

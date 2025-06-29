@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.backend.BdTables;
 
+import ca.usherbrooke.fgen.api.backend.Lists.ListStat;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 
 public class Player {
@@ -8,6 +9,7 @@ public class Player {
     private String lastName;
     private int number;
     private int idTeam;
+    private ListStat listStat;
 
     // Constructeurs
     /**
@@ -21,6 +23,7 @@ public class Player {
         setName(fn);
         setLastName(ln);
         setIdTeam(idTeam);
+        this.listStat = new ListStat();
         LoggerUtil.info("Création du joueur: " + fn + " " + ln);
     }
 
@@ -29,6 +32,7 @@ public class Player {
         setLastName(ln);
         setIdTeam(idTeam);
         this.number = number;
+        this.listStat = new ListStat();
         LoggerUtil.info("Création du joueur: " + fn + " " + ln);
     }
 
@@ -38,6 +42,7 @@ public class Player {
         this.lastName = lastName;
         this.number = number;
         this.idTeam = idTeam;
+        this.listStat = new ListStat();
     }
 
     // Methodes
@@ -74,6 +79,9 @@ public class Player {
     }
     public String getLastName() {
         return this.lastName;
+    }
+    public ListStat getListStat() {
+        return this.listStat;
     }
     public int getId() {
         return this.id;

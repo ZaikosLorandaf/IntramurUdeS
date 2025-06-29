@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ca.usherbrooke.fgen.api.mapper.stats.StatStatementMapper">
-    <resultMap id="StatStatementMap" type="ca.usherbrooke.fgen.api.backend.BdTables.StatStatement">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.StatStatementMapper">
+    <resultMap id="StatStatementMap" type="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement">
         <constructor>
             <arg column="id" javaType="java.lang.Integer"/>
             <arg column="statement" javaType="java.lang.String"/>
@@ -14,48 +14,39 @@
 
 
     <select id="selectAll" resultMap="StatStatementMap">
-        SET search_path = intramurudes;
-        SELECT vmls.match_id AS id,
-               vmls.date_match AS date_match,
-               vmls.begin_time AS begin_time,
-               vmls.end_time AS end_time,
-               vmls.id_league AS id_league,
-               vmls.nb_team_match AS nb_team_match,
-               vmls.list_teams AS id_teams,
-               vmls.id_season AS id_season
-        FROM v_match_league_sport vmls;
+        SELECT vss.id AS id,
+               vss.statement AS statement,
+               vss.acronym AS acronym,
+               vss.id_sports AS id_sports
+        FROM intramurudes.v_stat_statement vss;
     </select>
 
-    <select id="selectOne" resultMap="MatchMap">
-        SET search_path = intramurudes;
-        SELECT vmls.match_id AS id,
-               vmls.date_match AS date_match,
-               vmls.begin_time AS begin_time,
-               vmls.end_time AS end_time,
-               vmls.id_league AS id_league,
-               vmls.nb_team_match AS nb_team_match,
-               vmls.list_teams AS id_teams
-        FROM v_match_league_sport vmls
-        WHERE match_id = #{id};
+    <select id="selectOne" resultMap="StatStatementMap">
+        SELECT vss.id AS id,
+               vss.statement AS statement,
+               vss.acronym AS acronym,
+               vss.id_sports AS id_sports
+        FROM intramurudes.v_stat_statement vss
+        WHERE vss.id = #{id};
     </select>
 
 
     <delete id="deleteOne">
-        delete
-        from intramurudes.match_
-        where id = #{id}
+        DELETE
+        FROM intramurudes.stat_statement
+        WHERE id = #{id}
     </delete>
 
     <select id="getLastId" resultType="Integer">
-        SELECT last_value FROM intramurudes.match__id_seq;
+        SELECT last_value FROM intramurudes.stat_statement_id_seq;
     </select>
 
     <insert id="insert">
-        insert into intramurudes.match_(date_match, begin_time, end_time, id_league)
-        values (#{dateMatch},
-                #{beginTime},
-                #{endTime},
-                #{idLeague});
+        INSERT INTO intramurudes.v_stat_statement(id, statement, acronym, id_sports)
+        VALUES (#{id},
+                #{statement},
+                #{acronym},
+                #{id_sports});
     </insert>
 
 </mapper>
