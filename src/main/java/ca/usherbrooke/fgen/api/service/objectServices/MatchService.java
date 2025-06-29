@@ -7,11 +7,10 @@ import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
 import ca.usherbrooke.fgen.api.service.postClass.addMatch;
 import ca.usherbrooke.fgen.api.service.postClass.removeMatch;
-import io.smallrye.common.constraint.NotNull;
 
+import io.smallrye.common.constraint.NotNull;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import java.util.Collection;
 import java.util.List;
 
 @Path("/api/match")

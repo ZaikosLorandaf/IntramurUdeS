@@ -53,8 +53,6 @@ public class ListSport extends ListTemplate<Sport, String> {
         return addItems(sports);
     }
 
-    
-
     /**
      * Ajouter une liste de sports à la liste
      *
@@ -73,7 +71,6 @@ public class ListSport extends ListTemplate<Sport, String> {
             return false;
         }
     }
-
 
     public static int addLeagueMap(List<League> leagues) {
         int counter = 0;

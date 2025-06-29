@@ -8,11 +8,10 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamException;
 import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
+
 import io.quarkus.arc.Arc;
 import org.json.JSONObject;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 import java.util.Random;
 

@@ -6,9 +6,7 @@ import ca.usherbrooke.fgen.api.backend.Lists.ListTeam;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import io.quarkus.arc.Arc;
-import io.quarkus.arc.runtime.BeanContainer;
 
-import javax.inject.Inject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

@@ -4,14 +4,11 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.SportMapper;
-import ca.usherbrooke.fgen.api.service.objectServices.SportService;
-import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
+
 import io.quarkus.arc.Arc;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -33,11 +30,8 @@ public class SportSingleton {
         ca.usherbrooke.fgen.api.backend.BdTables.Sport newSport = new ca.usherbrooke.fgen.api.backend.BdTables.Sport(sportName);
         int id = sportMapper.getLastId() + 1;
         newSport.setId(id);
-//        int resultAdd = sportList.addSport(newSport);
+
         String result;
-//        if (resultAdd == 0)
-//            result = "<div>erreur</div>";
-//        else {
 
         if (addDb(newSport)) {
             result = "<div>";
@@ -45,12 +39,10 @@ public class SportSingleton {
         } else {
             result = "Impossible d'ajouter dans la base de données " + "<br>";
         }
-//        }
         return result;
     }
 
     public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.Sport sport) {
-        //sportService.addSport(sport);
         getSportList().addSport(sport);
         sportMapper.insert(sport);
         return true;

@@ -2,14 +2,6 @@ package ca.usherbrooke.fgen.api.backend.Singleton;
 
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
-import ca.usherbrooke.fgen.api.mapper.PlayerMapper;
-import ca.usherbrooke.fgen.api.mapper.SportMapper;
-import ca.usherbrooke.fgen.api.mapper.TeamMapper;
-import ca.usherbrooke.fgen.api.service.objectServices.LeagueService;
-import ca.usherbrooke.fgen.api.service.objectServices.PlayerService;
-import ca.usherbrooke.fgen.api.service.objectServices.SportService;
-import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
