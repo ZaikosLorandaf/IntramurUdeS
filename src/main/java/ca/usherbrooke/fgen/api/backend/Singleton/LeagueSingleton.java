@@ -12,14 +12,11 @@ import java.sql.Date;
 public class LeagueSingleton {
     ListSport sportList;
     LeagueService leagueService;
-    ListSeason listSeasons;
     LeagueMapper leagueMapper;
 
     LeagueSingleton(){
         this.sportList = Arc.container().instance(ListSport.class).get();
         this.leagueService = Arc.container().instance(LeagueService.class).get();
-        this.listSeasons = Arc.container().instance(ListSeason.class).get();
-
         this.leagueMapper = Arc.container().instance(LeagueMapper.class).get();
     }
 
@@ -105,10 +102,6 @@ public class LeagueSingleton {
             result += sportList.getSport(sportName).getListLeague().getLeague(i).getName() + "</br>";
 
         return result;
-    }
-
-    public ListSeason getListSeasons() {
-        return this.listSeasons;
     }
 
     public String getLeague(String sport, String nom) {
