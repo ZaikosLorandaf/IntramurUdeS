@@ -23,8 +23,7 @@ public class MatchService extends TemplateService<Match> {
     // Mehtodes POST
     @POST
     @Consumes("application/json")
-    public void addMatch(Match match)
-    {
+    public void addMatch(Match match) {
         addItem(match);
     }
 
@@ -43,8 +42,7 @@ public class MatchService extends TemplateService<Match> {
     // Methodes GET
     @GET
     public List<Match> getMatches(){
-        List<Match> matches = getItems();
-        return matches;
+        return getItems();
     }
 
     @GET
@@ -90,7 +88,6 @@ public class MatchService extends TemplateService<Match> {
 
     @Override
     protected void setName(Match item) {
-
     }
 
     /**
