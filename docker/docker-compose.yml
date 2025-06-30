@@ -20,12 +20,25 @@ services:
     container_name: auth
     volumes:
       - ./keycloak/data:/var/tmp
-      - ./keycloak/startup-scripts/initialisation.sh:/docker-entrypoint-sh/initialisation.sh
-    entrypoint: sh -c "/docker-entrypoint-sh/initialisation.sh"
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_PROXY: edge
+    entrypoint: sh -c "
+      echo 'starting keycloak...' &&
+      /opt/keycloak/bin/kc.sh start-dev --http-port 8180 &
+  
+      echo 'waiting for keycloak...' &&
+      timeout 300 bash -c 'until curl -s http://localhost:8180 > /dev/null; do sleep 5; done' &&
+      
+      echo 'initializing realm...' &&
+      /opt/keycloak/bin/kcadm.sh config credentials --server http://localhost:8180/ --realm master --user admin --password admin &&
+      /opt/keycloak/bin/kcadm.sh create realms -s realm=usager -s enabled=true -o &&
+      test -f /var/tmp/frontend.json && /opt/keycloak/bin/kcadm.sh create clients -r usager -f /var/tmp/frontend.json &&
+      test -f /var/tmp/backend.json && /opt/keycloak/bin/kcadm.sh create clients -r usager -f /var/tmp/backend.json &&
+      test -f /var/tmp/users.json && /opt/keycloak/bin/kcadm.sh create partialImport -r usager -s ifResourceExists=OVERWRITE -f /var/tmp/users.json &&
+      tail -f /dev/null
+      "
     ports:
       - 8180:8180
     networks:
