@@ -14,7 +14,7 @@ import static org.mockito.Mockito.when;
 
 @QuarkusTest
 class GetDashboardTest {
-//
+
 //    @InjectMock
 //    OGClass ogClass;
 //
