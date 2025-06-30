@@ -20,8 +20,8 @@ services:
     container_name: auth
     volumes:
       - ./keycloak/data:/var/tmp
-      - ./keycloak/startup-scripts/init.sh:/docker-entrypoint-sh/init.sh
-    entrypoint: sh -c "/docker-entrypoint-sh/init.sh"
+      - ./keycloak/startup-scripts/initialisation.sh:/docker-entrypoint-sh/initialisation.sh
+    entrypoint: sh -c "/docker-entrypoint-sh/initialisation.sh"
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
