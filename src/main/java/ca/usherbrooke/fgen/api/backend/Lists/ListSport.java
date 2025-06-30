@@ -28,18 +28,8 @@ public class ListSport extends ListTemplate<Sport, String> {
      *
      * @return Le nombre de sports ajoutés
      */
-    public int addSport(Sport sport) {
-        int status = addItem(sport);
-        switch (status) {
-            case 1:
-                LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");
-                break;
-            case 0:
-                LoggerUtil.info("Ajout du sport " + sport.getName());
-                break;
-        }
-
-        return status;
+    public boolean addSport(Sport sport) {
+        return addItem(sport);
     }
 
     /**
@@ -162,14 +152,7 @@ public class ListSport extends ListTemplate<Sport, String> {
      * @return retrait reussi?
      */
     public boolean removeSport(int id) {
-        if (removeItem(id)) {
-            //LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
-            return true;
-        }
-        else{
-            LoggerUtil.warning("Échec du retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
-            return false;
-        }
+        return removeItem(id);
     }
 
     /**
@@ -197,4 +180,31 @@ public class ListSport extends ListTemplate<Sport, String> {
 
     public int getId(Sport sport){ return sport.getId(); }
     public String getName(Sport sport) { return sport.getName(); }
+
+    // Methodes affichage
+    @Override
+    void logAddSuccess(Sport sport) {
+        LoggerUtil.warning("Le id ou le nom du sport " + sport.getName() + " (" + sport.getId() + ") existe déjà.");;
+    }
+    @Override
+    void logAddFailure(Sport sport){
+        LoggerUtil.info("Ajout du sport " + sport.getName());
+    }
+
+    @Override
+    void logRemoveSuccess(int id){
+        LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
+    }
+
+    @Override
+    void logRemoveFailure(int id){
+        LoggerUtil.warning("Échec du retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
+    }
+
+    /**
+     * Affiche les equipes de la liste dans la console. Fonction test de la classe Team
+     */
+    @Override
+    void printItem(int index){
+    }
 }

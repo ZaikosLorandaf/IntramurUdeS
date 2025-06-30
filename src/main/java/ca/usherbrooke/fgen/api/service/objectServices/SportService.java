@@ -42,8 +42,7 @@ public class SportService extends TemplateService<Sport> {
     // Methodes GET
     @GET
     public List<Sport> getSports() {
-        List<Sport> sports = getItems();
-        return sports;
+        return getItems();
     }
 
     @GET
@@ -54,15 +53,13 @@ public class SportService extends TemplateService<Sport> {
 
     @GET
     @Path("getSport/{nom_sport}")
-    public String getSport(
-            @PathParam("nom_sport") String nom_sport) {
+    public String getSport(@PathParam("nom_sport") String nom_sport) {
         return ogClass.getSportSingleton().getSport(nom_sport);
     }
 
     @GET
     @Path("get_sport_ligue")
     public String getSportLeague() {
-
         return ogClass.getSportSingleton().getSportLeague();
     }
 

@@ -229,7 +229,7 @@ public class League {
   public void printLeague() {
     System.out.printf("------Ligue------\nNom: %s\nId: %d\nDone : %b\n", name, id,done);
     if (listTeam.getSize() > 0) {
-      listTeam.printListTeam();
+      listTeam.printList();
       return;
     }
     System.out.println("Pas d'équipe");

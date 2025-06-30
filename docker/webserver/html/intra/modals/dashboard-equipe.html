@@ -18,19 +18,6 @@
 
 <hr>
 
-<!-- Modifier une équipe -->
-<h2 class="mb-4">Modifier une équipe</h2>
-<div class="mb-3">
-    <label for="currentTeamName" class="form-label">Nom actuel</label>
-    <input type="text" id="currentTeamName" class="form-control" placeholder="Nom actuel">
-</div>
-<div class="mb-3">
-    <label for="newTeamName" class="form-label">Nouveau nom</label>
-    <input type="text" id="newTeamName" class="form-control" placeholder="Nouveau nom">
-</div>
-<button id="modifyTeamBtn" class="btn btn-warning mb-4">Modifier</button>
-
-<hr>
 
 <!-- Supprimer une équipe -->
 <h2 class="mb-4">Supprimer une équipe</h2>
@@ -110,14 +97,6 @@
             .catch(function (error) {
                 console.log(error);
             });
-    });
-
-    document.getElementById('modifyTeamBtn').addEventListener('click', () => {
-        const currentName = document.getElementById('currentTeamName').value;
-        const newName = document.getElementById('newTeamName').value;
-        console.log("Modifier équipe:", currentName, "->", newName);
-        alert(`Équipe modifiée : ${currentName} -> ${newName}`);
-        window.close();
     });
 
     document.getElementById('deleteTeamBtn').addEventListener('click', () => {
