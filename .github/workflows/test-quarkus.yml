@@ -2,7 +2,7 @@ name: Run Quarkus Tests
 
 on:
   push:
-    branches: [ master-remi ]
+    branches: [ master ]
   
 jobs:
   test:
