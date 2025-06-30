@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.backend.Lists;
 
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
+import io.quarkus.logging.Log;
 
 import java.util.List;
 
@@ -93,7 +94,10 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
 
     public Player getPlayerByNumber(int number)
     {
-        int numb = mapNameId.getOrDefault(number, null);
+        Integer numb = mapNameId.getOrDefault(number, -1);
+        if(numb == null){
+            return null;
+        }
         Player p = this.getPlayer(numb);
         return p;
     }
@@ -111,9 +115,9 @@ public class ListPlayer extends ListTemplate<Player, Integer> {
 
     @Override
     void logRemoveSuccess(int id){
-        Player player = getItem(id);
-
-        LoggerUtil.warning("Retrait du joueur " + player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
+//        Player player = getItem(id);
+        LoggerUtil.info("Retrait du joueur avec succès");
+//        LoggerUtil.warning("Retrait du joueur " + player.getName()+ " " + player.getLastName() + "#" +player.getNumber()  + "(id: " + id + ").");
     }
 
     @Override

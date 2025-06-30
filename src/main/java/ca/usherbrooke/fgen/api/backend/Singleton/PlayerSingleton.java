@@ -68,7 +68,7 @@ public class PlayerSingleton {
         if (player == null)
             return "<div>Joueur non-trouvé</div>";
         int playerId = team.getListPlayer().getId(player);
-        playerMapper.deleteOne(playerId);
+        //playerMapper.deleteOne(playerId);
         if (team.removePlayer(player))
             return "<div>Joueur retiré</div>";
 
