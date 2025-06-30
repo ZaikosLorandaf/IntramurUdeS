@@ -61,38 +61,6 @@ class TeamTest {
     }
 
     /**
-     * Vérifie que le retrait d’un joueur par objet fonctionne.
-     */
-    @Test
-    void testRemovePlayerByObject() {
-//        Player player = new Player("Tom", "Hardy", 1);
-//        team.addPlayer(player);
-//        assertTrue(team.removePlayer(player));
-//        assertEquals(0, team.getListPlayer().getSize());
-    }
-
-    /**
-     * Vérifie que le retrait d’un joueur par index fonctionne.
-     */
-    @Test
-    void testRemovePlayerByIndex() {
-//        team.newPlayer("Liam", "Neeson", 9);
-//        assertTrue(team.removePlayer(0));
-//        assertEquals(0, team.getListPlayer().getSize());
-    }
-
-    /**
-     * Vérifie qu’un index invalide pour le retrait échoue sans exception.
-     */
-    @Test
-    void testRemoveInvalidIndex() {
-//        // Ajoute un joueur pour s'assurer que la liste est initialisée
-//        team.newPlayer("Fake", "Player", 0);
-//        assertFalse(team.removePlayer(999));
-//        assertFalse(team.removePlayer(-1));
-    }
-
-    /**
      * Vérifie que le setter de nom modifie correctement l’attribut.
      */
     @Test
