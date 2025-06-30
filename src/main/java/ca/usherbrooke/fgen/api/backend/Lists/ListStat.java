@@ -11,17 +11,7 @@ public class ListStat extends ListTemplate<Stat, String>{
     }
 
     public boolean addStat(Stat stat) {
-
-        switch (addItem(stat)) {
-            case 1:
-                LoggerUtil.info("Ajout de la statistique: " + stat);
-                return true;
-            case 0:
-                LoggerUtil.warning("La statistique " + stat + " est déjà dans présente.");
-                return false;
-            default:
-                return false;
-        }
+        return this.addItem(stat);
     }
 
     /**
@@ -44,13 +34,7 @@ public class ListStat extends ListTemplate<Stat, String>{
      * @return faux si id pas présent sinon vrai
      */
     public boolean removeStat(int id) {
-        if (removeItem(id)){
-            LoggerUtil.warning("Retrait de la statistique " + getItem(id) + "(id: " + id + ").");
-            return true;
-        } else {
-            LoggerUtil.warning("Échec du retrait de la statistique " + getItem(id) + "(id: " + id + ").");
-            return false;
-        }
+        return this.removeItem(id);
     }
 
     /**
@@ -75,5 +59,29 @@ public class ListStat extends ListTemplate<Stat, String>{
     @Override
     String getName(Stat item) {
         return item.getStatStatement().getAcronym() + ": " + item.getValue() + "; Match: " + item.getMatch().getDate() + " " + item.getMatch().getBeginTime();
+    }
+
+    @Override
+    void printItem(int indexItem) {
+    }
+
+    @Override
+    void logAddSuccess(Stat item) {
+        LoggerUtil.info("Ajout de la statistique: " + item);
+    }
+
+    @Override
+    void logAddFailure(Stat item) {
+        LoggerUtil.warning("La statistique " + item + " est déjà dans présente.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id) {
+        LoggerUtil.warning("Retrait de la statistique " + getItem(id) + "(id: " + id + ").");
+    }
+
+    @Override
+    void logRemoveFailure(int id) {
+        LoggerUtil.warning("Échec du retrait de la statistique " + getItem(id) + "(id: " + id + ").");
     }
 }

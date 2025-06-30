@@ -211,10 +211,12 @@ public class League {
     boolean result = true;
     if(!idSeasons.isEmpty()){
       for (Integer id :idSeasons){
-        Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
-        if(!season.getLeagues().addLeague(this)){
-          if (result){
-            result = false;
+        if(id != -1){
+          Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
+          if(!season.getLeagues().addLeague(this)){
+            if (result){
+              result = false;
+            }
           }
         }
       }

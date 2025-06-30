@@ -85,8 +85,8 @@ public class ListLeague extends ListTemplate<League, String> {
     @Override
     void logRemoveSuccess(int id){
         League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
+        for (int i: ligue.getListTeam().getTeamIds())
+            ligue.getListTeam().removeTeam(i);
 
         LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
         ListSport.removeLeagueMap(ligue);
@@ -95,8 +95,8 @@ public class ListLeague extends ListTemplate<League, String> {
     @Override
     void logRemoveFailure(int id){
         League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
+        for (int i: ligue.getListTeam().getTeamIds())
+            ligue.getListTeam().removeTeam(i);
 
         LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
     }

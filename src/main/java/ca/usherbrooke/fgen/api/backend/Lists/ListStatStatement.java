@@ -12,16 +12,7 @@ public class ListStatStatement extends ListTemplate<StatStatement, String>{
 
     public boolean addStatStatement(StatStatement statStatement) {
 
-        switch (addItem(statStatement)) {
-            case 1:
-                LoggerUtil.info("Ajout de l'énoncé: " + statStatement);
-                return true;
-            case 0:
-                LoggerUtil.warning("L'énoncé " + statStatement + " est déjà dans présent.");
-                return false;
-            default:
-                return false;
-        }
+        return addItem(statStatement);
     }
 
     /**
@@ -44,13 +35,7 @@ public class ListStatStatement extends ListTemplate<StatStatement, String>{
      * @return faux si index out of bound sinon vrai
      */
     public boolean removeStatStatement(int id) {
-        if (removeItem(id)){
-            LoggerUtil.warning("Retrait de l'énoncé " + getItem(id) + "(id: " + id + ").");
-            return true;
-        } else {
-            LoggerUtil.warning("Échec du retrait de l'énoncé " + getItem(id) + "(id: " + id + ").");
-            return false;
-        }
+        return removeItem(id);
     }
 
     /**
@@ -75,5 +60,30 @@ public class ListStatStatement extends ListTemplate<StatStatement, String>{
     @Override
     String getName(StatStatement item) {
         return item.getStatement();
+    }
+
+    @Override
+    void printItem(int indexItem) {
+
+    }
+
+    @Override
+    void logAddSuccess(StatStatement item) {
+        LoggerUtil.info("Ajout de l'énoncé: " + item);
+    }
+
+    @Override
+    void logAddFailure(StatStatement item) {
+        LoggerUtil.warning("L'énoncé " + item + " est déjà dans présent.");
+    }
+
+    @Override
+    void logRemoveSuccess(int id) {
+        LoggerUtil.warning("Retrait de l'énoncé " + getItem(id) + "(id: " + id + ").");
+    }
+
+    @Override
+    void logRemoveFailure(int id) {
+        LoggerUtil.warning("Échec du retrait de l'énoncé " + getItem(id) + "(id: " + id + ").");
     }
 }

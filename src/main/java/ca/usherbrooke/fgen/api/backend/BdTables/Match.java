@@ -105,9 +105,11 @@ public class Match
     public void getTeamsFromId() {
         if(this.idTeams != null && !this.idTeams.isEmpty()){
             for (int idTeam : this.idTeams) {
-                Team team = ListSport.getTeamById(idTeam);
-                if(!this.teams.contains(team)) {
-                    this.teams.add(team);
+                if(idTeam != -1) {
+                    Team team = ListSport.getTeamById(idTeam);
+                    if (!this.teams.contains(team)) {
+                        this.teams.add(team);
+                    }
                 }
             }
         }

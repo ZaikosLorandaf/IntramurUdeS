@@ -50,14 +50,21 @@ CREATE OR REPLACE VIEW v_match_league_sport
 AS
 SELECT m.id AS match_id, m.date_match, m.begin_time, m.end_time,
        l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date, l.done,
-       s.id AS id_sport, s.name AS name_sport, s.nb_team_match, ARRAY_AGG(mt.id_team) AS list_teams,
-       m.id_season AS id_season, m.archive AS archive_match
-FROM match_ m
-LEFT JOIN league l ON l.id = m.id_league
-LEFT JOIN sport s ON s.id = l.id_sport
-LEFT JOIN match_team mt ON mt.id_match = m.id
-GROUP BY m.id, m.date_match, m.id, m.begin_time, m.end_time, l.id, l.name, l.begin_date, l.end_date, l.done, s.id, s.name, s.nb_team_match;
+       s.id AS id_sport, s.name AS name_sport, s.nb_team_match,
+       COALESCE(NULLIF(
+               ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
+               '{}'
+               ),
+               ARRAY[-1]
+       ) AS list_teams,
 
+       m.id_season AS id_season, m.archive AS archive_match
+FROM intramurudes.match_ m
+         LEFT JOIN intramurudes.league l ON l.id = m.id_league
+         LEFT JOIN intramurudes.sport s ON s.id = l.id_sport
+         LEFT JOIN intramurudes.match_team mt ON mt.id_match = m.id
+GROUP BY m.id, m.date_match, m.id, m.begin_time, m.end_time, l.id, l.name, l.begin_date, l.end_date, l.done, s.id, s.name, s.nb_team_match
+ORDER BY s.name, l.name, l.begin_date;
 
 
 CREATE OR REPLACE VIEW v_league
@@ -68,7 +75,12 @@ SELECT l.id as id,
        l.end_date as end_date,
        l.done,
        l.id_sport,
-       ARRAY_AGG(ls.id_season) AS id_seasons,
+       COALESCE(NULLIF(
+                                ARRAY_AGG(ls.id_season) FILTER (WHERE ls.id_season IS NOT NULL),
+                                '{}'
+                ),
+                ARRAY[-1]
+       ) AS id_seasons,
        l.archive AS archive_league
 FROM intramurudes.league l
 LEFT JOIN intramurudes.league_season ls ON l.id = ls.id_league
@@ -81,9 +93,14 @@ AS
 SELECT s.id as id,
        s.statement as statement,
        s.acronym as acronym,
-       ARRAY_AGG(sss.id_sport) AS id_sports
+       COALESCE(NULLIF(
+                ARRAY_AGG(sss.id_sport) FILTER (WHERE sss.id_sport IS NOT NULL),
+                '{}'
+                ),
+                ARRAY[-1]
+       ) AS id_sports
 FROM intramurudes.stat_statement s
-LEFT JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
+         LEFT JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
 GROUP BY s.id, s.statement, s.acronym;
 
 
