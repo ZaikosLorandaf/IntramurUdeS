@@ -8,6 +8,6 @@ class LoggerUtilTest {
 
     @Test
     void dummyTest() {
-        assertTrue(true, "Ce test devrait toujours passer.");
+        assertTrue(false, "Ce test devrait toujours passer.");
     }
 }
