@@ -6,6 +6,11 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 
 public class StatPlayer extends Stat {
+    public StatPlayer() {
+        super();
+
+    }
+
     public StatPlayer(Integer id, Integer idStatStatement, String value,
                       Integer idMatch, Integer idSeason, Integer idPlayer,
                       Integer idLeague, Integer idTeam, Integer idLeaguePlayer,

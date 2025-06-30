@@ -3,26 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.StatPlayerMapper">
-    <resultMap id="StatPlayerMap" type="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
-        <constructor>
-            <arg column="id" javaType="java.lang.Integer"/>
-            <arg column="id_stat_statement" javaType="java.lang.Integer"/>
-            <arg column="value" javaType="java.lang.String" jdbcType="VARCHAR"/>
-            <arg column="id_match" javaType="java.lang.Integer"/>
-            <arg column="id_season" javaType="java.lang.Integer"/>
-            <arg column="id_player" javaType="java.lang.Integer"/>
-            <arg column="id_league" javaType="java.lang.Integer"/>
-            <arg column="id_team" javaType="java.lang.Integer"/>
-            <arg column="id_league_player" javaType="java.lang.Integer"/>
-            <arg column="id_sport" javaType="java.lang.Integer"/>
-        </constructor>
-    </resultMap>
 
-
-    <select id="selectAll" resultMap="StatPlayerMap">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
         SELECT vps.id AS id,
                vps.id_stat_statement AS id_stat_statement,
-               CAST(vps.value_ AS VARCHAR(127)) AS value,
+               vps.value_ AS value,
                vps.id_match AS id_match,
                vps.id_season AS id_season,
                vps.id_player AS id_player,
@@ -33,10 +18,10 @@
         FROM intramurudes.v_player_stat vps;
     </select>
 
-    <select id="selectOne" resultMap="StatPlayerMap">
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
         SELECT vps.id AS id,
                vps.id_stat_statement AS id_stat_statement,
-               CAST(vps.value_ AS VARCHAR(127)) AS value,
+               vps.value_ AS value,
                vps.id_match AS id_match,
                vps.id_season AS id_season,
                vps.id_player AS id_player,

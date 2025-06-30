@@ -16,6 +16,10 @@ public class Stat {
 
     protected OGClass ogClass;
 
+    public Stat(){
+
+    }
+
     public Stat(Integer id, Integer idStatStatement, String value, Integer idMatch, Integer idSeason, Integer idLeague) {
         this.ogClass = Arc.container().instance(OGClass.class).get();
         this.id = id;

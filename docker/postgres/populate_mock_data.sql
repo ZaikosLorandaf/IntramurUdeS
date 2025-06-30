@@ -355,42 +355,42 @@ INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
 -- ✅ Ultimate: Match 1 (SFB vs Empire), Saison 11
 -- Bernard Beaulieu (SFB) - Passes complétées
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('12', 1, 1, 11, 1);
+VALUES ('12a', 1, 1, 11, 1);
 
 -- Jack Williams (Empire) - Réceptions de point
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('3', 1, 6, 11, 5);
+VALUES ('3a', 1, 6, 11, 5);
 
 -- Ryan Osgar - Turnovers (sans saison)
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_player)
-VALUES ('2', 1, 7, 6);
+VALUES ('2a', 1, 7, 6);
 
 -- Frédéric Mailhot - Drops (sans match ni saison)
 INSERT INTO player_stat (value_, id_stat_statement, id_player)
-VALUES ('1', 9, 2);
+VALUES ('1a', 9, 2);
 
 -- ✅ Basketball: Match 7 (Aces vs Storm), Saison 11
 -- Aja Wilson - Points marqués
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('18', 7, 4, 11, 25);
+VALUES ('18a', 7, 4, 11, 25);
 
 -- Skylar Diggins-Smith - Passes décisives
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('7', 7, 5, 11, 28);
+VALUES ('7a', 7, 5, 11, 28);
 
 -- Nneka Ogwumike - Lancers francs (sans match)
 INSERT INTO player_stat (value_, id_stat_statement, id_season, id_player)
-VALUES ('5', 20, 11, 30);
+VALUES ('5a', 20, 11, 30);
 
 -- ✅ Volleyball: Match 13 (Ignite vs Supernovas)
 -- Kelsey Robinson - Attaques gagnantes
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('10', 13, 14, 11, 69);
+VALUES ('10a', 13, 14, 11, 69);
 
 -- Brooke Nuneviller - Réceptions parfaites
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('8', 13, 12, 11, 67);
+VALUES ('8a', 13, 12, 11, 67);
 
 -- Ali Stumler - Erreurs attaque (aucun match, hors saison)
 INSERT INTO player_stat (value_, id_stat_statement, id_player)
-VALUES ('3', 15, 64);
+VALUES ('3a', 15, 64);

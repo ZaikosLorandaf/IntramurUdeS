@@ -35,7 +35,8 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
 
     @Override
     protected StatPlayer selectOne(Integer id) {
-        return null;
+        StatPlayer statPlayer = statPlayerMapper.selectOne(id);
+        return statPlayer;
     }
 
     @Override
