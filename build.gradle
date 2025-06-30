@@ -28,6 +28,8 @@ dependencies {
     implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'org.jsoup:jsoup:1.14.3'
     implementation 'org.json:json:20240303'
+    testImplementation("io.quarkus:quarkus-junit5")
+    testImplementation("io.rest-assured:rest-assured")
 }
 
 version = '1.0.0'
