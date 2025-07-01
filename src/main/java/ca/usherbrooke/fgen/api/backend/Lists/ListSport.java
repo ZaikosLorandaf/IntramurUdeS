@@ -193,7 +193,8 @@ public class ListSport extends ListTemplate<Sport, String> {
 
     @Override
     void logRemoveSuccess(int id){
-        LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
+        LoggerUtil.info("Retrait du sport avec succès");
+        //        LoggerUtil.warning("Retrait du sport " + getSport(id).getName() + "(id: " + id + ").");
     }
 
     @Override

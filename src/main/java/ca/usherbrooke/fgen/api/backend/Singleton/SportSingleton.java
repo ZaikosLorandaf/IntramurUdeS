@@ -49,14 +49,15 @@ public class SportSingleton {
     }
 
     public String remove(String sportName) {
-        if (sportList.getAllSports() == null)
+        List<Sport> listee = sportList.getAllSports();
+        if (listee.isEmpty())
             return "No Sports";
 
         ca.usherbrooke.fgen.api.backend.BdTables.Sport oldSport = sportList.getSport(sportName);
         if (oldSport == null)
             return "Pas de ligue appelé " + sportName;
         List<Integer> list = oldSport.getListLeague().getLeagueIds();
-        for (int i : oldSport.getListLeague().getLeagueIds())
+        for (int i : list)
             oldSport.getListLeague().removeLeague(i);
 
         String result = "";
