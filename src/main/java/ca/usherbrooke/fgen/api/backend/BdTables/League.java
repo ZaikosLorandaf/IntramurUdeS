@@ -83,6 +83,7 @@ public class League {
     id = -1;
     this.beginDate = beginDate;
     this.endDate = endDate;
+    this.listMatch = new ListMatch();
     this.idSeasons = new ArrayList<Integer>();
     LoggerUtil.info("Création de la ligue " + name);
   }

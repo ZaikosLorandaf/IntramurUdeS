@@ -22,6 +22,9 @@ public class ListLeague extends ListTemplate<League, String> {
      * @return True si la ligue a bien été ajoutée, sinon false
      */
     public boolean addLeague(League league) {
+        if (league.getId() <= 0) {
+            return false;
+        }
         return addItem(league);
     }
 

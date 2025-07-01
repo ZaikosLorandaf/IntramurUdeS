@@ -34,7 +34,7 @@
 <h2 class="mb-4">Ajouter un joueur à une équipe</h2>
 <div class="mb-3">
     <label for="addPlayerTeam" class="form-label">Nom de l’équipe</label>
-    <input type="text" id="addPlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
+    <input list="teamNameData" id="addPlayerTeam" class="form-control" placeholder="Ex. Les Aigles">
 </div>
 <div class="row mb-3">
     <div class="col-4">
@@ -67,7 +67,7 @@
 <div class="mb-3">
     <label for="playerNumberToRemove" class="form-label">Numéro du joueur</label>
 
-    <input class="form-control" list="playerNumberData" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10">
+    <input class="form-control" list="playerNumberData" id="playerNumberToRemove" name="playerNumberToRemove" placeholder="Ex. 10" onfocus="updatePlayerNumbers()">
     <datalist id="playerNumberData"></datalist>
 </div>
 
@@ -171,6 +171,8 @@
         const params = new URLSearchParams(window.location.search);
         let sportName = params.get('sport');
         let leagueName = params.get('ligue');
+        let datalistPlayer = document.getElementById("playerNumberData");
+
         axios.get("http://localhost:8888/api/dashboard/equipes", {
             params: {
                 sport: sportName,
@@ -178,11 +180,16 @@
             }
         })
             .then(function (response) {
+
+                window.teams = response.data;
+
+
                 const teams = response.data;
                 console.log(teams);
 
                 const datalist = document.getElementById('teamNameData');
                 datalist.innerHTML = '';
+
                 for (const teamName in teams){
                     console.log("b");
                     const option = document.createElement('option');
@@ -190,15 +197,12 @@
                     console.log(datalist);
                     datalist.appendChild(option);
                     const team = teams[teamName];
-                    Object.entries(team.joueurs).forEach(([playerNumber, playerStats]) =>{
-                        let datalistPlayer = document.getElementById("playerNumberData");
-                        console.log(playerNumber);
-                        const option = document.createElement('option');
-                        option.value = (playerNumber);
-                        console.log(datalist);
-                        datalistPlayer.appendChild(option);
-                    })
-
+                        Object.entries(team.joueurs).forEach(([playerNumber, playerStats]) => {
+                            const option = document.createElement('option');
+                            option.value = (playerNumber);
+                            console.log(datalist);
+                            datalistPlayer.appendChild(option);
+                        })
 
                 }
                 console.log("a");
@@ -208,7 +212,34 @@
                 // const container = document.querySelector('.main-container');
                 // container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
             });
+
     }
+
+    function updatePlayerNumbers() {
+        const selectedTeamName = document.getElementById('removePlayerTeam').value.trim();
+        const datalistPlayer = document.getElementById("playerNumberData");
+        datalistPlayer.innerHTML = '';
+
+        if (!selectedTeamName) {
+            console.log("Aucune équipe sélectionnée.");
+            return;
+        }
+
+        const team = window.teams[selectedTeamName];
+        if (team && team.joueurs) {
+            Object.keys(team.joueurs).forEach(playerNumber => {
+                const option = document.createElement('option');
+                option.value = playerNumber;
+                datalistPlayer.appendChild(option);
+            });
+        } else {
+            console.log("Aucune équipe trouvée pour :", selectedTeamName);
+        }
+    }
+
+
+
+
 
 </script>
 </body>

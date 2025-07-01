@@ -19,6 +19,12 @@ public class LoggerUtil {
     private static final String LOG_FILE = "../../../../src/logs/app.log";
     private static final boolean DISPLAY_IN_CONSOLE = true;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final boolean IS_TEST_ENV = isTestEnv();
+
+    private static boolean isTestEnv() {
+        String prop = System.getProperty("java.class.path");
+        return prop != null && prop.contains("test");
+    }
 
     static {
         // Crée le dossier logs si nécessaire
@@ -47,6 +53,10 @@ public class LoggerUtil {
      * @param message
      */
     private static void log(String level, String message) {
+        if (IS_TEST_ENV) {
+            return; // On ignore tout en environnement de test
+        }
+
         String timestamp = LocalDateTime.now().format(formatter);
         String logMessage = String.format("[%s] [%s] %s", timestamp, level, message);
 
