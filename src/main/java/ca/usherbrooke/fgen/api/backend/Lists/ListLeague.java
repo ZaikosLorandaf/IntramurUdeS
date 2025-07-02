@@ -47,7 +47,18 @@ public class ListLeague extends ListTemplate<League, String> {
      * @return faux si le vecteur ne contient pas le
      */
     public boolean removeLeague(int id) {
-        return removeItem(id);
+        League ligue = getItem(id);
+        for (int i: ligue.getTeams().getTeamIds())
+            ligue.getTeams().removeTeam(i);
+
+        if (removeItem(id)) {
+            LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
+            ListSport.removeLeagueMap(ligue);
+            return true;
+        } else {
+            LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
+            return false;
+        }
     }
 
     /**
@@ -87,21 +98,10 @@ public class ListLeague extends ListTemplate<League, String> {
 
     @Override
     void logRemoveSuccess(int id){
-        League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
-
-        LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
-        ListSport.removeLeagueMap(ligue);
     }
 
     @Override
     void logRemoveFailure(int id){
-        League ligue =getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
-
-        LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
     }
 
     /**

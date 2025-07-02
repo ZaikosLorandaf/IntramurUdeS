@@ -64,7 +64,7 @@ public class SportService extends TemplateService<Sport> {
     }
 
     @GET
-    @Path("listSport")
+    @Path("listSport") 
     public String listSport() {
         return ogClass.getSportSingleton().getSports();
     }
