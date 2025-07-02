@@ -104,7 +104,10 @@ public abstract class ListTemplate<ObjectType, NameType> {
     // Getter
     public ObjectType getItem(int id) { return this.mapId.getOrDefault(id, null); }
     public ObjectType getItem(NameType nom) { return this.mapId.getOrDefault(this.mapNameId.get(nom), null); }
-    public List<ObjectType> getAllItems() { return new ArrayList<>(this.mapId.values()); }
+    public List<ObjectType> getAllItems() {
+        ArrayList<ObjectType> newList = new ArrayList<>(this.mapId.values());
+        return newList;
+    }
     public int getMapSize() { return this.mapId.size(); }
     public Map<Integer, ObjectType> getMapItems() { return this.mapId; }
     public List<Integer> getMapIds() { return new ArrayList<>(this.mapId.keySet()); }
