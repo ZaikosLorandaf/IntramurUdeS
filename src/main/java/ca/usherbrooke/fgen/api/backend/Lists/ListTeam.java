@@ -36,7 +36,18 @@ public class ListTeam extends ListTemplate<Team, String>  {
     }
 
     public boolean removeTeam(int id) {
-        return removeItem(id);
+        Team team = getItem(id);
+        for(int i: team.getListPlayer().getPlayerIds())
+            team.getListPlayer().removePlayer(i);
+
+        if (removeItem(id)) {
+            LoggerUtil.warning("Retrait de l'équipe " + team.getName() + "(id: " + id + ").");
+            ListSport.removeTeamMap(team);
+            return true;
+        } else {
+            LoggerUtil.warning("Échec du retrait de l'équipe " + team.getName() + "(id: " + id + ").");
+            return false;
+        }
     }
 
 
@@ -83,20 +94,10 @@ public class ListTeam extends ListTemplate<Team, String>  {
 
     @Override
     void logRemoveSuccess(int id){
-        Team team = getItem(id);
-        for(int i: team.getListPlayer().getPlayerIds())
-            team.getListPlayer().removePlayer(i);
-
-        LoggerUtil.warning("Retrait de l'équipe " + team.getName() + "(id: " + id + ").");
     }
 
     @Override
     void logRemoveFailure(int id){
-        Team team = getItem(id);
-        for(int i: team.getListPlayer().getPlayerIds())
-            team.getListPlayer().removePlayer(i);
-
-        LoggerUtil.warning("Échec du retrait de l'équipe " + team.getName() + "(id: " + id + ").");
     }
 
     /**
