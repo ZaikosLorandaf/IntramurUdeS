@@ -216,7 +216,7 @@ let matchDatas;
 function showMatchDay(date) {
     const container = document.getElementById("match-details");
     const title = document.getElementById("selected-day");
-
+    console.log("cliked");
     const matchs = matchDatas[date] || [];
 
     title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
@@ -249,23 +249,21 @@ function populateMatchDays() {
     });
 
     if (roleNumber === 2) {
-        const parent = document.getElementById('1234');
-        parent.innerHTML += '<br>';
-        // Création du bouton "Gérer Dates"
-        const manageBtn = document.createElement('button');
-        manageBtn.textContent = 'Gérer Matchs';
-        manageBtn.className = 'btn btn-secondary mb-2'; // classe Bootstrap, adapte si besoin
         const myParams = new URLSearchParams(window.location.search);
         let sport = myParams.get('sport');
         let season = myParams.get('ligue');
 
-        manageBtn.onclick = () => {
-            // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
+        const li = document.createElement('li');
+        li.className = 'list-group-item list-group-item-action bg-secondary text-white text-center';
+        li.textContent = 'Gérer Matchs';
+        li.style.cursor = 'pointer';
+        li.onclick = () => {
             window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
         };
-        parent.appendChild(manageBtn);
+        listContainer.appendChild(li);
     }
 }
+
 
 function callMatch(){
     const myParams = new URLSearchParams(window.location.search);
