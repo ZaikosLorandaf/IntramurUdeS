@@ -3,6 +3,10 @@ package ca.usherbrooke.fgen.api.backend.BdTables;
 import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListStatStatement;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
+import io.quarkus.arc.Arc;
+
+import javax.annotation.PostConstruct;
 
 public class Sport {
     private int id;
@@ -55,7 +59,10 @@ public class Sport {
     /**
      * Constructeur vide. Initialise la classe avec des parametres par defaut
      */
-    public Sport() { initSport(-1, "", 2); }
+    public Sport() {
+        initSport(-1, "", 2);
+    }
+
 
     // Methodes
     /**

@@ -22,21 +22,25 @@ public class TeamDTO {
         this.name = team.getName();
         this.stats = StatDTO.mapListToDTO(team.getListStat().getAllItems());
         this.players = PlayerDTO.mapListToDTO(team.getListPlayer().getAllItems());
-//        this.matches =
+        this.matches = MatchDTO.mapListToDTO(team.getMatchTeam());
 
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
     public String getName() {
-        return name;
+        return this.name;
     }
     public List<StatDTO> getStats() {
-        return stats;
+        return this.stats;
     }
     public List<PlayerDTO> getPlayers() {
-        return players;
+        return this.players;
+    }
+
+    public List<MatchDTO> getMatches(){
+        return this.matches;
     }
 
 

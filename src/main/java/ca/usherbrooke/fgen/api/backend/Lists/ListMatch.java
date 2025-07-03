@@ -70,6 +70,10 @@ public class ListMatch extends ListTemplate<Match, String> {
         return super.removeItem(id);
     }
 
+    public List<Match> getMatchTeam(int idTeam) {
+        return this.mapMatchTeam.get(idTeam);
+    }
+
 
     @Override
     public int getId(Match item) {

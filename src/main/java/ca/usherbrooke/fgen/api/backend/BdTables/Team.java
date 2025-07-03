@@ -3,6 +3,11 @@ package ca.usherbrooke.fgen.api.backend.BdTables;
 import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
 import ca.usherbrooke.fgen.api.backend.Lists.ListStat;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
+import io.quarkus.arc.Arc;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 public class Team {
     private int id;
@@ -11,6 +16,7 @@ public class Team {
     private int idSport;
     private ListPlayer listPlayer;
     private ListStat listStat;
+    private OGClass ogClass;
 
     // Constructeurs
     /**
@@ -28,6 +34,8 @@ public class Team {
         this.listPlayer = listPlayer;
         this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
@@ -45,12 +53,15 @@ public class Team {
         this.listPlayer = new ListPlayer();
         this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
      * Constructeur vide. Initialise la classe avec des parametres par defaut
      */
     public Team() {
+        this.ogClass = Arc.container().instance(OGClass.class).get();
         initTeam(-1, "", -1, 200);
     }
 
@@ -111,6 +122,10 @@ public class Team {
     public Team(String name, int idLeague, ListPlayer listPlayer) {
         initTeam(-1, name, idLeague, listPlayer);
     }
+
+
+
+
 
     // Methodes
     /**
@@ -229,5 +244,9 @@ public class Team {
     }
     public ListStat getListStat() {
         return this.listStat;
+    }
+
+    public List<Match> getMatchTeam(){
+        return this.ogClass.getSportSingleton().getSportList().getLeague(this.getIdLeague()).getListMatch().getMatchTeam(this.getId());
     }
 }
