@@ -56,12 +56,6 @@ public class StatDTO {
     public String getValue() {
         return this.value;
     }
-    public int getIdLeague() {
-        return this.idLeague;
-    }
-    public int getIdSport() {
-        return this.idSport;
-    }
 
     /**
      * Méthode qui prend une liste de stat et la transforme en liste de statDTO

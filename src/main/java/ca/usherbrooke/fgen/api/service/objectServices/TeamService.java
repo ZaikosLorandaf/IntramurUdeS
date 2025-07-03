@@ -1,5 +1,9 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.DTO.PlayerDTO;
+import ca.usherbrooke.fgen.api.backend.DTO.TeamDTO;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
@@ -12,6 +16,7 @@ import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,10 +62,15 @@ public class TeamService extends TemplateService<Team> {
     }
 
     @GET
-    public List<Team> getTeams() {
-        List<Team> teams = getItems();
-        ListSport.addTeamMap(teams);
-        return teams;
+    public List<TeamDTO> getTeams() {
+        this.getItems();
+        List<TeamDTO> returnList = new ArrayList<>();
+        for(Sport sport : ogClass.getSportSingleton().getSportList().getAllSports()) {
+            for (League league : sport.getListLeague().getAllItems()){
+                returnList.addAll(TeamDTO.mapListTeamDTO(league.getListTeam().getAllItems()));
+            }
+        }
+        return returnList;
     }
 
     @GET
