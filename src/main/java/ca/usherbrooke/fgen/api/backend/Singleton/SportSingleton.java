@@ -27,6 +27,10 @@ public class SportSingleton {
         if (sportList.getAllSports().contains(sportList.getSport(sportName)))
             return "Sport Error";
 
+        if (sportName.isBlank()) {
+            return "Erreur noms";
+        }
+
         ca.usherbrooke.fgen.api.backend.BdTables.Sport newSport = new ca.usherbrooke.fgen.api.backend.BdTables.Sport(sportName);
         int id = sportMapper.getLastId() + 1;
         newSport.setId(id);

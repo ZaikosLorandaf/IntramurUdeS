@@ -120,13 +120,19 @@ public class MatchSingleton {
         for (Match match : listMatch.getAllItems()) {
             match.init();
 
-            StringBuilder equipesBuilder = new StringBuilder();
-            for (int i = 0; i < match.getTeams().size(); i++) {
-                equipesBuilder.append(match.getTeams().get(i).getName());
-                if (i < match.getTeams().size() - 1) {
-                    equipesBuilder.append(" vs ");
+
+                StringBuilder equipesBuilder = new StringBuilder();
+                for (int i = 0; i < match.getTeams().size(); i++) {
+                    try{
+                        equipesBuilder.append(match.getTeams().get(i).getName());
+                    }
+                    catch (Exception e){
+                        equipesBuilder.append("Old Team");
+                    }
+                    if (i < match.getTeams().size() - 1) {
+                        equipesBuilder.append(" vs ");
+                    }
                 }
-            }
 
             String date = match.getDate().toString();
             String heure = match.getBeginTime().toString() + " - " + match.getEndTime().toString();
