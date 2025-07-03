@@ -2,9 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
-import ca.usherbrooke.fgen.api.backend.DTO.PlayerDTO;
 import ca.usherbrooke.fgen.api.backend.DTO.TeamDTO;
-import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.TeamMapper;
@@ -68,7 +66,7 @@ public class TeamService extends TemplateService<Team> {
         nomLigue = nomLigue.replace("%20", " ");
         Sport sport = this.ogClass.getSportSingleton().getSportList().getSport(nomSport);
         League league = sport.getListLeague().getLeague(nomLigue, nomSport);
-        List<TeamDTO> returnList = TeamDTO.mapListTeamDTO(league.getListTeam().getAllItems());
+        List<TeamDTO> returnList = TeamDTO.mapListToDTO(league.getListTeam().getAllItems());
         return returnList;
     }
 
@@ -78,7 +76,7 @@ public class TeamService extends TemplateService<Team> {
         List<TeamDTO> returnList = new ArrayList<>();
         for(Sport sport : ogClass.getSportSingleton().getSportList().getAllSports()) {
             for (League league : sport.getListLeague().getAllItems()){
-                returnList.addAll(TeamDTO.mapListTeamDTO(league.getListTeam().getAllItems()));
+                returnList.addAll(TeamDTO.mapListToDTO(league.getListTeam().getAllItems()));
             }
         }
         return returnList;

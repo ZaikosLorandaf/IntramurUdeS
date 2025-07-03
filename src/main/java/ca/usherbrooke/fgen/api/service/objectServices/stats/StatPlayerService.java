@@ -6,8 +6,6 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.DTO.stats.StatPlayerDTO;
-import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
-import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatPlayerMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
@@ -29,7 +27,7 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
     public List<StatPlayerDTO> getStatsPlayer(){
         List<StatPlayer> statsPlayer = getItems();
         List<Sport> listSport = ogClass.getSportSingleton().getSportList().getAllSports();
-        List<StatPlayerDTO> statsDTO = StatPlayerDTO.mapListStatPlayerDTO(statsPlayer);
+        List<StatPlayerDTO> statsDTO = StatPlayerDTO.mapListToDTOStatPlayer(statsPlayer);
         return statsDTO;
     }
 

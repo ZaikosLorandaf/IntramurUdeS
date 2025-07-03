@@ -58,7 +58,7 @@ public class PlayerService extends TemplateService<Player> {
         for(Sport sport : ogClass.getSportSingleton().getSportList().getAllSports()) {
             for (League league : sport.getListLeague().getAllItems()){
                 for (Team team : league.getListTeam().getAllItems()){
-                    returnList.addAll(PlayerDTO.mapListPlayerDTO(team.getListPlayer().getAllItems()));
+                    returnList.addAll(PlayerDTO.mapListToDTO(team.getListPlayer().getAllItems()));
                 }
             }
         }
@@ -77,7 +77,7 @@ public class PlayerService extends TemplateService<Player> {
         League league = sport.getListLeague().getLeague(idLeague);
         Team team = league.getListTeam().getTeam(idTeam);
         ListPlayer listPlayer = team.getListPlayer();
-        List<PlayerDTO> playerDTOs = PlayerDTO.mapListPlayerDTO(listPlayer.getAllItems());
+        List<PlayerDTO> playerDTOs = PlayerDTO.mapListToDTO(listPlayer.getAllItems());
         return  playerDTOs;
     }
 
