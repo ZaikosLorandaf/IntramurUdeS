@@ -3,7 +3,13 @@ SET search_path = intramurudes;
 
 CREATE OR REPLACE VIEW v_match_teams AS
 SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
-       COUNT(mt.id_team) AS nb_teams, ARRAY_AGG(id_team) AS list_teams,
+       COUNT(mt.id_team) AS nb_teams,
+       COALESCE(NULLIF(
+                                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
+                                '{}'
+                ),
+                ARRAY[-1]
+       ) AS list_teams,
        m.archive AS archive_match
 FROM match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
@@ -108,7 +114,7 @@ GROUP BY s.id, s.statement, s.acronym;
 CREATE OR REPLACE VIEW v_player_stat
 AS
 SELECT ps.id AS id,
-       ps.value_ AS value_,
+       ps.value_ AS value,
        CASE
            WHEN ps.id_match IS NULL THEN -1
            ELSE ps.id_match END
@@ -130,6 +136,30 @@ LEFT JOIN match_ m ON m.id = ps.id_match
 LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player;
 
 
+
+
+CREATE OR REPLACE VIEW v_team_stat
+AS
+SELECT ts.id AS id,
+       ts.value_ AS value,
+       CASE
+           WHEN ts.id_match IS NULL THEN -1
+           ELSE ts.id_match END
+           AS id_match,
+       ts.id_stat_statement AS id_stat_statement,
+       CASE
+           WHEN ts.id_season IS NULL THEN -1
+           ELSE ts.id_season END
+           AS id_season,
+       CASE
+           WHEN m.id_league IS NULL THEN -1
+           ELSE m.id_league END AS id_league,
+       vtls.id_team AS id_team,
+       vtls.id_league AS id_league_team,
+       vtls.id_sport AS id_sport
+FROM intramurudes.team_stat ts
+         LEFT JOIN match_ m ON m.id = ts.id_match
+         LEFT JOIN intramurudes.v_team_league_sport vtls ON vtls.id_team = ts.id_team;
 
 
 

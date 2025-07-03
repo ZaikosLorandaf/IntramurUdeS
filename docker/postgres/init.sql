@@ -63,7 +63,7 @@ CREATE TABLE match_(
                        end_time TIME,
                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        id_league INT,
-                       id_season INT DEFAULT 11,
+                       id_season INT DEFAULT 11 NOT NULL,
                        archive BOOLEAN DEFAULT FALSE,
                        PRIMARY KEY(id),
                        FOREIGN KEY(id_league) REFERENCES league(id),
@@ -176,7 +176,13 @@ CREATE TABLE stat_statement_sport(
 
 CREATE OR REPLACE VIEW v_match_teams AS
 SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
-       COUNT(mt.id_team) AS nb_teams, ARRAY_AGG(id_team) AS list_teams,
+       COUNT(mt.id_team) AS nb_teams,
+       COALESCE(NULLIF(
+                                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
+                                '{}'
+                ),
+                ARRAY[-1]
+       ) AS list_teams,
        m.archive AS archive_match
 FROM match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
@@ -274,7 +280,7 @@ GROUP BY s.id, s.statement, s.acronym;
 CREATE OR REPLACE VIEW v_player_stat
 AS
 SELECT ps.id AS id,
-       ps.value_ AS value_,
+       ps.value_ AS value,
        CASE
            WHEN ps.id_match IS NULL THEN -1
            ELSE ps.id_match END
@@ -294,6 +300,30 @@ SELECT ps.id AS id,
 FROM intramurudes.player_stat ps
          LEFT JOIN match_ m ON m.id = ps.id_match
          LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player;
+
+
+CREATE OR REPLACE VIEW v_team_stat
+AS
+SELECT ts.id AS id,
+       ts.value_ AS value,
+       CASE
+           WHEN ts.id_match IS NULL THEN -1
+           ELSE ts.id_match END
+           AS id_match,
+       ts.id_stat_statement AS id_stat_statement,
+       CASE
+           WHEN ts.id_season IS NULL THEN -1
+           ELSE ts.id_season END
+           AS id_season,
+       CASE
+           WHEN m.id_league IS NULL THEN -1
+           ELSE m.id_league END AS id_league,
+       vtls.id_team AS id_team,
+       vtls.id_league AS id_league_team,
+       vtls.id_sport AS id_sport
+FROM intramurudes.team_stat ts
+         LEFT JOIN match_ m ON m.id = ts.id_match
+         LEFT JOIN intramurudes.v_team_league_sport vtls ON vtls.id_team = ts.id_team;
 
 
 
@@ -457,6 +487,35 @@ CREATE TRIGGER trg_insert_v_stat_statement
     INSTEAD OF INSERT ON v_stat_statement
     FOR EACH ROW
 EXECUTE function insert_v_stat_statement();
+
+
+
+
+--Méthode pour mettre la saison selon le match de la stat s'il y a un match
+CREATE OR REPLACE FUNCTION create_stat()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+AS $$
+BEGIN
+    --Mettre la bonne saison
+    IF new.id_match IS NOT NULL
+    THEN
+        new.id_season = (SELECT id_season FROM intramurudes.match_
+                         WHERE id = new.id_match);
+    END IF;
+    RETURN new;
+END
+$$;
+
+CREATE TRIGGER trg_create_stat
+    BEFORE INSERT ON player_stat
+    FOR EACH ROW
+EXECUTE function create_stat();
+
+CREATE TRIGGER trg_create_stat
+    BEFORE INSERT ON team_stat
+    FOR EACH ROW
+EXECUTE function create_stat();
 
 
 

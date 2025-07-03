@@ -355,42 +355,102 @@ INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
 -- ✅ Ultimate: Match 1 (SFB vs Empire), Saison 11
 -- Bernard Beaulieu (SFB) - Passes complétées
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('12a', 1, 1, 11, 1);
+VALUES ('12', 1, 1, 11, 1);
 
 -- Jack Williams (Empire) - Réceptions de point
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('3a', 1, 6, 11, 5);
+VALUES ('3', 1, 6, 11, 5);
 
 -- Ryan Osgar - Turnovers (sans saison)
-INSERT INTO player_stat (value_, id_match, id_stat_statement, id_player)
-VALUES ('2a', 1, 7, 6);
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('2', 1, 7,11, 6);
 
 -- Frédéric Mailhot - Drops (sans match ni saison)
 INSERT INTO player_stat (value_, id_stat_statement, id_player)
-VALUES ('1a', 9, 2);
+VALUES ('1', 9, 2);
 
 -- ✅ Basketball: Match 7 (Aces vs Storm), Saison 11
 -- Aja Wilson - Points marqués
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('18a', 7, 4, 11, 25);
+VALUES ('18', 7, 4, 11, 25);
 
 -- Skylar Diggins-Smith - Passes décisives
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('7a', 7, 5, 11, 28);
+VALUES ('7', 7, 5, 11, 28);
 
 -- Nneka Ogwumike - Lancers francs (sans match)
 INSERT INTO player_stat (value_, id_stat_statement, id_season, id_player)
-VALUES ('5a', 20, 11, 30);
+VALUES ('5', 20, 11, 30);
 
 -- ✅ Volleyball: Match 13 (Ignite vs Supernovas)
 -- Kelsey Robinson - Attaques gagnantes
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('10a', 13, 14, 11, 69);
+VALUES ('10', 13, 14, 11, 69);
 
 -- Brooke Nuneviller - Réceptions parfaites
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('8a', 13, 12, 11, 67);
+VALUES ('8', 13, 12, 11, 67);
 
 -- Ali Stumler - Erreurs attaque (aucun match, hors saison)
 INSERT INTO player_stat (value_, id_stat_statement, id_player)
-VALUES ('3a', 15, 64);
+VALUES ('3', 15, 64);
+
+
+
+--Stats d'équipes
+
+--Ultimate
+-- SFB - Passes complétées (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('137', 1, 1, 11, 1);
+
+-- Empire - Blocs défensifs (avec saison, sans match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('12', 8, 2, 11);
+
+-- Royal - Réceptions de point (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('18', 6, 3);
+
+-- Flyers - Drops (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('7', 9, 8, 3, 11);
+
+
+--Basket
+
+-- Aces - Points marqués (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('89', 4, 9, 11, 5);
+
+-- Lynx - Tirs 3 pts (sans match, avec saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('11', 19, 13, 11);
+
+-- Sky - Lancers francs (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('16', 20, 15);
+
+-- Wings - Ballons perdus (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('9', 21, 11, 6, 11);
+
+
+--Volleyball
+-- Vibe - Aces (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('5', 10, 17, 11, 8);
+
+-- Rise - Attaques gagnantes (avec saison seulement)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('22', 14, 19, 11);
+
+-- Valkyries - Contres (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('7', 13, 23);
+
+-- Mercury (VB) - Fautes service (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('3', 11, 20, 9, 11);
+
+
