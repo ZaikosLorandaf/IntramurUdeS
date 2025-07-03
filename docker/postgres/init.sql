@@ -191,10 +191,10 @@ GROUP BY m.id, m.date_match, m.begin_time, m.end_time;
 
 CREATE OR REPLACE VIEW v_player_team_league_sport
 AS
-SELECT p.id AS id_player, p.name AS player_name, p.last_name, p.number,
-       t.id AS id_team, t.name AS team_name,
-       l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
-       s.id AS id_sport, s.name AS sport_name, s.nb_team_match,
+SELECT p.id AS id_player, p.name AS name_player, p.last_name, p.number,
+       t.id AS id_team, t.name AS name_team,
+       l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date,
+       s.id AS id_sport, s.name AS name_sport, s.nb_team_match,
        p.archive AS archive_player
 FROM intramurudes.player p
          LEFT JOIN intramurudes.team t ON t.id = p.id_team
@@ -204,9 +204,9 @@ FROM intramurudes.player p
 
 CREATE OR REPLACE VIEW v_team_league_sport
 AS
-SELECT t.id AS id_team, t.name AS team_name,
-       l.id AS id_league, l.name AS league_name, l.begin_date, l.end_date,
-       s.id AS id_sport, s.name AS sport_name, s.nb_team_match,
+SELECT t.id AS id_team, t.name AS name_team,
+       l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date,
+       s.id AS id_sport, s.name AS name_sport, s.nb_team_match,
        s.archive AS archive_sport
 FROM intramurudes.team t
          LEFT JOIN intramurudes.league l ON l.id = t.id_league
