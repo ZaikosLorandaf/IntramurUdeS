@@ -2,6 +2,8 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
+import ca.usherbrooke.fgen.api.backend.DTO.MatchDTO;
+import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
@@ -41,18 +43,18 @@ public class MatchService extends TemplateService<Match> {
 
     // Methodes GET
     @GET
-    public List<Match> getMatches(){
-        return getItems();
+    public List<MatchDTO> getMatches(){
+        List<Match> listMatches = getItems();
+        List<MatchDTO> returnList = MatchDTO.mapListToDTO(listMatches);
+        return returnList;
     }
 
     @GET
     @Path("{id}")
-    public Match getMatch(@PathParam("id") Integer id) {
+    public MatchDTO getMatch(@PathParam("id") Integer id) {
         Match match = getItem(id);
-        if(match == null){
-            return new Match();
-        }
-        return match;
+
+        return new MatchDTO(match);
     }
 
 
@@ -78,7 +80,8 @@ public class MatchService extends TemplateService<Match> {
         if(item != null){
             List<League> leagues = ListSport.getLeagues();
             League league = ListSport.getLeagueById(item.getIdLeague());
-            league.getListMatch().addMatch(item);
+            ListMatch listMatch = league.getListMatch();
+            listMatch.addMatch(item);
         }
     }
 

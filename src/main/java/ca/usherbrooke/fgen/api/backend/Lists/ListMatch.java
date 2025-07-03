@@ -1,14 +1,39 @@
 package ca.usherbrooke.fgen.api.backend.Lists;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ListMatch extends ListTemplate<Match, String> {
 
+    private Map<Integer, List<Match>> mapMatchTeam = new HashMap<>();
+
     public boolean addMatch(Match match) {
+
         return addItem(match);
+    }
+
+    @Override
+    public boolean addItem(Match item) {
+        for (Team team : item.getTeams()) {
+            if(!mapMatchTeam.containsKey(team.getId())) {
+                mapMatchTeam.put(team.getId(), new ArrayList<>());
+                mapMatchTeam.get(team.getId()).add(item);
+            }
+            else {
+                List<Match> list = mapMatchTeam.get(team.getId());
+                if(!list.contains(item)) {
+                    list.add(item);
+                }
+            }
+        }
+        return super.addItem(item);
     }
 
     public Match getMatch(int id) {
@@ -34,6 +59,15 @@ public class ListMatch extends ListTemplate<Match, String> {
 
     public boolean removeMatch(int id) {
         return this.removeItem(id);
+    }
+
+    @Override
+    public boolean removeItem(int id) {
+        Match match = getItem(id);
+        for (Team team : match.getTeams()) {
+            this.mapMatchTeam.get(team.getId()).remove(id);
+        }
+        return super.removeItem(id);
     }
 
 
