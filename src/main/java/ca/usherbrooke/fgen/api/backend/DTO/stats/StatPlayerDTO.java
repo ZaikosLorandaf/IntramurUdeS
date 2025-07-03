@@ -1,6 +1,5 @@
 package ca.usherbrooke.fgen.api.backend.DTO.stats;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.Stats.Stat;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class StatPlayerDTO extends StatDTO {
 
 
 
-    public static List<StatPlayerDTO> getListStatPlayerDTO(List<StatPlayer> listStat){
+    public static List<StatPlayerDTO> mapListStatPlayerDTO(List<StatPlayer> listStat){
         List<StatPlayerDTO> listStatDTO = new ArrayList<>();
         for (StatPlayer stat : listStat) {
             listStatDTO.add(new StatPlayerDTO(stat));

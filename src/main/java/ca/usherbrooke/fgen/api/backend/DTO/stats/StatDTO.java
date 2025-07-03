@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe pour formatter le retour JSON
+ * Classe adapter pour donner juste ce qu'il faut pour le json retour
  */
 public class StatDTO {
     private int id;

@@ -80,6 +80,9 @@ public class Player {
     public String getLastName() {
         return this.lastName;
     }
+    public String getFullName() {
+        return this.name + " " + this.lastName;
+    }
     public ListStat getListStat() {
         return this.listStat;
     }

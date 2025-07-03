@@ -3,10 +3,10 @@ package ca.usherbrooke.fgen.api.service.objectServices.stats;
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
-import ca.usherbrooke.fgen.api.backend.BdTables.Stats.Stat;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.DTO.stats.StatPlayerDTO;
+import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatPlayerMapper;
@@ -15,10 +15,7 @@ import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @Path("/api/stat/player")
 public class StatPlayerService extends TemplateService<StatPlayer> {
@@ -31,7 +28,8 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
     @GET
     public List<StatPlayerDTO> getStatsPlayer(){
         List<StatPlayer> statsPlayer = getItems();
-        List<StatPlayerDTO> statsDTO = StatPlayerDTO.getListStatPlayerDTO(statsPlayer);
+        List<Sport> listSport = ogClass.getSportSingleton().getSportList().getAllSports();
+        List<StatPlayerDTO> statsDTO = StatPlayerDTO.mapListStatPlayerDTO(statsPlayer);
         return statsDTO;
     }
 
@@ -58,6 +56,7 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
         Team team = league.getListTeam().getTeam(item.getIdTeam());
         Player player = team.getListPlayer().getPlayer(item.getIdPlayer());
         player.getListStat().addStat(item);
+        int asfd = 1+1;
     }
 
     @Override

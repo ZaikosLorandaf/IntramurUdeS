@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.BdTables.Season;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
@@ -126,6 +127,10 @@ public class LeagueService extends TemplateService<League> {
     protected void add(League league){
         Sport sport = ogClass.getSportSingleton().getSportList().getSport(league.getIdSport());
         sport.addLeague(unescapeEntities(league));
+        for (int idSeason : league.getIdSeasons()){
+            Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(idSeason);
+            season.getLeagues().addLeague(unescapeEntities(league));
+        }
     }
 
     protected void setName(League league) {

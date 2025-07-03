@@ -291,6 +291,8 @@ SELECT ps.id AS id,
            ELSE ps.id_season END
            AS id_season,
        ps.id_player AS id_player,
+       p.name AS name,
+       p.last_name AS last_name,
        CASE
            WHEN m.id_league IS NULL THEN -1
            ELSE m.id_league END AS id_league,
@@ -299,6 +301,7 @@ SELECT ps.id AS id,
        vptls.id_sport AS id_sport
 FROM intramurudes.player_stat ps
          LEFT JOIN match_ m ON m.id = ps.id_match
+         LEFT JOIN player p ON p.id = ps.id_player
          LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player;
 
 
