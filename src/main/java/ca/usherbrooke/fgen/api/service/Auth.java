@@ -17,6 +17,8 @@ public class Auth {
     SecurityIdentity identity;
 
     @GET
+    @RolesAllowed("User")
+    @Path("/me")
     public User getAuth() {
         return new User(identity);
     }
