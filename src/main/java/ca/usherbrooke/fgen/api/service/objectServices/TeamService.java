@@ -51,14 +51,25 @@ public class TeamService extends TemplateService<Team> {
     }
 
     // Methode GET
+
+    /**
+     * Méthode pour aller chercher la liste des toutes les équipes d'une ligue
+     * @param nomSport Nom du sport à aller chercher
+     * @param nomLigue Nom de la ligue
+     * @return La liste des DTO des équipes
+     */
     @GET
-    @Path("listTeam/{nom_sport}/{nom_ligue}")
-    public String listTeam(
+    @Path("{nom_sport}/{nom_ligue}")
+    public List<TeamDTO> getTeams(
             @PathParam("nom_sport") String nomSport,
-            @PathParam("nom_ligue") String nom_ligue) {
+            @PathParam("nom_ligue") String nomLigue) {
+        this.getItems();
         nomSport = nomSport.replace("%20", " ");
-        nom_ligue = nom_ligue.replace("%20", " ");
-        return ogClass.getTeamSingleton().listTeam(nomSport,nom_ligue);
+        nomLigue = nomLigue.replace("%20", " ");
+        Sport sport = this.ogClass.getSportSingleton().getSportList().getSport(nomSport);
+        League league = sport.getListLeague().getLeague(nomLigue, nomSport);
+        List<TeamDTO> returnList = TeamDTO.mapListTeamDTO(league.getListTeam().getAllItems());
+        return returnList;
     }
 
     @GET
@@ -73,23 +84,9 @@ public class TeamService extends TemplateService<Team> {
         return returnList;
     }
 
-    @GET
-    @Path("{id}")
-    public Team getTeam(@PathParam("id") Integer id) {
-        Team team = getItem(id);
-        ListSport.addTeamMap(team);
-        return team;
-    }
 
-    @GET
-    @Path("getTeams/{nom_sport}/{ligue}")
-    public String getTeams(
-            @PathParam("nom_sport") String nom_sport,
-            @PathParam("ligue") String ligue) {
-        nom_sport = nom_sport.replace("%20", " ");
-        ligue = ligue.replace("%20", " ");
-        return ogClass.getTeamSingleton().getTeams(nom_sport,ligue);
-    }
+
+
 
     // Implementation des fonctions du template
     protected List<Team> selectAll(){

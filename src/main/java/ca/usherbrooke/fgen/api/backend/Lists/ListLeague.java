@@ -67,13 +67,31 @@ public class ListLeague extends ListTemplate<League, String> {
     // Getter
     public int getSize() { return getMapSize(); }
     public League getLeague(int id) { return getItem(id); }
-    public League getLeague(String name) { return getItem(name); }
+
+    /**
+     * Méthode pour aller chercher une ligue de la liste selon son nom unique
+     * @param uniqueName Nom unique de la ligue (sport-ligue)
+     * @return La ligue trouvée
+     */
+    public League getLeague(String uniqueName) {
+        return getItem(uniqueName);
+    }
+
+    /**
+     * Méthode pour aller chercher une ligue selon le nom de son sport et de la ligue
+     * Construit le nom unique automatiquement
+     * @param leagueName Nom de la ligue
+     * @param sportName Nom du sport
+     * @return La ligue trouvée
+     */
+    public League getLeague(String leagueName, String sportName) {
+        return getItem(League.getUniqueName(leagueName, sportName));
+    }
     public List<Integer> getLeagueIds() { return getMapIds(); }
 
     public int getId(League league){ return league.getId(); };
     public String getName(League league){
-        String stringNameConstruite = league.getSportName() + "-" + league.getName();
-        return stringNameConstruite;
+        return league.getUniqueName();
     };
 
     // Methodes affichage

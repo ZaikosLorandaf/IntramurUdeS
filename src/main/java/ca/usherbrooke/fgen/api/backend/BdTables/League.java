@@ -303,4 +303,15 @@ public class League {
   public String getSportName(){
     return ogClass.getSportSingleton().getSportList().getSport(this.idSport).getName();
   }
+
+
+  public String getUniqueName(){
+    return League.getUniqueName(this.getName(), this.getSportName());
+  }
+
+  public static String getUniqueName(String leagueName, String sportName){
+    String stringNameConstruite = sportName + "-" + leagueName;
+    return stringNameConstruite;
+  }
+
 }

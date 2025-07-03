@@ -1,11 +1,14 @@
 package ca.usherbrooke.fgen.api.service;
 
+import ca.usherbrooke.fgen.api.backend.DTO.TeamDTO;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
+import ca.usherbrooke.fgen.api.service.objectServices.TeamService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.inject.Inject;
+import java.util.List;
 
 @Path("/api/dashboard")
 @Produces(MediaType.APPLICATION_JSON)
@@ -13,6 +16,8 @@ import javax.inject.Inject;
 public class GetDashboard {
     @Inject
     OGClass ogClass;
+    @Inject
+    TeamService teamService;
 
     @GET
     @Path("nothing")
@@ -22,14 +27,15 @@ public class GetDashboard {
 
     @GET
     @Path("equipes")
-    public String getEquipesData(
+    public List<TeamDTO> getEquipesData(
             @QueryParam("sport") String nomSport,
             @QueryParam("ligue") String nomLigue
     ) {
         LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
         LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
 
-        return ogClass.getTeamSingleton().getEquipesData(nomSport, nomLigue);
+        return teamService.getTeams(nomSport, nomLigue);
+        //return ogClass.getTeamSingleton().getEquipesData(nomSport, nomLigue);
 //        return "{\n" +
 //                "  \"A\": {\n" +
 //                "    \"joueurs\": {\n" +
