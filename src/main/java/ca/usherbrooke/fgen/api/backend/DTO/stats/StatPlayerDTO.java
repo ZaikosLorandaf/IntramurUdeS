@@ -30,7 +30,7 @@ public class StatPlayerDTO extends StatDTO {
 
 
 
-    public static List<StatPlayerDTO> mapListStatPlayerDTO(List<StatPlayer> listStat){
+    public static List<StatPlayerDTO> mapListToDTOStatPlayer(List<StatPlayer> listStat){
         List<StatPlayerDTO> listStatDTO = new ArrayList<>();
         for (StatPlayer stat : listStat) {
             listStatDTO.add(new StatPlayerDTO(stat));

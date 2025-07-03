@@ -2,7 +2,6 @@ package ca.usherbrooke.fgen.api.backend.DTO;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.DTO.stats.StatDTO;
-import ca.usherbrooke.fgen.api.backend.DTO.stats.StatPlayerDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +17,15 @@ public class PlayerDTO {
     public PlayerDTO(Player player){
         this.name = player.getFullName();
         this.number = player.getNumber();
-        this.stats = StatDTO.mapListStatDTO(player.getListStat().getAllItems());
+        this.stats = StatDTO.mapListToDTO(player.getListStat().getAllItems());
     }
 
-    public static List<PlayerDTO> mapListPlayerDTO(List<Player> players){
-        List<PlayerDTO> playerDTOs = new ArrayList<PlayerDTO>();
+    public static List<PlayerDTO> mapListToDTO(List<Player> players){
+        List<PlayerDTO> returnList = new ArrayList<PlayerDTO>();
         for(Player player : players){
-            playerDTOs.add(new PlayerDTO(player));
+            returnList.add(new PlayerDTO(player));
         }
-        return playerDTOs;
+        return returnList;
     }
 
     public String getName() {

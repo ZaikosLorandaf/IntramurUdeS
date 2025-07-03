@@ -1,10 +1,6 @@
 package ca.usherbrooke.fgen.api.backend.DTO.stats;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.League;
-import ca.usherbrooke.fgen.api.backend.BdTables.Match;
-import ca.usherbrooke.fgen.api.backend.BdTables.Season;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.Stat;
-import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +58,7 @@ public class StatDTO {
      * @param listStat Liste de stat à transformer
      * @return La liste des stats DTO
      */
-    public static List<StatDTO> mapListStatDTO(List<Stat> listStat){
+    public static List<StatDTO> mapListToDTO(List<Stat> listStat){
         List<StatDTO> listStatDTO = new ArrayList<>();
         for (Stat stat : listStat) {
             listStatDTO.add(new StatDTO(stat));

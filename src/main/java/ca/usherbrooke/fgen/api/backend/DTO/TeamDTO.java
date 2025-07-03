@@ -1,10 +1,7 @@
 package ca.usherbrooke.fgen.api.backend.DTO;
 
-import ca.usherbrooke.fgen.api.backend.BdTables.League;
-import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.backend.DTO.stats.StatDTO;
-import ca.usherbrooke.fgen.api.backend.DTO.stats.StatPlayerDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +15,15 @@ public class TeamDTO {
     private String name;
     private List<StatDTO> stats;
     private List<PlayerDTO> players;
+    private List<MatchDTO> matches;
 
     public TeamDTO(Team team) {
         this.id = team.getId();
         this.name = team.getName();
-        stats = StatDTO.mapListStatDTO(team.getListStat().getAllItems());
-        players = PlayerDTO.mapListPlayerDTO(team.getListPlayer().getAllItems());
+        this.stats = StatDTO.mapListToDTO(team.getListStat().getAllItems());
+        this.players = PlayerDTO.mapListToDTO(team.getListPlayer().getAllItems());
+//        this.matches =
+
     }
 
     public int getId() {
@@ -40,7 +40,7 @@ public class TeamDTO {
     }
 
 
-    public static List<TeamDTO> mapListTeamDTO(List<Team> teams){
+    public static List<TeamDTO> mapListToDTO(List<Team> teams){
         List<TeamDTO> teamDTOs = new ArrayList<TeamDTO>();
         for(Team team : teams){
             teamDTOs.add(new TeamDTO(team));
