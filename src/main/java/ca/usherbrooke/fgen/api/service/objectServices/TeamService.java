@@ -90,8 +90,10 @@ public class TeamService extends TemplateService<Team> {
 
     // Implementation des fonctions du template
     protected List<Team> selectAll(){
-        return teamMapper.selectTeams();
+        List<Team> returnList = teamMapper.selectTeams();
+        return returnList;
     }
+
     protected Team selectOne(Integer id){
         return teamMapper.selectOneTeam(id);
     }

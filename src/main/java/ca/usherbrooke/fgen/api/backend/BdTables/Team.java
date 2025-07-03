@@ -8,6 +8,7 @@ public class Team {
     private int id;
     private String name;
     private int idLeague;
+    private int idSport;
     private ListPlayer listPlayer;
     private ListStat listStat;
 
@@ -61,7 +62,9 @@ public class Team {
      * @param idLeague      id de la ligue parent
      * @param listPlayer    list des joueurs
      */
-    public Team(int id, String name, int idLeague, ListPlayer listPlayer) { initTeam(id, name, idLeague, listPlayer); }
+    public Team(int id, String name, int idLeague, ListPlayer listPlayer) {
+        initTeam(id, name, idLeague, listPlayer);
+    }
 
     /**
      * Constructeur avec creation d'une liste de joueur avec nombre maximal de joueur
@@ -189,6 +192,10 @@ public class Team {
         this.idLeague = idLeague;
 
         return true;
+    }
+
+    public void setIdSport(int idSport) {
+        this.idSport = idSport;
     }
 
     public boolean setId(int id) {

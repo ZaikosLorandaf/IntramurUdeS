@@ -5,11 +5,12 @@
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.TeamMapper">
 
     <select id="selectTeams" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">
-        SELECT id,
-               name,
-               id_league
-        FROM intramurudes.team t
-        WHERE t.archive = FALSE;
+        SELECT vtls.id_team AS id,
+               vtls.name_team AS name,
+               vtls.id_league AS id_league,
+               vtls.id_sport AS id_sport
+        FROM intramurudes.v_team_league_sport vtls
+        WHERE vtls.archive_sport = FALSE;
     </select>
 
     <select id="selectOneTeam" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">
