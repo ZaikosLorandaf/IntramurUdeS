@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices.stats;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatStatementMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
 
@@ -12,6 +13,8 @@ import java.util.List;
 public class StatStatementService extends TemplateService<StatStatement> {
     @Inject
     StatStatementMapper statStatementMapper;
+    @Inject
+    OGClass ogClass;
 
 
     // Redirection vers les fonctions template
@@ -35,7 +38,7 @@ public class StatStatementService extends TemplateService<StatStatement> {
 
     @Override
     protected void add(StatStatement item) {
-
+        ogClass.getStatStatementSingleton().getStatStatement().addStatStatement(item);
     }
 
     @Override

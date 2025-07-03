@@ -300,4 +300,7 @@ public class League {
   public ListTeam getListTeam() { return this.listTeam; }
   public ListMatch getListMatch() {return this.listMatch;}
   public List<Integer> getIdSeasons() {return this.idSeasons;}
+  public String getSportName(){
+    return ogClass.getSportSingleton().getSportList().getSport(this.idSport).getName();
+  }
 }

@@ -7,7 +7,7 @@
     <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
         SELECT vps.id AS id,
                vps.id_stat_statement AS id_stat_statement,
-               vps.value_ AS value,
+               vps.value AS value,
                vps.id_match AS id_match,
                vps.id_season AS id_season,
                vps.id_player AS id_player,
@@ -21,7 +21,7 @@
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
         SELECT vps.id AS id,
                vps.id_stat_statement AS id_stat_statement,
-               vps.value_ AS value,
+               vps.value AS value,
                vps.id_match AS id_match,
                vps.id_season AS id_season,
                vps.id_player AS id_player,
@@ -45,11 +45,13 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO intramurudes.player_stat(id, value_, id_match, id_stat_statement, id_season, id_player)
+        INSERT INTO intramurudes.player_stat(id, value, id_match, id_stat_statement, id_season, id_player)
         VALUES (#{id},
                 #{value},
                 #{match.id},
-                #{id_stat_statement});
+                #{id_stat_statement},
+                #{season.id},
+                #{player.id});
     </insert>
 
 </mapper>

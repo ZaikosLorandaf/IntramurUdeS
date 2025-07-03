@@ -14,6 +14,6 @@ public interface StatPlayerMapper {
     List<StatPlayer> selectAll();
     StatPlayer selectOne(@Param("id") Integer id);
     void deleteOne(@Param("id") Integer id);
-    void insert(@Param("statStatement") StatStatement statStatement);
+    void insert(@Param("statPlayer") StatPlayer statPlayer);
     Integer getLastId();
 }

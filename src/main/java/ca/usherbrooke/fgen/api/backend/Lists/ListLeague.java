@@ -2,10 +2,12 @@ package ca.usherbrooke.fgen.api.backend.Lists;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 
 import java.util.*;
 
 public class ListLeague extends ListTemplate<League, String> {
+
     /**
      * Constructeur par defaut vide.
      *
@@ -70,7 +72,8 @@ public class ListLeague extends ListTemplate<League, String> {
 
     public int getId(League league){ return league.getId(); };
     public String getName(League league){
-        return league.getName();
+        String stringNameConstruite = league.getSportName() + "-" + league.getName();
+        return stringNameConstruite;
     };
 
     // Methodes affichage

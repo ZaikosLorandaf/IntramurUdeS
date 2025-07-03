@@ -58,7 +58,14 @@ public class ListStat extends ListTemplate<Stat, String>{
 
     @Override
     String getName(Stat item) {
-        return item.getStatStatement().getAcronym() + ": " + item.getValue() + "; Match: " + item.getMatch().getDate() + " " + item.getMatch().getBeginTime();
+        String returnString = item.getStatStatement().getAcronym() + ": " + item.getValue() + "; Match: ";
+        if(item.getMatch() != null){
+            returnString += item.getMatch().getDate() + " " + item.getMatch().getBeginTime();
+        }
+        else{
+            returnString += "General";
+        }
+        return returnString;
     }
 
     @Override

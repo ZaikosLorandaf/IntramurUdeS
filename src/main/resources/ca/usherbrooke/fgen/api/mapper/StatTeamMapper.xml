@@ -3,5 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.StatTeamMapper">
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam">
+        SELECT vts.id AS id,
+               vts.id_stat_statement AS id_stat_statement,
+               vts.value AS value,
+               vts.id_match AS id_match,
+               vts.id_season AS id_season,
+               vts.id_league AS id_league,
+               vts.id_team AS id_team,
+               vts.id_league_team AS id_league_team,
+               vts.id_sport AS id_sport
+        FROM intramurudes.v_team_stat vts;
+    </select>
 
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam">
+        SELECT vts.id AS id,
+               vts.id_stat_statement AS id_stat_statement,
+               vts.value AS value,
+               vts.id_match AS id_match,
+               vts.id_season AS id_season,
+               vts.id_league AS id_league,
+               vts.id_team AS id_team,
+               vts.id_league_team AS id_league_team,
+               vts.id_sport AS id_sport
+        FROM intramurudes.v_team_stat vts
+        WHERE vts.id = #{id};
+    </select>
+
+
+    <delete id="deleteOne">
+        DELETE
+        FROM intramurudes.team_stat
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.team_stat_id_seq;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO intramurudes.team_stat(id, value_, id_match, id_stat_statement, id_season, id_team)
+        VALUES (#{id},
+                #{value},
+                #{match.id},
+                #{id_stat_statement},
+                #{season.id},
+                #{team.id});
+    </insert>
 </mapper>
