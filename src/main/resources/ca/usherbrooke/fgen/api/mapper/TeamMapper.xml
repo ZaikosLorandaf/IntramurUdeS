@@ -14,11 +14,12 @@
     </select>
 
     <select id="selectOneTeam" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">
-        SELECT id,
-               name,
-               id_league
-        FROM intramurudes.team t
-        WHERE id = #{id} AND t.archive = FALSE;
+        SELECT vtls.id_team,
+               vtls.name_team,
+               vtls.id_league,
+               vtls.id_sport
+        FROM intramurudes.v_team_league_sport vtls
+        WHERE vtls.id_team = #{id} AND vtls.archive_sport = FALSE;
     </select>
 
     <delete id="deleteOneTeam">
