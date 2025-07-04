@@ -1,11 +1,10 @@
 let sport;
 let season;
-// let roleNumber = 2;
+
 // Page Initialisation
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     waitForRoleNumber(initPage);
 });
-
 
 function waitForRoleNumber(callback, retries = 20, interval = 100) {
     const check = () => {
@@ -15,7 +14,7 @@ function waitForRoleNumber(callback, retries = 20, interval = 100) {
             setTimeout(() => waitForRoleNumber(callback, retries - 1, interval), interval);
         } else {
             console.warn("roleNumber not defined after waiting");
-            callback(); // on continue quand même pour éviter de bloquer toute la page
+            callback();
         }
     };
     check();
@@ -38,51 +37,55 @@ function initPage() {
             ligue: season
         }
     }).then(function (response) {
-        equipeData = response.data;
-        console.log(equipeData);
+        const rawData = response.data;
+        equipeData = {};
+        matchDatas = {};
+
+        rawData.forEach((team, index) => {
+            equipeData[String.fromCharCode(65 + index)] = {
+                name: team.name,
+                joueurs: team.players.reduce((acc, player) => {
+                    acc[player.number] = {
+                        name: player.name,
+                        stats: (player.stats || []).reduce((obj, stat) => {
+                            obj[stat.statement] = stat.value;
+                            return obj;
+                        }, {})
+                    };
+                    return acc;
+                }, {}),
+                stats: (team.stats || []).reduce((obj, stat) => {
+                    obj[stat.statement] = stat.value;
+                    return obj;
+                }, {}),
+                matchs: `${(team.matches || []).length} matchs`
+            };
+
+            (team.matches || []).forEach(match => {
+                const date = match.date;
+                if (!matchDatas[date]) {
+                    matchDatas[date] = [];
+                }
+                matchDatas[date].push({
+                    heure: formatHeure(match.beginTime),
+                    equipes: team.name,
+                    lieu: match.lieu || "Inconnu"
+                });
+            });
+        });
+
+        console.log("EquipeData reformatée:", equipeData);
+        console.log("matchDatas:", matchDatas);
         renderTeamList();
-        callMatch();
+        populateMatchDays();
     }).catch(function (error) {
         const container = document.querySelector('.main-container');
         container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
     });
 }
 
-// Logique Equipe
-let equipeData = {
-    A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-};
+let equipeData = {};
+let matchDatas;
 
 function renderTeamList() {
     const container = document.getElementById("liste-equipes");
@@ -91,11 +94,11 @@ function renderTeamList() {
     Object.keys(equipeData).forEach(team => {
         const div = document.createElement("div");
         div.className = "card-custom";
-        div.textContent = `Équipe ${team}`;
+        div.textContent = `${equipeData[team].name}`;
         div.onclick = () => showInfo(team);
         container.appendChild(div);
     });
-    console.log("affichage roleNumber", roleNumber);
+
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "btn btn-secondary mb-2";
@@ -108,7 +111,6 @@ function renderTeamList() {
         div.addEventListener('click', () => {
             window.open(`./modals/dashboard-equipe.html?sport=${sports}&ligue=${seasons}`, 'popupWindow', 'width=500,height=500');
         });
-        // div.onclick = () => ;
         container.appendChild(div);
     }
 }
@@ -117,7 +119,7 @@ function showInfo(team) {
     const info = equipeData[team];
 
     const joueursList = Object.entries(info.joueurs)
-        .map(([numero,joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}', '${team}')">${numero} ${joueur.name}</button>`)
+        .map(([numero, joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}', '${team}')">${numero} ${joueur.name}</button>`)
         .join('');
 
     let buttonHTML = "";
@@ -130,58 +132,43 @@ function showInfo(team) {
     }
 
     const teamStats = info.stats || {};
-
     const statsTable = `
         <table class="stats-table">
-        <thead>
-        <tr><th>Statistiques</th><th>Valeurs</th></tr>
-        </thead>
+        <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
         <tbody>
         ${Object.entries(teamStats).map(([cle, valeur]) => `
             <tr>
-            <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+            <td style="padding: 0px 20px;">${cle}</td>
             <td style="padding: 0px 20px;">${valeur}</td>
-            </tr>
-            `).join('')}
+            </tr>`).join('')}
         </tbody>
-        </table>
-        `;
+        </table>`;
 
     document.getElementById("equipe-info").innerHTML = `
-        <h4>Équipe ${team}</h4>
+        <h4>Équipe ${equipeData[team].name}</h4>
         <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
         ${statsTable}
-    ${buttonHTML}
-        </div>
-        </div>
-        <div id="player-info" style="display: none;"></div>
-        `;
+        ${buttonHTML}
+        </div></div>
+        <div id="player-info" style="display: none;"></div>`;
 
-    // Fonction pour afficher les stats du joueur
-    window.showPlayer = function (number ,nom, team) {
-        const joueurData = equipeData[team].joueurs[number].stats;
-        const stats = joueurData ? joueurData : {};
+    window.showPlayer = function (number, nom, team) {
+        const joueurData = equipeData[team].joueurs[number].stats || {};
 
-        // Générer un tableau des stats du joueur
         const statsJoueurTable = `
             <table class="stats-table">
-            <thead>
-            <tr><th>Statistiques</th><th>Valeurs</th></tr>
-            </thead>
+            <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
             <tbody>
-            ${Object.entries(stats).map(([cle, valeur]) => `
+            ${Object.entries(joueurData).map(([cle, valeur]) => `
                 <tr>
-                <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                <td style="padding: 0px 20px;">${cle}</td>
                 <td style="padding: 0px 20px;">${valeur}</td>
-                </tr>
-                `).join('')}
+                </tr>`).join('')}
             </tbody>
-            </table>
-            `;
+            </table>`;
 
-        // Affichage conditionnel pour rôle admin
         let modifierJoueurBtn = "";
         if (roleNumber === 2) {
             const params = new URLSearchParams(window.location.search);
@@ -194,46 +181,52 @@ function showInfo(team) {
         document.getElementById("equipe-content").style.display = "none";
         document.getElementById("player-info").style.display = "block";
 
-        // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
             <h4>${number} ${nom}</h4>
             ${statsJoueurTable}
-        ${modifierJoueurBtn}
-            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
-            `;
+            ${modifierJoueurBtn}
+            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${team}')">← Retour à l'équipe</button>`;
     };
 
-    // Fonction de retour
     window.retourEquipe = function (team) {
-        showInfo(team); // Recharge l'affichage original de l'équipe
+        showInfo(team);
     };
 }
 
+function parseDate(dateStr) {
+    if (/^\d{4}-\d{2}-\d{2}Z$/.test(dateStr)) {
+        return new Date(dateStr.replace('Z', 'T00:00:00Z'));
+    }
+    return new Date(dateStr);
+}
 
-// Logique Matchs
-let matchDatas;
+function formatHeure(isoTime) {
+    // Supprime le [UTC] si présent
+    const cleaned = isoTime.replace(/\[.*\]/, "");
+    const d = new Date(cleaned);
+    return d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+}
 
 function showMatchDay(date) {
     const container = document.getElementById("match-details");
     const title = document.getElementById("selected-day");
 
     const matchs = matchDatas[date] || [];
-
-    title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
+    title.textContent = `Matchs du ${parseDate(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
 
     container.innerHTML = matchs.map(match => `
         <div class="card border-0 shadow-sm">
         <div class="card-body">
-        <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
-        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+        <h6 class="card-title">${match.equipes} contre : X</h6>
+        <h7>${match.heure}</h7>
+        
         </div>
-        </div>
-        `).join("");
+        </div>`).join("");
 }
+//<p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
 
 function formatDate(isoDate) {
-    const date = new Date(isoDate);
-    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    return parseDate(isoDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 function populateMatchDays() {
@@ -251,34 +244,16 @@ function populateMatchDays() {
     if (roleNumber === 2) {
         const parent = document.getElementById('1234');
         parent.innerHTML += '<br>';
-        // Création du bouton "Gérer Dates"
         const manageBtn = document.createElement('button');
         manageBtn.textContent = 'Gérer Matchs';
-        manageBtn.className = 'btn btn-secondary mb-2'; // classe Bootstrap, adapte si besoin
+        manageBtn.className = 'btn btn-secondary mb-2';
         const myParams = new URLSearchParams(window.location.search);
         let sport = myParams.get('sport');
         let season = myParams.get('ligue');
 
         manageBtn.onclick = () => {
-            // Action au clic sur le bouton (par exemple ouvrir un popup ou rediriger)
             window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
         };
         parent.appendChild(manageBtn);
     }
 }
-
-function callMatch(){
-    const myParams = new URLSearchParams(window.location.search);
-    let sports = myParams.get('sport');
-    let seasons = myParams.get('ligue');
-    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
-    }).then(function (response) {
-        matchDatas = response.data;
-        console.log(matchDatas);
-        populateMatchDays();
-    })
-        .catch(function (error) {
-            console.log(error);
-        });
-}
-
