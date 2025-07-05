@@ -10,7 +10,8 @@ SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
                 ),
                 ARRAY[-1]
        ) AS list_teams,
-       m.archive AS archive_match
+       m.archive AS archive_match,
+       m.place AS place
 FROM match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
 GROUP BY m.id, m.date_match, m.begin_time, m.end_time;
@@ -63,8 +64,9 @@ SELECT m.id AS match_id, m.date_match, m.begin_time, m.end_time,
                ),
                ARRAY[-1]
        ) AS list_teams,
-
-       m.id_season AS id_season, m.archive AS archive_match
+       m.id_season AS id_season,
+       m.archive AS archive_match,
+       m.place AS place
 FROM intramurudes.match_ m
          LEFT JOIN intramurudes.league l ON l.id = m.id_league
          LEFT JOIN intramurudes.sport s ON s.id = l.id_sport

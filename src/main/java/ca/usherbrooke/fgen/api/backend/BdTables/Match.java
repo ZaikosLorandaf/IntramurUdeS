@@ -17,6 +17,7 @@ public class Match
     private Date date;
     private Time beginTime;
     private Time endTime;
+    private String place;
     private int idLeague;
     private int nbTeamMatch = 2;
     private List<Integer> idTeams;
@@ -40,12 +41,13 @@ public class Match
         this.teams = new ArrayList<Team>();
     }
 
-    public Match(Integer id, Date date, Time beginTime, Time endTime, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams, Integer idSeason)
+    public Match(Integer id, Date date, Time beginTime, Time endTime, String place, Integer idLeague, Integer nbTeamMatch, List<Integer> idTeams, Integer idSeason)
     {
         this.id = id;
         this.date = date;
         this.beginTime = beginTime;
         this.endTime = endTime;
+        this.place = place;
         this.idLeague = idLeague;
         this.nbTeamMatch = nbTeamMatch;
         this.idTeams = idTeams;
@@ -59,7 +61,7 @@ public class Match
         this.date = date;
         this.beginTime = beginTime;
         this.endTime = endTime;
-        teams = new ArrayList<Team>();
+        this.teams = new ArrayList<Team>();
         this.idTeams = new ArrayList<>();
     }
 
@@ -78,6 +80,10 @@ public class Match
 
     public Time getEndTime(){
         return this.endTime;
+    }
+
+    public String getPlace(){
+        return this.place;
     }
 
     public int getIdLeague(){

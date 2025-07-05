@@ -28,7 +28,7 @@ public class MatchSingleton {
     }
 
     // Gestion donnees
-    public String add(String sportName, String leagueName, String team1, String team2, String date, String heureDebut, String heureFin) {
+    public String add(String sportName, String leagueName, String team1, String team2, String date, String heureDebut, String heureFin, String place) {
         if (sportName == null || leagueName == null || team1 == null || team2 == null) {
             return "Erreur noms";
         }
@@ -51,7 +51,7 @@ public class MatchSingleton {
         Date dateMatch = Date.valueOf(date);
         Time beginMatch = Time.valueOf(heureDebut);
         Time endMatch = Time.valueOf(heureFin);
-        Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
+        Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, place, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
 
         if (addDb(match)) {
             sportList.getLeague(idLeague).getListMatch().addMatch(match); // TODO: verifier le retour

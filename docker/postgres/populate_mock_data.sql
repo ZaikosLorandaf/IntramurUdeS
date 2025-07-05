@@ -251,11 +251,11 @@ INSERT INTO league_season (id_league, id_season) VALUES
 
 -- Match
 -- Matchs Ultimate Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-01', '14:00', '15:30', 1, 11),  -- Match 1
-    ('2025-06-02', '16:00', '17:30', 1,11),  -- Match 2
-    ('2025-06-03', '18:00', '19:30', 1,11),  -- Match 3
-    ('2025-06-04', '18:00', '19:30', 1,11);   -- Match vide sans équipe
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-01', '14:00', '15:30', 1, 11, 'Concorde 1'),  -- Match 1
+    ('2025-06-02', '16:00', '17:30', 1, 11, 'Concorde 2'),  -- Match 2
+    ('2025-06-03', '18:00', '19:30', 1, 11, 'Concorde 3'),  -- Match 3
+    ('2025-06-04', '18:00', '19:30', 1, 11, 'Concorde 4');  -- Match vide sans équipe
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (1, 1), (2, 1),    -- SFB vs Empire
@@ -263,45 +263,45 @@ INSERT INTO match_team (id_team, id_match) VALUES
     (1, 3), (3, 3);    -- SFB vs Royal
 
 -- Matchs Ultimate Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-04', '14:00', '15:30', 2, 11),  -- Match 4
-    ('2025-06-05', '16:00', '17:30', 2, 11);  -- Match 5
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-04', '14:00', '15:30', 2, 11, 'Concorde 1'),  -- Match 4
+    ('2025-06-05', '16:00', '17:30', 2, 11, 'Concorde 2');  -- Match 5
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (5, 5), (6, 5),    -- Rush vs Phoenix
     (7, 6), (8, 6);    -- Breeze vs Flyers
 
 -- Matchs Basketball Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-06', '14:00', '15:30', 3, 11),  -- Match 6
-    ('2025-06-07', '16:00', '17:30', 3, 11);  -- Match 7
-
+-- Matchs Basketball Ligue A
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-06', '14:00', '15:30', 3, 11, 'Terrain 1'),  -- Match 6
+    ('2025-06-07', '16:00', '17:30', 3, 11, 'Terrain 2');  -- Match 7
 INSERT INTO match_team (id_team, id_match) VALUES
     (9, 7), (10, 7),   -- Aces vs Storm
     (11, 8), (12, 8);  -- Wings vs Mercury
 
 -- Matchs Basketball Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-08', '14:00', '15:30', 4, 11),  -- Match 8
-    ('2025-06-09', '16:00', '17:30', 4, 11);  -- Match 9
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-08', '14:00', '15:30', 4, 11, 'Terrain 3'),  -- Match 8
+    ('2025-06-09', '16:00', '17:30', 4, 11, 'Terrain 4');  -- Match 9
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (13, 9), (14, 9),  -- Lynx vs Sparks
     (15, 10), (16, 10);  -- Sky vs Mystics
 
 -- Matchs Volleyball Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league) VALUES
-    ('2025-06-10', '14:00', '15:30', 5),  -- Match 10
-    ('2025-06-11', '16:00', '17:30', 5);  -- Match 11
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+('2025-06-10', '14:00', '15:30', 5, 11, 'Terrain 1'),  -- Match 10
+('2025-06-11', '16:00', '17:30', 5, 11, 'Terrain 2');  -- Match 11
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (17, 11), (18, 11),  -- Vibe vs Fury
     (19, 12), (20, 12);  -- Rise vs Mercury
 
 -- Matchs Volleyball Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league) VALUES
-    ('2025-06-12', '14:00', '15:30', 6),  -- Match 12
-    ('2025-06-13', '16:00', '17:30', 6);  -- Match 13
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-12', '14:00', '15:30', 6, 11, 'Terrain 3'),  -- Match 12
+    ('2025-06-13', '16:00', '17:30', 6, 11, 'Terrain 4');  -- Match 13
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (21, 13), (22, 13),  -- Ignite vs Supernovas

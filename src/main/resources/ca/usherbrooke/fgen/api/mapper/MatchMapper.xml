@@ -9,6 +9,7 @@
             <arg column="date_match" javaType="java.sql.Date"/>
             <arg column="begin_time" javaType="java.sql.Time"/>
             <arg column="end_time" javaType="java.sql.Time"/>
+            <arg column="place" javaType="java.lang.String"/>
             <arg column="id_league" javaType="java.lang.Integer"/>
             <arg column="nb_team_match" javaType="java.lang.Integer"/>
             <arg column="id_teams" javaType="java.util.List" typeHandler="ca.usherbrooke.fgen.api.handler.IntegerArrayToListTypeHandler"/>
@@ -23,6 +24,7 @@
                vmls.date_match AS date_match,
                vmls.begin_time AS begin_time,
                vmls.end_time AS end_time,
+               vmls.place AS place,
                vmls.id_league AS id_league,
                vmls.nb_team_match AS nb_team_match,
                vmls.list_teams AS id_teams,
@@ -37,6 +39,7 @@
                vmls.date_match AS date_match,
                vmls.begin_time AS begin_time,
                vmls.end_time AS end_time,
+               vmls.place AS place,
                vmls.id_league AS id_league,
                vmls.nb_team_match AS nb_team_match,
                vmls.list_teams AS id_teams

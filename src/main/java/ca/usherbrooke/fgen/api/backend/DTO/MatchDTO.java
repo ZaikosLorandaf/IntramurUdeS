@@ -13,6 +13,7 @@ public class MatchDTO {
     private Date date;
     private Time beginTime;
     private Time endTime;
+    private String place;
     private List<SimpleTeamDTO> teams;
 
     public MatchDTO(Match match) {
@@ -20,6 +21,7 @@ public class MatchDTO {
         this.date = match.getDate();
         this.beginTime = match.getBeginTime();
         this.endTime = match.getEndTime();
+        this.place = match.getPlace();
         this.teams = SimpleTeamDTO.mapListToSimpleDTO(match.getTeams());
     }
 
@@ -35,6 +37,7 @@ public class MatchDTO {
         this.date = match.getDate();
         this.beginTime = match.getBeginTime();
         this.endTime = match.getEndTime();
+        this.place = match.getPlace();
         List<Team> listTeamAgainst = new ArrayList<>();
         for (Team team : match.getTeams()) {
             if (team.getId() != idTeam) {
@@ -57,6 +60,9 @@ public class MatchDTO {
     }
     public Time getEndTime() {
         return this.endTime;
+    }
+    public String getPlace() {
+        return this.place;
     }
     public List<SimpleTeamDTO> getTeams() {
         return this.teams;
@@ -91,3 +97,10 @@ public class MatchDTO {
     }
 
 }
+
+
+
+
+
+
+
