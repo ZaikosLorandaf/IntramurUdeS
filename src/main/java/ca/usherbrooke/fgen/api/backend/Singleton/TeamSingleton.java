@@ -37,7 +37,7 @@ public class TeamSingleton {
         }
 
         String result;
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName, sportName);
         if (league == null) {
             result = "Ligue introuvable";
         } else {
