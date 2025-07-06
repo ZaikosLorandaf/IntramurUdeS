@@ -85,6 +85,9 @@
         const teamName = document.getElementById('teamName').value;
 
         console.log("Tentative ajouter équipe:", teamName);
+        console.log(sport);
+        console.log(league);
+
         axios.post("http://localhost:8888/api/team/addTeam/", {
             nomSport: sport,
             nomLigue: league,
