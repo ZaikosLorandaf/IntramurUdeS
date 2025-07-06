@@ -7,8 +7,10 @@ import ca.usherbrooke.fgen.api.backend.BdTables.Team;
 import ca.usherbrooke.fgen.api.mapper.StatTeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.util.List;
 
@@ -21,6 +23,11 @@ public class StatTeamService extends TemplateService<StatTeam> {
     public List<StatTeam> getStatsTeam(){
         List<StatTeam> statsTeam = getItems();
         return statsTeam;
+    }
+
+    @POST
+    public StatTeam addStatTeam(){
+        return new StatTeam();
     }
 
     @Override
