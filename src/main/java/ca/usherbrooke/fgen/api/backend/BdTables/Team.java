@@ -111,6 +111,7 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        this.listStat = new ListStat();
     }
 
     /**

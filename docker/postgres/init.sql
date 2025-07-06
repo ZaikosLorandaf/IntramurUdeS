@@ -65,7 +65,7 @@ CREATE TABLE match_(
                        id_league INT,
                        id_season INT DEFAULT 11 NOT NULL,
                        archive BOOLEAN DEFAULT FALSE,
-                       place VARCHAR(127),
+                       place VARCHAR(127) DEFAULT '--',
                        PRIMARY KEY(id),
                        FOREIGN KEY(id_league) REFERENCES league(id),
                        FOREIGN KEY(id_season) REFERENCES season(id)
