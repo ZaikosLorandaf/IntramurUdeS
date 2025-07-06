@@ -2,7 +2,6 @@ package ca.usherbrooke.fgen.api.backend.Lists;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
-import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 
 import java.util.*;
 
@@ -50,7 +49,6 @@ public class ListLeague extends ListTemplate<League, String> {
      */
     public boolean removeLeague(int id) {
         League ligue = getItem(id);
-        /* FIXME: Remi - j'ai commenté, getTeams n'existe pas*/
         for (int i: ligue.getListTeam().getTeamIds())
             ligue.getListTeam().removeTeam(i);
 
@@ -107,10 +105,32 @@ public class ListLeague extends ListTemplate<League, String> {
         return league.getUniqueName();
     };
 
+    @Override
+    protected boolean addItem(League league) {
+        if(super.addItem(league)){
+            ListSport.addLeagueMap(league);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean removeItem(int id){
+        if(super.removeItem(id)) {
+            League league = getItem(id);
+            for (int i: league.getListTeam().getTeamIds()){
+                league.getListTeam().removeTeam(i);
+            }
+            ListSport.removeLeagueMap(league);
+            return true;
+        }
+        return false;
+    }
+
+
     // Methodes affichage
     @Override
     void logAddSuccess(League league) {
-        ListSport.addLeagueMap(league);
         LoggerUtil.info("Ajout de la ligue " + league.getName());
     }
     @Override
@@ -121,21 +141,13 @@ public class ListLeague extends ListTemplate<League, String> {
 
     @Override
     void logRemoveSuccess(int id){
-        League ligue =getItem(id);
-        for (int i: ligue.getListTeam().getTeamIds())
-            ligue.getListTeam().removeTeam(i);
+        LoggerUtil.warning("Retrait de la ligue (id: " + id + ").");
 
-        LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
-        ListSport.removeLeagueMap(ligue);
     }
 
     @Override
     void logRemoveFailure(int id){
-        League ligue =getItem(id);
-        for (int i: ligue.getListTeam().getTeamIds())
-            ligue.getListTeam().removeTeam(i);
-
-        LoggerUtil.warning("Échec du retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
+        LoggerUtil.warning("Échec du retrait de la ligue (id: " + id + ").");
     }
 
     /**
