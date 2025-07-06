@@ -66,15 +66,32 @@ function initPage() {
                 if (!matchDatas[date]) {
                     matchDatas[date] = [];
                 }
-                matchDatas[date].push({
-                    heure: formatHeure(match.beginTime),
-                    equipes: team.name,
-                    lieu: match.lieu || "Inconnu"
-                });
+
+                // Récupérer les noms des deux équipes du match
+                const equipes = (match.teams || []).map(t => t.name).join(" vs ");
+                let affrontement = equipes + " vs " + team.name;
+
+                const heure = formatHeure(match.beginTime);
+                const lieu = match.place || "Inconnu";
+
+                // Vérifie s’il existe déjà un match identique
+                const exists = matchDatas[date].some(entry =>
+                    entry.heure === heure &&
+                    entry.lieu === lieu // &&
+                    // entry.equipes === affrontement
+                );
+
+                if (!exists) {
+                    matchDatas[date].push({
+                        heure,
+                        equipes: affrontement,
+                        lieu
+                    });
+                }
             });
         });
 
-        console.log("EquipeData reformatée:", equipeData);
+    console.log("EquipeData reformatée:", equipeData);
         console.log("matchDatas:", matchDatas);
         renderTeamList();
         populateMatchDays();
@@ -217,13 +234,13 @@ function showMatchDay(date) {
     container.innerHTML = matchs.map(match => `
         <div class="card border-0 shadow-sm">
         <div class="card-body">
-        <h6 class="card-title">${match.equipes} contre : X</h6>
+        <h6 class="card-title">${match.equipes}</h6>
         <h7>${match.heure}</h7>
-        
+        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>      
         </div>
         </div>`).join("");
 }
-//<p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+//
 
 function formatDate(isoDate) {
     return parseDate(isoDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -233,11 +250,14 @@ function populateMatchDays() {
     const listContainer = document.getElementById('match-days-list');
     listContainer.innerHTML = '';
 
-    Object.keys(matchDatas).forEach(date => {
+    // Trier les dates (clés) sans modifier matchDatas
+    const sortedDates = Object.keys(matchDatas).sort((a, b) => new Date(a) - new Date(b));
+
+    sortedDates.forEach(date => {
         const li = document.createElement('li');
         li.className = 'list-group-item list-group-item-action';
-        li.textContent = formatDate(date);
-        li.onclick = () => showMatchDay(date);
+        li.textContent = formatDate(date); // formatDate("2025-06-01Z") => ex: "1 juin 2025"
+        li.onclick = () => showMatchDay(date); // utilise toujours la bonne date pour accéder aux données
         listContainer.appendChild(li);
     });
 
