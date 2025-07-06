@@ -112,6 +112,8 @@ public class Team {
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
         this.listStat = new ListStat();
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
