@@ -227,7 +227,7 @@ function formatHeure(isoTime) {
 function showMatchDay(date) {
     const container = document.getElementById("match-details");
     const title = document.getElementById("selected-day");
-
+    console.log("cliked");
     const matchs = matchDatas[date] || [];
     title.textContent = `Matchs du ${parseDate(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
 
@@ -262,18 +262,32 @@ function populateMatchDays() {
     });
 
     if (roleNumber === 2) {
-        const parent = document.getElementById('1234');
-        parent.innerHTML += '<br>';
-        const manageBtn = document.createElement('button');
-        manageBtn.textContent = 'Gérer Matchs';
-        manageBtn.className = 'btn btn-secondary mb-2';
         const myParams = new URLSearchParams(window.location.search);
         let sport = myParams.get('sport');
         let season = myParams.get('ligue');
 
-        manageBtn.onclick = () => {
+        const li = document.createElement('li');
+        li.className = 'list-group-item list-group-item-action bg-secondary text-white text-center';
+        li.textContent = 'Gérer Matchs';
+        li.style.cursor = 'pointer';
+        li.onclick = () => {
             window.open(`./modals/dashboard-date.html?sport=${sport}&league=${season}`, 'popupWindow', 'width=600,height=400');
         };
-        parent.appendChild(manageBtn);
+        listContainer.appendChild(li);
     }
+}
+
+function callMatch(){
+    const myParams = new URLSearchParams(window.location.search);
+    let sports = myParams.get('sport');
+    let seasons = myParams.get('ligue');
+    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
+    }).then(function (response) {
+        matchDatas = response.data;
+        console.log(matchDatas);
+        populateMatchDays();
+    })
+        .catch(function (error) {
+            console.log(error);
+        });
 }

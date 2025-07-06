@@ -50,7 +50,13 @@
             return;
         }
 
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+key + "/" +value, {})
+        axios.post("http://localhost:8888/api/statistiques/add", {
+            sportName: sport,
+            ligueName: ligue,
+            teamName: team,
+            key: key,
+            value: value,
+        })
             .then(function (response) {
                 console.log(response.data);
                 refresh();

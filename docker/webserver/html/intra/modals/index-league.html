@@ -119,6 +119,8 @@
             })
             .catch(function (error) {
                 console.log('refreshing');
+                alert(error);
+                refresh();
             });
     });
 
@@ -133,10 +135,12 @@
         }).then(function (response) {
             console.log(response.data);
             refresh();
-            })
-            .catch(function (error) {
-                span.innerHTML += '<div>Erreur : ' + error + '</div>';
-            });
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert(error);
+            refresh();
+        });
         console.log('🔴 Suppression ligue :', { name });
     });
 </script>
