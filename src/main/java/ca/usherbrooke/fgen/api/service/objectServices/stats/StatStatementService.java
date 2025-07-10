@@ -50,4 +50,9 @@ public class StatStatementService extends TemplateService<StatStatement> {
     protected void setName(StatStatement item) {
 
     }
+
+    @Override
+    protected int getLastId() {
+        return this.statStatementMapper.getLastId();
+    }
 }

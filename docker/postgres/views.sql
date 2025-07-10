@@ -14,7 +14,8 @@ SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
        m.place AS place
 FROM match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
-GROUP BY m.id, m.date_match, m.begin_time, m.end_time;
+GROUP BY m.id, m.date_match, m.begin_time, m.end_time
+ORDER BY m.date_match, m.begin_time;
 
 
 
@@ -28,7 +29,8 @@ SELECT p.id AS id_player, p.name AS name_player, p.last_name, p.number,
 FROM intramurudes.player p
          LEFT JOIN intramurudes.team t ON t.id = p.id_team
          LEFT JOIN intramurudes.league l ON l.id = t.id_league
-         LEFT JOIN intramurudes.sport s ON s.id = l.id_sport;
+         LEFT JOIN intramurudes.sport s ON s.id = l.id_sport
+ORDER BY s.name, l.name, t.name, p.last_name;
 
 
 
@@ -40,7 +42,8 @@ SELECT t.id AS id_team, t.name AS name_team,
        s.archive AS archive_sport
 FROM intramurudes.team t
          LEFT JOIN intramurudes.league l ON l.id = t.id_league
-         LEFT JOIN intramurudes.sport s ON s.id = l.id_sport;
+         LEFT JOIN intramurudes.sport s ON s.id = l.id_sport
+ORDER BY s.name, l.name, t.name;
 
 
 CREATE OR REPLACE VIEW v_league_sport
@@ -49,7 +52,8 @@ SELECT l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date, l.don
        s.id AS id_sport, s.name AS name_soprt, s.nb_team_match,
        l.archive AS archive_league
 FROM league AS l
-         LEFT JOIN intramurudes.sport s ON l.id_sport = s.id;
+         LEFT JOIN intramurudes.sport s ON l.id_sport = s.id
+ORDER BY s.name, l.name;
 
 
 
@@ -92,7 +96,8 @@ SELECT l.id as id,
        l.archive AS archive_league
 FROM intramurudes.league l
 LEFT JOIN intramurudes.league_season ls ON l.id = ls.id_league
-GROUP BY l.id, l.name, l.begin_date, l.end_date, l.done, l.id_sport;
+GROUP BY l.id, l.name, l.begin_date, l.end_date, l.done, l.id_sport
+ORDER BY l.id_sport, l.name;
 
 
 
@@ -109,7 +114,8 @@ SELECT s.id as id,
        ) AS id_sports
 FROM intramurudes.stat_statement s
          LEFT JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
-GROUP BY s.id, s.statement, s.acronym;
+GROUP BY s.id, s.statement, s.acronym
+ORDER BY s.statement;
 
 
 
@@ -122,6 +128,8 @@ SELECT ps.id AS id,
            ELSE ps.id_match END
            AS id_match,
        ps.id_stat_statement AS id_stat_statement,
+       vss.statement AS stat_statement,
+       vss.acronym AS acronym_stat_statement,
        CASE
            WHEN ps.id_season IS NULL THEN -1
            ELSE ps.id_season END
@@ -138,7 +146,9 @@ SELECT ps.id AS id,
 FROM intramurudes.player_stat ps
 LEFT JOIN match_ m ON m.id = ps.id_match
 LEFT JOIN player p ON p.id = ps.id_player
-LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player;
+LEFT JOIN intramurudes.v_player_team_league_sport vptls ON vptls.id_player = ps.id_player
+LEFT JOIN intramurudes.v_stat_statement vss ON vss.id = ps.id_stat_statement
+ORDER BY vptls.name_sport, vptls.name_league, vptls.name_team, vptls.name_player, vss.statement;
 
 
 
@@ -152,6 +162,8 @@ SELECT ts.id AS id,
            ELSE ts.id_match END
            AS id_match,
        ts.id_stat_statement AS id_stat_statement,
+       vss.statement AS stat_statement,
+       vss.acronym AS acronym,
        CASE
            WHEN ts.id_season IS NULL THEN -1
            ELSE ts.id_season END
@@ -164,7 +176,9 @@ SELECT ts.id AS id,
        vtls.id_sport AS id_sport
 FROM intramurudes.team_stat ts
          LEFT JOIN match_ m ON m.id = ts.id_match
-         LEFT JOIN intramurudes.v_team_league_sport vtls ON vtls.id_team = ts.id_team;
+         LEFT JOIN intramurudes.v_team_league_sport vtls ON vtls.id_team = ts.id_team
+         LEFT JOIN intramurudes.v_stat_statement vss ON vss.id = ts.id_stat_statement
+ORDER BY vtls.name_sport, vtls.name_league, vtls.name_team, vss.statement;
 
 
 

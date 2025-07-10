@@ -63,4 +63,9 @@ public class StatTeamService extends TemplateService<StatTeam> {
     protected void setName(StatTeam item) {
 
     }
+
+    @Override
+    protected int getLastId() {
+        return this.statTeamMapper.getLastId();
+    }
 }
