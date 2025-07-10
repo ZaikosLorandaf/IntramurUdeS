@@ -19,6 +19,7 @@ java {
 }
 
 dependencies {
+    implementation 'io.quarkus:quarkus-container-image-docker'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
     implementation 'io.quarkus:quarkus-oidc:2.16.12.Final'
