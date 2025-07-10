@@ -69,8 +69,8 @@ SELECT m.id AS match_id, m.date_match, m.begin_time, m.end_time,
                ARRAY[-1]
        ) AS list_teams,
        m.id_season AS id_season,
-       m.archive AS archive_match,
-       m.place AS place
+       m.place AS place,
+       m.archive AS archive_match
 FROM intramurudes.match_ m
          LEFT JOIN intramurudes.league l ON l.id = m.id_league
          LEFT JOIN intramurudes.sport s ON s.id = l.id_sport
@@ -103,19 +103,20 @@ ORDER BY l.id_sport, l.name;
 
 CREATE OR REPLACE VIEW v_stat_statement
 AS
-SELECT s.id as id,
-       s.statement as statement,
-       s.acronym as acronym,
+SELECT ss.id as id,
+       ss.statement as statement,
+       ss.acronym as acronym,
        COALESCE(NULLIF(
                 ARRAY_AGG(sss.id_sport) FILTER (WHERE sss.id_sport IS NOT NULL),
                 '{}'
                 ),
                 ARRAY[-1]
-       ) AS id_sports
-FROM intramurudes.stat_statement s
-         LEFT JOIN intramurudes.stat_statement_sport sss ON s.id = sss.id_stat_statement
-GROUP BY s.id, s.statement, s.acronym
-ORDER BY s.statement;
+       ) AS id_sports,
+       ss.archive AS archive_stat_statement
+FROM intramurudes.stat_statement ss
+         LEFT JOIN intramurudes.stat_statement_sport sss ON ss.id = sss.id_stat_statement
+GROUP BY ss.id, ss.statement, ss.acronym
+ORDER BY ss.statement;
 
 
 
@@ -142,7 +143,8 @@ SELECT ps.id AS id,
            ELSE m.id_league END AS id_league,
        vptls.id_team AS id_team,
        vptls.id_league AS id_league_player,
-       vptls.id_sport AS id_sport
+       vptls.id_sport AS id_sport,
+       ps.archive AS archive_player_stat
 FROM intramurudes.player_stat ps
 LEFT JOIN match_ m ON m.id = ps.id_match
 LEFT JOIN player p ON p.id = ps.id_player
@@ -173,7 +175,8 @@ SELECT ts.id AS id,
            ELSE m.id_league END AS id_league,
        vtls.id_team AS id_team,
        vtls.id_league AS id_league_team,
-       vtls.id_sport AS id_sport
+       vtls.id_sport AS id_sport,
+       ts.archive AS archive_team_stat
 FROM intramurudes.team_stat ts
          LEFT JOIN match_ m ON m.id = ts.id_match
          LEFT JOIN intramurudes.v_team_league_sport vtls ON vtls.id_team = ts.id_team

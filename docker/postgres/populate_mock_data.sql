@@ -363,7 +363,7 @@ VALUES ('3', 1, 6, 11, 5);
 
 -- Ryan Osgar - Turnovers (sans saison)
 INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
-VALUES ('2', 1, 7,11, 6);
+VALUES ('102', 1, 7,11, 6);
 
 -- Frédéric Mailhot - Drops (sans match ni saison)
 INSERT INTO player_stat (value_, id_stat_statement, id_player)

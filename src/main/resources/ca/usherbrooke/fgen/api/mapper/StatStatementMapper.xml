@@ -18,7 +18,8 @@
                vss.statement AS statement,
                vss.acronym AS acronym,
                vss.id_sports AS id_sports
-        FROM intramurudes.v_stat_statement vss;
+        FROM intramurudes.v_stat_statement vss
+        WHERE vss.archive_stat_statement IS NULL;
     </select>
 
     <select id="selectOne" resultMap="StatStatementMap">
@@ -27,7 +28,7 @@
                vss.acronym AS acronym,
                vss.id_sports AS id_sports
         FROM intramurudes.v_stat_statement vss
-        WHERE vss.id = #{id};
+        WHERE vss.id = #{id} AND vss.archive_stat_statement IS NULL;
     </select>
 
 

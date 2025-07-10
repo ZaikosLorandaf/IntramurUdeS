@@ -30,7 +30,7 @@
                vmls.list_teams AS id_teams,
                vmls.id_season AS id_season
         FROM v_match_league_sport vmls
-        WHERE vmls.archive_match = FALSE;
+        WHERE vmls.archive_match IS NULL;
     </select>
 
     <select id="selectOne" resultMap="MatchMap">
@@ -44,7 +44,7 @@
                vmls.nb_team_match AS nb_team_match,
                vmls.list_teams AS id_teams
         FROM v_match_league_sport vmls
-        WHERE match_id = #{id} AND vmls.archive_match = FALSE;
+        WHERE match_id = #{id} AND vmls.archive_match IS NULL;
     </select>
 
 

@@ -13,7 +13,8 @@
                vts.id_team AS id_team,
                vts.id_league_team AS id_league_team,
                vts.id_sport AS id_sport
-        FROM intramurudes.v_team_stat vts;
+        FROM intramurudes.v_team_stat vts
+        WHERE vts.archive_team_stat IS NULL;
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam">
@@ -27,7 +28,7 @@
                vts.id_league_team AS id_league_team,
                vts.id_sport AS id_sport
         FROM intramurudes.v_team_stat vts
-        WHERE vts.id = #{id};
+        WHERE vts.id = #{id} AND vts.archive_team_stat IS NULL;
     </select>
 
 

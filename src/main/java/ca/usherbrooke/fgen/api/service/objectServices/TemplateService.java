@@ -60,5 +60,5 @@ public abstract class TemplateService<ListType> {
 
     protected abstract void setName(ListType item);
 
-    protected abstract int getLastId();
+    public abstract int getLastId();
 }

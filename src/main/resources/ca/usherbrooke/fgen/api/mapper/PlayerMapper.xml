@@ -11,7 +11,7 @@
                number,
                id_team
         FROM intramurudes.Player p
-        WHERE p.archive = FALSE;
+        WHERE p.archive IS NULL;
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Player">
@@ -21,7 +21,7 @@
                number,
                id_team
         FROM intramurudes.Player p
-        WHERE id = #{id} AND p.archive = FALSE;
+        WHERE id = #{id} AND p.archive IS NULL;
     </select>
 
 

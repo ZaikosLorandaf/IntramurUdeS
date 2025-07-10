@@ -15,7 +15,8 @@
                vps.id_team AS id_team,
                vps.id_league_player AS id_league_player,
                vps.id_sport AS id_sport
-        FROM intramurudes.v_player_stat vps;
+        FROM intramurudes.v_player_stat vps
+        WHERE vps.archive_player_stat IS NULL;
     </select>
 
     <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
