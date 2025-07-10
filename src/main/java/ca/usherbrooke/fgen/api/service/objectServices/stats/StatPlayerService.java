@@ -68,7 +68,7 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
     }
 
     @Override
-    protected int getLastId() {
+    public int getLastId() {
         return this.statPlayerMapper.getLastId();
     }
 }

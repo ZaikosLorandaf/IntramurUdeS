@@ -52,7 +52,7 @@ public class StatStatementService extends TemplateService<StatStatement> {
     }
 
     @Override
-    protected int getLastId() {
+    public int getLastId() {
         return this.statStatementMapper.getLastId();
     }
 }
