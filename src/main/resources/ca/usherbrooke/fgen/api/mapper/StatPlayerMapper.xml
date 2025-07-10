@@ -46,7 +46,7 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO intramurudes.player_stat(id, value, id_match, id_stat_statement, id_season, id_player)
+        INSERT INTO intramurudes.player_stat(id, value_, id_match, id_stat_statement, id_season, id_player)
         VALUES (#{id},
                 #{value},
                 #{match.id},

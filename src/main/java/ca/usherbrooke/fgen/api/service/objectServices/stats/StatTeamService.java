@@ -4,6 +4,7 @@ import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
+import ca.usherbrooke.fgen.api.backend.DTO.stats.StatTeamDTO;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatTeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
@@ -24,9 +25,10 @@ public class StatTeamService extends TemplateService<StatTeam> {
     OGClass ogClass;
 
     @GET
-    public List<StatTeam> getStatsTeam(){
+    public List<StatTeamDTO> getStatsTeam(){
         List<StatTeam> statsTeam = getItems();
-        return statsTeam;
+        List<StatTeamDTO> statsDTO = StatTeamDTO.mapListToDTOStatTeam(statsTeam);
+        return statsDTO;
     }
 
     @POST

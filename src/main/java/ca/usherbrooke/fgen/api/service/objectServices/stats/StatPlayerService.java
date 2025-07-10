@@ -26,7 +26,6 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
     @GET
     public List<StatPlayerDTO> getStatsPlayer(){
         List<StatPlayer> statsPlayer = getItems();
-        List<Sport> listSport = ogClass.getSportSingleton().getSportList().getAllSports();
         List<StatPlayerDTO> statsDTO = StatPlayerDTO.mapListToDTOStatPlayer(statsPlayer);
         return statsDTO;
     }
@@ -54,7 +53,6 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
         Team team = league.getListTeam().getTeam(item.getIdTeam());
         Player player = team.getListPlayer().getPlayer(item.getIdPlayer());
         player.getListStat().addStat(item);
-        int asfd = 1+1;
     }
 
     @Override
