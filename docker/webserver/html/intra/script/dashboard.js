@@ -112,7 +112,7 @@ function renderTeamList() {
         const div = document.createElement("div");
         div.className = "card-custom";
         div.textContent = `${equipeData[team].name}`;
-        div.onclick = () => showInfo(team);
+        div.onclick = () => showInfo(equipeData, equipeData[team], team);
         container.appendChild(div);
     });
 
@@ -132,11 +132,10 @@ function renderTeamList() {
     }
 }
 
-function showInfo(team) {
-    const info = equipeData[team];
-
-    const joueursList = Object.entries(info.joueurs)
-        .map(([numero, joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}', '${team}')">${numero} ${joueur.name}</button>`)
+function showInfo(myData,team,abcd) {
+    console.log(abcd);
+    const joueursList = Object.entries(team.joueurs)
+        .map(([numero, joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}','${abcd}')">${numero} ${joueur.name}</button>`)
         .join('');
 
     let buttonHTML = "";
@@ -144,11 +143,11 @@ function showInfo(team) {
         const myParams = new URLSearchParams(window.location.search);
         let sports = myParams.get('sport');
         let seasons = myParams.get('ligue');
-
-        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
+        console.log(team);
+        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team.name}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
     }
 
-    const teamStats = info.stats || {};
+    const teamStats = team.stats || {};
     const statsTable = `
         <table class="stats-table">
         <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
@@ -162,7 +161,7 @@ function showInfo(team) {
         </table>`;
 
     document.getElementById("equipe-info").innerHTML = `
-        <h4>Équipe ${equipeData[team].name}</h4>
+        <h4>Équipe ${team.name}</h4>
         <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
@@ -171,9 +170,9 @@ function showInfo(team) {
         </div></div>
         <div id="player-info" style="display: none;"></div>`;
 
-    window.showPlayer = function (number, nom, team) {
-        const joueurData = equipeData[team].joueurs[number].stats || {};
-
+    window.showPlayer = function (number, nom, abcd) {
+        const joueurData = equipeData[abcd].joueurs[number].stats || {};
+        console.log(joueurData);
         const statsJoueurTable = `
             <table class="stats-table">
             <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
@@ -192,7 +191,7 @@ function showInfo(team) {
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
+            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${equipeData[abcd].name}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";

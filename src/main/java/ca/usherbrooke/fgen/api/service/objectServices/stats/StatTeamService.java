@@ -4,10 +4,12 @@ import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatTeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
+import ca.usherbrooke.fgen.api.service.postClass.addStatTeam;
+import io.smallrye.common.constraint.NotNull;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +20,8 @@ import java.util.List;
 public class StatTeamService extends TemplateService<StatTeam> {
     @Inject
     StatTeamMapper statTeamMapper;
+    @Inject
+    OGClass ogClass;
 
     @GET
     public List<StatTeam> getStatsTeam(){
@@ -26,8 +30,13 @@ public class StatTeamService extends TemplateService<StatTeam> {
     }
 
     @POST
-    public StatTeam addStatTeam(){
-        return new StatTeam();
+    @Path("add")
+    public String addStatTeam(@NotNull addStatTeam stat){
+        return ogClass.getStatTeamSingleton().add(stat.sport,stat.ligue,stat.team,stat.key,stat.value);
+    }
+
+    public void addStatTeam(@NotNull StatTeam stat){
+        add(stat);
     }
 
     @Override
