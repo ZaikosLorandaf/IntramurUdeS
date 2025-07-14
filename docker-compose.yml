@@ -1,0 +1,17 @@
+include:
+  - ./docker/auth.yml
+  - ./docker/database.yml
+  - ./docker/webserver.yml
+
+services:
+  application:
+    container_name: application
+    build:
+      dockerfile: ./app.Dockerfile
+    ports:
+      - 8282:8080
+    networks:
+      acad-net:
+
+networks:
+  acad-net:
