@@ -1,5 +1,6 @@
 package ca.usherbrooke.fgen.api.backend.Singleton;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.Stats.Stat;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement;
 import ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatTeam;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
@@ -64,5 +65,33 @@ public class StatTeamSingleton {
         statTeamService.addStatTeam(statTeam);
 
         return "Stat: " + statement + " = " + value + " ajoutée";
+    }
+
+
+    public String remove(String sportName,String leagueName, String teamName, String statement)
+    {
+
+        if(sportName.isBlank() || leagueName.isBlank() || teamName.isBlank() || statement.isBlank()) return "Invalid Parameters";
+
+        ListSport sportList = ogClass.getSportSingleton().getSportList();
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName);
+        if (league == null)
+            return "Pas de ligue";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getListTeam().getTeam(teamName);
+        if (team == null)
+            return "Pas d'équipe";
+
+
+
+        StatTeam stat = (StatTeam) team.getListStat().getItem(statement);
+        if(stat == null) return "Stat introuvable";
+
+        statTeamService.remove(stat);
+
+        return "";
     }
 }

@@ -32,7 +32,7 @@
 <!-- Supprimer une statistique -->
 <h4>Supprimer une statistique</h4>
 <div class="mb-3">
-    <input type="text" id="delStatKey" class="form-control" placeholder="Nom de la statistique à supprimer">
+    <input type="text" id="delStatKey" list="addStatement" class="form-control" placeholder="Nom de la statistique à supprimer">
 </div>
 <button class="btn btn-danger" onclick="supprimerStat()">Supprimer</button>
 
@@ -68,30 +68,16 @@
             });
     }
 
-    function modifierStat() {
-        const key = document.getElementById('modifStatKey').value.trim();
-        const value = document.getElementById('modifStatValue').value.trim();
-        if (!key || !value){
-            return;
-        }
-
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+key + "/" +value, {})
-            .then(function (response) {
-                console.log(response.data);
-                refresh();
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     function supprimerStat() {
-        const key = document.getElementById('delStatKey').value.trim();
-        if (!key){
-            return;
-        }
 
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+key, {})
+        const key = document.getElementById('delStatKey').value.trim();
+
+        axios.post("http://localhost:8888/api/stat/team/remove", {
+            sport: sport,
+            ligue: ligue,
+            team: team,
+            key: key,
+        })
             .then(function (response) {
                 console.log(response.data);
                 refresh();
@@ -100,6 +86,7 @@
                 console.log(error);
             });
     }
+
     document.addEventListener("DOMContentLoaded", function () {
         axios.get("http://localhost:8888/api/stat/statement/", {})
             .then(function (response) {

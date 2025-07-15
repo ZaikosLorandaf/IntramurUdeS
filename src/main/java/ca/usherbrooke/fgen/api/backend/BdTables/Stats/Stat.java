@@ -45,6 +45,7 @@ public class Stat {
         this.idMatch = idMatch;
         this.idSeason = idSeason;
         this.idLeague = idLeague;
+        this.idStatStatement = idStatStatement;
         this.idSport = idSport;
         if (idSeason != -1) {
             this.season = this.ogClass.getSeasonSingleton().getListSeasons().getSeason(idSeason);

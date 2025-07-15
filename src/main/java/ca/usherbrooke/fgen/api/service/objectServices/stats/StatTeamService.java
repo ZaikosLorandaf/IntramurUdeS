@@ -41,6 +41,21 @@ public class StatTeamService extends TemplateService<StatTeam> {
         add(stat);
     }
 
+    @POST
+    @Path("remove")
+    public String removeStatTeam(@NotNull addStatTeam stat)
+    {
+        return ogClass.getStatTeamSingleton().remove(stat.sport,stat.ligue,stat.team,stat.key);
+    }
+
+    public void remove(StatTeam item)
+    {
+        Sport sport = item.getSport();
+        League league = sport.getListLeague().getLeague(item.getIdLeagueTeam());
+        Team team = league.getListTeam().getTeam(item.getIdTeam());
+        team.getListStat().removeStat(item);
+    }
+
     @Override
     protected List<StatTeam> selectAll() {
         List<StatTeam> listStat = statTeamMapper.selectAll();
