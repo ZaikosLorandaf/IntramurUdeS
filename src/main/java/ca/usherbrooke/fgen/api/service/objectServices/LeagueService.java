@@ -128,6 +128,7 @@ public class LeagueService extends TemplateService<League> {
         Sport sport = ogClass.getSportSingleton().getSportList().getSport(league.getIdSport());
         sport.addLeague(unescapeEntities(league));
         for (int idSeason : league.getIdSeasons()){
+            if(idSeason == -1) break;
             Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(idSeason);
             season.getLeagues().addLeague(unescapeEntities(league));
         }

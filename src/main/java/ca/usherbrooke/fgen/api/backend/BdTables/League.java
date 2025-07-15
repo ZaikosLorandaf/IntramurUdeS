@@ -301,6 +301,7 @@ public class League {
   public ListMatch getListMatch() {return this.listMatch;}
   public List<Integer> getIdSeasons() {return this.idSeasons;}
   public String getSportName(){
+    OGClass temp = ogClass;
     return ogClass.getSportSingleton().getSportList().getSport(this.idSport).getName();
   }
 

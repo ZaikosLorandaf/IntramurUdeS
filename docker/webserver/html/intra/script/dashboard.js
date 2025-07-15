@@ -132,9 +132,9 @@ function renderTeamList() {
     }
 }
 
-function showInfo(myData,team,abcd) {
+function showInfo(myData,teame,abcd) {
     console.log(abcd);
-    const joueursList = Object.entries(team.joueurs)
+    const joueursList = Object.entries(teame.joueurs)
         .map(([numero, joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}','${abcd}')">${numero} ${joueur.name}</button>`)
         .join('');
 
@@ -143,11 +143,11 @@ function showInfo(myData,team,abcd) {
         const myParams = new URLSearchParams(window.location.search);
         let sports = myParams.get('sport');
         let seasons = myParams.get('ligue');
-        console.log(team);
-        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team.name}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
+        console.log(teame);
+        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${teame.name}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
     }
 
-    const teamStats = team.stats || {};
+    const teamStats = teame.stats || {};
     const statsTable = `
         <table class="stats-table">
         <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
@@ -161,7 +161,7 @@ function showInfo(myData,team,abcd) {
         </table>`;
 
     document.getElementById("equipe-info").innerHTML = `
-        <h4>Équipe ${team.name}</h4>
+        <h4>Équipe ${teame.name}</h4>
         <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
@@ -199,13 +199,14 @@ function showInfo(myData,team,abcd) {
 
         document.getElementById("player-info").innerHTML = `
             <h4>${number} ${nom}</h4>
-            ${statsJoueurTable}
+            ${statsJoueurTable} 
             ${modifierJoueurBtn}
-            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${team}')">← Retour à l'équipe</button>`;
+            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${abcd}')">← Retour à l'équipe</button>`;
+        console.log(teame);
     };
 
-    window.retourEquipe = function (team) {
-        showInfo(team);
+    window.retourEquipe = function (abcd) {
+        showInfo(equipeData, equipeData[abcd], abcd);
     };
 }
 
