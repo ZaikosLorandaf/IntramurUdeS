@@ -32,7 +32,8 @@
 <!-- Supprimer une statistique -->
 <h4>Supprimer une statistique</h4>
 <div class="mb-3">
-    <input type="text" id="delStatKey" list="addStatement" class="form-control" placeholder="Nom de la statistique à supprimer">
+    <input type="text" id="delStatKey" list="removeStatement" class="form-control" placeholder="Nom de la statistique à supprimer">
+    <datalist id="removeStatement"> </datalist>
 </div>
 <button class="btn btn-danger" onclick="supprimerStat()">Supprimer</button>
 
@@ -102,10 +103,47 @@
                     datalist.appendChild(option);
                 }
 
+
+
+
             })
             .catch(function (error) {
                 console.log(error);
             });
+
+
+        axios.get("http://localhost:8888/api/stat/team", {
+        params: {
+            nomSport: sport,
+            nomLigue: ligue,
+            nomTeam: team
+            }
+        })
+            .then(function (response) {
+                let statStatement = response.data;
+                console.log(statStatement);
+                const datalistRemove = document.getElementById('removeStatement');
+                datalistRemove.innerHTML = '';
+
+                for (const stat of statStatement) {
+                    let returnString = stat.acronym + ": " + stat.value + "; Match: ";
+                    if (stat.match != null) {
+                        returnString += stat.match.date + " " + stat.match.beginTime;
+                    } else {
+                        returnString += "General";
+                    }
+
+                    const option = document.createElement('option');
+                    option.value = returnString;
+                    datalistRemove.appendChild(option);
+                }
+
+                refresh();
+            }).catch(function (error) {
+            console.log(error);
+            refresh();
+        })
+
     });
 </script>
 </body>

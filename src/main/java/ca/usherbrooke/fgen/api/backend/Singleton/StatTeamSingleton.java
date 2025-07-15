@@ -8,6 +8,8 @@ import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import ca.usherbrooke.fgen.api.service.objectServices.stats.StatStatementService;
 import ca.usherbrooke.fgen.api.service.objectServices.stats.StatTeamService;
 import io.quarkus.arc.Arc;
+import org.json.JSONObject;
+import org.json.JSONArray;
 
 import javax.inject.Inject;
 
@@ -94,4 +96,45 @@ public class StatTeamSingleton {
 
         return "";
     }
+
+
+    public String get(String sportName, String leagueName, String teamName)
+    {
+        if(sportName.isBlank() || leagueName.isBlank() || teamName.isBlank()) return "Invalid Parameters";
+        ListSport sportList = ogClass.getSportSingleton().getSportList();
+        if (sportList.getSport(sportName) == null)
+            return "Erreur Sport";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName);
+        if (league == null)
+            return "Pas de ligue";
+
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getListTeam().getTeam(teamName);
+        if (team == null)
+            return "Pas d'équipe";
+
+
+        JSONArray statsArray = new JSONArray();
+
+        for (Stat stat : team.getListStat().getAllItems()) {
+            JSONObject statJson = new JSONObject();
+            statJson.put("acronym", stat.getStatStatement().getAcronym());
+            statJson.put("name", stat.getStatStatement().getStatement());
+            statJson.put("value", stat.getValue());
+
+            if (stat.getMatch() != null) {
+                JSONObject matchJson = new JSONObject();
+                matchJson.put("date", stat.getMatch().getDate());
+                matchJson.put("beginTime", stat.getMatch().getBeginTime());
+                statJson.put("match", matchJson);
+            } else {
+                statJson.put("match", JSONObject.NULL);
+            }
+
+            statsArray.put(statJson);
+        }
+
+        return statsArray.toString();
+    }
+
 }

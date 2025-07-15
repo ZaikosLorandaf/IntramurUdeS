@@ -9,12 +9,14 @@ import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.StatTeamMapper;
 import ca.usherbrooke.fgen.api.service.objectServices.TemplateService;
 import ca.usherbrooke.fgen.api.service.postClass.addStatTeam;
+import ca.usherbrooke.fgen.api.service.postClass.addTeam;
 import io.smallrye.common.constraint.NotNull;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 
 @Path("/api/stat/team")
@@ -29,6 +31,14 @@ public class StatTeamService extends TemplateService<StatTeam> {
         List<StatTeam> statsTeam = getItems();
         List<StatTeamDTO> statsDTO = StatTeamDTO.mapListToDTOStatTeam(statsTeam);
         return statsDTO;
+    }
+
+    @GET
+    public String getStatsTeamSpecific(
+            @QueryParam("nomSport") String nomSport,
+            @QueryParam("nomLigue") String nomLigue,
+            @QueryParam("nomTeam") String nomTeam){
+        return ogClass.getStatTeamSingleton().get(nomSport,nomLigue,nomTeam);
     }
 
     @POST
