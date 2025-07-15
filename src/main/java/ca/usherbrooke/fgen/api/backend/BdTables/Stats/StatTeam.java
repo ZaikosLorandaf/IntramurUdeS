@@ -30,8 +30,9 @@ public class StatTeam extends Stat {
     public int getIdLeagueTeam() {
         return idLeagueTeam;
     }
+
     @Override
     public int getIdStatStatement() {
-        return this.idStatStatement;
+        return super.getIdStatStatement();
     }
 }

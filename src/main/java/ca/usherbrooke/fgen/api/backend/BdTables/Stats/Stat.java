@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Stat {
     private int id;
-    protected int idStatStatement;
+    private int idStatStatement;
     private StatStatement statStatement;
     private int idSeason;
     private Season season;
