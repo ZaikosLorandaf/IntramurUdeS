@@ -17,10 +17,12 @@
 <h4>Ajouter une statistique</h4>
 <div class="row mb-3">
     <div class="col">
-        <input type="text" id="newStatKey" class="form-control" placeholder="Nom de la statistique (ex: pointsMarques)">
+        <input type="text" id="newStatKey" class="form-control" placeholder="Nom de la statistique (ex: pointsMarques)" list="addStatement">
+        <datalist id="addStatement"> </datalist>
     </div>
     <div class="col">
-        <input type="text" id="newStatValue" class="form-control" placeholder="Valeur (texte libre)">
+        <input type="text" id="newStatValue" class="form-control" placeholder="Valeur (texte libre)" >
+
     </div>
 </div>
 <button class="btn btn-success mb-4" onclick="ajouterStat()">Ajouter</button>
@@ -98,6 +100,26 @@
                 console.log(error);
             });
     }
+    document.addEventListener("DOMContentLoaded", function () {
+        axios.get("http://localhost:8888/api/stat/statement/", {})
+            .then(function (response) {
+                const statStatement = response.data;
+                console.log(statStatement);
+
+                const datalist = document.getElementById('addStatement');
+                datalist.innerHTML = '';
+                for (const stat of statStatement) {
+                    console.log(stat.statement); // Pour voir ce que tu ajoutes
+                    const option = document.createElement('option');
+                    option.value = stat.statement;
+                    datalist.appendChild(option);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
 </script>
 </body>
 </html>

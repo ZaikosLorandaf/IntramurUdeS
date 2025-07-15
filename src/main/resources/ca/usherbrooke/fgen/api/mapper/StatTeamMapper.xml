@@ -44,11 +44,11 @@
 
     <insert id="insert">
         INSERT INTO intramurudes.team_stat(id, value_, id_match, id_stat_statement, id_season, id_team)
-        VALUES (#{id},
-                #{value},
-                #{match.id},
-                #{id_stat_statement},
-                #{season.id},
-                #{team.id});
+        VALUES (#{statTeam.id},
+                #{statTeam.value},
+                #{statTeam.match.id},
+                #{statTeam.id_stat_statement},
+                #{statTeam.season.id},
+                #{statTeam.team.id});
     </insert>
 </mapper>

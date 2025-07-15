@@ -63,11 +63,12 @@ public class StatTeamService extends TemplateService<StatTeam> {
         League league = sport.getListLeague().getLeague(item.getIdLeagueTeam());
         Team team = league.getListTeam().getTeam(item.getIdTeam());
         team.getListStat().addStat(item);
+        insert(item);
     }
 
     @Override
     protected void insert(StatTeam item) {
-
+        statTeamMapper.insert(item);
     }
 
     @Override

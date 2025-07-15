@@ -32,6 +32,7 @@ public class StatStatement {
     public String toString(){
         return "(" + this.acronym + ")" + this.statement;
     }
+
 }
 
 

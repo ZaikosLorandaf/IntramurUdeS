@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Stat {
     private int id;
-    private int idStatStatement;
+    protected int idStatStatement;
     private StatStatement statStatement;
     private int idSeason;
     private Season season;
@@ -109,4 +109,10 @@ public class Stat {
     public String toString() {
         return "Stat: Id: " + this.id + "; " + this.statStatement + ": " + this.value + "; " + this.season + " " + this.match;
     }
+
+    public int getIdStatStatement() {
+        return this.idStatStatement;
+    }
+
+
 }
