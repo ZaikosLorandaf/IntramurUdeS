@@ -30,6 +30,9 @@ public class SportService extends TemplateService<Sport> {
     @POST
     @Path("addSport")
     public String addSport(@NotNull addSport sport) {
+        if (sport.nom.length() >= nameMaxLength){
+            return "Name too long";
+        }
         return ogClass.getSportSingleton().add(sport.nom);
     }
 
