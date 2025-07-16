@@ -192,8 +192,8 @@ CREATE OR REPLACE VIEW intramurudes.v_match_teams AS
 SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
        COUNT(mt.id_team) AS nb_teams,
        COALESCE(NULLIF(
-                                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
-                                '{}'
+                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
+                '{}'
                 ),
                 ARRAY[-1]
        ) AS list_teams,
@@ -252,8 +252,8 @@ SELECT m.id AS match_id, m.date_match, m.begin_time, m.end_time,
        l.id AS id_league, l.name AS name_league, l.begin_date, l.end_date, l.done,
        s.id AS id_sport, s.name AS name_sport, s.nb_team_match,
        COALESCE(NULLIF(
-                                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
-                                '{}'
+                ARRAY_AGG(mt.id_team) FILTER (WHERE mt.id_team IS NOT NULL),
+                '{}'
                 ),
                 ARRAY[-1]
        ) AS list_teams,
@@ -277,8 +277,8 @@ SELECT l.id as id,
        l.done,
        l.id_sport,
        COALESCE(NULLIF(
-                                ARRAY_AGG(ls.id_season) FILTER (WHERE ls.id_season IS NOT NULL),
-                                '{}'
+                ARRAY_AGG(ls.id_season) FILTER (WHERE ls.id_season IS NOT NULL),
+                '{}'
                 ),
                 ARRAY[-1]
        ) AS id_seasons,
@@ -296,8 +296,8 @@ SELECT ss.id as id,
        ss.statement as statement,
        ss.acronym as acronym,
        COALESCE(NULLIF(
-                                ARRAY_AGG(sss.id_sport) FILTER (WHERE sss.id_sport IS NOT NULL),
-                                '{}'
+                ARRAY_AGG(sss.id_sport) FILTER (WHERE sss.id_sport IS NOT NULL),
+                '{}'
                 ),
                 ARRAY[-1]
        ) AS id_sports,
