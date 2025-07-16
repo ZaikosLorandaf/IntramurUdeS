@@ -39,6 +39,9 @@ public class TeamService extends TemplateService<Team> {
     @POST
     @Path("addTeam")
     public String addTeam(@NotNull addTeam team) {
+        if (team.nomTeam.length() >= nameMaxLength) {
+            return "Name too long";
+        }
         return ogClass.getTeamSingleton().add(team.nomSport, team.nomLigue, team.nomTeam);
     }
 

@@ -41,6 +41,9 @@ public class PlayerService extends TemplateService<Player> {
     @POST
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
+        if (player.nom.length() >= nameMaxLength){
+            return "Name too long";
+        }
         return ogClass.getPlayerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
     }
 

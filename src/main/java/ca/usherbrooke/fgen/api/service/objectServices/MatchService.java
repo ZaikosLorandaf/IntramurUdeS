@@ -32,6 +32,9 @@ public class MatchService extends TemplateService<Match> {
     @POST
     @Path("add")
     public String addMatch(@NotNull addMatch match) {
+        if (match.equipe1.length() >= nameMaxLength || match.equipe2.length() >= nameMaxLength){
+            return "Name too long";
+        }
         return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipe1, match.equipe2, match.date, match.heure_debut, match.heure_fin, match.place);
     }
 
