@@ -57,7 +57,7 @@ public class StatPlayerService extends TemplateService<StatPlayer> {
 
     @Override
     protected void insert(StatPlayer item) {
-
+        this.statPlayerMapper.insert(item);
     }
 
     @Override

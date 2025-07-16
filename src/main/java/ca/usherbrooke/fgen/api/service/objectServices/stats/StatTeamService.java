@@ -95,7 +95,7 @@ public class StatTeamService extends TemplateService<StatTeam> {
 
     @Override
     protected void insert(StatTeam item) {
-        statTeamMapper.insert(item);
+        this.statTeamMapper.insert(item);
     }
 
     @Override
