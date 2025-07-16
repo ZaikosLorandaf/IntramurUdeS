@@ -67,7 +67,7 @@
                 #{match.place},
                 #{match.idLeague},
                 #{match.idSeason},
-                #{match.idTeams});
+                #{match.idTeams, typeHandler=ca.usherbrooke.fgen.api.handler.IntegerArrayTypeHandler});
     </insert>
 
 </mapper>
