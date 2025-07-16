@@ -301,7 +301,8 @@ public class League {
   public ListMatch getListMatch() {return this.listMatch;}
   public List<Integer> getIdSeasons() {return this.idSeasons;}
   public String getSportName(){
-    OGClass temp = ogClass;
+    if(ogClass == null)
+      ogClass = Arc.container().instance(OGClass.class).get();
     return ogClass.getSportSingleton().getSportList().getSport(this.idSport).getName();
   }
 

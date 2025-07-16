@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.backend.Singleton;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
@@ -30,6 +31,8 @@ public class LeagueSingleton {
         if (dateFin == null || dateDebut == null || dateFin.before(dateDebut)) {
             return "Erreur dans les dates";
         }
+        ListLeague listleague = sport.getListLeague();
+        if(listleague.getLeague(nom_sport+"-"+nom) != null) return "Ligue existe deja";
         League newLeague = new League(nom, dateDebut, dateFin);
         int id = leagueService.getLastId() + 1;
         newLeague.setLeagueID(id);
@@ -61,7 +64,7 @@ public class LeagueSingleton {
         }
 
 
-        League league = getsport.getListLeague().getLeague(nom);
+        League league = getsport.getListLeague().getLeague(nom, sport);
         String result = "";
         if (league != null) {
             result = "Ligue retirée :" + league.getName();

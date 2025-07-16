@@ -49,6 +49,9 @@ public class ListLeague extends ListTemplate<League, String> {
      */
     public boolean removeLeague(int id) {
         League ligue = getItem(id);
+        if (ligue == null) {
+            return false;
+        }
         for (int i: ligue.getListTeam().getTeamIds())
             ligue.getListTeam().removeTeam(i);
 
@@ -116,8 +119,12 @@ public class ListLeague extends ListTemplate<League, String> {
 
     @Override
     protected boolean removeItem(int id){
+        League league = getItem(id);
         if(super.removeItem(id)) {
-            League league = getItem(id);
+            if (league == null) {
+                LoggerUtil.error("La ligue " + id + " n'existe pas.");
+                return false;
+            }
             for (int i: league.getListTeam().getTeamIds()){
                 league.getListTeam().removeTeam(i);
             }
