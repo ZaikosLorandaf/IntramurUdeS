@@ -7,11 +7,12 @@ services:
   application:
     container_name: application
     build:
-      dockerfile: ./app.Dockerfile
+      dockerfile: ./Dockerfile
     ports:
       - 8282:8080
     networks:
-      acad-net:
+      - acad-net
 
 networks:
   acad-net:
+    driver: bridge

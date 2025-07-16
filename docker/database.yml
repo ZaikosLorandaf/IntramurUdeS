@@ -13,4 +13,3 @@ services:
       POSTGRES_DATABASE: postgres
     networks:
       acad-net:
-
