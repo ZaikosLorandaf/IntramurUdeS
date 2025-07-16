@@ -68,13 +68,13 @@ public class TeamSingleton {
         if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
             return "<div>Pas de ligue</div>";
 
-        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getListTeam().getTeam(teamName);
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName).getListTeam().getTeam(teamName);
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getListTeam().getId(team));
+        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName).getListTeam().getId(team));
 
-        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
+        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName).removeTeam(team))
             return "<div>Équipe retirée</div>";
 
         return "<div>Erreur lors du retrait d'équipe</div>";
