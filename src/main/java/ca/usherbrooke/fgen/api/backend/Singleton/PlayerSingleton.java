@@ -25,7 +25,7 @@ public class PlayerSingleton {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName);
         if (league == null)
             return "<div>Pas de ligue</div>";
 
@@ -56,7 +56,7 @@ public class PlayerSingleton {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName);
         if (league == null)
             return "<div>Ligue non-trouvée</div>";
 
