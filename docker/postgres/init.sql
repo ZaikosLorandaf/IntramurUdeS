@@ -561,52 +561,55 @@ EXECUTE function intramurudes.insert_v_stat_statement();
 
 
 --Méthode pour mettre la saison selon le match de la stat s'il y a un match
--- CREATE OR REPLACE FUNCTION intramurudes.create_stat(stat_type1 VARCHAR)
---     RETURNS TRIGGER
---     LANGUAGE PLPGSQL
--- AS $$
--- BEGIN
---     --Vérifier si la stat existe déjà, si c'est le cas, archiver l'ancienne valeur
---     IF(stat_type1 = 'team')
---     THEN
---         DELETE FROM intramurudes.v_all_stats vas
---         WHERE vas.stat_type = stat_type1 AND
---             vas.id_match = new.id_match AND
---             vas.id_stat_statement = new.id_stat_statement AND
---             vas.id_season = new.id_season AND
---             vas.id_owner = new.id_team AND
---             vas.archive_stat IS NULL;
---     ELSE IF (stat_type1 = 'player')
---     THEN
---         DELETE FROM v_all_stats vas
---         WHERE vas.stat_type = stat_type1 AND
---             vas.id_match = new.id_match AND
---             vas.id_stat_statement = new.id_stat_statement AND
---             vas.id_season = new.id_season AND
---             vas.id_owner = new.id_player AND
---             vas.archive_stat IS NULL;
---     END IF;
---     END IF;
---
---     --Mettre la bonne saison
---     IF new.id_match IS NOT NULL
---     THEN
---         new.id_season = (SELECT id_season FROM intramurudes.match_
---                          WHERE id = new.id_match);
---     END IF;
---     RETURN new;
--- END;
--- $$;
---
--- CREATE TRIGGER trg_create_stat
---     BEFORE INSERT ON intramurudes.player_stat
---     FOR EACH ROW
--- EXECUTE function intramurudes.create_stat('player');
---
--- CREATE TRIGGER trg_create_stat
---     BEFORE INSERT ON intramurudes.team_stat
---     FOR EACH ROW
--- EXECUTE function intramurudes.create_stat('team');
+CREATE OR REPLACE FUNCTION intramurudes.create_stat()
+    RETURNS TRIGGER
+    LANGUAGE PLPGSQL
+AS $$
+DECLARE
+    stat_type1 varchar;
+BEGIN
+    stat_type1 = TG_ARGV[0];
+    --Vérifier si la stat existe déjà, si c'est le cas, archiver l'ancienne valeur
+    IF( stat_type1 = 'team')
+    THEN
+        DELETE FROM intramurudes.v_all_stats vas
+        WHERE vas.stat_type = stat_type1 AND
+            vas.id_match = new.id_match AND
+            vas.id_stat_statement = new.id_stat_statement AND
+            vas.id_season = new.id_season AND
+            vas.id_owner = new.id_team AND
+            vas.archive_stat IS NULL;
+    ELSE IF (stat_type1 = 'player')
+    THEN
+        DELETE FROM intramurudes.v_all_stats vas
+        WHERE vas.stat_type = stat_type1 AND
+            vas.id_match = new.id_match AND
+            vas.id_stat_statement = new.id_stat_statement AND
+            vas.id_season = new.id_season AND
+            vas.id_owner = new.id_player AND
+            vas.archive_stat IS NULL;
+    END IF;
+    END IF;
+
+    --Mettre la bonne saison
+    IF new.id_match IS NOT NULL
+    THEN
+        new.id_season = (SELECT id_season FROM intramurudes.match_
+                         WHERE id = new.id_match);
+    END IF;
+    RETURN new;
+END;
+$$;
+
+CREATE TRIGGER trg_create_stat
+    BEFORE INSERT ON intramurudes.player_stat
+    FOR EACH ROW
+EXECUTE function intramurudes.create_stat('player');
+
+CREATE TRIGGER trg_create_stat
+    BEFORE INSERT ON intramurudes.team_stat
+    FOR EACH ROW
+EXECUTE function intramurudes.create_stat('team');
 
 
 
@@ -621,24 +624,24 @@ CREATE OR REPLACE FUNCTION intramurudes.delete_v_all_stats()
     LANGUAGE plpgsql
 AS $$
 BEGIN
-    IF(new.stat_type = 'team')
+    IF(old.stat_type = 'team')
     THEN
         DELETE FROM team_stat ts
-        WHERE ts.id_season = new.id_season AND
-            ts.id_match = new.id_match AND
-            ts.id_stat_statement = new.id_stat_statement AND
-            ts.id_team = new.id_owner;
+        WHERE ts.id_season = old.id_season AND
+            ts.id_match = old.id_match AND
+            ts.id_stat_statement = old.id_stat_statement AND
+            ts.id_team = old.id_owner;
     END IF;
 
-    IF(new.stat_type = 'player')
+    IF(old.stat_type = 'player')
     THEN
-        DELETE FROM intramurudes.player_stat ts
-        WHERE ts.id_season = new.id_season AND
-            ts.id_match = new.id_match AND
-            ts.id_stat_statement = new.id_stat_statement AND
-            ts.id_player = new.id_owner;
+        DELETE FROM intramurudes.player_stat ps
+        WHERE ps.id_season = old.id_season AND
+            ps.id_match = old.id_match AND
+            ps.id_stat_statement = old.id_stat_statement AND
+            ps.id_player = old.id_owner;
     END IF;
-
+    RETURN NULL;
 END;
 $$;
 

@@ -10,7 +10,7 @@
                vtls.id_league AS id_league,
                vtls.id_sport AS id_sport
         FROM intramurudes.v_team_league_sport vtls
-        WHERE vtls.achive_team IS NULL;
+        WHERE vtls.archive_team IS NULL;
     </select>
 
     <select id="selectOneTeam" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">

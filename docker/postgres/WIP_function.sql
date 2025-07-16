@@ -1,13 +1,16 @@
 SET search_path = intramurudes;
 
 --Méthode pour mettre la saison selon le match de la stat s'il y a un match
-CREATE OR REPLACE FUNCTION intramurudes.create_stat(stat_type1 VARCHAR)
+CREATE OR REPLACE FUNCTION intramurudes.create_stat()
     RETURNS TRIGGER
     LANGUAGE PLPGSQL
 AS $$
+    DECLARE
+        stat_type1 varchar;
 BEGIN
+        stat_type1 = TG_ARGV[0];
     --Vérifier si la stat existe déjà, si c'est le cas, archiver l'ancienne valeur
-    IF(stat_type1 = 'team')
+    IF( stat_type1 = 'team')
     THEN
         DELETE FROM intramurudes.v_all_stats vas
         WHERE vas.stat_type = stat_type1 AND
