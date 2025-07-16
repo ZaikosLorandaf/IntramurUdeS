@@ -100,7 +100,8 @@ public class TeamService extends TemplateService<Team> {
         teamMapper.insert(team);
     }
     protected void add(Team team){
-        ogClass.getSportSingleton().getSportList().getLeague(team.getIdLeague()).addTeam(team);
+        League ligue = ogClass.getSportSingleton().getSportList().getLeague(team.getIdLeague());
+        ligue.addTeam(team);
     }
 
     protected void setName(Team team) {
