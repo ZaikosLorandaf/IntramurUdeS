@@ -36,6 +36,9 @@ public class LeagueService extends TemplateService<League> {
     @POST
     @Path("addLigue/")
     public String addLeague(@NotNull addLeague league) {
+        if (league.nom.length() >= nameMaxLength){
+            return "Name too long";
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date_debut;
         Date date_fin;
