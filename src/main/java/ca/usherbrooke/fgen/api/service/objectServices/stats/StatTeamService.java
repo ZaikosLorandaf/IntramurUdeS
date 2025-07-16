@@ -34,6 +34,7 @@ public class StatTeamService extends TemplateService<StatTeam> {
     }
 
     @GET
+    @Path("get")
     public String getStatsTeamSpecific(
             @QueryParam("nomSport") String nomSport,
             @QueryParam("nomLigue") String nomLigue,
@@ -48,6 +49,7 @@ public class StatTeamService extends TemplateService<StatTeam> {
     }
 
     public void addStatTeam(@NotNull StatTeam stat){
+        insert(stat);
         add(stat);
     }
 
@@ -88,7 +90,7 @@ public class StatTeamService extends TemplateService<StatTeam> {
         League league = sport.getListLeague().getLeague(item.getIdLeagueTeam());
         Team team = league.getListTeam().getTeam(item.getIdTeam());
         team.getListStat().addStat(item);
-        insert(item);
+
     }
 
     @Override

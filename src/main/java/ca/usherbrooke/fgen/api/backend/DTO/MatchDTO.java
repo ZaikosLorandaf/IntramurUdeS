@@ -90,6 +90,9 @@ public class MatchDTO {
      */
     public static List<MatchDTO> mapListToDTO(List<Match> matches, int idTeam){
         List<MatchDTO> returnList = new ArrayList<>();
+        if(matches == null || matches.isEmpty()) {
+            return returnList;
+        }
         for (Match match : matches) {
             returnList.add(new MatchDTO(match, idTeam));
         }

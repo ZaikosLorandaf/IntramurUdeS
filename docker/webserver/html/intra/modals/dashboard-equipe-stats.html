@@ -112,7 +112,7 @@
             });
 
 
-        axios.get("http://localhost:8888/api/stat/team", {
+        axios.get("http://localhost:8888/api/stat/team/get/", {
         params: {
             nomSport: sport,
             nomLigue: ligue,
@@ -137,8 +137,6 @@
                     option.value = returnString;
                     datalistRemove.appendChild(option);
                 }
-
-                refresh();
             }).catch(function (error) {
             console.log(error);
             refresh();
