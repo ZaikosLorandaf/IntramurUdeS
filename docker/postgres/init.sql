@@ -626,7 +626,7 @@ AS $$
 BEGIN
     IF(old.stat_type = 'team')
     THEN
-        DELETE FROM team_stat ts
+        DELETE FROM intramurudes.team_stat ts
         WHERE ts.id_season = old.id_season AND
             ts.id_match = old.id_match AND
             ts.id_stat_statement = old.id_stat_statement AND
