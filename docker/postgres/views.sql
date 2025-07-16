@@ -1,7 +1,7 @@
 SET search_path = intramurudes;
 
 
-CREATE OR REPLACE VIEW v_match_teams AS
+CREATE OR REPLACE VIEW intramurudes.v_match_teams AS
 SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
        COUNT(mt.id_team) AS nb_teams,
        COALESCE(NULLIF(
@@ -11,8 +11,10 @@ SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
                 ARRAY[-1]
        ) AS list_teams,
        m.archive AS archive_match,
-       m.place AS place
-FROM match_ m
+       m.place AS place,
+       m.id_league AS id_league,
+       m.id_season AS id_season
+FROM intramurudes.match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
 GROUP BY m.id, m.date_match, m.begin_time, m.end_time
 ORDER BY m.date_match, m.begin_time;

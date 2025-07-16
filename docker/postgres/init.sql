@@ -198,7 +198,9 @@ SELECT m.id AS id_match, m.date_match, m.begin_time, m.end_time,
                 ARRAY[-1]
        ) AS list_teams,
        m.archive AS archive_match,
-       m.place AS place
+       m.place AS place,
+       m.id_league AS id_league,
+       m.id_season AS id_season
 FROM intramurudes.match_ m
          LEFT JOIN intramurudes.match_team mt ON m.id = mt.id_match
 GROUP BY m.id, m.date_match, m.begin_time, m.end_time
@@ -466,7 +468,7 @@ SELECT((SELECT m.id_league
         WHERE m.id = id_new_match) IS NULL
     OR
        (SELECT vtls.id_league
-        FROM v_team_league_sport vtls
+        FROM intramurudes.v_team_league_sport vtls
         WHERE vtls.id_team = id_new_team) =
        ((SELECT m.id_league FROM intramurudes.match_ m
          WHERE m.id = id_new_match))
@@ -553,7 +555,7 @@ $$;
 
 
 CREATE TRIGGER trg_insert_v_stat_statement
-    INSTEAD OF INSERT ON v_stat_statement
+    INSTEAD OF INSERT ON intramurudes.v_stat_statement
     FOR EACH ROW
 EXECUTE function intramurudes.insert_v_stat_statement();
 

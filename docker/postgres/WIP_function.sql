@@ -1,79 +1,26 @@
 SET search_path = intramurudes;
 
---Méthode pour mettre la saison selon le match de la stat s'il y a un match
-CREATE OR REPLACE FUNCTION intramurudes.create_stat()
+CREATE OR REPLACE FUNCTION intramurudes.insert_v_match_teams()
     RETURNS TRIGGER
     LANGUAGE PLPGSQL
 AS $$
     DECLARE
-        stat_type1 varchar;
+        id_new_match INT;
 BEGIN
-        stat_type1 = TG_ARGV[0];
-    --Vérifier si la stat existe déjà, si c'est le cas, archiver l'ancienne valeur
-    IF( stat_type1 = 'team')
+    INSERT INTO intramurudes.match_ (date_match, begin_time, end_time, id_league, id_season, place)
+    VALUES(new.date_match, new.begin_time, new.end_time, new.id_league, new.id_season, new.place);
+    id_new_match = (SELECT last_value FROM intramurudes.match__id_seq);
+    IF (SELECT ARRAY_LENGTH(new.list_teams, 1)) > 0
     THEN
-        DELETE FROM intramurudes.v_all_stats vas
-        WHERE vas.stat_type = stat_type1 AND
-            vas.id_match = new.id_match AND
-            vas.id_stat_statement = new.id_stat_statement AND
-            vas.id_season = new.id_season AND
-            vas.id_owner = new.id_team AND
-            vas.archive_stat IS NULL;
-    ELSE IF (stat_type1 = 'player')
-        THEN
-            DELETE FROM v_all_stats vas
-            WHERE vas.stat_type = stat_type1 AND
-                vas.id_match = new.id_match AND
-                vas.id_stat_statement = new.id_stat_statement AND
-                vas.id_season = new.id_season AND
-                vas.id_owner = new.id_player AND
-                vas.archive_stat IS NULL;
-        END IF;
+        INSERT INTO intramurudes.match_team (id_team, id_match)
+        VALUES (UNNEST(new.list_teams), id_new_match);
     END IF;
-
-    --Mettre la bonne saison
-    IF new.id_match IS NOT NULL
-    THEN
-        new.id_season = (SELECT id_season FROM intramurudes.match_
-                         WHERE id = new.id_match);
-    END IF;
-    RETURN new;
-END;
+    RETURN NULL;
+END
 $$;
 
 
-
-
-
-
-CREATE OR REPLACE FUNCTION intramurudes.delete_v_all_stats()
-    RETURNS TRIGGER
-    LANGUAGE plpgsql
-AS $$
-BEGIN
-    IF(new.stat_type = 'team')
-    THEN
-        DELETE FROM team_stat ts
-        WHERE ts.id_season = new.id_season AND
-              ts.id_match = new.id_match AND
-              ts.id_stat_statement = new.id_stat_statement AND
-              ts.id_team = new.id_owner;
-    END IF;
-
-    IF(new.stat_type = 'player')
-    THEN
-        DELETE FROM intramurudes.player_stat ts
-        WHERE ts.id_season = new.id_season AND
-            ts.id_match = new.id_match AND
-            ts.id_stat_statement = new.id_stat_statement AND
-            ts.id_player = new.id_owner;
-    END IF;
-
-END;
-$$;
-
-
-CREATE TRIGGER trg_delete_v_all_stats
-    INSTEAD OF DELETE ON intramurudes.v_all_stats
+CREATE TRIGGER trg_insert_v_stat_statement
+    INSTEAD OF INSERT ON intramurudes.v_match_teams
     FOR EACH ROW
-EXECUTE function intramurudes.delete_v_all_stats();
+EXECUTE function intramurudes.insert_v_match_teams();

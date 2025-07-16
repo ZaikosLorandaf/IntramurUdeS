@@ -59,11 +59,15 @@
     </select>
 
     <insert id="insert">
-        insert into intramurudes.match_(date_match, begin_time, end_time, id_league)
+        insert into intramurudes.v_match_teams(date_match, begin_time, end_time, place, id_league,
+                                               id_season, list_teams)
         values (#{match.date},
                 #{match.beginTime},
                 #{match.endTime},
-                #{match.idLeague});
+                #{match.place},
+                #{match.idLeague},
+                #{match.idSeason},
+                #{match.idTeams});
     </insert>
 
 </mapper>
