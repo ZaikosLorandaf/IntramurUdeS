@@ -38,6 +38,7 @@ function initPage() {
         }
     }).then(function (response) {
         const rawData = response.data;
+        console.log(rawData);
         equipeData = {};
         matchDatas = {};
 

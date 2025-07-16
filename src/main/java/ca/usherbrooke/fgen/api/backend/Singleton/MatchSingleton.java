@@ -37,7 +37,7 @@ public class MatchSingleton {
             return "Sport Error";
         }
 
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName,sportName);
         if (league == null) {
              return "Ligue introuvable";
         }
@@ -48,14 +48,19 @@ public class MatchSingleton {
 
         int idMatch = matchService.getLastId() + 1;
         int idLeague = league.getId();
-        Date dateMatch = Date.valueOf(date);
+        Date dateMatch = null;
+        try{
+            dateMatch = Date.valueOf(date);
+        }catch (Exception e){
+            return "Erreur date";
+        }
         Time beginMatch = Time.valueOf(heureDebut);
         Time endMatch = Time.valueOf(heureFin);
         Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, place, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
 
         if (addDb(match)) {
-            sportList.getLeague(idLeague).getListMatch().addMatch(match); // TODO: verifier le retour
-            return "Match ajouté avec succès";
+            //boolean isOk = sportList.getLeague(idLeague).getListMatch().addMatch(match); // TODO: verif return
+            return "Match ajouté avec succès" ;
         } else {
             return "Erreur lors de l'ajout du match";
         }
