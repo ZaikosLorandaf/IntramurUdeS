@@ -24,6 +24,10 @@ public class LeagueSingleton {
 
     // Gestion donnees
     public String add(String nom_sport, String nom, Date dateDebut, Date dateFin) {
+        if (nom_sport.isBlank() || nom.isBlank() || dateDebut == null || dateFin == null || dateFin.before(dateDebut)) {
+            return "Erreur dans les entrées";
+        }
+
         Sport sport = sportList.getSport(nom_sport);
         if (sport == null) {
             return "Sport Error";
