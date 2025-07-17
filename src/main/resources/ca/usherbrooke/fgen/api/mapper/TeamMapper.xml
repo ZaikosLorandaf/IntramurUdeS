@@ -5,19 +5,21 @@
 <mapper namespace="ca.usherbrooke.fgen.api.mapper.TeamMapper">
 
     <select id="selectTeams" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">
-        SELECT id,
-               name,
-               id_league
-        FROM intramurudes.team t
-        WHERE t.archive = FALSE;
+        SELECT vtls.id_team AS id,
+               vtls.name_team AS name,
+               vtls.id_league AS id_league,
+               vtls.id_sport AS id_sport
+        FROM intramurudes.v_team_league_sport vtls
+        WHERE vtls.archive_team IS NULL;
     </select>
 
     <select id="selectOneTeam" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Team">
-        SELECT id,
-               name,
-               id_league
-        FROM intramurudes.team t
-        WHERE id = #{id} AND t.archive = FALSE;
+        SELECT vtls.id_team,
+               vtls.name_team,
+               vtls.id_league,
+               vtls.id_sport
+        FROM intramurudes.v_team_league_sport vtls
+        WHERE vtls.id_team = #{id} AND vtls.archive_team IS NULL;
     </select>
 
     <delete id="deleteOneTeam">

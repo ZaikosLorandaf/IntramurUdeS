@@ -23,7 +23,7 @@
                vl.id_sport,
                vl.id_seasons
         FROM intramurudes.v_league vl
-        WHERE vl.archive_league = FALSE;
+        WHERE vl.archive_league IS NULL;
     </select>
 
     <select id="selectOne" resultMap="LeagueMap">
@@ -34,7 +34,7 @@
                vl.id_sport,
                vl.id_seasons
         FROM intramurudes.v_league vl
-        WHERE id = #{id} AND vl.archive_league = FALSE;
+        WHERE id = #{id} AND vl.archive_league IS NULL;
     </select>
 
     <select id="selectFromSport" resultType="ca.usherbrooke.fgen.api.backend.BdTables.League">
@@ -45,7 +45,7 @@
                l.done,
                l.id_sport
         from intramurudes.league l
-        where id_sport = #{id_sport} AND l.archive = FALSE
+        where id_sport = #{id_sport} AND l.archive IS NULL;
     </select>
 
 

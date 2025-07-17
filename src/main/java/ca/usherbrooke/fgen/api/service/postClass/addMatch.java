@@ -16,4 +16,6 @@ public class addMatch {
     public String heure_debut;
     @NotNull
     public String heure_fin;
+    @NotNull
+    public String place;
 }

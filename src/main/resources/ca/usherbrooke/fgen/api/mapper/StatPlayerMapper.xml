@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.StatPlayerMapper">
+
+    <select id="selectAll" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
+        SELECT vps.id AS id,
+               vps.id_stat_statement AS id_stat_statement,
+               vps.value AS value,
+               vps.id_match AS id_match,
+               vps.id_season AS id_season,
+               vps.id_player AS id_player,
+               vps.id_league AS id_league,
+               vps.id_team AS id_team,
+               vps.id_league_player AS id_league_player,
+               vps.id_sport AS id_sport
+        FROM intramurudes.v_player_stat vps
+        WHERE vps.archive_player_stat IS NULL;
+    </select>
+
+    <select id="selectOne" resultType="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatPlayer">
+        SELECT vps.id AS id,
+               vps.id_stat_statement AS id_stat_statement,
+               vps.value AS value,
+               vps.id_match AS id_match,
+               vps.id_season AS id_season,
+               vps.id_player AS id_player,
+               vps.id_league AS id_league,
+               vps.id_team AS id_team,
+               vps.id_league_player AS id_league_player,
+               vps.id_sport AS id_sport
+        FROM intramurudes.v_player_stat vps
+        WHERE vps.id = #{id};
+    </select>
+
+
+    <delete id="deleteOne">
+        DELETE
+        FROM intramurudes.player_stat
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.player_stat_id_seq;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO intramurudes.player_stat(id, value_, id_match, id_stat_statement, id_season, id_player)
+        VALUES (#{id},
+                #{value},
+                #{match.id},
+                #{id_stat_statement},
+                #{season.id},
+                #{player.id});
+    </insert>
+
+</mapper>

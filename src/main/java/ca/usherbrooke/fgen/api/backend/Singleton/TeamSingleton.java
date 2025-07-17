@@ -37,13 +37,13 @@ public class TeamSingleton {
         }
 
         String result;
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName, sportName);
         if (league == null) {
             result = "Ligue introuvable";
         } else {
             int id = teamService.getLastId() + 1;
             int idLeague = league.getId();
-            if (teamName.isEmpty() || league.getTeams().getMapNameId().containsKey(teamName))
+            if (teamName.isEmpty() || league.getListTeam().getMapNameId().containsKey(teamName))
                 return "nom impossible";
             ca.usherbrooke.fgen.api.backend.BdTables.Team team = new ca.usherbrooke.fgen.api.backend.BdTables.Team(id, teamName, idLeague);
             if (addDb(team)) {
@@ -68,13 +68,13 @@ public class TeamSingleton {
         if (sportList.getSport(sportName).getListLeague().getSize() <= 0)
             return "<div>Pas de ligue</div>";
 
-        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getTeam(teamName);
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName).getListTeam().getTeam(teamName);
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
-        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName).getTeams().getId(team));
+        teamMapper.deleteOneTeam(sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName).getListTeam().getId(team));
 
-        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName).removeTeam(team))
+        if (sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName).removeTeam(team))
             return "<div>Équipe retirée</div>";
 
         return "<div>Erreur lors du retrait d'équipe</div>";
@@ -94,19 +94,19 @@ public class TeamSingleton {
         if (league == null)
             throw new TeamException("Erreur Ligue");
         else {
-            if (league.getTeams().getSize() <= 0) {
+            if (league.getListTeam().getSize() <= 0) {
 
             } else {
                 List<String> nomTeams = new java.util.ArrayList<>();
-                for (int i : league.getTeams().getTeamIds()) {
+                for (int i : league.getListTeam().getTeamIds()) {
                     JSONObject players = new JSONObject();
                     List<Integer> numbers = new java.util.ArrayList<>();
-                    for(int j: league.getTeams().getTeam(i).getListPlayer().getPlayerIds())
+                    for(int j: league.getListTeam().getTeam(i).getListPlayer().getPlayerIds())
                     {
-                        numbers.add(league.getTeams().getTeam(i).getListPlayer().getPlayer(j).getNumber());
+                        numbers.add(league.getListTeam().getTeam(i).getListPlayer().getPlayer(j).getNumber());
                     }
                     players.put("number", numbers);
-                    nomTeams.add(league.getTeams().getTeam(i).getName());
+                    nomTeams.add(league.getListTeam().getTeam(i).getName());
                 }
                 result.put("noms", nomTeams);
                 System.out.println(result.toString(4));
@@ -135,7 +135,7 @@ public class TeamSingleton {
             return new JSONObject().put("error", "Ligue introuvable").toString();
         }
 
-        ListTeam listTeam = league.getTeams();
+        ListTeam listTeam = league.getListTeam();
 
         for (int i = 0; i < listTeam.getSize(); i++) {
             ca.usherbrooke.fgen.api.backend.BdTables.Team team = listTeam.getTeam(listTeam.getTeamIds().get(i));

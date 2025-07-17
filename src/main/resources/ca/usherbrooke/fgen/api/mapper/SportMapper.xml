@@ -8,7 +8,7 @@
                name,
                nb_team_match
         FROM intramurudes.sport s
-        WHERE s.archive = FALSE;
+        WHERE s.archive IS NULL;
 
     </select>
 
@@ -17,7 +17,7 @@
                name,
                nb_team_match
         FROM intramurudes.sport s
-        WHERE id = #{id} AND s.archive = FALSE;
+        WHERE id = #{id} AND s.archive IS NULL;
     </select>
 
 

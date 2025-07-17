@@ -34,6 +34,7 @@ class MatchTest {
     private Date testDate;
     private Time beginTime;
     private Time endTime;
+    private String place;
     private static final int TEST_ID = 1;
     private static final int TEST_LEAGUE_ID = 100;
     private static final int TEST_SEASON_ID = 1;
@@ -47,6 +48,7 @@ class MatchTest {
         testDate = Date.valueOf(LocalDate.now());
         beginTime = Time.valueOf(LocalTime.of(14, 0)); // 14:00
         endTime = Time.valueOf(LocalTime.of(16, 0));   // 16:00
+        place = "Mustafar";
         match = new Match(TEST_ID, testDate, beginTime, endTime, TEST_LEAGUE_ID, 2);
     }
 
@@ -84,7 +86,7 @@ class MatchTest {
     @Test
     void testFullConstructor() {
         List<Integer> teamIds = Arrays.asList(1, 2);
-        Match fullMatch = new Match(TEST_ID, testDate, beginTime, endTime,
+        Match fullMatch = new Match(TEST_ID, testDate, beginTime, endTime, place,
                 TEST_LEAGUE_ID, 2, teamIds, TEST_SEASON_ID);
 
         assertEquals(TEST_ID, fullMatch.getId());

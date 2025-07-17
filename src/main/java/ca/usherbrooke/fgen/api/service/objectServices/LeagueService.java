@@ -1,6 +1,7 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.BdTables.Season;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
@@ -35,6 +36,9 @@ public class LeagueService extends TemplateService<League> {
     @POST
     @Path("addLigue/")
     public String addLeague(@NotNull addLeague league) {
+        if (league.nom.length() >= nameMaxLength){
+            return "Name too long";
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date_debut;
         Date date_fin;
@@ -126,6 +130,11 @@ public class LeagueService extends TemplateService<League> {
     protected void add(League league){
         Sport sport = ogClass.getSportSingleton().getSportList().getSport(league.getIdSport());
         sport.addLeague(unescapeEntities(league));
+        for (int idSeason : league.getIdSeasons()){
+            if(idSeason == -1) break;
+            Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(idSeason);
+            season.getLeagues().addLeague(unescapeEntities(league));
+        }
     }
 
     protected void setName(League league) {

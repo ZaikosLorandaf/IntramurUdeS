@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.fgen.api.mapper.StatStatementMapper">
+    <resultMap id="StatStatementMap" type="ca.usherbrooke.fgen.api.backend.BdTables.Stats.StatStatement">
+        <constructor>
+            <arg column="id" javaType="java.lang.Integer"/>
+            <arg column="statement" javaType="java.lang.String"/>
+            <arg column="acronym" javaType="java.lang.String"/>
+            <arg column="id_sports" javaType="java.util.List" typeHandler="ca.usherbrooke.fgen.api.handler.IntegerArrayToListTypeHandler"/>
+        </constructor>
+    </resultMap>
+
+
+    <select id="selectAll" resultMap="StatStatementMap">
+        SELECT vss.id AS id,
+               vss.statement AS statement,
+               vss.acronym AS acronym,
+               vss.id_sports AS id_sports
+        FROM intramurudes.v_stat_statement vss
+        WHERE vss.archive_stat_statement IS NULL;
+    </select>
+
+    <select id="selectOne" resultMap="StatStatementMap">
+        SELECT vss.id AS id,
+               vss.statement AS statement,
+               vss.acronym AS acronym,
+               vss.id_sports AS id_sports
+        FROM intramurudes.v_stat_statement vss
+        WHERE vss.id = #{id} AND vss.archive_stat_statement IS NULL;
+    </select>
+
+
+    <delete id="deleteOne">
+        DELETE
+        FROM intramurudes.stat_statement
+        WHERE id = #{id}
+    </delete>
+
+    <select id="getLastId" resultType="Integer">
+        SELECT last_value FROM intramurudes.stat_statement_id_seq;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO intramurudes.v_stat_statement(id, statement, acronym, id_sports)
+        VALUES (#{id},
+                #{statement},
+                #{acronym},
+                #{id_sports});
+    </insert>
+
+</mapper>

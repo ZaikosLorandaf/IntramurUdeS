@@ -1,5 +1,9 @@
 package ca.usherbrooke.fgen.api.service.objectServices;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
+import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.DTO.PlayerDTO;
+import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Player;
 import ca.usherbrooke.fgen.api.backend.BdTables.Team;
@@ -12,6 +16,7 @@ import io.smallrye.common.constraint.NotNull;
 import org.jsoup.parser.Parser;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +41,9 @@ public class PlayerService extends TemplateService<Player> {
     @POST
     @Path("addPlayer")
     public String addPlayer(@NotNull addPlayer player) {
+        if (player.nom.length() >= nameMaxLength){
+            return "Name too long";
+        }
         return ogClass.getPlayerSingleton().add(player.nomSport, player.nomLigue, player.nomTeam, player.prenom, player.nom, player.number);
     }
 
@@ -47,9 +55,35 @@ public class PlayerService extends TemplateService<Player> {
 
     // Methode GET
     @GET
-    public List<Player> getPlayers() {
-        return getItems();
+    public List<PlayerDTO> getPlayers() {
+        this.getItems();
+        List<PlayerDTO> returnList = new ArrayList<>();
+        for(Sport sport : ogClass.getSportSingleton().getSportList().getAllSports()) {
+            for (League league : sport.getListLeague().getAllItems()){
+                for (Team team : league.getListTeam().getAllItems()){
+                    returnList.addAll(PlayerDTO.mapListToDTO(team.getListPlayer().getAllItems()));
+                }
+            }
+        }
+        return returnList;
     }
+
+    @GET
+    @Path("{idSport}/{idLeague}/{idTeam}")
+    public List<PlayerDTO> getPlayersFromTeam(
+            @PathParam("idSport") int idSport,
+            @PathParam("idLeague") int idLeague,
+            @PathParam("idTeam") int idTeam
+    ) {
+        this.getItems();
+        Sport sport = ogClass.getSportSingleton().getSportList().getSport(idSport);
+        League league = sport.getListLeague().getLeague(idLeague);
+        Team team = league.getListTeam().getTeam(idTeam);
+        ListPlayer listPlayer = team.getListPlayer();
+        List<PlayerDTO> playerDTOs = PlayerDTO.mapListToDTO(listPlayer.getAllItems());
+        return  playerDTOs;
+    }
+
 
     @GET
     @Path("{id}")

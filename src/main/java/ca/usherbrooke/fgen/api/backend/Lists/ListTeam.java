@@ -80,10 +80,18 @@ public class ListTeam extends ListTemplate<Team, String>  {
     public int getId(Team team) { return team.getId(); }
     public String getName(Team team) { return team.getName(); };
 
+    @Override
+    protected boolean addItem(Team team) {
+        if(super.addItem(team)){
+            ListSport.addTeamMap(team);
+            return true;
+        }
+        return false;
+    }
+
     // Methodes affichage
     @Override
     void logAddSuccess(Team team) {
-        ListSport.addTeamMap(team);
         LoggerUtil.info("Ajout de l'équipe " + team.getName());
     }
 
@@ -94,10 +102,14 @@ public class ListTeam extends ListTemplate<Team, String>  {
 
     @Override
     void logRemoveSuccess(int id){
+        LoggerUtil.warning("Retrait de l'équipe (id: " + id + ").");
+
     }
 
     @Override
     void logRemoveFailure(int id){
+        LoggerUtil.warning("Échec du retrait de l'équipe (id: " + id + ").");
+
     }
 
     /**

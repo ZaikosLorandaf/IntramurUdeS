@@ -70,10 +70,12 @@
         }
     }).then(function (response) {
         const equipeData = response.data;
+        console.log(equipeData);
         const container = document.getElementById('teamsContainer');
         container.innerHTML = '';
 
-        Object.keys(equipeData).forEach(teamName => {
+        (equipeData).forEach(teamName => {
+            console.log(teamName.name);
             const div = document.createElement('div');
             div.classList.add('form-check');
 
@@ -81,13 +83,13 @@
             input.type = 'checkbox';
             input.classList.add('form-check-input');
             input.name = 'teamCheckbox';
-            input.value = teamName;
-            input.id = `team-${teamName}`;
+            input.value = teamName.name;
+            input.id = `team-${teamName.name}`;
 
             const label = document.createElement('label');
             label.classList.add('form-check-label');
             label.htmlFor = input.id;
-            label.textContent = teamName;
+            label.textContent = teamName.name;
 
             // Limite à 2 sélections
             input.addEventListener('change', () => {
@@ -134,6 +136,7 @@
             return;
         }
 
+        console.log(date);
         const encodedTeams = encodeURIComponent(nomEquipes.join(","));
         axios.post("http://localhost:8888/api/match/add", {
             sport: sport,

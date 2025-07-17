@@ -28,7 +28,7 @@ public class MatchSingleton {
     }
 
     // Gestion donnees
-    public String add(String sportName, String leagueName, String team1, String team2, String date, String heureDebut, String heureFin) {
+    public String add(String sportName, String leagueName, String team1, String team2, String date, String heureDebut, String heureFin, String place) {
         if (sportName == null || leagueName == null || team1 == null || team2 == null) {
             return "Erreur noms";
         }
@@ -37,25 +37,30 @@ public class MatchSingleton {
             return "Sport Error";
         }
 
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sport.getListLeague().getLeague(leagueName,sportName);
         if (league == null) {
              return "Ligue introuvable";
         }
 
         List<Integer> matchTeams = new ArrayList<>();
-        matchTeams.add(league.getTeams().getTeam(team1).getId());
-        matchTeams.add(league.getTeams().getTeam(team2).getId());
+        matchTeams.add(league.getListTeam().getTeam(team1).getId());
+        matchTeams.add(league.getListTeam().getTeam(team2).getId());
 
         int idMatch = matchService.getLastId() + 1;
         int idLeague = league.getId();
-        Date dateMatch = Date.valueOf(date);
+        Date dateMatch = null;
+        try{
+            dateMatch = Date.valueOf(date);
+        }catch (Exception e){
+            return "Erreur date";
+        }
         Time beginMatch = Time.valueOf(heureDebut);
         Time endMatch = Time.valueOf(heureFin);
-        Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
+        Match match = new Match(idMatch, dateMatch, beginMatch, endMatch, place, idLeague, matchTeams.size(), matchTeams, 11); // 11 = valeur par defaut. A modifier quand sera implemente
 
         if (addDb(match)) {
-            sportList.getLeague(idLeague).getListMatch().addMatch(match); // TODO: verifier le retour
-            return "Match ajouté avec succès";
+            //boolean isOk = sportList.getLeague(idLeague).getListMatch().addMatch(match); // TODO: verif return
+            return "Match ajouté avec succès" ;
         } else {
             return "Erreur lors de l'ajout du match";
         }
@@ -80,8 +85,8 @@ public class MatchSingleton {
             return "Ligue introuvable";
         }
 
-        int idTeam1 = league.getTeams().getTeam(team1).getId();
-        int idTeam2 = league.getTeams().getTeam(team2).getId();
+        int idTeam1 = league.getListTeam().getTeam(team1).getId();
+        int idTeam2 = league.getListTeam().getTeam(team2).getId();
         Date dateMatch = Date.valueOf(date);
         ca.usherbrooke.fgen.api.backend.BdTables.Match match = league.getListMatch().getMatch(dateMatch, idTeam1, idTeam2);
         if (match == null)

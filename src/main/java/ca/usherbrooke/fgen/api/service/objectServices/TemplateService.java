@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public abstract class TemplateService<ListType> {
+    protected static final int nameMaxLength = 127;
+
     public void addItem(ListType item) {
         // Ajouter l'équipe à la base de données via le mapper
         insert(item);
@@ -59,4 +61,6 @@ public abstract class TemplateService<ListType> {
 
 
     protected abstract void setName(ListType item);
+
+    public abstract int getLastId();
 }

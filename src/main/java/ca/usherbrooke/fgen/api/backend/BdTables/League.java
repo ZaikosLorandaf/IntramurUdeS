@@ -210,11 +210,15 @@ public class League {
    */
   public boolean addToSeason(){
     boolean result = true;
-    for (Integer id :idSeasons){
-      Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
-      if(!season.getLeagues().addLeague(this)){
-        if (result){
-          result = false;
+    if(!idSeasons.isEmpty()){
+      for (Integer id :idSeasons){
+        if(id != -1){
+          Season season = ogClass.getSeasonSingleton().getListSeasons().getSeason(id);
+          if(!season.getLeagues().addLeague(this)){
+            if (result){
+              result = false;
+            }
+          }
         }
       }
     }
@@ -267,8 +271,8 @@ public class League {
     }
     LoggerUtil.info("Changement de l'id de la ligue " + getName() + ":" + this.id + "-->" + idLeague);
     this.id = idLeague;
-    for (int i = 0; i < getTeams().getSize(); i++) {
-      this.getTeams().getTeam(i).setIdLeague(idLeague);
+    for (int i = 0; i < getListTeam().getSize(); i++) {
+      this.getListTeam().getTeam(i).setIdLeague(idLeague);
     }
     return true;
   }
@@ -293,7 +297,23 @@ public class League {
   public String getName() {
     return this.name;
   }
-  public ListTeam getTeams() { return this.listTeam; }
+  public ListTeam getListTeam() { return this.listTeam; }
   public ListMatch getListMatch() {return this.listMatch;}
   public List<Integer> getIdSeasons() {return this.idSeasons;}
+  public String getSportName(){
+    if(ogClass == null)
+      ogClass = Arc.container().instance(OGClass.class).get();
+    return ogClass.getSportSingleton().getSportList().getSport(this.idSport).getName();
+  }
+
+
+  public String getUniqueName(){
+    return League.getUniqueName(this.getName(), this.getSportName());
+  }
+
+  public static String getUniqueName(String leagueName, String sportName){
+    String stringNameConstruite = sportName + "-" + leagueName;
+    return stringNameConstruite;
+  }
+
 }

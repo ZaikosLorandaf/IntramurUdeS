@@ -1,11 +1,10 @@
 let sport;
 let season;
-// let roleNumber = 2;
+
 // Page Initialisation
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     waitForRoleNumber(initPage);
 });
-
 
 function waitForRoleNumber(callback, retries = 20, interval = 100) {
     const check = () => {
@@ -15,7 +14,7 @@ function waitForRoleNumber(callback, retries = 20, interval = 100) {
             setTimeout(() => waitForRoleNumber(callback, retries - 1, interval), interval);
         } else {
             console.warn("roleNumber not defined after waiting");
-            callback(); // on continue quand même pour éviter de bloquer toute la page
+            callback();
         }
     };
     check();
@@ -38,51 +37,73 @@ function initPage() {
             ligue: season
         }
     }).then(function (response) {
-        equipeData = response.data;
-        console.log(equipeData);
+        const rawData = response.data;
+        console.log(rawData);
+        equipeData = {};
+        matchDatas = {};
+
+        rawData.forEach((team, index) => {
+            equipeData[String.fromCharCode(65 + index)] = {
+                name: team.name,
+                joueurs: team.players.reduce((acc, player) => {
+                    acc[player.number] = {
+                        name: player.name,
+                        stats: (player.stats || []).reduce((obj, stat) => {
+                            obj[stat.statement] = stat.value;
+                            return obj;
+                        }, {})
+                    };
+                    return acc;
+                }, {}),
+                stats: (team.stats || []).reduce((obj, stat) => {
+                    obj[stat.statement] = stat.value;
+                    return obj;
+                }, {}),
+                matchs: `${(team.matches || []).length} matchs`
+            };
+
+            (team.matches || []).forEach(match => {
+                const date = match.date;
+                if (!matchDatas[date]) {
+                    matchDatas[date] = [];
+                }
+
+                // Récupérer les noms des deux équipes du match
+                const equipes = (match.teams || []).map(t => t.name).join(" vs ");
+                let affrontement = equipes + " vs " + team.name;
+
+                const heure = formatHeure(match.beginTime);
+                const lieu = match.place || "Inconnu";
+
+                // Vérifie s’il existe déjà un match identique
+                const exists = matchDatas[date].some(entry =>
+                    entry.heure === heure &&
+                    entry.lieu === lieu // &&
+                    // entry.equipes === affrontement
+                );
+
+                if (!exists) {
+                    matchDatas[date].push({
+                        heure,
+                        equipes: affrontement,
+                        lieu
+                    });
+                }
+            });
+        });
+
+    console.log("EquipeData reformatée:", equipeData);
+        console.log("matchDatas:", matchDatas);
         renderTeamList();
-        callMatch();
+        populateMatchDays();
     }).catch(function (error) {
         const container = document.querySelector('.main-container');
         container.innerHTML = '<div class="alert alert-danger">Erreur : ' + error + '</div>';
     });
 }
 
-// Logique Equipe
-let equipeData = {
-    A: { joueurs: "Remi, Axel, Ana", matchs: "3 gagnés, 1 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    B: { joueurs: "Bruno, Béatrice, Basile", matchs: "2 gagnés, 2 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    C: { joueurs: "Carla, Charles, Chloé", matchs: "1 gagné, 3 perdus",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-    D: { joueurs: "David, Daphnée, Damien", matchs: "4 gagnés, 0 perdu",stats: {
-            matchsJoues: 4,
-            victoires: 3,
-            defaites: 1,
-            pointsMarques: 89,
-            pointsEncaisses: 65,
-            differenceDePoints: 24
-        } },
-};
+let equipeData = {};
+let matchDatas;
 
 function renderTeamList() {
     const container = document.getElementById("liste-equipes");
@@ -91,11 +112,11 @@ function renderTeamList() {
     Object.keys(equipeData).forEach(team => {
         const div = document.createElement("div");
         div.className = "card-custom";
-        div.textContent = `Équipe ${team}`;
-        div.onclick = () => showInfo(team);
+        div.textContent = `${equipeData[team].name}`;
+        div.onclick = () => showInfo(equipeData, equipeData[team], team);
         container.appendChild(div);
     });
-    console.log("affichage roleNumber", roleNumber);
+
     if (roleNumber === 2) {
         const div = document.createElement("div");
         div.className = "btn btn-secondary mb-2";
@@ -108,16 +129,14 @@ function renderTeamList() {
         div.addEventListener('click', () => {
             window.open(`./modals/dashboard-equipe.html?sport=${sports}&ligue=${seasons}`, 'popupWindow', 'width=500,height=500');
         });
-        // div.onclick = () => ;
         container.appendChild(div);
     }
 }
 
-function showInfo(team) {
-    const info = equipeData[team];
-
-    const joueursList = Object.entries(info.joueurs)
-        .map(([numero,joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}', '${team}')">${numero} ${joueur.name}</button>`)
+function showInfo(myData,teame,abcd) {
+    console.log(abcd);
+    const joueursList = Object.entries(teame.joueurs)
+        .map(([numero, joueur]) => `<button class="player-btn" onclick="showPlayer('${numero}','${joueur.name}','${abcd}')">${numero} ${joueur.name}</button>`)
         .join('');
 
     let buttonHTML = "";
@@ -125,126 +144,121 @@ function showInfo(team) {
         const myParams = new URLSearchParams(window.location.search);
         let sports = myParams.get('sport');
         let seasons = myParams.get('ligue');
-
-        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${team}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
+        console.log(teame);
+        buttonHTML = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-equipe-stats.html?sport=${sports}&ligue=${seasons}&team=${teame.name}', 'popupWindow', 'width=500,height=400')">Gérer statistique</button>`;
     }
 
-    const teamStats = info.stats || {};
-
+    const teamStats = teame.stats || {};
     const statsTable = `
         <table class="stats-table">
-        <thead>
-        <tr><th>Statistiques</th><th>Valeurs</th></tr>
-        </thead>
+        <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
         <tbody>
         ${Object.entries(teamStats).map(([cle, valeur]) => `
             <tr>
-            <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+            <td style="padding: 0px 20px;">${cle}</td>
             <td style="padding: 0px 20px;">${valeur}</td>
-            </tr>
-            `).join('')}
+            </tr>`).join('')}
         </tbody>
-        </table>
-        `;
+        </table>`;
 
     document.getElementById("equipe-info").innerHTML = `
-        <h4>Équipe ${team}</h4>
+        <h4>Équipe ${teame.name}</h4>
         <div class="equipe-container" id="equipe-content">
         <div class="joueurs-col">${joueursList}</div>
         <div class="stats-col">
         ${statsTable}
-    ${buttonHTML}
-        </div>
-        </div>
-        <div id="player-info" style="display: none;"></div>
-        `;
+        ${buttonHTML}
+        </div></div>
+        <div id="player-info" style="display: none;"></div>`;
 
-    // Fonction pour afficher les stats du joueur
-    window.showPlayer = function (number ,nom, team) {
-        const joueurData = equipeData[team].joueurs[number].stats;
-        const stats = joueurData ? joueurData : {};
-
-        // Générer un tableau des stats du joueur
+    window.showPlayer = function (number, nom, abcd) {
+        const joueurData = equipeData[abcd].joueurs[number].stats || {};
+        console.log(joueurData);
         const statsJoueurTable = `
             <table class="stats-table">
-            <thead>
-            <tr><th>Statistiques</th><th>Valeurs</th></tr>
-            </thead>
+            <thead><tr><th>Statistiques</th><th>Valeurs</th></tr></thead>
             <tbody>
-            ${Object.entries(stats).map(([cle, valeur]) => `
+            ${Object.entries(joueurData).map(([cle, valeur]) => `
                 <tr>
-                <td style="padding: 0px 20px;">${cle.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, c => c.toUpperCase())}</td>
+                <td style="padding: 0px 20px;">${cle}</td>
                 <td style="padding: 0px 20px;">${valeur}</td>
-                </tr>
-                `).join('')}
+                </tr>`).join('')}
             </tbody>
-            </table>
-            `;
+            </table>`;
 
-        // Affichage conditionnel pour rôle admin
         let modifierJoueurBtn = "";
         if (roleNumber === 2) {
             const params = new URLSearchParams(window.location.search);
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${team}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
+            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${equipeData[abcd].name}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";
         document.getElementById("player-info").style.display = "block";
 
-        // Mise à jour du DOM
         document.getElementById("player-info").innerHTML = `
             <h4>${number} ${nom}</h4>
-            ${statsJoueurTable}
-        ${modifierJoueurBtn}
-            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${team}')">← Retour à l'équipe</button>
-            `;
+            ${statsJoueurTable} 
+            ${modifierJoueurBtn}
+            <button class="btn btn-success mb-4" style="margin-top: 17px;" onclick="retourEquipe('${abcd}')">← Retour à l'équipe</button>`;
+        console.log(teame);
     };
 
-    // Fonction de retour
-    window.retourEquipe = function (team) {
-        showInfo(team); // Recharge l'affichage original de l'équipe
+    window.retourEquipe = function (abcd) {
+        showInfo(equipeData, equipeData[abcd], abcd);
     };
 }
 
+function parseDate(dateStr) {
+    if (/^\d{4}-\d{2}-\d{2}Z$/.test(dateStr)) {
+        return new Date(dateStr.replace('Z', 'T00:00:00Z'));
+    }
+    return new Date(dateStr);
+}
 
-// Logique Matchs
-let matchDatas;
+function formatHeure(isoTime) {
+    // Supprime le [UTC] si présent
+    const cleaned = isoTime.replace(/\[.*\]/, "");
+    const d = new Date(cleaned);
+    return d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
+}
 
 function showMatchDay(date) {
     const container = document.getElementById("match-details");
     const title = document.getElementById("selected-day");
     console.log("cliked");
     const matchs = matchDatas[date] || [];
-
-    title.textContent = `Matchs du ${new Date(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
+    title.textContent = `Matchs du ${parseDate(date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}`;
 
     container.innerHTML = matchs.map(match => `
         <div class="card border-0 shadow-sm">
         <div class="card-body">
-        <h6 class="card-title">${match.heure} - ${match.equipes}</h6>
-        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>
+        <h6 class="card-title">${match.equipes}</h6>
+        <h7>${match.heure}</h7>
+        <p class="card-text text-muted mb-0">Lieu : ${match.lieu}</p>      
         </div>
-        </div>
-        `).join("");
+        </div>`).join("");
 }
+//
 
 function formatDate(isoDate) {
-    const date = new Date(isoDate);
-    return date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    return parseDate(isoDate).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
 function populateMatchDays() {
     const listContainer = document.getElementById('match-days-list');
     listContainer.innerHTML = '';
 
-    Object.keys(matchDatas).forEach(date => {
+    // Trier les dates (clés) sans modifier matchDatas
+    const sortedDates = Object.keys(matchDatas).sort((a, b) => new Date(a) - new Date(b));
+
+    sortedDates.forEach(date => {
         const li = document.createElement('li');
         li.className = 'list-group-item list-group-item-action';
-        li.textContent = formatDate(date);
-        li.onclick = () => showMatchDay(date);
+        li.textContent = formatDate(date); // formatDate("2025-06-01Z") => ex: "1 juin 2025"
+        li.onclick = () => showMatchDay(date); // utilise toujours la bonne date pour accéder aux données
         listContainer.appendChild(li);
     });
 
@@ -264,7 +278,6 @@ function populateMatchDays() {
     }
 }
 
-
 function callMatch(){
     const myParams = new URLSearchParams(window.location.search);
     let sports = myParams.get('sport');
@@ -279,4 +292,3 @@ function callMatch(){
             console.log(error);
         });
 }
-

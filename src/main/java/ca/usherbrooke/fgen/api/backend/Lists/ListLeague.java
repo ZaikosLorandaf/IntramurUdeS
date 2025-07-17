@@ -6,6 +6,7 @@ import ca.usherbrooke.fgen.api.backend.LoggerUtil;
 import java.util.*;
 
 public class ListLeague extends ListTemplate<League, String> {
+
     /**
      * Constructeur par defaut vide.
      *
@@ -48,8 +49,12 @@ public class ListLeague extends ListTemplate<League, String> {
      */
     public boolean removeLeague(int id) {
         League ligue = getItem(id);
-        for (int i: ligue.getTeams().getTeamIds())
-            ligue.getTeams().removeTeam(i);
+        if (ligue == null) {
+            return false;
+        }
+        for (int i: ligue.getListTeam().getTeamIds())
+            ligue.getListTeam().removeTeam(i);
+
 
         if (removeItem(id)) {
             LoggerUtil.warning("Retrait de la ligue " + ligue.getName() + "(id: " + id + ").");
@@ -76,18 +81,63 @@ public class ListLeague extends ListTemplate<League, String> {
     // Getter
     public int getSize() { return getMapSize(); }
     public League getLeague(int id) { return getItem(id); }
-    public League getLeague(String name) { return getItem(name); }
+
+    /**
+     * Méthode pour aller chercher une ligue de la liste selon son nom unique
+     * @param uniqueName Nom unique de la ligue (sport-ligue)
+     * @return La ligue trouvée
+     */
+    public League getLeague(String uniqueName) {
+        return getItem(uniqueName);
+    }
+
+    /**
+     * Méthode pour aller chercher une ligue selon le nom de son sport et de la ligue
+     * Construit le nom unique automatiquement
+     * @param leagueName Nom de la ligue
+     * @param sportName Nom du sport
+     * @return La ligue trouvée
+     */
+    public League getLeague(String leagueName, String sportName) {
+        return getItem(League.getUniqueName(leagueName, sportName));
+    }
     public List<Integer> getLeagueIds() { return getMapIds(); }
 
     public int getId(League league){ return league.getId(); };
     public String getName(League league){
-        return league.getName();
+        return league.getUniqueName();
     };
+
+    @Override
+    protected boolean addItem(League league) {
+        if(super.addItem(league)){
+            ListSport.addLeagueMap(league);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected boolean removeItem(int id){
+        League league = getItem(id);
+        if(super.removeItem(id)) {
+            if (league == null) {
+                LoggerUtil.error("La ligue " + id + " n'existe pas.");
+                return false;
+            }
+            for (int i: league.getListTeam().getTeamIds()){
+                league.getListTeam().removeTeam(i);
+            }
+            ListSport.removeLeagueMap(league);
+            return true;
+        }
+        return false;
+    }
+
 
     // Methodes affichage
     @Override
     void logAddSuccess(League league) {
-        ListSport.addLeagueMap(league);
         LoggerUtil.info("Ajout de la ligue " + league.getName());
     }
     @Override
@@ -98,10 +148,13 @@ public class ListLeague extends ListTemplate<League, String> {
 
     @Override
     void logRemoveSuccess(int id){
+        LoggerUtil.warning("Retrait de la ligue (id: " + id + ").");
+
     }
 
     @Override
     void logRemoveFailure(int id){
+        LoggerUtil.warning("Échec du retrait de la ligue (id: " + id + ").");
     }
 
     /**

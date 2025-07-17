@@ -103,7 +103,8 @@ public abstract class ListTemplate<ObjectType, NameType> {
 
     // Getter
     public ObjectType getItem(int id) { return this.mapId.getOrDefault(id, null); }
-    public ObjectType getItem(NameType nom) { return this.mapId.getOrDefault(this.mapNameId.get(nom), null); }
+    public ObjectType getItem(NameType nom) {
+        return this.mapId.getOrDefault(this.mapNameId.get(nom), null); }
     public List<ObjectType> getAllItems() {
         ArrayList<ObjectType> newList = new ArrayList<>(this.mapId.values());
         return newList;

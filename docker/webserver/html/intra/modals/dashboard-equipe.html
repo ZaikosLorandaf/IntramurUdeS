@@ -85,6 +85,9 @@
         const teamName = document.getElementById('teamName').value;
 
         console.log("Tentative ajouter équipe:", teamName);
+        console.log(sport);
+        console.log(league);
+
         axios.post("http://localhost:8888/api/team/addTeam/", {
             nomSport: sport,
             nomLigue: league,
@@ -191,26 +194,24 @@
 
 
                 const teams = response.data;
+                console.log(response.data);
                 console.log(teams);
 
                 const datalist = document.getElementById('teamNameData');
                 datalist.innerHTML = '';
 
-                for (const teamName in teams){
-                    console.log("b");
+                teams.forEach(teamName => {
+                    console.log(teamName);
+                    console.log("bbb");
+                    console.log(teamName.name);
                     const option = document.createElement('option');
-                    option.value = teamName;
+                    option.value = teamName.name;
+                    console.log(option.value);
                     console.log(datalist);
                     datalist.appendChild(option);
-                    const team = teams[teamName];
-                        Object.entries(team.joueurs).forEach(([playerNumber, playerStats]) => {
-                            const option = document.createElement('option');
-                            option.value = (playerNumber);
-                            console.log(datalist);
-                            datalistPlayer.appendChild(option);
-                        })
 
-                }
+
+                })
                 console.log("a");
             })
             .catch(function (error) {
@@ -231,14 +232,15 @@
             return;
         }
 
-        const team = window.teams[selectedTeamName];
-        if (team && team.joueurs) {
-            Object.keys(team.joueurs).forEach(playerNumber => {
+        const team = window.teams.find(t => t.name === selectedTeamName);
+        if (team && team.players) {
+            team.players.forEach(player => {
                 const option = document.createElement('option');
-                option.value = playerNumber;
+                option.value = player.number;
                 datalistPlayer.appendChild(option);
             });
-        } else {
+        }
+        else {
             console.log("Aucune équipe trouvée pour :", selectedTeamName);
         }
     }

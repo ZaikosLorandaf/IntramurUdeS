@@ -40,7 +40,7 @@ class LeagueTest {
     void testAddTeam() {
         Team team = new Team(1, "Test Team",1);
         assertTrue(league.addTeam(team));
-        assertEquals(1, league.getTeams().getSize());
+        assertEquals(1, league.getListTeam().getSize());
     }
 
     /**
@@ -52,7 +52,7 @@ class LeagueTest {
             Team team = new Team(i, "Team " + i,1);
             league.addTeam(team);
         }
-        assertEquals(5, league.getTeams().getSize());
+        assertEquals(5, league.getListTeam().getSize());
     }
 
 
@@ -88,7 +88,7 @@ class LeagueTest {
     @Test
     void testNewTeamCreation() {
         assertTrue(league.newTeam(1, "New Team"));
-        assertEquals(1, league.getTeams().getSize());
+        assertEquals(1, league.getListTeam().getSize());
     }
 
     /**

@@ -25,11 +25,11 @@ public class PlayerSingleton {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        ca.usherbrooke.fgen.api.backend.BdTables.League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName,sportName);
         if (league == null)
             return "<div>Pas de ligue</div>";
 
-        ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getTeams().getTeam(teamName);
+        ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getListTeam().getTeam(teamName);
         if (team == null)
             return "<div>Pas d'équipe</div>";
 
@@ -56,11 +56,11 @@ public class PlayerSingleton {
         if (sportList.getSport(sportName) == null)
             return "Erreur Sport";
 
-        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName);
+        League league = sportList.getSport(sportName).getListLeague().getLeague(leagueName, sportName);
         if (league == null)
             return "<div>Ligue non-trouvée</div>";
 
-        Team team = league.getTeams().getTeam(teamName);
+        Team team = league.getListTeam().getTeam(teamName);
         if (team == null)
             return "<div>Équipe non-trouvée</div>";
 
@@ -86,7 +86,7 @@ public class PlayerSingleton {
         if (league == null)
             result = "Ligue introuvable";
         else {
-            ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getTeams().getTeam(teamName);
+            ca.usherbrooke.fgen.api.backend.BdTables.Team team = league.getListTeam().getTeam(teamName);
             if (team == null)
                 result = "Equipe introuvable";
             else {

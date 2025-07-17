@@ -2,6 +2,8 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Match;
+import ca.usherbrooke.fgen.api.backend.DTO.MatchDTO;
+import ca.usherbrooke.fgen.api.backend.Lists.ListMatch;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.mapper.MatchMapper;
@@ -30,7 +32,10 @@ public class MatchService extends TemplateService<Match> {
     @POST
     @Path("add")
     public String addMatch(@NotNull addMatch match) {
-        return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipe1, match.equipe2, match.date, match.heure_debut, match.heure_fin);
+        if (match.equipe1.length() >= nameMaxLength || match.equipe2.length() >= nameMaxLength){
+            return "Name too long";
+        }
+        return ogClass.getMatchSingleton().add(match.sport, match.ligue, match.equipe1, match.equipe2, match.date, match.heure_debut, match.heure_fin, match.place);
     }
 
     @POST
@@ -41,18 +46,18 @@ public class MatchService extends TemplateService<Match> {
 
     // Methodes GET
     @GET
-    public List<Match> getMatches(){
-        return getItems();
+    public List<MatchDTO> getMatches(){
+        List<Match> listMatches = getItems();
+        List<MatchDTO> returnList = MatchDTO.mapListToDTO(listMatches);
+        return returnList;
     }
 
     @GET
     @Path("{id}")
-    public Match getMatch(@PathParam("id") Integer id) {
+    public MatchDTO getMatch(@PathParam("id") Integer id) {
         Match match = getItem(id);
-        if(match == null){
-            return new Match();
-        }
-        return match;
+
+        return new MatchDTO(match);
     }
 
 
@@ -78,7 +83,8 @@ public class MatchService extends TemplateService<Match> {
         if(item != null){
             List<League> leagues = ListSport.getLeagues();
             League league = ListSport.getLeagueById(item.getIdLeague());
-            league.getListMatch().addMatch(item);
+            ListMatch listMatch = league.getListMatch();
+            listMatch.addMatch(item);
         }
     }
 

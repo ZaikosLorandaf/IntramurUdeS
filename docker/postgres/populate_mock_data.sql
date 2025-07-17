@@ -251,11 +251,11 @@ INSERT INTO league_season (id_league, id_season) VALUES
 
 -- Match
 -- Matchs Ultimate Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-01', '14:00', '15:30', 1, 11),  -- Match 1
-    ('2025-06-02', '16:00', '17:30', 1,11),  -- Match 2
-    ('2025-06-03', '18:00', '19:30', 1,11),  -- Match 3
-    ('2025-06-04', '18:00', '19:30', 1,11);   -- Match vide sans équipe
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-01', '14:00', '15:30', 1, 11, 'Concorde 1'),  -- Match 1
+    ('2025-06-02', '16:00', '17:30', 1, 11, 'Concorde 2'),  -- Match 2
+    ('2025-06-03', '18:00', '19:30', 1, 11, 'Concorde 3'),  -- Match 3
+    ('2025-06-04', '18:00', '19:30', 1, 11, 'Concorde 4');  -- Match vide sans équipe
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (1, 1), (2, 1),    -- SFB vs Empire
@@ -263,45 +263,45 @@ INSERT INTO match_team (id_team, id_match) VALUES
     (1, 3), (3, 3);    -- SFB vs Royal
 
 -- Matchs Ultimate Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-04', '14:00', '15:30', 2, 11),  -- Match 4
-    ('2025-06-05', '16:00', '17:30', 2, 11);  -- Match 5
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-04', '14:00', '15:30', 2, 11, 'Concorde 1'),  -- Match 4
+    ('2025-06-05', '16:00', '17:30', 2, 11, 'Concorde 2');  -- Match 5
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (5, 5), (6, 5),    -- Rush vs Phoenix
     (7, 6), (8, 6);    -- Breeze vs Flyers
 
 -- Matchs Basketball Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-06', '14:00', '15:30', 3, 11),  -- Match 6
-    ('2025-06-07', '16:00', '17:30', 3, 11);  -- Match 7
-
+-- Matchs Basketball Ligue A
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-06', '14:00', '15:30', 3, 11, 'Terrain 1'),  -- Match 6
+    ('2025-06-07', '16:00', '17:30', 3, 11, 'Terrain 2');  -- Match 7
 INSERT INTO match_team (id_team, id_match) VALUES
     (9, 7), (10, 7),   -- Aces vs Storm
     (11, 8), (12, 8);  -- Wings vs Mercury
 
 -- Matchs Basketball Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season) VALUES
-    ('2025-06-08', '14:00', '15:30', 4, 11),  -- Match 8
-    ('2025-06-09', '16:00', '17:30', 4, 11);  -- Match 9
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-08', '14:00', '15:30', 4, 11, 'Terrain 3'),  -- Match 8
+    ('2025-06-09', '16:00', '17:30', 4, 11, 'Terrain 4');  -- Match 9
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (13, 9), (14, 9),  -- Lynx vs Sparks
     (15, 10), (16, 10);  -- Sky vs Mystics
 
 -- Matchs Volleyball Ligue A
-INSERT INTO match_ (date_match, begin_time, end_time, id_league) VALUES
-    ('2025-06-10', '14:00', '15:30', 5),  -- Match 10
-    ('2025-06-11', '16:00', '17:30', 5);  -- Match 11
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+('2025-06-10', '14:00', '15:30', 5, 11, 'Terrain 1'),  -- Match 10
+('2025-06-11', '16:00', '17:30', 5, 11, 'Terrain 2');  -- Match 11
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (17, 11), (18, 11),  -- Vibe vs Fury
     (19, 12), (20, 12);  -- Rise vs Mercury
 
 -- Matchs Volleyball Ligue B
-INSERT INTO match_ (date_match, begin_time, end_time, id_league) VALUES
-    ('2025-06-12', '14:00', '15:30', 6),  -- Match 12
-    ('2025-06-13', '16:00', '17:30', 6);  -- Match 13
+INSERT INTO match_ (date_match, begin_time, end_time, id_league, id_season, place) VALUES
+    ('2025-06-12', '14:00', '15:30', 6, 11, 'Terrain 3'),  -- Match 12
+    ('2025-06-13', '16:00', '17:30', 6, 11, 'Terrain 4');  -- Match 13
 
 INSERT INTO match_team (id_team, id_match) VALUES
     (21, 13), (22, 13),  -- Ignite vs Supernovas
@@ -311,9 +311,146 @@ INSERT INTO match_team (id_team, id_match) VALUES
 
 
 
+--Statistiques
+-- Statistiques communes à tous les sports
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Passes complétées', 'PASS', ARRAY[1,2,3]),
+    ('Interceptions', 'INT', ARRAY[1,2,3]),
+    ('Fautes', 'FLT', ARRAY[1,2,3]),
+    ('Points marqués', 'PTS', ARRAY[1,2,3]);
+
+-- Ultimate Frisbee uniquement (id_sport = 1)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Passes décisives', 'ASTU', ARRAY[1]),
+    ('Réceptions de point', 'GLS', ARRAY[1]),
+    ('Turnovers', 'TOVU', ARRAY[1]),
+    ('Blocs défensifs', 'BLK', ARRAY[1]),
+    ('Drops', 'DRP', ARRAY[1]);
+
+-- Volley-ball uniquement (id_sport = 3)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Aces', 'ACE', ARRAY[3]),
+    ('Fautes service', 'FSV', ARRAY[3]),
+    ('Réceptions parfaites', 'RCV', ARRAY[3]),
+    ('Contres', 'CTR', ARRAY[3]),
+    ('Attaques gagnantes', 'ATQ', ARRAY[3]),
+    ('Erreurs attaque', 'ETA', ARRAY[3]);
+
+-- Basketball uniquement (id_sport = 2)
+INSERT INTO v_stat_statement (statement, acronym, id_sports) VALUES
+    ('Rebonds offensifs', 'RBO', ARRAY[2]),
+    ('Rebonds défensifs', 'RBD', ARRAY[2]),
+    ('Passes décisives', 'ASTB', ARRAY[2]),
+    ('Fautes perso', 'FLP', ARRAY[2]),
+    ('Tirs 3 pts', 'T3P', ARRAY[2]),
+    ('Lancers francs', 'FTM', ARRAY[2]),
+    ('Ballons perdus', 'TOVB', ARRAY[2]);
 
 
 
 
+--Insérer des stats
+
+
+-- ✅ Ultimate: Match 1 (SFB vs Empire), Saison 11
+-- Bernard Beaulieu (SFB) - Passes complétées
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('12', 1, 1, 11, 1);
+
+-- Jack Williams (Empire) - Réceptions de point
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('3', 1, 6, 11, 5);
+
+-- Ryan Osgar - Turnovers (sans saison)
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('102', 1, 7,11, 6);
+
+-- Frédéric Mailhot - Drops (sans match ni saison)
+INSERT INTO player_stat (value_, id_stat_statement, id_player)
+VALUES ('1', 9, 2);
+
+-- ✅ Basketball: Match 7 (Aces vs Storm), Saison 11
+-- Aja Wilson - Points marqués
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('18', 7, 4, 11, 25);
+
+-- Skylar Diggins-Smith - Passes décisives
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('7', 7, 5, 11, 28);
+
+-- Nneka Ogwumike - Lancers francs (sans match)
+INSERT INTO player_stat (value_, id_stat_statement, id_season, id_player)
+VALUES ('5', 20, 11, 30);
+
+-- ✅ Volleyball: Match 13 (Ignite vs Supernovas)
+-- Kelsey Robinson - Attaques gagnantes
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('10', 13, 14, 11, 69);
+
+-- Brooke Nuneviller - Réceptions parfaites
+INSERT INTO player_stat (value_, id_match, id_stat_statement, id_season, id_player)
+VALUES ('8', 13, 12, 11, 67);
+
+-- Ali Stumler - Erreurs attaque (aucun match, hors saison)
+INSERT INTO player_stat (value_, id_stat_statement, id_player)
+VALUES ('3', 15, 64);
+
+
+
+--Stats d'équipes
+
+--Ultimate
+-- SFB - Passes complétées (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('137', 1, 1, 11, 1);
+
+-- Empire - Blocs défensifs (avec saison, sans match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('12', 8, 2, 11);
+
+-- Royal - Réceptions de point (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('18', 6, 3);
+
+-- Flyers - Drops (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('7', 9, 8, 3, 11);
+
+
+--Basket
+
+-- Aces - Points marqués (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('89', 4, 9, 11, 5);
+
+-- Lynx - Tirs 3 pts (sans match, avec saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('11', 19, 13, 11);
+
+-- Sky - Lancers francs (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('16', 20, 15);
+
+-- Wings - Ballons perdus (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('9', 21, 11, 6, 11);
+
+
+--Volleyball
+-- Vibe - Aces (avec saison et match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season, id_match)
+VALUES ('5', 10, 17, 11, 8);
+
+-- Rise - Attaques gagnantes (avec saison seulement)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_season)
+VALUES ('22', 14, 19, 11);
+
+-- Valkyries - Contres (sans saison ni match)
+INSERT INTO team_stat (value_, id_stat_statement, id_team)
+VALUES ('7', 13, 23);
+
+-- Mercury (VB) - Fautes service (avec match et saison)
+INSERT INTO team_stat (value_, id_stat_statement, id_team, id_match, id_season)
+VALUES ('3', 11, 20, 9, 11);
 
 

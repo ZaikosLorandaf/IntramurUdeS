@@ -1,13 +1,22 @@
 package ca.usherbrooke.fgen.api.backend.BdTables;
 
 import ca.usherbrooke.fgen.api.backend.Lists.ListPlayer;
+import ca.usherbrooke.fgen.api.backend.Lists.ListStat;
 import ca.usherbrooke.fgen.api.backend.LoggerUtil;
+import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
+import io.quarkus.arc.Arc;
+
+import javax.annotation.PostConstruct;
+import java.util.List;
 
 public class Team {
     private int id;
     private String name;
     private int idLeague;
+    private int idSport;
     private ListPlayer listPlayer;
+    private ListStat listStat;
+    private OGClass ogClass;
 
     // Constructeurs
     /**
@@ -23,7 +32,10 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = listPlayer;
+        this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
@@ -39,13 +51,17 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        this.listStat = new ListStat();
         LoggerUtil.info("Création d'une équipe: " + name + " (id: " + id + ")");
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
      * Constructeur vide. Initialise la classe avec des parametres par defaut
      */
     public Team() {
+        this.ogClass = Arc.container().instance(OGClass.class).get();
         initTeam(-1, "", -1, 200);
     }
 
@@ -57,7 +73,9 @@ public class Team {
      * @param idLeague      id de la ligue parent
      * @param listPlayer    list des joueurs
      */
-    public Team(int id, String name, int idLeague, ListPlayer listPlayer) { initTeam(id, name, idLeague, listPlayer); }
+    public Team(int id, String name, int idLeague, ListPlayer listPlayer) {
+        initTeam(id, name, idLeague, listPlayer);
+    }
 
     /**
      * Constructeur avec creation d'une liste de joueur avec nombre maximal de joueur
@@ -93,6 +111,9 @@ public class Team {
         this.name = name;
         this.idLeague = idLeague;
         this.listPlayer = new ListPlayer();
+        this.listStat = new ListStat();
+        this.ogClass = Arc.container().instance(OGClass.class).get();
+
     }
 
     /**
@@ -104,6 +125,10 @@ public class Team {
     public Team(String name, int idLeague, ListPlayer listPlayer) {
         initTeam(-1, name, idLeague, listPlayer);
     }
+
+
+
+
 
     // Methodes
     /**
@@ -187,6 +212,10 @@ public class Team {
         return true;
     }
 
+    public void setIdSport(int idSport) {
+        this.idSport = idSport;
+    }
+
     public boolean setId(int id) {
         if (id <= 0) {
             LoggerUtil.error("Impossible de changer l'id de l'équipe " + this.name + ": " + this.id + " -X-> " + id);
@@ -215,5 +244,12 @@ public class Team {
     }
     public String getName() {
         return this.name;
+    }
+    public ListStat getListStat() {
+        return this.listStat;
+    }
+
+    public List<Match> getMatchTeam(){
+        return this.ogClass.getSportSingleton().getSportList().getLeague(this.getIdLeague()).getListMatch().getMatchTeam(this.getId());
     }
 }

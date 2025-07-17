@@ -1,6 +1,8 @@
 package ca.usherbrooke.fgen.api.backend.Singleton;
 
+import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
+import ca.usherbrooke.fgen.api.backend.Lists.ListLeague;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSeason;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.mapper.LeagueMapper;
@@ -22,14 +24,20 @@ public class LeagueSingleton {
 
     // Gestion donnees
     public String add(String nom_sport, String nom, Date dateDebut, Date dateFin) {
-        ca.usherbrooke.fgen.api.backend.BdTables.Sport sport = sportList.getSport(nom_sport);
+        if (nom_sport.isBlank() || nom.isBlank() || dateDebut == null || dateFin == null || dateFin.before(dateDebut)) {
+            return "Erreur dans les entrées";
+        }
+
+        Sport sport = sportList.getSport(nom_sport);
         if (sport == null) {
             return "Sport Error";
         }
         if (dateFin == null || dateDebut == null || dateFin.before(dateDebut)) {
             return "Erreur dans les dates";
         }
-        ca.usherbrooke.fgen.api.backend.BdTables.League newLeague = new ca.usherbrooke.fgen.api.backend.BdTables.League(nom, dateDebut, dateFin);
+        ListLeague listleague = sport.getListLeague();
+        if(listleague.getLeague(nom_sport+"-"+nom) != null) return "Ligue existe deja";
+        League newLeague = new League(nom, dateDebut, dateFin);
         int id = leagueService.getLastId() + 1;
         newLeague.setLeagueID(id);
         int sportId = sport.getId();
@@ -48,17 +56,19 @@ public class LeagueSingleton {
         return result;
     }
 
-    public boolean addDb(ca.usherbrooke.fgen.api.backend.BdTables.League league) {
+    public boolean addDb(League league) {
         leagueService.addLeague(league);
         return true;
     }
 
     public String remove(String sport, String nom) {
         Sport getsport = sportList.getSport(sport);
-        if (sport == null)
+        if (sport == null){
             return "Sport Error";
+        }
 
-        ca.usherbrooke.fgen.api.backend.BdTables.League league = getsport.getListLeague().getLeague(nom);
+
+        League league = getsport.getListLeague().getLeague(nom, sport);
         String result = "";
         if (league != null) {
             result = "Ligue retirée :" + league.getName();
