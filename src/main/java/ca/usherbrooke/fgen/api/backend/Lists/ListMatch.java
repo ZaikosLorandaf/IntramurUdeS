@@ -22,13 +22,15 @@ public class ListMatch extends ListTemplate<Match, String> {
     @Override
     public boolean addItem(Match item) {
         for (Team team : item.getTeams()) {
-            if(!mapMatchTeam.containsKey(team.getId())) {
+            if (team == null) {
+               LoggerUtil.warning("Erreur getting match");
+            }
+            else if (!mapMatchTeam.containsKey(team.getId())) {
                 mapMatchTeam.put(team.getId(), new ArrayList<>());
                 mapMatchTeam.get(team.getId()).add(item);
-            }
-            else {
+            } else {
                 List<Match> list = mapMatchTeam.get(team.getId());
-                if(!list.contains(item)) {
+                if (!list.contains(item)) {
                     list.add(item);
                 }
             }

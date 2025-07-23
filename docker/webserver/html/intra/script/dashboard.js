@@ -192,7 +192,7 @@ function showInfo(myData,teame,abcd) {
             let sport = params.get('sport');
             let ligue = params.get('ligue');
 
-            modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${equipeData[abcd].name}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
+            // modifierJoueurBtn = `<button class="btn btn-secondary mb-2" onclick="window.open('./modals/dashboard-joueur.html?sport=${sport}&ligue=${ligue}&team=${equipeData[abcd].name}&nom=${nom}', 'popupWindow', 'width=500,height=400')">Gérer stats joueur</button>`;
         }
 
         document.getElementById("equipe-content").style.display = "none";

@@ -31,8 +31,8 @@ public class GetDashboard {
             @QueryParam("sport") String nomSport,
             @QueryParam("ligue") String nomLigue
     ) {
-        LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
-        LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
+//        LoggerUtil.info("Sport reçu : " + nomSport + " pour les équipes");
+//        LoggerUtil.info("Ligue reçue : " + nomLigue + " pour les équipes");
 
         return teamService.getTeams(nomSport, nomLigue);
         //return ogClass.getTeamSingleton().getEquipesData(nomSport, nomLigue);
