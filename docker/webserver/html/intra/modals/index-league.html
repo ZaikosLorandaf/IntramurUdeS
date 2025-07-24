@@ -71,7 +71,7 @@
 <script>
     function init() {
         console.log("allo");
-        axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
+        axios.get(`${backendAddress}/api/sport/get_sport_ligue`, { })
             .then(function (response) {
                 const sports = response.data;
                 const params = new URLSearchParams(window.location.search);
@@ -107,7 +107,7 @@
         const dateDebut = document.getElementById("startDate").value;
         const dateFin = document.getElementById("endDate").value;
 
-        axios.post("http://localhost:8888/api/league/addLigue/", {
+        axios.post(`${backendAddress}/api/league/addLigue/`, {
             nom_sport: sport,
             nom: name,
             date_fin: dateFin,
@@ -129,7 +129,7 @@
         const params = new URLSearchParams(window.location.search);
         const sport = params.get('sport');
 
-        axios.post("http://localhost:8888/api/league/removeLeague/", {
+        axios.post(`${backendAddress}/api/league/removeLeague/`, {
             leagueName: ligueName,
             sportName: sport,
         }).then(function (response) {

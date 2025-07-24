@@ -49,7 +49,7 @@
         const key = document.getElementById('newStatKey').value;
         const value = document.getElementById('newStatValue').value;
         if (!key || !value){
-        axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+name+"/"+key+"/"+value, {})
+        axios.get(`${backendAddress}/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+team+"/"+name+"/"+key+"/`+value, {})
             .then(function (response) {
                 console.log(response.data);
                 refresh();

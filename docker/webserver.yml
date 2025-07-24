@@ -14,4 +14,4 @@ services:
      - auth
      - database
    networks:
-     acad-net:
+      - acad-net

@@ -8,8 +8,15 @@ services:
     container_name: application
     build:
       dockerfile: ./Dockerfile
+    depends_on:
+      webserver:
+        condition: service_started
+      auth:
+        condition: service_started
+      database:
+        condition: service_healthy
     ports:
-      - 8282:8080
+      - 8888:8888
     networks:
       - acad-net
 

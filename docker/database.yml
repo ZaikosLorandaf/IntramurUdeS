@@ -7,9 +7,15 @@ services:
       - 5444:5432
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres/populate_mock_data.sql:/docker-entrypoint-initdb.d/populate.sql
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DATABASE: postgres
     networks:
-      acad-net:
+      - acad-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "postgres", "-U", "postgres"]
+      interval: 2s
+      timeout: 10s
+      retries: 5

@@ -2,7 +2,7 @@ let roleNumber;
 
 const keycloak = new Keycloak({
     realm: "usager",
-    "auth-server-url": "http://localhost:8180/",
+    "auth-server-url": keycloakAddress,
     "ssl-required": "external",
     clientId: "frontend",
     "public-client": true,
@@ -21,7 +21,7 @@ async function manageAuth() {
 }
 
 function logout() {
-    const redirectUri = "https://localhost/intra/";
+    const redirectUri = "/intra";
     const logoutUrl = keycloak.createLogoutUrl({ redirectUri });
     keycloak.clearToken();
     keycloak.logout(logoutUrl);

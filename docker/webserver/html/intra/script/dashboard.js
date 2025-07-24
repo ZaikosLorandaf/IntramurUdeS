@@ -31,7 +31,7 @@ function initPage() {
     const monBoutonRetourLigue = document.getElementById('btn-retour-ligue');
     monBoutonRetourLigue.textContent = "← " + season + " ( " + sport + " )";
 
-    axios.get("http://localhost:8888/api/dashboard/equipes", {
+    axios.get(`${backendAddress}/api/dashboard/equipes`, {
         params: {
             sport: sport,
             ligue: season
@@ -282,7 +282,7 @@ function callMatch(){
     const myParams = new URLSearchParams(window.location.search);
     let sports = myParams.get('sport');
     let seasons = myParams.get('ligue');
-    axios.get("http://localhost:8888/api/dashboard/matchs/"+sports+'/'+seasons, {
+    axios.get(`${backendAddress}/api/dashboard/matchs/`+sports+'/'+seasons, {
     }).then(function (response) {
         matchDatas = response.data;
         console.log(matchDatas);

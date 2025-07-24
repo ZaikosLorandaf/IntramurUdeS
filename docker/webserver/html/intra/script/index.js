@@ -3,7 +3,7 @@ initialisation();
 //~~~~~~~~~~~~ Functions ~~~~~~~~~//
 function initialisation() {
     const div = document.getElementById("btn-login");
-    axios.get("http://localhost:8888/api/sport", { })
+    axios.get(`${backendAddress}/api/sport`, { })
         .then(function (response) {
             console.log(response.data);
         })
@@ -14,7 +14,7 @@ function initialisation() {
 }
 
 function getSportsData() {
-    axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
+    axios.get(`${backendAddress}/api/sport/get_sport_ligue`, { })
         .then(function (response) {
             const sports = response.data;
             console.log(sports);

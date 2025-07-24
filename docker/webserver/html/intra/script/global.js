@@ -1,3 +1,6 @@
+const backendAddress = "https://backend.intramurudes.com";
+const keycloakAddress = "https://kc.intramurudes.com";
+
 fetch('fragments/header.html')
     .then(response => response.text())
     .then(data => {

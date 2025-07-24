@@ -1,7 +1,7 @@
 {
     "clientId": "frontend",
     "name": "Authorisation de connection à une page web",
-    "rootUrl": "http://localhost:8180",
+    "rootUrl": "https://intramurudes.com",
     "adminUrl": "",
     "baseUrl": "/",
     "surrogateAuthRequired": false,
@@ -9,7 +9,7 @@
     "alwaysDisplayInConsole": false,
     "clientAuthenticatorType": "client-secret",
     "secret": "secret",
-    "redirectUris" : [ "https://localhost/intra/*" ],
+    "redirectUris" : [ "https://intramurudes.com/intra/*", "https://kc.intramurudes.com/*" ],
     "webOrigins": [
         "*"
     ],
@@ -29,7 +29,7 @@
       "saml.force.post.binding" : "false",
       "saml.multivalued.roles" : "false",
       "saml.encrypt" : "false",
-      "post.logout.redirect.uris" : "https://localhost/intra/*",
+      "post.logout.redirect.uris" : "*",
       "oauth2.device.authorization.grant.enabled" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false",
       "saml.server.signature" : "false",

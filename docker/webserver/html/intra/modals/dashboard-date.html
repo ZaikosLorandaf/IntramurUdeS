@@ -63,7 +63,7 @@
     const ligue = params.get('league');
 
     // Récupération et affichage des équipes sous forme de checkboxes
-    axios.get("http://localhost:8888/api/dashboard/equipes", {
+    axios.get(`${backendAddress}/api/dashboard/equipes`, {
         params: {
             sport: sport,
             ligue: ligue
@@ -138,7 +138,7 @@
 
         console.log(date);
         const encodedTeams = encodeURIComponent(nomEquipes.join(","));
-        axios.post("http://localhost:8888/api/match/add", {
+        axios.post(`${backendAddress}/api/match/add`, {
             sport: sport,
             ligue: ligue,
             date: date,
@@ -172,7 +172,7 @@
         // Encodage propre pour URL
         const encodedTeam1 = encodeURIComponent(team1);
         const encodedTeam2 = encodeURIComponent(team2);
-        axios.post(`http://localhost:8888/api/match/remove/`, {
+        axios.post(`${backendAddress}/api/match/remove/`, {
             sport: sport,
             ligue: ligue,
             date: date,

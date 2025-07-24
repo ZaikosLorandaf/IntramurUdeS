@@ -88,7 +88,7 @@
         console.log(sport);
         console.log(league);
 
-        axios.post("http://localhost:8888/api/team/addTeam/", {
+        axios.post(`${backendAddress}/api/team/addTeam/`, {
             nomSport: sport,
             nomLigue: league,
             nomTeam: teamName
@@ -108,7 +108,7 @@
         const name = document.getElementById('deleteTeamName').value;
 
         console.log("Tentative supprimer équipe:", name);
-        axios.post("http://localhost:8888/api/team/removeTeam/", {
+        axios.post(`${backendAddress}/api/team/removeTeam/`, {
             sportName: sport,
             leagueName: league,
             teamName: name,
@@ -132,7 +132,7 @@
         const number = document.getElementById('playerNumber').value;
 
         console.log("Tentative d'ajout du joueur:", playerFN, " ", playerLN," à l'équipe:", team);
-        axios.post(`http://localhost:8888/api/player/addPlayer`,{
+        axios.post(`${backendAddress}/api/player/addPlayer`,{
             nomSport: sport,
             nomLigue: league,
             nomTeam: team,
@@ -157,7 +157,7 @@
         const playerNumber = document.getElementById('playerNumberToRemove').value;
 
         // console.log("Tentative de suppression du joueur:", ,"de l'équipe:", team);
-        axios.post(`http://localhost:8888/api/player/removePlayer/`,{
+        axios.post(`${backendAddress}/api/player/removePlayer/`,{
             sportName: sport,
             leagueName: league,
             teamName: team,
@@ -182,7 +182,7 @@
         let leagueName = params.get('ligue');
         let datalistPlayer = document.getElementById("playerNumberData");
 
-        axios.get("http://localhost:8888/api/dashboard/equipes", {
+        axios.get(`${backendAddress}/api/dashboard/equipes`, {
             params: {
                 sport: sportName,
                 ligue: leagueName

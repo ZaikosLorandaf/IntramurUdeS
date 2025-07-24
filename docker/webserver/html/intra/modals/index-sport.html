@@ -36,7 +36,7 @@
 <script>
   function init() {
 
-    axios.get("http://localhost:8888/api/sport/get_sport_ligue", { })
+    axios.get(`${backendAddress}/api/sport/get_sport_ligue`, { })
             .then(function (response) {
               const sports = response.data;
               console.log(sports);
@@ -54,7 +54,7 @@
   document.getElementById('addSportBtn').addEventListener('click', () => {
     const sportName = document.getElementById('sportName').value;
 
-    axios.post("http://localhost:8888/api/sport/addSport/", {
+    axios.post(`${backendAddress}/api/sport/addSport/`, {
       nom:sportName
     })
       .then(function (response) {
@@ -71,7 +71,7 @@
     const sportName = document.getElementById('deleteSportName').value;
 
 
-    axios.post("http://localhost:8888/api/sport/removeSport/", {
+    axios.post(`${backendAddress}/api/sport/removeSport/`, {
       name:sportName
     }) .then(function (response) {
       refresh();

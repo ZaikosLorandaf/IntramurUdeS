@@ -7,7 +7,7 @@ const ligue = params.get('ligue');
 
 <script src="../script/global-modals.js"></script>
 
-axios.get("http://localhost:8888/WHAT IS THE PATH/"+sport+"/"+ ligue +"/"+name, {})
+axios.get(`${backendAddress}/WHAT IS THE PATH/"+sport+"/"+ ligue +"/`+name, {})
 .then(function (response) {
 console.log(response.data);
 refresh();
