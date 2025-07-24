@@ -85,6 +85,8 @@ public class MatchService extends TemplateService<Match> {
             League league = ListSport.getLeagueById(item.getIdLeague());
             ListMatch listMatch = league.getListMatch();
             listMatch.addMatch(item);
+            int i = -1;
+
         }
     }
 

@@ -2,6 +2,7 @@ package ca.usherbrooke.fgen.api.service.objectServices;
 
 import ca.usherbrooke.fgen.api.backend.BdTables.League;
 import ca.usherbrooke.fgen.api.backend.BdTables.Season;
+import ca.usherbrooke.fgen.api.backend.DTO.LeagueDTO;
 import ca.usherbrooke.fgen.api.backend.Lists.ListSport;
 import ca.usherbrooke.fgen.api.backend.Singleton.OGClass;
 import ca.usherbrooke.fgen.api.backend.BdTables.Sport;
@@ -69,23 +70,25 @@ public class LeagueService extends TemplateService<League> {
 
     // Methodes GET
     @GET
-    public List<League> getLeagues(){
+    public List<LeagueDTO> getLeagues(){
         List<League> leagues = getItems();
         ListSport.addLeagueMap(leagues);
         for (League league : leagues){
             league.addToSeason();
         }
-        List<League> listRetour = ListSport.getLeagues();
-        return listRetour;
+        List<League> listLeagues = ListSport.getLeagues();
+        List<LeagueDTO> listeRetour = LeagueDTO.mapListToDTO(listLeagues);
+        return listeRetour;
     }
 
     @GET
     @Path("{id}")
-    public League getLeague(@PathParam("id") Integer id) {
+    public LeagueDTO getLeague(@PathParam("id") Integer id) {
         League league = getItem(id);
         ListSport.addLeagueMap(league);
         league.addToSeason();
-        return ListSport.getLeagueById(league.getId());
+        League leagueReturn = ListSport.getLeagueById(league.getId());
+        return new LeagueDTO(leagueReturn);
     }
 
     @GET

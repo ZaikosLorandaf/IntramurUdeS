@@ -250,6 +250,7 @@ public class Team {
     }
 
     public List<Match> getMatchTeam(){
-        return this.ogClass.getSportSingleton().getSportList().getLeague(this.getIdLeague()).getListMatch().getMatchTeam(this.getId());
+        List<Match> returnList = this.ogClass.getSportSingleton().getSportList().getLeague(this.getIdLeague()).getListMatch().getMatchTeam(this.getId());
+        return returnList;
     }
 }
